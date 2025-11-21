@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_zakat_calculation,zakat.calculation,model_zakat_calculation,base.group_user,1,1,1,1
+access_waqf_asset,waqf.asset,model_waqf_asset,base.group_user,1,1,1,1
+access_zakat_certificate,zakat.certificate,model_zakat_certificate,base.group_user,1,1,1,1
+access_zakat_wizard,zakat.certificate.wizard,model_zakat_certificate_wizard,base.group_user,1,1,1,0

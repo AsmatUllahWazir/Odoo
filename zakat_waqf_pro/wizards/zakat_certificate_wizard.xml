@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zakat_certificate_wizard_form" model="ir.ui.view">
+        <field name="name">zakat.certificate.wizard.form</field>
+        <field name="model">zakat.certificate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Zakat Certificate">
+                <group>
+                    <field name="calculation_id" invisible="1"/>
+                    <field name="recipient_name"/>
+                    <field name="notes"/>
+                </group>
+                <footer>
+                    <button name="action_generate_certificate" string="Generate &amp; Print" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

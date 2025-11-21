@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_waqf_asset_tree" model="ir.ui.view">
+        <field name="name">waqf.asset.tree</field>
+        <field name="model">waqf.asset</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="asset_type"/>
+                <field name="current_value"/>
+                <field name="income_per_year"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_waqf_asset_form" model="ir.ui.view">
+        <field name="name">waqf.asset.form</field>
+        <field name="model">waqf.asset</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="asset_type"/>
+                        <field name="value"/>
+                        <field name="depreciation_rate"/>
+                        <field name="current_value"/>
+                    </group>
+                    <group>
+                        <field name="acquisition_date"/>
+                        <field name="income_per_year"/>
+                        <field name="allocation_percent"/>
+                        <field name="waqf_beneficiary_ids" widget="many2many_tags"/>
+                    </group>
+                    <footer>
+                        <button name="compute_charity_income" string="Compute Charity Income" type="object" class="btn-info"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_waqf_assets" model="ir.actions.act_window">
+        <field name="name">Waqf Assets</field>
+        <field name="res_model">waqf.asset</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_waqf_assets" name="Waqf Tracker" parent="menu_zakat_root" action="action_waqf_assets"/>
+
+</odoo>

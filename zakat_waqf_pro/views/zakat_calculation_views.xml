@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zakat_calculation_tree" model="ir.ui.view">
+        <field name="name">zakat.calculation.tree</field>
+        <field name="model">zakat.calculation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id"/>
+                <field name="calculation_date"/>
+                <field name="school"/>
+                <field name="total_wealth"/>
+                <field name="zakat_due" sum="Total Due"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_zakat_calculation_form" model="ir.ui.view">
+        <field name="name">zakat.calculation.form</field>
+        <field name="model">zakat.calculation</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate_sadad_bill"
+                            string="Generate SADAD Bill"
+                            type="object"
+                            class="btn-primary" invisible="zakat_due == 0"/>
+                    <button name="action_generate_certificate"
+                            string="Generate Certificate"
+                            type="object"
+                            class="btn-success" invisible="zakat_due == 0"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="calculation_date"/>
+                            <field name="school"/>
+                        </group>
+                        <group>
+                            <field name="nisab_threshold"/>
+                            <field name="total_wealth"/>
+                            <field name="zakat_due"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Breakdown">
+                            <group>
+                                <field name="cash_amount"/>
+                                <field name="inventory_value"/>
+                                <field name="receivables"/>
+                                <field name="gold_silver"/>
+                                <field name="other_assets"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_zakat_calculations" model="ir.actions.act_window">
+        <field name="name">Zakat Calculations</field>
+        <field name="res_model">zakat.calculation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_zakat_root" name="Zakat &amp; Waqf" parent="account.menu_finance"/>
+    <menuitem id="menu_zakat_calculations" name="Zakat Calc" parent="menu_zakat_root"
+              action="action_zakat_calculations"/>
+
+</odoo>

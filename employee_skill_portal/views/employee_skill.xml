@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== -->
+    <!-- MENU STRUCTURE -->
+    <!-- ==================== -->
+    <menuitem id="menu_skill_root"
+              name="Skills Management"
+              sequence="10"/>
+
+    <menuitem id="menu_skill_configuration"
+              name="Configuration"
+              parent="menu_skill_root"
+              sequence="100"/>
+
+    <!-- ==================== -->
+    <!-- EMPLOYEE SKILL VIEWS -->
+    <!-- ==================== -->
+    <!-- Employee Skill Tree View -->
+    <record id="view_employee_skill_tree" model="ir.ui.view">
+        <field name="name">employee.skill.tree</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <list string="Employee Skills" decoration-info="approval_state == 'submitted'"
+                  decoration-warning="approval_state == 'draft'"
+                  decoration-danger="approval_state == 'rejected'">
+                <field name="name"/>
+                <field name="employee_id" widget="many2one_avatar_employee"/>
+                <field name="department_id"/>
+                <field name="skill_type"/>
+                <field name="level"/>
+                <field name="skill_score" widget="progressbar" options="{'max_value': 100}"/>
+                <field name="is_verified"/>
+                <field name="approval_state" widget="badge" decoration-success="approval_state == 'approved'"/>
+                <field name="endorsement_count"/>
+                <field name="active" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Employee Skill Form View -->
+    <record id="view_employee_skill_form" model="ir.ui.view">
+        <field name="name">employee.skill.form</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <form string="Employee Skill">
+                <header>
+                    <button name="action_submit" type="object" string="Submit for Approval"
+                            class="btn-primary" invisible="approval_state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-success" invisible="approval_state != 'submitted'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            class="btn-danger" invisible="approval_state != 'submitted'"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            class="btn-secondary" invisible="approval_state != 'rejected'"/>
+                    <button name="toggle_active" type="object" string="Archive"
+                            class="btn-secondary" invisible="approval_state != 'approved'"
+                            confirm="Archive this skill?"/>
+                    <button name="action_view_endorsements" type="object"
+                            string="View Endorsements" class="btn-info"/>
+                    <field name="approval_state" widget="statusbar"
+                           statusbar_visible="draft,submitted,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_verify" type="object"
+                                string="Verify" class="oe_stat_button" icon="fa-check"
+                                invisible="is_verified"/>
+                        <div class="oe_stat_button" name="endorsements_button">
+<!--                            <i class="fa fa-thumbs-up"/>-->
+                            <field name="endorsement_count" widget="statinfo" string="Endorsements"/>
+                        </div>
+                        <div class="oe_stat_button">
+                            <i class="fa fa-star"/>
+                            <field name="skill_score" widget="statinfo" string="Skill Score"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="name" placeholder="e.g., Python Programming, Project Management"/>
+                            <field name="employee_id" widget="many2one_avatar_employee"/>
+                            <field name="skill_type" widget="radio"/>
+                            <field name="skill_category_id"/>
+                            <field name="skill_tags" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="level" widget="radio"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="sequence"/>
+                            <field name="color" widget="color"/>
+                            <field name="icon" placeholder="fa-code, fa-users, fa-globe"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Proficiency Details">
+                            <group>
+                                <group>
+                                    <field name="years_experience"/>
+                                    <field name="last_used"/>
+                                    <field name="frequency"/>
+                                    <field name="self_rating" widget="radio"/>
+                                    <field name="manager_rating" widget="radio"/>
+                                    <field name="overall_rating"/>
+                                </group>
+                                <group>
+                                    <field name="is_expired" invisible="skill_type != 'certification'"/>
+                                    <field name="days_since_last_used"/>
+                                    <field name="description" widget="html"/>
+                                    <field name="projects_used" widget="text"/>
+                                    <field name="achievements" widget="text"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Certification Details" invisible="skill_type != 'certification'">
+                            <group>
+                                <group>
+                                    <field name="certification_date"/>
+                                    <field name="certification_expiry"/>
+                                    <field name="certification_org"/>
+                                    <field name="certificate_id"/>
+                                    <field name="certificate_url"/>
+                                    <field name="training_completed" widget="text"/>
+                                </group>
+                                <group>
+                                    <field name="is_verified"/>
+                                    <field name="verification_date" readonly="not is_verified"/>
+                                    <field name="verified_by" readonly="not is_verified"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Endorsements">
+                            <field name="endorsement_ids" widget="one2many">
+                                <list>
+                                    <field name="endorser_id" widget="many2one_avatar"/>
+                                    <field name="endorsement_date"/>
+                                    <field name="rating" widget="priority"/>
+                                    <field name="relationship"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="comment" widget="text"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="endorser_id"/>
+                                            <field name="endorsement_date"/>
+                                            <field name="relationship"/>
+                                            <field name="rating" widget="radio"/>
+                                            <field name="visibility" widget="radio"/>
+                                            <field name="is_anonymous"/>
+                                        </group>
+                                        <group>
+                                            <field name="state" widget="statusbar"
+                                                   statusbar_visible="pending,approved,rejected"/>
+                                            <field name="comment" widget="text"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Employee Skill Search View -->
+    <record id="view_employee_skill_search" model="ir.ui.view">
+        <field name="name">employee.skill.search</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <search string="Search Skills">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="skill_type"/>
+                <field name="skill_category_id"/>
+                <field name="skill_tags"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                <filter name="verified" string="Verified" domain="[('is_verified', '=', True)]"/>
+                <filter name="unverified" string="Unverified" domain="[('is_verified', '=', False)]"/>
+                <filter name="approved" string="Approved" domain="[('approval_state', '=', 'approved')]"/>
+                <filter name="pending" string="Pending Approval" domain="[('approval_state', '=', 'submitted')]"/>
+                <filter name="draft" string="Draft" domain="[('approval_state', '=', 'draft')]"/>
+                <filter name="expired_certs" string="Expired Certifications"
+                        domain="[('skill_type', '=', 'certification'), ('certification_expiry', '&lt;', context_today())]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_type" string="Skill Type" context="{'group_by': 'skill_type'}"/>
+                    <filter name="group_category" string="Category" context="{'group_by': 'skill_category_id'}"/>
+                    <filter name="group_level" string="Proficiency Level" context="{'group_by': 'level'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Employee Skill Action -->
+    <record id="action_employee_skill" model="ir.actions.act_window">
+        <field name="name">Employee Skills</field>
+        <field name="res_model">employee.skill</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="view_employee_skill_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No skills found. Let's create one!
+            </p>
+            <p>
+                Track and manage employee skills, certifications, and endorsements.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item for Employee Skills -->
+    <menuitem id="menu_action_employee_skill"
+              name="All Skills"
+              parent="menu_skill_root"
+              action="action_employee_skill"
+              sequence="10"/>
+
+    <!-- Employee Skill Kanban View -->
+    <record id="view_employee_skill_kanban" model="ir.ui.view">
+        <field name="name">employee.skill.kanban</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="skill_type">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="skill_type"/>
+                <field name="level"/>
+                <field name="skill_score"/>
+                <field name="endorsement_count"/>
+                <field name="is_verified"/>
+                <field name="color"/>
+                <field name="priority"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click" t-att-data-id="record.id.raw_value">
+                            <div class="oe_kanban_details">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <div class="text-muted">
+                                    <field name="employee_id"/>
+                                    <span class="ml-2">
+                                        <field name="skill_type"/>
+                                    </span>
+                                </div>
+                                <div class="mt-2">
+                                    <span class="badge"
+                                          t-attf-class="badge-#{record.level.raw_value == 'expert' ? 'success' : record.level.raw_value == 'advanced' ? 'info' : record.level.raw_value == 'intermediate' ? 'warning' : 'secondary'}">
+                                        <field name="level"/>
+                                    </span>
+                                    <span t-if="record.endorsement_count.raw_value" class="ml-2">
+<!--                                        <i class="fa fa-thumbs-up"/>-->
+                                        <field name="endorsement_count"/>
+                                    </span>
+                                    <span t-if="record.is_verified.raw_value" class="ml-2">
+<!--                                        <i class="fa fa-check text-success"/>-->
+                                    </span>
+                                </div>
+                                <div class="progress mt-2" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar"
+                                         t-attf-style="width: #{record.skill_score.raw_value}%; background-color: #{record.color.raw_value or '#667eea'};">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ==================== -->
+    <!-- SKILL CATEGORY VIEWS -->
+    <!-- ==================== -->
+    <!-- Skill Category Tree View -->
+    <record id="view_skill_category_tree" model="ir.ui.view">
+        <field name="name">skill.category.tree</field>
+        <field name="model">skill.category</field>
+        <field name="arch" type="xml">
+            <list string="Skill Categories">
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="skill_type"/>
+                <field name="sequence" widget="handle"/>
+                <field name="skill_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Skill Category Form View -->
+    <record id="view_skill_category_form" model="ir.ui.view">
+        <field name="name">skill.category.form</field>
+        <field name="model">skill.category</field>
+        <field name="arch" type="xml">
+            <form string="Skill Category">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="skill_type"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color"/>
+                            <field name="icon"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Skill Category Action -->
+    <record id="action_skill_category" model="ir.actions.act_window">
+        <field name="name">Skill Categories</field>
+        <field name="res_model">skill.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No categories found. Let's create one!
+            </p>
+            <p>
+                Organize skills into categories for better management and reporting.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item for Skill Categories -->
+    <menuitem id="menu_action_skill_category"
+              name="Skill Categories"
+              parent="menu_skill_configuration"
+              action="action_skill_category"
+              sequence="10"/>
+
+    <!-- ==================== -->
+    <!-- SKILL TAG VIEWS -->
+    <!-- ==================== -->
+    <!-- Skill Tag Tree View -->
+    <record id="view_skill_tag_tree" model="ir.ui.view">
+        <field name="name">skill.tag.tree</field>
+        <field name="model">skill.tag</field>
+        <field name="arch" type="xml">
+            <list string="Skill Tags">
+                <field name="name"/>
+                <field name="color" widget="colorpicker"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Skill Tag Form View -->
+    <record id="view_skill_tag_form" model="ir.ui.view">
+        <field name="name">skill.tag.form</field>
+        <field name="model">skill.tag</field>
+        <field name="arch" type="xml">
+            <form string="Skill Tag">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="color" widget="colorpicker"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Skill Tag Action -->
+    <record id="action_skill_tag" model="ir.actions.act_window">
+        <field name="name">Skill Tags</field>
+        <field name="res_model">skill.tag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Item for Skill Tags -->
+    <menuitem id="menu_action_skill_tag"
+              name="Skill Tags"
+              parent="menu_skill_configuration"
+              action="action_skill_tag"
+              sequence="20"/>
+
+    <!-- ==================== -->
+    <!-- SKILL ENDORSEMENT VIEWS -->
+    <!-- ==================== -->
+    <!-- Skill Endorsement Tree View -->
+    <record id="view_skill_endorsement_tree" model="ir.ui.view">
+        <field name="name">skill.endorsement.tree</field>
+        <field name="model">skill.endorsement</field>
+        <field name="arch" type="xml">
+            <list string="Skill Endorsements">
+                <field name="skill_id"/>
+                <field name="endorser_id" widget="many2one_avatar"/>
+                <field name="endorsement_date"/>
+                <field name="rating" widget="priority"/>
+                <field name="state" widget="badge"/>
+                <field name="visibility"/>
+                <field name="is_anonymous"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Skill Endorsement Form View -->
+    <record id="view_skill_endorsement_form" model="ir.ui.view">
+        <field name="name">skill.endorsement.form</field>
+        <field name="model">skill.endorsement</field>
+        <field name="arch" type="xml">
+            <form string="Skill Endorsement">
+                <header>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-success" invisible="state != 'pending'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="state != 'pending'"
+                            class="btn-danger"/>
+                    <button name="action_request_endorsement" type="object"
+                            string="Request Endorsement" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="skill_id"/>
+                            <field name="endorser_id"/>
+                            <field name="endorser_position"/>
+                            <field name="endorsement_date"/>
+                            <field name="relationship" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="rating" widget="radio"/>
+                            <field name="visibility" widget="radio"/>
+                            <field name="is_anonymous"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="comment" widget="text" placeholder="Add your endorsement comment here..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Skill Endorsement Search View -->
+    <record id="view_skill_endorsement_search" model="ir.ui.view">
+        <field name="name">skill.endorsement.search</field>
+        <field name="model">skill.endorsement</field>
+        <field name="arch" type="xml">
+            <search string="Search Endorsements">
+                <field name="skill_id"/>
+                <field name="endorser_id"/>
+                <filter name="pending" string="Pending" domain="[('state', '=', 'pending')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="public" string="Public" domain="[('visibility', '=', 'public')]"/>
+                <filter name="anonymous" string="Anonymous" domain="[('is_anonymous', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Skill Endorsement Action -->
+    <record id="action_skill_endorsement" model="ir.actions.act_window">
+        <field name="name">Skill Endorsements</field>
+        <field name="res_model">skill.endorsement</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="view_skill_endorsement_search"/>
+    </record>
+
+    <!-- Menu Item for Endorsements -->
+    <menuitem id="menu_action_skill_endorsement"
+              name="All Endorsements"
+              parent="menu_skill_root"
+              action="action_skill_endorsement"
+              sequence="30"/>
+
+    <!-- ==================== -->
+    <!-- SKILL ASSESSMENT VIEWS -->
+    <!-- ==================== -->
+    <!-- Employee Skill Assessment Tree View -->
+    <record id="view_employee_skill_assessment_tree" model="ir.ui.view">
+        <field name="name">employee.skill.assessment.tree</field>
+        <field name="model">employee.skill.assessment</field>
+        <field name="arch" type="xml">
+            <list string="Skill Assessments">
+                <field name="name"/>
+                <field name="employee_id" widget="many2one_avatar_employee"/>
+                <field name="assessment_date"/>
+                <field name="assessment_type"/>
+                <field name="overall_score" widget="progressbar" options="{'max_value': 5}"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Employee Skill Assessment Form View -->
+    <!-- Employee Skill Assessment Form View -->
+    <record id="view_employee_skill_assessment_form" model="ir.ui.view">
+        <field name="name">employee.skill.assessment.form</field>
+        <field name="model">employee.skill.assessment</field>
+        <field name="arch" type="xml">
+            <form string="Skill Assessment">
+                <header>
+                    <button name="action_start_assessment" type="object" string="Start Assessment"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_complete_assessment" type="object" string="Complete"
+                            class="btn-success" invisible="state != 'in_progress'"/>
+                    <button name="action_review_assessment" type="object" string="Mark as Reviewed"
+                            class="btn-info" invisible="state != 'completed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed,reviewed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id" widget="many2one_avatar_employee"/>
+                            <field name="assessment_date"/>
+                            <field name="assessor_id" widget="many2one_avatar_employee"/>
+                        </group>
+                        <group>
+                            <field name="assessment_type" widget="radio"/>
+                            <field name="overall_score" widget="progressbar" options="{'max_value': 5}"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Skills Assessment">
+                            <field name="skill_ids" widget="one2many">
+                                <list editable="bottom">
+                                    <field name="skill_id"/>
+                                    <field name="required_level" widget="radio"/>
+                                    <field name="current_level" widget="radio"/>
+                                    <field name="score" widget="progressbar" options="{'max_value': 5}"/>
+                                    <field name="gap" widget="progressbar"
+                                           options="{'max_value': 4, 'editable': false}"/>
+                                    <field name="comments"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="skill_id"/>
+                                            <field name="required_level" widget="radio"/>
+                                            <field name="current_level" widget="radio"/>
+                                        </group>
+                                        <group>
+                                            <field name="score"/>
+                                            <field name="gap" readonly="1"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="comments" widget="text"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="Comments &amp; Recommendations">
+                            <group>
+                                <field name="comments" widget="text"
+                                       placeholder="Overall comments about the assessment..."/>
+                                <field name="recommendations" widget="text"
+                                       placeholder="Recommendations for skill development..."/>
+                            </group>
+                        </page>
+
+                        <page string="Analysis">
+                            <div class="alert alert-info">
+                                <h4>Assessment Summary</h4>
+                                <div>
+                                    Total Skills Assessed:
+                                    <field name="skill_ids" widget="count"/>
+                                    <br/>
+                                    Average Score:<field name="overall_score"/>/5
+                                    <br/>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Employee Skill Assessment Action -->
+    <record id="action_employee_skill_assessment" model="ir.actions.act_window">
+        <field name="name">Skill Assessments</field>
+        <field name="res_model">employee.skill.assessment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No assessments found. Let's create one!
+            </p>
+            <p>
+                Conduct skill assessments to evaluate employee competencies and identify development needs.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item for Skill Assessments -->
+    <menuitem id="menu_action_employee_skill_assessment"
+              name="Skill Assessments"
+              parent="menu_skill_root"
+              action="action_employee_skill_assessment"
+              sequence="40"/>
+
+    <!-- ==================== -->
+    <!-- SKILL TRAINING VIEWS -->
+    <!-- ==================== -->
+    <!-- Skill Training Tree View -->
+    <record id="view_skill_training_tree" model="ir.ui.view">
+        <field name="name">skill.training.tree</field>
+        <field name="model">skill.training</field>
+        <field name="arch" type="xml">
+            <list string="Skill Trainings">
+                <field name="name"/>
+                <field name="training_type"/>
+                <field name="provider"/>
+                <field name="duration"/>
+                <field name="cost"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Skill Training Form View -->
+    <record id="view_skill_training_form" model="ir.ui.view">
+        <field name="name">skill.training.form</field>
+        <field name="model">skill.training</field>
+        <field name="arch" type="xml">
+            <form string="Skill Training">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="training_type" widget="radio"/>
+                            <field name="provider"/>
+                            <field name="skill_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="duration"/>
+                            <field name="cost"/>
+                            <field name="url"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" widget="html"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Skill Training Search View -->
+    <record id="view_skill_training_search" model="ir.ui.view">
+        <field name="name">skill.training.search</field>
+        <field name="model">skill.training</field>
+        <field name="arch" type="xml">
+            <search string="Search Trainings">
+                <field name="name"/>
+                <field name="provider"/>
+                <field name="training_type"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Skill Training Action -->
+    <record id="action_skill_training" model="ir.actions.act_window">
+        <field name="name">Skill Trainings</field>
+        <field name="res_model">skill.training</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_skill_training_search"/>
+    </record>
+
+    <!-- Menu Item for Skill Trainings -->
+    <menuitem id="menu_action_skill_training"
+              name="Training Programs"
+              parent="menu_skill_root"
+              action="action_skill_training"
+              sequence="50"/>
+
+    <!-- ==================== -->
+    <!-- DASHBOARD & REPORTS -->
+    <!-- ==================== -->
+    <!-- Dashboard Action -->
+    <record id="action_skill_dashboard" model="ir.actions.act_window">
+        <field name="name">Skills Dashboard</field>
+        <field name="res_model">employee.skill</field>
+        <field name="view_mode">list,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Skills Dashboard
+            </p>
+            <p>
+                View analytics and insights about your organization's skills.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item for Dashboard -->
+    <menuitem id="menu_action_skill_dashboard"
+              name="Dashboard"
+              parent="menu_skill_root"
+              action="action_skill_dashboard"
+              sequence="5"/>
+
+    <!-- ==================== -->
+    <!-- REPORTING VIEWS -->
+    <!-- ==================== -->
+    <!-- Skill Matrix Report -->
+    <record id="view_skill_matrix" model="ir.ui.view">
+        <field name="name">employee.skill.matrix</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <list string="Skill Matrix">
+                <field name="employee_id" widget="many2one_avatar_employee"/>
+                <field name="department_id"/>
+                <field name="skill_type"/>
+                <field name="level"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

@@ -1,6 +1,6 @@
 {
     'name': 'ZakatPro: Zakat & Waqf Management',
-    'version': '17.0.1.0.0',
+    'version': '17.0.2.0.0',
     'category': 'Accounting/Islamic Finance',
     'summary': 'Islamic Zakat Calculation & Waqf Asset Tracking with SADAD Integration',
     'description': """
@@ -33,8 +33,7 @@
         'reports/zakat_certificate_template.xml',
     ],
 
-    'images': [
-        'static/description/icon.png',
+        'images': ['static/description/icon.png',
         'static/description/screenshot_1_form.png',
         'static/description/screenshot_2_summary.png',
         'static/description/screenshot_3_invoice.jpg',
@@ -43,7 +42,7 @@
         'static/description/screenshot_6_menu.jpg',
     ],
 
-    'installable': True,
-    'application': True,
-    'auto_install': False,
+        'installable': True,
+        'application': True,
+        'auto_install': False,
 }

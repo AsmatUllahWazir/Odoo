@@ -20,7 +20,7 @@
         <field name="name">employee.skill.tree</field>
         <field name="model">employee.skill</field>
         <field name="arch" type="xml">
-            <list string="Employee Skills" decoration-info="approval_state == 'submitted'"
+            <tree string="Employee Skills" decoration-info="approval_state == 'submitted'"
                   decoration-warning="approval_state == 'draft'"
                   decoration-danger="approval_state == 'rejected'">
                 <field name="name"/>
@@ -33,7 +33,7 @@
                 <field name="approval_state" widget="badge" decoration-success="approval_state == 'approved'"/>
                 <field name="endorsement_count"/>
                 <field name="active" invisible="1"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -66,7 +66,7 @@
                                 string="Verify" class="oe_stat_button" icon="fa-check"
                                 invisible="is_verified"/>
                         <div class="oe_stat_button" name="endorsements_button">
-<!--                            <i class="fa fa-thumbs-up"/>-->
+                            <i class="fa fa-thumbs-up"/>
                             <field name="endorsement_count" widget="statinfo" string="Endorsements"/>
                         </div>
                         <div class="oe_stat_button">
@@ -133,14 +133,14 @@
 
                         <page string="Endorsements">
                             <field name="endorsement_ids" widget="one2many">
-                                <list>
+                                <tree>
                                     <field name="endorser_id" widget="many2one_avatar"/>
                                     <field name="endorsement_date"/>
                                     <field name="rating" widget="priority"/>
                                     <field name="relationship"/>
                                     <field name="state" widget="badge"/>
                                     <field name="comment" widget="text"/>
-                                </list>
+                                </tree>
                                 <form>
                                     <group>
                                         <group>
@@ -201,7 +201,7 @@
     <record id="action_employee_skill" model="ir.actions.act_window">
         <field name="name">Employee Skills</field>
         <field name="res_model">employee.skill</field>
-        <field name="view_mode">list,form,kanban</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="search_view_id" ref="view_employee_skill_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -254,11 +254,11 @@
                                         <field name="level"/>
                                     </span>
                                     <span t-if="record.endorsement_count.raw_value" class="ml-2">
-<!--                                        <i class="fa fa-thumbs-up"/>-->
+                                        <i class="fa fa-thumbs-up"/>
                                         <field name="endorsement_count"/>
                                     </span>
                                     <span t-if="record.is_verified.raw_value" class="ml-2">
-<!--                                        <i class="fa fa-check text-success"/>-->
+                                        <i class="fa fa-check text-success"/>
                                     </span>
                                 </div>
                                 <div class="progress mt-2" style="height: 5px;">
@@ -282,14 +282,14 @@
         <field name="name">skill.category.tree</field>
         <field name="model">skill.category</field>
         <field name="arch" type="xml">
-            <list string="Skill Categories">
+            <tree string="Skill Categories">
                 <field name="name"/>
                 <field name="parent_id"/>
                 <field name="skill_type"/>
                 <field name="sequence" widget="handle"/>
                 <field name="skill_count"/>
                 <field name="active"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -325,7 +325,7 @@
     <record id="action_skill_category" model="ir.actions.act_window">
         <field name="name">Skill Categories</field>
         <field name="res_model">skill.category</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No categories found. Let's create one!
@@ -351,11 +351,11 @@
         <field name="name">skill.tag.tree</field>
         <field name="model">skill.tag</field>
         <field name="arch" type="xml">
-            <list string="Skill Tags">
+            <tree string="Skill Tags">
                 <field name="name"/>
                 <field name="color" widget="colorpicker"/>
                 <field name="active"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -384,7 +384,7 @@
     <record id="action_skill_tag" model="ir.actions.act_window">
         <field name="name">Skill Tags</field>
         <field name="res_model">skill.tag</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
     </record>
 
     <!-- Menu Item for Skill Tags -->
@@ -402,7 +402,7 @@
         <field name="name">skill.endorsement.tree</field>
         <field name="model">skill.endorsement</field>
         <field name="arch" type="xml">
-            <list string="Skill Endorsements">
+            <tree string="Skill Endorsements">
                 <field name="skill_id"/>
                 <field name="endorser_id" widget="many2one_avatar"/>
                 <field name="endorsement_date"/>
@@ -410,7 +410,7 @@
                 <field name="state" widget="badge"/>
                 <field name="visibility"/>
                 <field name="is_anonymous"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -428,7 +428,6 @@
                             class="btn-danger"/>
                     <button name="action_request_endorsement" type="object"
                             string="Request Endorsement" class="btn-primary"/>
-                    <field name="state" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
                 </header>
                 <sheet>
                     <group>
@@ -440,6 +439,7 @@
                             <field name="relationship" widget="radio"/>
                         </group>
                         <group>
+                            <field name="state" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
                             <field name="rating" widget="radio"/>
                             <field name="visibility" widget="radio"/>
                             <field name="is_anonymous"/>
@@ -474,7 +474,7 @@
     <record id="action_skill_endorsement" model="ir.actions.act_window">
         <field name="name">Skill Endorsements</field>
         <field name="res_model">skill.endorsement</field>
-        <field name="view_mode">list,form,kanban</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="search_view_id" ref="view_skill_endorsement_search"/>
     </record>
 
@@ -493,14 +493,14 @@
         <field name="name">employee.skill.assessment.tree</field>
         <field name="model">employee.skill.assessment</field>
         <field name="arch" type="xml">
-            <list string="Skill Assessments">
+            <tree string="Skill Assessments">
                 <field name="name"/>
                 <field name="employee_id" widget="many2one_avatar_employee"/>
                 <field name="assessment_date"/>
                 <field name="assessment_type"/>
                 <field name="overall_score" widget="progressbar" options="{'max_value': 5}"/>
                 <field name="state" widget="badge"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -538,7 +538,7 @@
                     <notebook>
                         <page string="Skills Assessment">
                             <field name="skill_ids" widget="one2many">
-                                <list editable="bottom">
+                                <tree editable="bottom">
                                     <field name="skill_id"/>
                                     <field name="required_level" widget="radio"/>
                                     <field name="current_level" widget="radio"/>
@@ -546,7 +546,7 @@
                                     <field name="gap" widget="progressbar"
                                            options="{'max_value': 4, 'editable': false}"/>
                                     <field name="comments"/>
-                                </list>
+                                </tree>
                                 <form>
                                     <group>
                                         <group>
@@ -597,7 +597,7 @@
     <record id="action_employee_skill_assessment" model="ir.actions.act_window">
         <field name="name">Skill Assessments</field>
         <field name="res_model">employee.skill.assessment</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No assessments found. Let's create one!
@@ -623,14 +623,14 @@
         <field name="name">skill.training.tree</field>
         <field name="model">skill.training</field>
         <field name="arch" type="xml">
-            <list string="Skill Trainings">
+            <tree string="Skill Trainings">
                 <field name="name"/>
                 <field name="training_type"/>
                 <field name="provider"/>
                 <field name="duration"/>
                 <field name="cost"/>
                 <field name="active"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -681,7 +681,7 @@
     <record id="action_skill_training" model="ir.actions.act_window">
         <field name="name">Skill Trainings</field>
         <field name="res_model">skill.training</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_skill_training_search"/>
     </record>
 
@@ -699,7 +699,7 @@
     <record id="action_skill_dashboard" model="ir.actions.act_window">
         <field name="name">Skills Dashboard</field>
         <field name="res_model">employee.skill</field>
-        <field name="view_mode">list,kanban</field>
+        <field name="view_mode">tree,kanban</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Skills Dashboard
@@ -725,12 +725,12 @@
         <field name="name">employee.skill.matrix</field>
         <field name="model">employee.skill</field>
         <field name="arch" type="xml">
-            <list string="Skill Matrix">
+            <tree string="Skill Matrix">
                 <field name="employee_id" widget="many2one_avatar_employee"/>
                 <field name="department_id"/>
                 <field name="skill_type"/>
                 <field name="level"/>
-            </list>
+            </tree>
         </field>
     </record>
 

@@ -1,6 +1,6 @@
 {
     'name': 'Employee Skill Portfolio',
-    'version': '18.0.1.0.0',
+    'version': '17.0.1.0.0',
     'category': 'Human Resources/Portal',
     'summary': 'Showcase employee skills and certifications with beautiful portfolio design',
     'description': """

@@ -84,15 +84,15 @@
                     <group name="main_info">
                         <group name="left">
                             <field name="asset_code" string="Asset Code" readonly="1"/>
-                            <field name="name" string="Asset Name" required="1"/>
-                            <field name="asset_type" string="Asset Type" widget="radio" required="1"/>
-                            <field name="company_id" string="Company" groups="base.group_multi_company"/>
+                            <field name="name" string="Asset Name" readonly="state != 'active'" required="1"/>
+                            <field name="asset_type" string="Asset Type" widget="radio" readonly="state != 'active'" required="1"/>
                         </group>
 
                         <group name="right">
-                            <field name="acquisition_date" string="Acquisition Date" required="1"/>
+                            <field name="acquisition_date" readonly="state != 'active'" string="Acquisition Date" required="1"/>
                             <field name="depreciation_months" string="Months in Service" readonly="1"/>
-                            <field name="state" string="Status"/>
+                            <field name="state" string="Status" invisible="1"/>
+                            <field name="company_id" string="Company" readonly="1" invisible="1" groups="base.group_multi_company"/>
                         </group>
                     </group>
 
@@ -100,11 +100,11 @@
                         <page string="Valuation" name="valuation">
                             <group string="Asset Valuation" name="valuation_group">
                                 <group name="initial">
-                                    <field name="initial_value" string="Initial Value" widget="monetary" required="1"/>
-                                    <field name="salvage_value" string="Salvage Value" widget="monetary"/>
+                                    <field name="initial_value" readonly="state != 'active'" string="Initial Value" widget="monetary" required="1"/>
+                                    <field name="salvage_value" readonly="state != 'active'" string="Salvage Value" widget="monetary"/>
                                 </group>
                                 <group name="depreciation">
-                                    <field name="depreciation_rate" string="Annual Depreciation %"/>
+                                    <field name="depreciation_rate" readonly="state != 'active'" string="Annual Depreciation %"/>
                                     <field name="total_depreciation" string="Total Depreciation to Date" widget="monetary" readonly="1"/>
                                     <field name="current_value" string="Current Value" widget="monetary" readonly="1" style="font-weight: bold; color: #1a472a;"/>
                                 </group>
@@ -114,18 +114,18 @@
                         <page string="Income &amp; Charity" name="charity">
                             <group string="Income Distribution" name="income_group">
                                 <group name="income_data">
-                                    <field name="annual_income" string="Annual Income from Asset" widget="monetary"/>
-                                    <field name="allocation_percent" string="Charity Allocation Percentage (%)"/>
+                                    <field name="annual_income" readonly="state != 'active'" string="Annual Income from Asset" widget="monetary"/>
+                                    <field name="allocation_percent" readonly="state != 'active'" string="Charity Allocation Percentage (%)"/>
                                     <field name="charity_amount" string="Annual Charity Amount" widget="monetary" readonly="1" style="font-weight: bold; color: #b8860b;"/>
                                 </group>
                                 <group name="beneficiaries">
-                                    <field name="waqf_beneficiary_ids" string="Beneficiaries" widget="many2many_tags" placeholder="Select organizations or individuals"/>
+                                    <field name="waqf_beneficiary_ids" string="Beneficiaries" readonly="state != 'active'" widget="many2many_tags" placeholder="Select organizations or individuals"/>
                                 </group>
                             </group>
                         </page>
 
                         <page string="Description" name="description">
-                            <field name="description" nolabel="1" placeholder="Detailed description of the Waqf asset..."/>
+                            <field name="description" nolabel="1" readonly="state != 'active'" placeholder="Detailed description of the Waqf asset..."/>
                         </page>
                     </notebook>
                 </sheet>

@@ -86,7 +86,6 @@
                                 class="oe_stat_button"
                                 icon="fa-file-pdf-o"
                                 help="View Certificates">
-<!--                            attrs="{'invisible': [('certificate_ids', '=', [])]}"-->
                             <div class="o_stat_info">
                                 <field name="certificate_ids" widget="statinfo" string="Certificates"/>
                             </div>
@@ -112,17 +111,17 @@
                     <group name="main_info">
                         <group name="partner_info">
                             <field name="name" string="Reference" readonly="1"/>
-                            <field name="partner_id" string="Partner/Company" required="1" options="{'no_create': True}"/>
-                            <field name="calculation_date" string="Calculation Date"/>
+                            <field name="partner_id" readonly="state != 'draft'" string="Partner/Company" required="1" options="{'no_create': True}"/>
+                            <field name="calculation_date" readonly="state != 'draft'" string="Calculation Date"/>
                             <field name="hijri_date" string="Hijri Date" readonly="1"/>
-                            <field name="school" string="Madhhab/School" widget="radio"/>
+                            <field name="school" string="Madhhab/School" readonly="state != 'draft'" widget="radio"/>
                         </group>
 
                         <group name="summary">
-                            <field name="total_wealth" string="Total Wealth" widget="monetary" class="oe_inline"/>
-                            <field name="nisab_threshold" string="Nisab Threshold" widget="monetary"/>
-                            <field name="zakat_due" string="Zakat Due (2.5%)" widget="monetary" class="oe_inline" style="font-size: 24px; color: #b8860b; font-weight: bold;"/>
-                            <field name="is_above_nisab" invisible="1"/>
+                            <field name="total_wealth" readonly="state != 'draft'" string="Total Wealth" widget="monetary" class="oe_inline"/>
+                            <field name="nisab_threshold" readonly="state != 'draft'" string="Nisab Threshold" widget="monetary"/>
+                            <field name="zakat_due" readonly="state != 'draft'" string="Zakat Due (2.5%)" widget="monetary" class="oe_inline" style="font-size: 24px; color: #b8860b; font-weight: bold;"/>
+                            <field name="is_above_nisab" readonly="state != 'draft'" invisible="1"/>
                         </group>
                     </group>
 
@@ -130,14 +129,14 @@
                         <page string="Assets Breakdown" name="breakdown">
                             <group string="Assets" name="assets">
                                 <group name="left_assets">
-                                    <field name="cash_amount" string="Cash &amp; Bank" widget="monetary" placeholder="0.00"/>
-                                    <field name="inventory_value" string="Inventory Value" widget="monetary" placeholder="0.00"/>
-                                    <field name="receivables" string="Receivables" widget="monetary" placeholder="0.00"/>
+                                    <field name="cash_amount" readonly="state != 'draft'" string="Cash &amp; Bank" widget="monetary" placeholder="0.00"/>
+                                    <field name="inventory_value" readonly="state != 'draft'" string="Inventory Value" widget="monetary" placeholder="0.00"/>
+                                    <field name="receivables" readonly="state != 'draft'" string="Receivables" widget="monetary" placeholder="0.00"/>
                                 </group>
                                 <group name="right_assets">
-                                    <field name="gold_silver" string="Gold/Silver" widget="monetary" placeholder="0.00"/>
-                                    <field name="other_assets" string="Other Assets" widget="monetary" placeholder="0.00"/>
-                                    <field name="total_liabilities" string="Liabilities (Optional)" widget="monetary" placeholder="0.00"/>
+                                    <field name="gold_silver" string="Gold/Silver" readonly="state != 'draft'" widget="monetary" placeholder="0.00"/>
+                                    <field name="other_assets" readonly="state != 'draft'" string="Other Assets" widget="monetary" placeholder="0.00"/>
+                                    <field name="total_liabilities" readonly="state != 'draft'" string="Liabilities (Optional)" widget="monetary" placeholder="0.00"/>
                                 </group>
                             </group>
                         </page>
@@ -149,7 +148,7 @@
                         </page>
 
                         <page string="Notes" name="notes">
-                            <field name="notes" nolabel="1" placeholder="Additional notes about this Zakat calculation..."/>
+                            <field name="notes" readonly="state != 'draft'" nolabel="1" placeholder="Additional notes about this Zakat calculation..."/>
                         </page>
                     </notebook>
                 </sheet>

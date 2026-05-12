@@ -77,14 +77,14 @@
                     <group name="main_info">
                         <group name="left">
                             <field name="name" string="Certificate No." readonly="1"/>
-                            <field name="recipient_name" string="Recipient Name" required="1"/>
-                            <field name="amount_paid" string="Zakat Paid" widget="monetary" required="1"/>
-                            <field name="calculation_id" string="Zakat Calculation" readonly="0"/>
+                            <field name="recipient_name" string="Recipient Name" readonly="state != 'draft'" required="1"/>
+                            <field name="amount_paid" string="Zakat Paid" readonly="state != 'draft'" widget="monetary" required="1"/>
+                            <field name="calculation_id" string="Zakat Calculation" readonly="state != 'draft'"/>
                         </group>
                         <group name="right">
-                            <field name="issue_date" string="Issue Date"/>
+                            <field name="issue_date" string="Issue Date" readonly="state != 'draft'"/>
                             <field name="hijri_issue_date" string="Hijri Date" readonly="1"/>
-                            <field name="company_id" string="Company" invisible="1"/>
+                            <field name="company_id" string="Company" readonly="state != 'draft'" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -95,7 +95,7 @@
                             </group>
                         </page>
                         <page string="Notes" name="notes">
-                            <field name="notes" nolabel="1" placeholder="Additional notes..."/>
+                            <field name="notes" nolabel="1" readonly="state != 'draft'" placeholder="Additional notes..."/>
                         </page>
                     </notebook>
                 </sheet>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZakatPro — Professional Zakat Calculator & Waqf Management for Odoo 17</title>
+    <title>ZakatPro - Professional Zakat Calculator & Waqf Management for Odoo 17</title>
     <style>
         * {
             margin: 0;
@@ -120,11 +120,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
         .feature-card h4 {
             font-size: 20px;
             color: #1a472a;
@@ -132,11 +127,12 @@
         }
 
         .screenshot {
-            background: #f0f0f0;
+            background: #f8f9fa;
             border-radius: 12px;
             padding: 20px;
             margin: 30px 0;
             text-align: center;
+            border: 1px solid #e9ecef;
         }
 
         .screenshot img {
@@ -248,14 +244,14 @@
 <div class="container">
     <!-- Header -->
     <div class="header">
-        <h1>🕌 ZakatPro</h1>
+        <h1>ZakatPro</h1>
         <p>Professional Zakat Calculator & Waqf Asset Management for Odoo 17</p>
         <div class="badge-container">
-            <span class="badge">✅ ZATCA Ready</span>
-            <span class="badge">✅ SADAD Integration</span>
-            <span class="badge">✅ Bilingual (Arabic/English)</span>
-            <span class="badge">✅ Official PDF Certificate</span>
-            <span class="badge">✅ GCC Compliant</span>
+            <span class="badge">ZATCA Ready</span>
+            <span class="badge">SADAD Integration</span>
+            <span class="badge">Bilingual (Arabic/English)</span>
+            <span class="badge">Official PDF Certificate</span>
+            <span class="badge">GCC Compliant</span>
         </div>
     </div>
 
@@ -268,195 +264,199 @@
     <div class="content">
         <!-- Overview -->
         <div class="section">
-            <h2>📖 What is ZakatPro?</h2>
-            <p style="font-size: 18px;">ZakatPro is the <strong>first complete Zakat and Waqf management module</strong> for Odoo 17. It automatically calculates Zakat (2.5%) on cash, inventory, receivables, gold, and other assets, checks Nisab threshold, and generates <strong>official bilingual certificates</strong> accepted by authorities in Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, and Oman.</p>
+            <h2>What is ZakatPro?</h2>
+            <p style="font-size: 18px;">ZakatPro is the <strong>first complete Zakat and Waqf management module</strong> for Odoo 17. It automatically calculates Zakat (2.5%) on cash, inventory, receivables, gold, and other assets, checks the Nisab threshold, and generates <strong>official bilingual certificates</strong> accepted by authorities in Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, and Oman.</p>
         </div>
 
         <!-- Key Features Grid -->
         <div class="section">
-            <h2>✨ Key Features</h2>
+            <h2>Key Features</h2>
             <div class="feature-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🧮</div>
                     <h4>Automatic Zakat Calculation</h4>
-                    <p>2.5% of net wealth with automatic Nisab check based on gold price (85g gold threshold). Supports Hanafi & Shafi'i schools.</p>
+                    <p>2.5% of net wealth with automatic Nisab check based on gold price (85g gold threshold). Supports Hanafi, Shafi'i, Maliki & Hanbali schools.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📜</div>
-                    <h4>Official Certificate</h4>
-                    <p>Generate beautiful PDF certificates with gold border, unique serial number, Arabic/English text, and authorized signature.</p>
+                    <h4>Official Certificate + QR Code</h4>
+                    <p>Generate professional, single-page PDF certificates with a gold border, unique serial number, bilingual text, and a scannable QR code for verification.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🏦</div>
                     <h4>SADAD Integration</h4>
-                    <p>One-click generation of SADAD-compatible customer invoices for Zakat payment collection.</p>
+                    <p>One-click generation of SADAD-compatible customer invoices for seamless Zakat payment collection.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🕌</div>
                     <h4>Waqf Asset Tracker</h4>
-                    <p>Track land, buildings, equipment with depreciation calculation and charity income distribution to beneficiaries.</p>
+                    <p>Track land, buildings, and equipment with full depreciation, annual income calculation, and automated charity distribution to beneficiaries.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
                     <h4>Auto-Sync with Accounting</h4>
                     <p>Automatically fetch cash, receivables, and inventory values from your Odoo accounting and stock modules.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🌙</div>
                     <h4>Hijri Date Support</h4>
-                    <p>Display calculation and certificate dates in both Hijri (Islamic) and Gregorian calendars.</p>
+                    <p>All calculations and certificates display dates in both Hijri (Islamic) and Gregorian calendars.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Screenshots with Workflow -->
+        <!-- Screenshots with Workflow (Updated with s1.png to s6.png) -->
         <div class="section">
-            <h2>📸 How It Works (Step by Step)</h2>
+            <h2>How It Works (Step by Step)</h2>
 
+            <!-- Step 1: Zakat Calculation Form -->
             <div class="workflow-step">
-                <strong>Step 1: Enter Assets</strong><br/>
-                Add cash & bank balances, inventory value, receivables, gold/silver, and other assets.
+                <strong>Step 1: Create a Zakat Calculation</strong><br/>
+                Select a partner or company, enter your assets (Cash, Inventory, Receivables, Gold, etc.), and choose your Madhhab/School.
             </div>
             <div class="screenshot">
-                <img src="screenshot_1_form.png" alt="Zakat Calculation Form">
-                <div class="screenshot-caption">📝 Enter asset values — Cash, Inventory, Receivables, Gold, Other Assets</div>
+                <img src="s4.png" alt="Zakat Calculation Form - Assets Breakdown">
+                <div class="screenshot-caption">Figure 1: The main Zakat calculation form, showing asset fields, partner selection, and calculation options.</div>
             </div>
 
+            <!-- Step 2: Automatic Zakat Calculation -->
             <div class="workflow-step">
-                <strong>Step 2: Automatic Calculation</strong><br/>
-                System calculates total wealth, compares with Nisab threshold, and shows Zakat due (2.5%).
+                <strong>Step 2: Automatic Zakat Calculation</strong><br/>
+                The system automatically calculates total wealth, compares it with the Nisab threshold, and shows the exact Zakat due (2.5%).
             </div>
             <div class="screenshot">
-                <img src="screenshot_2_summary.png" alt="Zakat Summary">
-                <div class="screenshot-caption">💰 Total Wealth: 151,665 SAR | Zakat Due: 3,791.63 SAR</div>
+                <img src="s2.png" alt="Zakat Calculation Summary">
+                <div class="screenshot-caption">Figure 2: Summary view showing Total Wealth, Nisab Threshold, and Zakat Due.</div>
             </div>
 
+            <!-- Step 3: Manage Waqf Assets -->
             <div class="workflow-step">
-                <strong>Step 3: Generate SADAD Bill</strong><br/>
-                Click "Generate SADAD Bill" to create a professional customer invoice for Zakat payment.
-            </div>
-
-            <div class="workflow-step">
-                <strong>Step 4: Generate Official Certificate</strong><br/>
-                Click "Generate Certificate" → Enter recipient name → Get PDF certificate.
+                <strong>Step 3: Manage Waqf Endowment Assets</strong><br/>
+                Track your Waqf assets (Land, Buildings, Equipment). Enter initial value, depreciation rate, annual income, and charity allocation percentage.
             </div>
             <div class="screenshot">
-                <img src="screenshot_4_certificate.png" alt="Certificate Generation">
-                <div class="screenshot-caption">📄 Certificate generation interface with recipient details</div>
+                <img src="s3.png" alt="Waqf Asset Management Form">
+                <div class="screenshot-caption">Figure 3: Waqf Asset form showing valuation, income distribution, and charity calculation.</div>
             </div>
 
             <div class="screenshot">
-                <img src="screenshot_5_certificate_closeup.png" alt="Certificate Closeup">
-                <div class="screenshot-caption">✨ Final certificate with unique number ZKT-51, amount paid, and authorized signature</div>
+                <img src="s6.png" alt="Waqf Asset Example with Depreciation">
+                <div class="screenshot-caption">Figure 4: Detailed Waqf Asset view, demonstrating current value calculation after depreciation.</div>
             </div>
 
+            <!-- Step 4: Generate Official Certificate -->
             <div class="workflow-step">
-                <strong>Step 5: Waqf Asset Management (Bonus)</strong>
+                <strong>Step 4: Generate the Official Certificate</strong><br/>
+                Click "Generate Certificate" from any calculation. The system will create a unique, verifiable certificate.
             </div>
             <div class="screenshot">
-                <img src="screenshot_6_menu.jpg" alt="Waqf Assets Menu">
-                <div class="screenshot-caption">🏢 Track Waqf assets: Name, Type, Value, Depreciation, Charity Allocation %</div>
+                <img src="s5.png" alt="Certificate Generation Interface">
+                <div class="screenshot-caption">Figure 5: Certificate generation wizard, allowing you to confirm recipient details before printing.</div>
+            </div>
+
+            <!-- Step 5: The Final Certificate -->
+            <div class="workflow-step">
+                <strong>Step 5: The Final Official Certificate</strong><br/>
+                A beautiful, bilingual PDF certificate is produced, complete with a gold border, authorized signature, QR code for verification, and company stamp.
+            </div>
+            <div class="screenshot">
+                <img src="s1.png" alt="Official Zakat Certificate Sample">
+                <div class="screenshot-caption">Figure 6: The final printed Zakat certificate, ready to be shared with the donor.</div>
             </div>
         </div>
 
         <!-- Technical Specifications -->
         <div class="section">
-            <h2>⚙️ Technical Specifications</h2>
+            <h2>Technical Specifications</h2>
             <ul style="margin-left: 30px; line-height: 2;">
                 <li><strong>Odoo Version:</strong> 17.0 (Community & Enterprise)</li>
-                <li><strong>Dependencies:</strong> account, stock, hr</li>
-                <li><strong>Languages:</strong> English (default) + Arabic translation included</li>
+                <li><strong>Dependencies:</strong> account, stock, hr, mail</li>
+                <li><strong>Languages:</strong> English (default) + full Arabic translation included</li>
                 <li><strong>Multi-Company:</strong> Yes</li>
                 <li><strong>Multi-Currency:</strong> Yes</li>
-                <li><strong>Zakat Calculation:</strong> 2.5% of net wealth (Cash + Inventory + Receivables + Gold + Other Assets)</li>
-                <li><strong>Nisab Threshold:</strong> 85g gold price (configurable)</li>
-                <li><strong>Certificate Format:</strong> PDF with gold border, QR code ready</li>
+                <li><strong>Zakat Calculation:</strong> 2.5% of net wealth (Cash + Inventory + Receivables + Gold + Other Assets - Liabilities)</li>
+                <li><strong>Nisab Threshold:</strong> 85g gold price (configurable in settings)</li>
+                <li><strong>Certificate Format:</strong> Single-page PDF with gold border and QR code</li>
             </ul>
         </div>
 
         <!-- Comparison Table -->
         <div class="section">
-            <h2>📊 Why ZakatPro vs Manual Excel?</h2>
+            <h2>Why ZakatPro vs Manual Excel?</h2>
             <table class="comparison-table">
                 <thead>
                     <tr><th>Feature</th><th>ZakatPro</th><th>Manual Excel</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Auto-calculation</td><td class="checkmark">✅ Yes</td><td>❌ Error-prone</td></tr>
-                    <tr><td>Nisab check</td><td class="checkmark">✅ Automatic</td><td>❌ Manual</td></tr>
-                    <tr><td>Official certificate</td><td class="checkmark">✅ One click</td><td>❌ Design yourself</td></tr>
-                    <tr><td>SADAD invoice</td><td class="checkmark">✅ Integrated</td><td>❌ Not available</td></tr>
-                    <tr><td>Waqf asset tracking</td><td class="checkmark">✅ Included</td><td>❌ Not available</td></tr>
-                    <tr><td>Audit trail</td><td class="checkmark">✅ Full Odoo logs</td><td>❌ None</td></tr>
+                    <tr><td>Auto-calculation</td><td class="checkmark">Yes</td><td>Error-prone</td></tr>
+                    <tr><td>Nisab check</td><td class="checkmark">Automatic</td><td>Manual</td></tr>
+                    <tr><td>Official certificate</td><td class="checkmark">One click</td><td>Design yourself</td></tr>
+                    <tr><td>SADAD invoice</td><td class="checkmark">Integrated</td><td>Not available</td></tr>
+                    <tr><td>Waqf asset tracking</td><td class="checkmark">Included</td><td>Not available</td></tr>
+                    <tr><td>Audit trail</td><td class="checkmark">Full Odoo logs</td><td>None</td></tr>
                 </tbody>
             </table>
         </div>
 
         <!-- What's Included -->
         <div class="section">
-            <h2>📦 What's Included in Your Purchase?</h2>
+            <h2>What's Included in Your Purchase?</h2>
             <div class="feature-grid">
                 <div class="feature-card">
-                    <h4>📁 Full Module</h4>
-                    <p>Complete Odoo 17 module with all models, views, reports, and security rules.</p>
+                    <h4>Full Module</h4>
+                    <p>Complete Odoo 17 module with all models, views, reports, and enterprise-grade security rules.</p>
                 </div>
                 <div class="feature-card">
-                    <h4>🌐 Arabic Translation</h4>
-                    <p>Full Arabic translation (ar_001) for all labels, buttons, and reports.</p>
+                    <h4>Arabic Translation</h4>
+                    <p>Full, accurate Arabic translation (ar_001) for all user interfaces, buttons, and the final certificate.</p>
                 </div>
                 <div class="feature-card">
-                    <h4>📄 Certificate Template</h4>
-                    <p>Beautiful PDF certificate template with gold border and stamp design.</p>
+                    <h4>Certificate Template</h4>
+                    <p>Beautiful, print-ready PDF certificate template with gold border, stamp design, and QR code support.</p>
                 </div>
                 <div class="feature-card">
-                    <h4>📖 Installation Guide</h4>
-                    <p>Step-by-step PDF guide (10 pages) with screenshots.</p>
+                    <h4>Installation Guide</h4>
+                    <p>Step-by-step PDF guide (10 pages with screenshots) to get you up and running in minutes.</p>
                 </div>
                 <div class="feature-card">
-                    <h4>🆓 12 Months Updates</h4>
-                    <p>Free updates for 1 year including bug fixes and new features.</p>
+                    <h4>12 Months Updates</h4>
+                    <p>Includes all future bug fixes, security patches, and minor updates for one year.</p>
                 </div>
                 <div class="feature-card">
-                    <h4>💬 12 Months Support</h4>
-                    <p>Email support within 24 hours (business days).</p>
+                    <h4>Priority Email Support</h4>
+                    <p>Direct email support for 12 months. We commit to responding within 24 hours on business days.</p>
                 </div>
             </div>
         </div>
 
         <!-- Target Audience -->
         <div class="section">
-            <h2>🎯 Who Is This For?</h2>
+            <h2>Who Is This For?</h2>
             <ul style="margin-left: 30px; line-height: 2;">
-                <li>🏢 <strong>Companies in Saudi Arabia</strong> — Zakat calculation for corporate Zakat (2.5% of net wealth)</li>
-                <li>🇦🇪 <strong>Companies in UAE, Qatar, Kuwait, Bahrain, Oman</strong> — Islamic finance compliance</li>
-                <li>🏦 <strong>Islamic Banks & Financial Institutions</strong> — Customer Zakat calculation service</li>
-                <li>🕌 <strong>Charities & Waqf Organizations</strong> — Track endowment assets and income distribution</li>
-                <li>📊 <strong>Accounting Firms</strong> — Offer Zakat calculation as a service to clients</li>
-                <li>💻 <strong>Odoo Partners & Implementers</strong> — Add Islamic finance features to your client projects</li>
+                <li><strong>Companies in Saudi Arabia</strong> — Zakat calculation for corporate Zakat (2.5% of net wealth)</li>
+                <li><strong>Companies in UAE, Qatar, Kuwait, Bahrain, Oman</strong> — Islamic finance compliance</li>
+                <li><strong>Islamic Banks & Financial Institutions</strong> — Customer Zakat calculation service</li>
+                <li><strong>Charities & Waqf Organizations</strong> — Track endowment assets and income distribution</li>
+                <li><strong>Accounting Firms</strong> — Offer Zakat calculation as a service to clients</li>
+                <li><strong>Odoo Partners & Implementers</strong> — Add Islamic finance features to your client projects</li>
             </ul>
         </div>
 
         <!-- FAQ -->
         <div class="section">
-            <h2>❓ Frequently Asked Questions</h2>
+            <h2>Frequently Asked Questions</h2>
 
-            <h3>📌 Is this module ZATCA compliant?</h3>
-            <p>Yes, the SADAD invoice integrates with Odoo's standard accounting and works with ZATCA e-invoicing requirements when used with l10n_gcc_invoice module.</p>
+            <h3>Is this module ZATCA compliant?</h3>
+            <p>Yes, the SADAD invoice integrates with Odoo's standard accounting and works with ZATCA e-invoicing requirements when used with the l10n_gcc_invoice module.</p>
 
-            <h3>📌 Does it work with Odoo Community Edition?</h3>
+            <h3>Does it work with Odoo Community Edition?</h3>
             <p>Yes! ZakatPro works perfectly on both Odoo Community and Enterprise editions.</p>
 
-            <h3>📌 Can I customize the certificate design?</h3>
+            <h3>Can I customize the certificate design?</h3>
             <p>Absolutely. The certificate uses standard Odoo QWeb templates. You can modify colors, logos, and layout easily.</p>
 
-            <h3>📌 How is Zakat calculated?</h3>
-            <p>Zakat = 2.5% of (Cash + Inventory + Receivables + Gold/Silver + Other Assets). Nisab threshold = 85g × current gold price (configurable).</p>
+            <h3>How is Zakat calculated?</h3>
+            <p>Zakat = 2.5% of (Cash + Inventory + Receivables + Gold/Silver + Other Assets). Nisab threshold = 85g × current gold price (configurable in settings).</p>
 
-            <h3>📌 What if the total wealth is below Nisab?</h3>
+            <h3>What if the total wealth is below Nisab?</h3>
             <p>Zakat Due will show 0.00 SAR, and certificate generation will be disabled until Nisab is met.</p>
 
-            <h3>📌 Do you provide installation service?</h3>
-            <p>Installation guide is included. For paid installation assistance, contact us at support@yourcompany.com.</p>
+            <h3>What if I need help with installation or a bug?</h3>
+            <p>After purchase, simply email us at <strong>support@yourcompany.com</strong> or use the Odoo App Store ticket system. Your purchase includes 12 months of support.</p>
         </div>
 
         <!-- Call to Action -->
@@ -466,12 +466,12 @@
             <p>One-time payment · No subscription · Lifetime access</p>
             <p style="margin: 15px 0;">✅ 12 months free updates ✅ 12 months email support ✅ 30-day money-back guarantee</p>
             <a href="#" class="button">Buy Now on Odoo App Store →</a>
-            <p style="margin-top: 20px; font-size: 14px;">After purchase, you'll receive instant download link and installation guide.</p>
+            <p style="margin-top: 20px; font-size: 14px;">After purchase, you'll receive an instant download link and installation guide.</p>
         </div>
 
         <!-- Support -->
         <div class="section">
-            <h2>📧 Need Help?</h2>
+            <h2>Need Help?</h2>
             <p style="font-size: 18px;">Before purchase: <strong>support@yourcompany.com</strong><br/>
             After purchase: Use the Odoo App Store ticket system or email us directly.<br/>
             Average response time: <strong>12-24 hours</strong> (Sunday-Thursday).</p>
@@ -479,8 +479,8 @@
     </div>
 
     <div class="footer">
-        <p>ZakatPro — Developed by Wazirz | Odoo 17 Ready | Made with ❤️ for Islamic Finance</p>
-        <p>© 2025 ZakatPro. All rights reserved. | <a href="#" style="color: #f4a261;">Terms</a> | <a href="#" style="color: #f4a261;">Privacy</a></p>
+        <p>ZakatPro — Developed by Wazirz | Odoo 17 Ready | Made for Islamic Finance</p>
+        <p>© 2026 ZakatPro. All rights reserved. | <a href="#" style="color: #f4a261;">Terms</a> | <a href="#" style="color: #f4a261;">Privacy</a></p>
     </div>
 </div>
 </body>

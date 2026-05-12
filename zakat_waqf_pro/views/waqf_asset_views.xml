@@ -1,51 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- TREE VIEW -->
     <record id="view_waqf_asset_tree" model="ir.ui.view">
         <field name="name">waqf.asset.tree</field>
         <field name="model">waqf.asset</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-                <field name="asset_type"/>
-                <field name="current_value"/>
-                <field name="income_per_year"/>
+            <tree string="Waqf Assets" decoration-danger="current_value == 0" decoration-warning="state == 'under_maintenance'">
+                <field name="asset_code" string="Code"/>
+                <field name="name" string="Asset Name"/>
+                <field name="asset_type" string="Type" widget="badge"/>
+                <field name="initial_value" string="Initial Value" widget="monetary" sum="Total Value"/>
+                <field name="current_value" string="Current Value" widget="monetary" sum="Current Total"/>
+                <field name="depreciation_rate" string="Depr. %"/>
+                <field name="annual_income" string="Annual Income" widget="monetary"/>
+                <field name="charity_amount" string="Charity Alloc." widget="monetary"/>
+                <field name="state" string="Status" widget="badge"/>
             </tree>
         </field>
     </record>
 
+    <!-- SEARCH VIEW -->
+    <record id="view_waqf_asset_search" model="ir.ui.view">
+        <field name="name">waqf.asset.search</field>
+        <field name="model">waqf.asset</field>
+        <field name="arch" type="xml">
+            <search string="Search Waqf Assets">
+                <field name="name"/>
+                <field name="asset_code"/>
+                <field name="waqf_beneficiary_ids" string="Beneficiary"/>
+                <filter string="Active" name="active" domain="[('state', '=', 'active')]"/>
+                <filter string="Fully Depreciated" name="depreciated" domain="[('state', '=', 'depreciated')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_type" context="{'group_by': 'asset_type'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Beneficiary" name="group_beneficiary" context="{'group_by': 'waqf_beneficiary_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
     <record id="view_waqf_asset_form" model="ir.ui.view">
         <field name="name">waqf.asset.form</field>
         <field name="model">waqf.asset</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Waqf Asset">
+                <header>
+                    <button name="action_compute_charity"
+                            string="Compute Charity Income"
+                            type="object"
+                            class="btn-info"
+                            invisible="charity_amount == 0"/>
+
+                    <button name="action_create_zakat_calculation"
+                            string="Create Zakat Calculation"
+                            type="object"
+                            class="btn-success" invisible="charity_amount == 0"/>
+
+                    <button name="action_sell_asset"
+                            string="Mark as Sold"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state != 'active'"
+                            confirm="Mark this asset as sold?"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="active,depreciated,sold"/>
+                </header>
+
                 <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="asset_type"/>
-                        <field name="value"/>
-                        <field name="depreciation_rate"/>
-                        <field name="current_value"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_compute_charity"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-heart"
+                                help="Allocate Charity Income">
+                            <div class="o_stat_info">
+                                <field name="charity_amount" widget="statinfo" string="Charity / Year"/>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group name="main_info">
+                        <group name="left">
+                            <field name="asset_code" string="Asset Code" readonly="1"/>
+                            <field name="name" string="Asset Name" required="1"/>
+                            <field name="asset_type" string="Asset Type" widget="radio" required="1"/>
+                            <field name="company_id" string="Company" groups="base.group_multi_company"/>
+                        </group>
+
+                        <group name="right">
+                            <field name="acquisition_date" string="Acquisition Date" required="1"/>
+                            <field name="depreciation_months" string="Months in Service" readonly="1"/>
+                            <field name="state" string="Status"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="acquisition_date"/>
-                        <field name="income_per_year"/>
-                        <field name="allocation_percent"/>
-                        <field name="waqf_beneficiary_ids" widget="many2many_tags"/>
-                    </group>
-                    <footer>
-                        <button name="compute_charity_income" string="Compute Charity Income" type="object" class="btn-info"/>
-                    </footer>
+
+                    <notebook>
+                        <page string="Valuation" name="valuation">
+                            <group string="Asset Valuation" name="valuation_group">
+                                <group name="initial">
+                                    <field name="initial_value" string="Initial Value" widget="monetary" required="1"/>
+                                    <field name="salvage_value" string="Salvage Value" widget="monetary"/>
+                                </group>
+                                <group name="depreciation">
+                                    <field name="depreciation_rate" string="Annual Depreciation %"/>
+                                    <field name="total_depreciation" string="Total Depreciation to Date" widget="monetary" readonly="1"/>
+                                    <field name="current_value" string="Current Value" widget="monetary" readonly="1" style="font-weight: bold; color: #1a472a;"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Income &amp; Charity" name="charity">
+                            <group string="Income Distribution" name="income_group">
+                                <group name="income_data">
+                                    <field name="annual_income" string="Annual Income from Asset" widget="monetary"/>
+                                    <field name="allocation_percent" string="Charity Allocation Percentage (%)"/>
+                                    <field name="charity_amount" string="Annual Charity Amount" widget="monetary" readonly="1" style="font-weight: bold; color: #b8860b;"/>
+                                </group>
+                                <group name="beneficiaries">
+                                    <field name="waqf_beneficiary_ids" string="Beneficiaries" widget="many2many_tags" placeholder="Select organizations or individuals"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Description" name="description">
+                            <field name="description" nolabel="1" placeholder="Detailed description of the Waqf asset..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
+    <!-- KANBAN VIEW -->
+    <record id="view_waqf_asset_kanban" model="ir.ui.view">
+        <field name="name">waqf.asset.kanban</field>
+        <field name="model">waqf.asset</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="asset_code"/>
+                <field name="asset_type"/>
+                <field name="current_value"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <i class="fa fa-building-o fa-4x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="text-muted o_kanban_record_subtitle">
+                                    <field name="asset_code"/>
+                                </div>
+                                <div>
+                                    Type: <field name="asset_type"/>
+                                </div>
+                                <div>
+                                    Value: <field name="current_value" widget="monetary"/>
+                                </div>
+                                <div class="o_kanban_tags">
+                                    <field name="state" widget="badge"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ACTION WINDOW -->
     <record id="action_waqf_assets" model="ir.actions.act_window">
         <field name="name">Waqf Assets</field>
         <field name="res_model">waqf.asset</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_waqf_asset_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Track your first Waqf endowment asset
+            </p>
+            <p>
+                Waqf assets include land, buildings, equipment, and cash endowments.
+                Track depreciation, annual income, and charity distribution to beneficiaries.
+            </p>
+        </field>
     </record>
-
-    <menuitem id="menu_waqf_assets" name="Waqf Tracker" parent="menu_zakat_root" action="action_waqf_assets"/>
-
 </odoo>

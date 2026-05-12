@@ -1,110 +1,352 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <template id="zakat_certificate_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    <style>
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
 
-        <template id="zakat_certificate_template">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
-                    <t t-call="web.basic_layout">
+                        body {
+                            font-family: 'Times New Roman', 'Almarai', 'Tahoma', serif;
+                            background: #f5f0e8;
+                        }
 
-                        <style>
-                            @font-face {
-                            font-family: 'Almarai';
-                            src: local('Tajawal'), local('Tajawal'), url(/zakat_waqf_pro/static/fonts/Almarai.ttf)
-                            format('opentype');
+                        .certificate-page {
+                            position: relative;
+                            min-height: 297mm;
+                            background: white;
+                            margin: 0 auto;
+                            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                        }
+
+                        /* Gold Border Frame */
+                        .gold-border {
+                            position: absolute;
+                            top: 15mm;
+                            left: 12mm;
+                            right: 12mm;
+                            bottom: 12mm;
+                            border: 8px double #d4af37;
+                            border-radius: 20px;
+                            pointer-events: none;
+                            box-shadow: 0 0 0 2px #f5e6b0 inset, 0 0 0 4px #b8860b inset;
+                        }
+
+                        /* Inner Frame */
+                        .inner-frame {
+                            position: absolute;
+                            top: 22mm;
+                            left: 19mm;
+                            right: 19mm;
+                            bottom: 19mm;
+                            border: 1px solid #d4af37;
+                            border-radius: 12px;
+                            pointer-events: none;
+                        }
+
+                        /* Content Container */
+                        .certificate-content {
+                            position: relative;
+                            z-index: 2;
+                            padding: 30px 35px;
+                            min-height: 270mm;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                        }
+
+                        /* Header Section */
+                        .certificate-header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            border-bottom: 2px solid #d4af37;
+                            padding-bottom: 20px;
+                        }
+
+                        .title-arabic {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #8b6914;
+                            font-family: 'Almarai', 'Tahoma', sans-serif;
+                            margin-bottom: 8px;
+                        }
+
+                        .title-english {
+                            font-size: 26px;
+                            font-weight: bold;
+                            color: #8b6914;
+                            letter-spacing: 2px;
+                        }
+
+                        .subtitle {
+                            font-size: 14px;
+                            color: #666;
+                            margin-top: 10px;
+                        }
+
+                        /* Certificate Number */
+                        .certificate-no {
+                            text-align: center;
+                            background: #fef8e7;
+                            border: 1px solid #d4af37;
+                            border-radius: 8px;
+                            padding: 8px;
+                            margin: 15px 0;
+                            font-size: 14px;
+                        }
+
+                        .certificate-no span {
+                            font-weight: bold;
+                            color: #b8860b;
+                            font-size: 18px;
+                        }
+
+                        /* Body Section */
+                        .certificate-body {
+                            text-align: center;
+                            margin: 30px 0;
+                        }
+
+                        .declaration {
+                            font-size: 15px;
+                            color: #333;
+                            margin: 15px 0;
+                            line-height: 1.8;
+                        }
+
+                        .recipient-name {
+                            font-size: 32px;
+                            font-weight: bold;
+                            color: #b8860b;
+                            margin: 25px 0;
+                            padding: 15px;
+                            background: linear-gradient(135deg, #fef8e7, #fff8f0);
+                            border-radius: 12px;
+                            font-family: 'Almarai', 'Tahoma', sans-serif;
+                        }
+
+                        .amount-box {
+                            background: linear-gradient(135deg, #d4af37, #b8860b);
+                            color: white;
+                            padding: 20px;
+                            border-radius: 15px;
+                            margin: 25px auto;
+                            width: 80%;
+                        }
+
+                        .amount-label {
+                            font-size: 16px;
+                            text-transform: uppercase;
+                            letter-spacing: 2px;
+                        }
+
+                        .amount-value {
+                            font-size: 42px;
+                            font-weight: bold;
+                            margin: 10px 0;
+                        }
+
+                        .amount-currency {
+                            font-size: 20px;
+                        }
+
+                        .verification-text {
+                            font-size: 15px;
+                            color: #555;
+                            margin: 20px 0;
+                            font-style: italic;
+                        }
+
+                        /* Footer Section */
+                        .certificate-footer {
+                            margin-top: auto;
+                            border-top: 1px solid #ddd;
+                            padding-top: 25px;
+                        }
+
+                        .signature-section {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-end;
+                            margin-top: 20px;
+                            flex-wrap: wrap;
+                        }
+
+                        .signature-line {
+                            text-align: center;
+                            min-width: 200px;
+                        }
+
+                        .signature-line .line {
+                            border-top: 2px solid #333;
+                            width: 200px;
+                            margin: 10px auto 5px auto;
+                        }
+
+                        .signature-label {
+                            font-size: 12px;
+                            color: #666;
+                        }
+
+                        .stamp {
+                            text-align: center;
+                        }
+
+                        .stamp img {
+                            max-height: 80px;
+                            opacity: 0.8;
+                        }
+
+                        .qr-section {
+                            text-align: center;
+                            margin: 20px 0;
+                        }
+
+                        .qr-section img {
+                            max-width: 100px;
+                            border: 1px solid #d4af37;
+                            padding: 5px;
+                        }
+
+                        .footer-text {
+                            text-align: center;
+                            font-size: 12px;
+                            color: #999;
+                            margin-top: 20px;
+                        }
+
+                        /* Hijri Date */
+                        .hijri-date {
+                            font-size: 13px;
+                            color: #888;
+                            margin-top: 5px;
+                        }
+
+                        @media print {
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                background: white;
                             }
-                        </style>
+                            .certificate-page {
+                                box-shadow: none;
+                                margin: 0;
+                                page-break-after: avoid;
+                                break-inside: avoid;
+                            }
+                            .btn-print {
+                                display: none;
+                            }
+                        }
+                    </style>
 
-                        <div class="header">
-                            <div class="row" style="text-align: center;">
-                                <div class="col-4" style="padding-top: 30px;">
-                                    <h1 style="font-size: 30px; color: #b8860b;">
-                                        <strong>Zakat Certificate</strong>
-                                    </h1>
+                    <div class="certificate-page">
+                        <!-- Decorative Borders -->
+                        <div class="gold-border"></div>
+                        <div class="inner-frame"></div>
+
+                        <div class="certificate-content">
+                            <!-- Header -->
+                            <div class="certificate-header">
+                                <div class="title-arabic">شهادة زكاة</div>
+                                <div class="title-english">ZAKAT CERTIFICATE</div>
+                                <div class="subtitle">Official Zakat Payment Certificate | شهادة رسمية لدفع الزكاة</div>
+                            </div>
+
+                            <!-- Certificate Number -->
+                            <div class="certificate-no">
+                                Certificate No. / رقم الشهادة: <span t-esc="doc.name or 'ZKT-' + str(doc.id)"/>
+                            </div>
+
+                            <!-- Body -->
+                            <div class="certificate-body">
+                                <div class="declaration" style="font-family: 'Almarai', sans-serif;">
+                                    يُشهد بأن
                                 </div>
-                                <div class="col-4">
-                                    <img src="/zakat_waqf_pro/static/images/icon.png"
-                                         style="height: 100px; text-align: center;"/>
+                                <div class="declaration">
+                                    <strong>This is to certify that</strong>
                                 </div>
-                                <div class="col-4" style="padding-top: 30px;">
-                                    <h1 style="font-size: 30px; color: #b8860b;">
-                                        <strong>شهادة زكاة</strong>
-                                    </h1>
+
+                                <div class="recipient-name">
+                                    <t t-esc="doc.recipient_name or doc.partner_id.name"/>
+                                </div>
+
+                                <div class="declaration">
+                                    هـ / قد قام بدفع زكاة ماله الشرعية
+                                </div>
+                                <div class="declaration">
+                                    <strong>has paid the obligatory Zakat on their wealth</strong>
+                                </div>
+
+                                <div class="amount-box">
+                                    <div class="amount-label">Amount Paid / المبلغ المدفوع</div>
+                                    <div class="amount-value">
+                                        <t t-esc="'{:,.2f}'.format(doc.amount_paid)"/>
+                                        <span class="amount-currency">
+                                            <t t-esc="doc.currency_id.symbol or 'SAR'"/>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="declaration">
+                                    وذلك وفقاً لأحكام الشريعة الإسلامية وتعاليمها
+                                </div>
+                                <div class="declaration">
+                                    <strong>in accordance with Islamic Shariah principles and teachings</strong>
+                                </div>
+
+                                <div class="verification-text">
+                                    This certificate is issued as proof of Zakat payment. May Allah accept it and reward abundantly.
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="page"
-                             style="font-family: 'Almarai'!important; direction: rtl; text-align: center; position: relative; min-height: 230mm; background: url('/zakat_waqf_pro/static/src/img/certificate_bg.jpg') no-repeat center center; background-size: cover;">
-
-                            <div style="position: absolute; top: 15mm; left: 15mm; right: 15mm; bottom: 15mm; border: 12px solid #b8860b; border-image: url('/zakat_waqf_pro/static/src/img/border.png') 30 round; pointer-events: none;"/>
-
-                            <div style="padding: 15px 20px; position: relative; z-index: 2;">
-
-                                <div style="background: rgba(255,255,255,0.96); padding: 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 650px; margin: 0 auto;">
-
-                                    <p style="font-size: 20px; color: #333; margin: 18px 0;">
-                                        <strong>رقم الشهادة / .Certificate No</strong>
-                                        <br/>
-                                        <span style="color: #b8860b; font-weight: bold;">ZKT-
-                                            <t t-esc="doc.id"/>
-                                        </span>
-                                    </p>
-
-                                    <p style="font-size: 22px; color: #333; margin: 25px 0;">
-                                        <strong>المستحق / Recipient</strong>
-                                        <br/>
-                                        <span style="font-size: 26px; color: #b8860b;">
-                                            <t t-esc="doc.recipient_name"/>
-                                        </span>
-                                    </p>
-
-                                    <p style="font-size: 18px; color: #333; margin: 20px 0;">
-                                        <strong>التاريخ / Date</strong>
-                                        <br/>
-                                        <span style="color: #b8860b;">
-                                            <t t-esc="doc.issue_date.strftime('%d/%m/%Y')"/>
-                                        </span>
-                                    </p>
-
-                                    <div style="background: linear-gradient(135deg, #f6e8b1, #e8c48a); padding: 10px; border-radius: 10px; margin: 15px 0;">
-                                        <p style="font-size: 15px; color: #8b5a2b; margin: 0;">
-                                            <strong>المبلغ المدفوع / Amount Paid</strong>
-                                        </p>
-                                        <p style="font-size: 20px; color: #b8860b; margin: 10px 0 0;">
-                                            <t t-esc="'{:,}'.format(int(doc.amount_paid))"/>
-                                            SAR
-                                        </p>
-                                    </div>
-
-                                    <p style="font-size: 15px; color: #555; margin: 10px 0; line-height: 1.5;">
-                                        تم دفع الزكاة المستحقة وفقًا للشريعة الإسلامية
-                                        <br/>
-                                        Zakat has been paid in accordance with Islamic Shariah
-                                    </p>
-
-                                    <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: end;">
-                                        <div>
-                                            <div style="border-top: 3px solid #b8860b; color: #666; width: 280px; padding-top: 10px; font-size: 16px;">
-                                                <span>التوقيع المفوض</span>
-                                                <span>Authorized Signature</span>
-                                            </div>
+                            <!-- Footer -->
+                            <div class="certificate-footer">
+                                <div class="signature-section">
+                                    <div class="signature-line">
+                                        <div class="line"></div>
+                                        <div class="signature-label">
+                                            Authorized Signature / التوقيع المفوض
                                         </div>
-
-                                        <img src="/zakat_waqf_pro/static/images/image_paid.jpeg"
-                                             style="height: 140px;"/>
-
                                     </div>
 
-                                    <div style="margin-top: 20px; color: #b8860b; font-size: 15px;">
-                                        جزاكم الله خيرًا • May Allah reward you abundantly
+                                    <div class="qr-section">
+                                        <img t-attf-src="data:image/png;base64,{{doc.qr_code}}" alt="QR Code" t-if="doc.qr_code"/>
+                                        <div class="signature-label">Verify with QR Code</div>
                                     </div>
+
+                                    <div class="signature-line">
+                                        <div>
+                                            <strong t-esc="doc.company_id.name or 'ZakatPro'"/>
+                                        </div>
+                                        <div class="signature-label">Official Stamp / الختم الرسمي</div>
+                                    </div>
+                                </div>
+
+                                <!-- Date Section -->
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <div>
+                                        <strong>Issue Date:</strong>
+                                        <t t-esc="doc.issue_date.strftime('%d %B %Y') if doc.issue_date else ''"/>
+                                    </div>
+                                    <div class="hijri-date" t-if="doc.hijri_issue_date">
+                                        <strong>التاريخ الهجري:</strong> <t t-esc="doc.hijri_issue_date"/>
+                                    </div>
+                                </div>
+
+                                <div class="footer-text">
+                                    جزاكم الله خيراً • May Allah reward you abundantly
                                 </div>
                             </div>
                         </div>
-                    </t>
+                    </div>
                 </t>
             </t>
-        </template>
-    </data>
+        </t>
+    </template>
 </odoo>

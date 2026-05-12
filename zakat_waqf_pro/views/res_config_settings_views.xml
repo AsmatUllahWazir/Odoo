@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit the existing settings view using proper inheritance -->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.zakat</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add ZakatPro settings after existing settings -->
+            <div id="settings_tab_content" position="inside">
+                <div class="app_settings_block" name="zakatpro" data-string="ZakatPro Settings">
+                    <h2>ZakatPro Configuration</h2>
+                    <div class="row mt16">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="gold_price_per_gram"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="gold_price_per_gram"/>
+                                <div class="text-muted">
+                                    Current gold price in SAR per gram. Used for Nisab calculation (85g threshold).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="zakat_income_account_id"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="zakat_income_account_id"/>
+                                <div class="text-muted">
+                                    Default income account for Zakat invoices.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="enable_auto_fetch"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="enable_auto_fetch"/>
+                                <div class="text-muted">
+                                    Automatically fetch cash, bank, and receivable balances from accounting data.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="default_school"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="default_school"/>
+                                <div class="text-muted">
+                                    Default Islamic school of thought for new calculations.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>

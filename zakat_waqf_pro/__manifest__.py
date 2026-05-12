@@ -4,15 +4,29 @@
     'category': 'Accounting/Islamic Finance',
     'summary': 'Islamic Zakat Calculation & Waqf Asset Tracking with SADAD Integration',
     'description': """
-        ZakatPro: First Odoo Module for Islamic Charity Management
-        - Auto Zakat on Assets (Cash, Inventory, Receivables) - Hanafi/Shafi’i
-        - Waqf Endowments: Track Land/Buildings, Depreciation, Income Distribution
-        - Generate Zakat Certificates (PDF/QR)
-        - SADAD Payment Bills for ZATCA
-        - Hijri Reports + Arabic UI
+        ZakatPro - Complete Islamic Finance Solution for Odoo 17
+        ========================================================
         
-        Perfect for companies in KSA, UAE, Qatar, Kuwait, Bahrain, Oman
+        Features:
+        ---------
+        • Automatic Zakat calculation (2.5% of net wealth)
+        • Nisab threshold based on gold price (85g)
+        • Supports Hanafi & Shafi'i schools
+        • Generate official bilingual certificates (Arabic/English)
+        • SADAD-compatible customer invoices
+        • Waqf asset tracking with depreciation
+        • Charity income distribution to beneficiaries
+        • Hijri & Gregorian date support
+        • Full Arabic translation
         
+        Perfect for companies in:
+        - Saudi Arabia (ZATCA ready)
+        - United Arab Emirates
+        - Egypt
+        - Qatar
+        - Kuwait
+        - Bahrain
+        - Oman
     """,
 
     'author': 'Wazirz',
@@ -25,22 +39,28 @@
     'depends': ['account', 'hr', 'stock'],
     'data': [
         'security/ir.model.access.csv',
+        'security/zakat_security.xml',
         'data/zakat_sequence.xml',
         'views/zakat_calculation_views.xml',
         'views/waqf_asset_views.xml',
+        'views/zakat_certificate_views.xml',
+        # 'views/res_config_settings_views.xml',
         'wizards/zakat_certificate_wizard.xml',
         'reports/zakat_certificate_report.xml',
         'reports/zakat_certificate_template.xml',
+        'reports/waqf_assets_report_template.xml',
+        'reports/zakat_summary_template.xml',
+        'views/menu_views.xml',
     ],
 
-        'images': ['static/description/icon.png',
-        'static/description/screenshot_1_form.png',
-        'static/description/screenshot_2_summary.png',
-        'static/description/screenshot_3_invoice.jpg',
-        'static/description/screenshot_4_certificate.png',
-        'static/description/screenshot_5_certificate_closeup.png',
-        'static/description/screenshot_6_menu.jpg',
-    ],
+        'images': ['static/description/icon.png'],
+        # 'static/description/screenshot_1_form.png',
+        # 'static/description/screenshot_2_summary.png',
+        # 'static/description/screenshot_3_invoice.jpg',
+        # 'static/description/screenshot_4_certificate.png',
+        # 'static/description/screenshot_5_certificate_closeup.png',
+        # 'static/description/screenshot_6_menu.jpg',
+    # ],
 
         'installable': True,
         'application': True,

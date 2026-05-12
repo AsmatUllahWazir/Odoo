@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_zakat_root"
+              name="Zakat &amp; Waqf"
+              parent="account.menu_finance"
+              sequence="10"
+              groups="zakat_waqf_pro.group_zakat_user"/>
+
+    <!-- Zakat Section -->
+    <menuitem id="menu_zakat_section"
+              name="Zakat"
+              parent="menu_zakat_root"
+              sequence="10"/>
+
+    <menuitem id="menu_zakat_calculations"
+              name="Zakat Calculations"
+              parent="menu_zakat_section"
+              action="action_zakat_calculations"
+              sequence="10"
+              groups="zakat_waqf_pro.group_zakat_user"/>
+
+    <menuitem id="menu_zakat_certificates"
+              name="Zakat Certificates"
+              parent="menu_zakat_section"
+              action="action_zakat_certificates"
+              sequence="20"
+              groups="zakat_waqf_pro.group_zakat_user"/>
+
+    <!-- Waqf Section -->
+    <menuitem id="menu_waqf_section"
+              name="Waqf"
+              parent="menu_zakat_root"
+              sequence="20"/>
+
+    <menuitem id="menu_waqf_assets"
+              name="Waqf Assets"
+              parent="menu_waqf_section"
+              action="action_waqf_assets"
+              sequence="10"
+              groups="zakat_waqf_pro.group_zakat_user"/>
+
+    <!-- Configuration Section -->
+    <menuitem id="menu_zakat_configuration"
+              name="Configuration"
+              parent="menu_zakat_root"
+              sequence="100"
+              groups="zakat_waqf_pro.group_zakat_manager"/>
+
+<!--    <menuitem id="menu_zakat_settings"-->
+<!--              name="Settings"-->
+<!--              parent="menu_zakat_configuration"-->
+<!--              action="action_zakat_settings"-->
+<!--              sequence="10"-->
+<!--              groups="zakat_waqf_pro.group_zakat_manager"/>-->
+</odoo>

@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Report Action -->
     <record id="zakat_certificate_report_action" model="ir.actions.report">
         <field name="name">Zakat Certificate</field>
         <field name="model">zakat.certificate</field>
-        <field name="binding_model_id" ref="zakat_waqf_pro.model_zakat_certificate"/>
+        <field name="binding_model_id" ref="model_zakat_certificate"/>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">zakat_waqf_pro.zakat_certificate_template</field>
         <field name="report_file">zakat_waqf_pro.zakat_certificate_template</field>
+        <field name="print_report_name">'Zakat_Certificate_%s' % (object.name or object.id)</field>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Summary Report Action -->
+    <record id="zakat_summary_report_action" model="ir.actions.report">
+        <field name="name">Zakat Summary Report</field>
+        <field name="model">zakat.calculation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zakat_waqf_pro.zakat_summary_template</field>
+        <field name="report_file">zakat_waqf_pro.zakat_summary_template</field>
+        <field name="print_report_name">'Zakat_Summary_%s' % (time.strftime('%%Y-%%m-%%d'))</field>
+    </record>
+
+    <!-- Waqf Assets Report Action -->
+    <record id="waqf_assets_report_action" model="ir.actions.report">
+        <field name="name">Waqf Assets Report</field>
+        <field name="model">waqf.asset</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zakat_waqf_pro.waqf_assets_report_template</field>
+        <field name="report_file">zakat_waqf_pro.waqf_assets_report_template</field>
+        <field name="print_report_name">'Waqf_Assets_Report_%s' % (time.strftime('%%Y-%%m-%%d'))</field>
     </record>
 </odoo>

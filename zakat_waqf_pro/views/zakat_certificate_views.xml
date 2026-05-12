@@ -84,7 +84,7 @@
                         <group name="right">
                             <field name="issue_date" string="Issue Date"/>
                             <field name="hijri_issue_date" string="Hijri Date" readonly="1"/>
-                            <field name="state" string="Status" readonly="1"/>
+                            <field name="company_id" string="Company" invisible="1"/>
                         </group>
                     </group>
                     <notebook>

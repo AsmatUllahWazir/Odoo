@@ -98,7 +98,11 @@ class ZakatCertificate(models.Model):
             if rec.issue_date:
                 try:
                     from hijri_converter import Hijri, Gregorian
-                    hijri = Gregorian(rec.issue_date.year, rec.issue_date.month, rec.issue_date.day).to_hijri()
+                    hijri = Gregorian(
+                        rec.issue_date.year,
+                        rec.issue_date.month,
+                        rec.issue_date.day
+                    ).to_hijri()
                     rec.hijri_issue_date = f"{hijri.year}/{hijri.month:02d}/{hijri.day:02d}"
                 except ImportError:
                     rec.hijri_issue_date = rec.issue_date.strftime("%Y/%m/%d")

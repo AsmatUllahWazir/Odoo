@@ -9,6 +9,7 @@
         <field name="report_name">zakat_waqf_pro.zakat_certificate_template</field>
         <field name="report_file">zakat_waqf_pro.zakat_certificate_template</field>
         <field name="print_report_name">'Zakat_Certificate_%s' % (object.name or object.id)</field>
+        <field name="paperformat_id" ref="zakat_waqf_pro.paperformat_zakat_certificate"/>
         <field name="binding_type">report</field>
     </record>
 

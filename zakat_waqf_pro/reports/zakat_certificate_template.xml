@@ -5,6 +5,15 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.basic_layout">
                     <style>
+                        /* Remove all default Odoo margins */
+                        .o_report_layout_standard,
+                        .o_report_layout_standard > div,
+                        main, .container, .row, .col {
+                            padding: 0 !important;
+                            margin: 0 !important;
+                            max-width: 100% !important;
+                        }
+
                         * {
                             margin: 0;
                             padding: 0;
@@ -12,80 +21,116 @@
                         }
 
                         body {
-                            font-family: 'Times New Roman', 'Almarai', 'Tahoma', serif;
-                            background: #f5f0e8;
+                            font-family: 'Almarai';
+                            src: local('Tajawal'), local('Tajawal'), url(/awtad_reports/static/src/fonts/Almarai.ttf)
+                            background: white;
+                            margin: 0;
+                            padding: 0;
+                        }
+
+                        /* A4 Portrait - Zero margins */
+                        @page {
+                            size: A4 portrait;
+                            margin: 0mm;
                         }
 
                         .certificate-page {
                             position: relative;
-                            min-height: 297mm;
+                            width: 245mm;
+                            min-height: 347mm;
                             background: white;
-                            margin: 0 auto;
-                            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                            margin: 0;
+                            padding: 0;
+                            page-break-after: avoid;
+                            page-break-inside: avoid;
+                            break-inside: avoid;
                         }
 
-                        /* Gold Border Frame */
+                        /* Gold Border Frame - Full page with 8mm margin all sides */
                         .gold-border {
                             position: absolute;
-                            top: 15mm;
-                            left: 12mm;
-                            right: 12mm;
-                            bottom: 12mm;
-                            border: 8px double #d4af37;
-                            border-radius: 20px;
+                            top: 8mm;
+                            left: 8mm;
+                            right: 8mm;
+                            bottom: 8mm;
+                            border: 6px double #d4af37;
+                            border-radius: 12px;
                             pointer-events: none;
-                            box-shadow: 0 0 0 2px #f5e6b0 inset, 0 0 0 4px #b8860b inset;
+                            box-shadow: 0 0 0 1px #f5e6b0 inset, 0 0 0 2px #b8860b inset;
                         }
 
                         /* Inner Frame */
                         .inner-frame {
                             position: absolute;
-                            top: 22mm;
-                            left: 19mm;
-                            right: 19mm;
-                            bottom: 19mm;
+                            top: 14mm;
+                            left: 14mm;
+                            right: 14mm;
+                            bottom: 14mm;
                             border: 1px solid #d4af37;
-                            border-radius: 12px;
+                            border-radius: 8px;
                             pointer-events: none;
                         }
 
-                        /* Content Container */
+                        /* Content Container - Fills the space between frames */
                         .certificate-content {
                             position: relative;
                             z-index: 2;
-                            padding: 30px 35px;
-                            min-height: 270mm;
+                            padding: 18mm 18mm 15mm 18mm;
+                            min-height: 297mm;
                             display: flex;
                             flex-direction: column;
                             justify-content: space-between;
                         }
 
-                        /* Header Section */
+                        /* Company Header */
+                        .company-header {
+                            text-align: center;
+                            margin-bottom: 8px;
+                            border-bottom: 2px solid #d4af37;
+                            padding-bottom: 12px;
+                        }
+
+                        .company-name {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #1a472a;
+                            margin-bottom: 10px;
+                            margin-top: 10px;
+                        }
+
+                        .company-details {
+                            font-size: 13px;
+                            color: #555;
+                            line-height: 1.6;
+                        }
+
+                        /* Certificate Title */
                         .certificate-header {
                             text-align: center;
-                            margin-bottom: 30px;
-                            border-bottom: 2px solid #d4af37;
-                            padding-bottom: 20px;
+                            margin: 10px 0 12px 0;
                         }
 
                         .title-arabic {
                             font-size: 28px;
                             font-weight: bold;
-                            color: #8b6914;
-                            font-family: 'Almarai', 'Tahoma', sans-serif;
-                            margin-bottom: 8px;
+                            color: #b8860b;
+                            font-family: 'Almarai';
+                            src: local('Tajawal'), local('Tajawal'), url(/awtad_reports/static/src/fonts/Almarai.ttf)
+                            margin-bottom: 20px;
+                            margin-top: 35px;
                         }
 
                         .title-english {
-                            font-size: 26px;
+                            font-size: 28px;
                             font-weight: bold;
-                            color: #8b6914;
-                            letter-spacing: 2px;
+                            margin-top: 15px;
+                            color: #b8860b;
+                            letter-spacing: 1px;
                         }
 
                         .subtitle {
-                            font-size: 14px;
-                            color: #666;
+                            font-size: 13px;
+                            color: #888;
                             margin-top: 10px;
                         }
 
@@ -95,136 +140,160 @@
                             background: #fef8e7;
                             border: 1px solid #d4af37;
                             border-radius: 8px;
-                            padding: 8px;
-                            margin: 15px 0;
-                            font-size: 14px;
+                            padding: 12px 12px;
+                            margin: 12px 30px;
+                            font-size: 15px;
                         }
 
                         .certificate-no span {
                             font-weight: bold;
                             color: #b8860b;
-                            font-size: 18px;
+                            font-size: 16px;
                         }
 
-                        /* Body Section */
+                        /* Body Section - Takes available space */
                         .certificate-body {
                             text-align: center;
-                            margin: 30px 0;
+                            margin: 15px 0;
+                            flex: 1;
                         }
 
                         .declaration {
-                            font-size: 15px;
+                            font-size: 16px;
                             color: #333;
-                            margin: 15px 0;
-                            line-height: 1.8;
+                            margin: 8px 0;
+                            line-height: 1.5;
                         }
 
                         .recipient-name {
-                            font-size: 32px;
+                            font-size: 30px;
                             font-weight: bold;
                             color: #b8860b;
-                            margin: 25px 0;
-                            padding: 15px;
+                            margin: 15px 30px;
+                            padding: 15px 20px;
                             background: linear-gradient(135deg, #fef8e7, #fff8f0);
                             border-radius: 12px;
-                            font-family: 'Almarai', 'Tahoma', sans-serif;
+                            font-family: 'Almarai';
+                            src: local('Tajawal'), local('Tajawal'), url(/awtad_reports/static/src/fonts/Almarai.ttf)
+                            word-wrap: break-word;
+                            text-align: center;
                         }
 
                         .amount-box {
                             background: linear-gradient(135deg, #d4af37, #b8860b);
                             color: white;
-                            padding: 20px;
+                            padding: 18px 25px;
                             border-radius: 15px;
-                            margin: 25px auto;
-                            width: 80%;
-                        }
-
-                        .amount-label {
-                            font-size: 16px;
-                            text-transform: uppercase;
-                            letter-spacing: 2px;
+                            margin: 20px 40px;
+                            text-align: center;
                         }
 
                         .amount-value {
-                            font-size: 42px;
+                            font-size: 40px;
+                            color: #b8860b;
                             font-weight: bold;
-                            margin: 10px 0;
+                            margin: 8px 0;
                         }
 
                         .amount-currency {
-                            font-size: 20px;
+                            font-size: 22px;
                         }
 
                         .verification-text {
-                            font-size: 15px;
+                            font-size: 13px;
                             color: #555;
-                            margin: 20px 0;
+                            margin: 15px 0;
                             font-style: italic;
                         }
 
                         /* Footer Section */
                         .certificate-footer {
-                            margin-top: auto;
+                            margin-top: 15px;
                             border-top: 1px solid #ddd;
-                            padding-top: 25px;
+                            padding-top: 15px;
                         }
 
                         .signature-section {
                             display: flex;
                             justify-content: space-between;
                             align-items: flex-end;
-                            margin-top: 20px;
-                            flex-wrap: wrap;
+                            margin: 10px 0;
+                            flex-wrap: nowrap;
                         }
 
                         .signature-line {
                             text-align: center;
-                            min-width: 200px;
+                            flex: 1;
                         }
 
                         .signature-line .line {
                             border-top: 2px solid #333;
-                            width: 200px;
+                            width: 160px;
                             margin: 10px auto 5px auto;
                         }
 
                         .signature-label {
-                            font-size: 12px;
+                            font-size: 13px;
                             color: #666;
-                        }
-
-                        .stamp {
-                            text-align: center;
-                        }
-
-                        .stamp img {
-                            max-height: 80px;
-                            opacity: 0.8;
+                            margin-top: 15px;
+                            margin-bottom: 15px;
                         }
 
                         .qr-section {
                             text-align: center;
-                            margin: 20px 0;
+                            flex: 1;
                         }
 
                         .qr-section img {
-                            max-width: 100px;
+                            max-width: 80px;
                             border: 1px solid #d4af37;
-                            padding: 5px;
+                            padding: 4px;
+                            background: white;
+                        }
+
+                        .qr-label {
+                            font-size: 13px;
+                            color: #666;
+                            margin-top: 15px;
+                            margin-bottom: 15px;
+                        }
+
+                        .stamp-section {
+                            text-align: center;
+                            flex: 1;
+                        }
+
+                        .stamp-text {
+                            font-size: 13px;
+                            font-weight: bold;
+                            color: #1a472a;
+                        }
+
+                        .date-section {
+                            text-align: center;
+                            margin-top: 15px;
+                            font-size: 12px;
+                            padding: 8px 0;
                         }
 
                         .footer-text {
                             text-align: center;
                             font-size: 12px;
-                            color: #999;
+                            color: #888;
                             margin-top: 20px;
+                            padding-top: 8px;
+                            border-top: 1px dashed #d4af37;
                         }
 
-                        /* Hijri Date */
-                        .hijri-date {
-                            font-size: 13px;
-                            color: #888;
-                            margin-top: 5px;
+                        .separator-dot {
+                            color: #d4af37;
+                            margin: 0 8px;
+                            font-size: 14px;
+                        }
+
+                        /* Fix for recipient name when it's a single character */
+                        .recipient-name:empty {
+                            display: none;
                         }
 
                         @media print {
@@ -234,24 +303,45 @@
                                 background: white;
                             }
                             .certificate-page {
-                                box-shadow: none;
                                 margin: 0;
+                                padding: 0;
                                 page-break-after: avoid;
-                                break-inside: avoid;
-                            }
-                            .btn-print {
-                                display: none;
+                                page-break-inside: avoid;
                             }
                         }
                     </style>
 
-                    <div class="certificate-page">
+                    <div class="certificate-page" style="font-family: 'Almarai' !important;">
                         <!-- Decorative Borders -->
-                        <div class="gold-border"></div>
-                        <div class="inner-frame"></div>
+                        <div class="gold-border"/>
+                        <div class="inner-frame"/>
 
-                        <div class="certificate-content">
-                            <!-- Header -->
+                        <div class="certificate-content" style="font-family: 'Almarai';">
+                            <!-- Header with Company Info -->
+                            <div class="company-header">
+                                <div class="company-name">
+                                    <t t-esc="doc.company_id.name or 'ZakatPro'"/>
+                                </div>
+                                <div class="company-details">
+                                    <t t-if="doc.company_id.street">
+                                        <t t-esc="doc.company_id.street"/>
+                                        <t t-if="doc.company_id.street2">, <t t-esc="doc.company_id.street2"/></t>
+                                    </t>
+                                    <t t-if="doc.company_id.city">
+                                        <t t-esc="' | ' if doc.company_id.street else ''"/>
+                                        <t t-esc="doc.company_id.city"/>
+                                    </t>
+                                    <t t-if="doc.company_id.phone">
+                                        <t t-esc="' | Tel: '"/>
+                                        <t t-esc="doc.company_id.phone"/>
+                                    </t>
+                                    <br t-if="doc.company_id.vat"/>
+                                    <t t-if="doc.company_id.vat">
+                                        <strong>VAT / Tax ID:</strong> <t t-esc="doc.company_id.vat"/>
+                                    </t>
+                                </div>
+                            </div>
+
                             <div class="certificate-header">
                                 <div class="title-arabic">شهادة زكاة</div>
                                 <div class="title-english">ZAKAT CERTIFICATE</div>
@@ -260,31 +350,30 @@
 
                             <!-- Certificate Number -->
                             <div class="certificate-no">
-                                Certificate No. / رقم الشهادة: <span t-esc="doc.name or 'ZKT-' + str(doc.id)"/>
+                                Certificate No. <span t-esc="doc.name or 'ZKT-' + str(doc.id)"/>  رقم الشهادة
                             </div>
 
                             <!-- Body -->
                             <div class="certificate-body">
-                                <div class="declaration" style="font-family: 'Almarai', sans-serif;">
-                                    يُشهد بأن
+                                <div class="declaration" style="font-family: 'Almarai';">
+                                    يشهد بأن
                                 </div>
                                 <div class="declaration">
                                     <strong>This is to certify that</strong>
                                 </div>
 
                                 <div class="recipient-name">
-                                    <t t-esc="doc.recipient_name or doc.partner_id.name"/>
+                                    <t t-esc="doc.recipient_name or doc.partner_id.name or '____________________'"/>
                                 </div>
 
                                 <div class="declaration">
-                                    هـ / قد قام بدفع زكاة ماله الشرعية
+                                    وقد دفعوا الزكاة الشرعية على أموالهم
                                 </div>
                                 <div class="declaration">
                                     <strong>has paid the obligatory Zakat on their wealth</strong>
                                 </div>
 
                                 <div class="amount-box">
-                                    <div class="amount-label">Amount Paid / المبلغ المدفوع</div>
                                     <div class="amount-value">
                                         <t t-esc="'{:,.2f}'.format(doc.amount_paid)"/>
                                         <span class="amount-currency">
@@ -294,7 +383,7 @@
                                 </div>
 
                                 <div class="declaration">
-                                    وذلك وفقاً لأحكام الشريعة الإسلامية وتعاليمها
+                                    وفقًا لمبادئ وتعاليم الشريعة الإسلامية
                                 </div>
                                 <div class="declaration">
                                     <strong>in accordance with Islamic Shariah principles and teachings</strong>
@@ -309,34 +398,32 @@
                             <div class="certificate-footer">
                                 <div class="signature-section">
                                     <div class="signature-line">
-                                        <div class="line"></div>
+                                        <div class="line"/>
                                         <div class="signature-label">
                                             Authorized Signature / التوقيع المفوض
                                         </div>
                                     </div>
 
-                                    <div class="qr-section">
-                                        <img t-attf-src="data:image/png;base64,{{doc.qr_code}}" alt="QR Code" t-if="doc.qr_code"/>
-                                        <div class="signature-label">Verify with QR Code</div>
+                                    <div class="qr-section" t-if="doc.qr_code">
+                                        <img t-attf-src="data:image/png;base64,{{doc.qr_code}}" alt="QR Code"/>
+                                        <div class="qr-label">Verify with QR Code</div>
                                     </div>
 
-                                    <div class="signature-line">
-                                        <div>
-                                            <strong t-esc="doc.company_id.name or 'ZakatPro'"/>
+                                    <div class="stamp-section">
+                                        <div class="stamp-text">
+                                            <t t-esc="doc.company_id.name or 'ZakatPro'"/>
                                         </div>
                                         <div class="signature-label">Official Stamp / الختم الرسمي</div>
                                     </div>
                                 </div>
 
                                 <!-- Date Section -->
-                                <div style="text-align: center; margin-top: 20px;">
-                                    <div>
-                                        <strong>Issue Date:</strong>
-                                        <t t-esc="doc.issue_date.strftime('%d %B %Y') if doc.issue_date else ''"/>
-                                    </div>
-                                    <div class="hijri-date" t-if="doc.hijri_issue_date">
-                                        <strong>التاريخ الهجري:</strong> <t t-esc="doc.hijri_issue_date"/>
-                                    </div>
+                                <div class="date-section">
+                                    <strong>Issue Date:</strong>
+                                    <t t-esc="doc.issue_date.strftime('%d %B %Y') if doc.issue_date else ''"/>
+                                    <span class="separator-dot">•</span>
+                                    <strong>التاريخ:</strong>
+                                    <t t-esc="doc.hijri_issue_date if doc.hijri_issue_date else (doc.issue_date.strftime('%d/%m/%Y') if doc.issue_date else '')"/>
                                 </div>
 
                                 <div class="footer-text">

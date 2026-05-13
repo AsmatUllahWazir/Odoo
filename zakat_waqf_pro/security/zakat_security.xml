@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+    ZAKAT USER GROUP - Basic access for regular users
+    ============================================================= -->
+    <record id="group_zakat_user" model="res.groups">
+        <field name="name">Zakat User</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Can view and create Zakat calculations, view certificates, and view Waqf assets.</field>
+    </record>
+
+    <!-- ============================================================
+    ZAKAT MANAGER GROUP - Full access for managers/accountants
+    ============================================================= -->
+    <record id="group_zakat_manager" model="res.groups">
+        <field name="name">Zakat Manager</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('group_zakat_user'))]"/>
+        <field name="comment">Full access to all Zakat and Waqf features including configuration, invoice generation, and certificate management.</field>
+    </record>
+
+    <!-- ============================================================
+    ZAKAT OFFICER GROUP - Between user and manager
+    ============================================================= -->
+    <record id="group_zakat_officer" model="res.groups">
+        <field name="name">Zakat Officer</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('group_zakat_user'))]"/>
+        <field name="comment">Can approve Zakat calculations, issue certificates, and generate SADAD bills.</field>
+    </record>
+
+    <!-- ============================================================
+    ZAKAT ADMINISTRATOR GROUP - Full system access
+    ============================================================= -->
+    <record id="group_zakat_administrator" model="res.groups">
+        <field name="name">Zakat Administrator</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('group_zakat_manager')), (4, ref('base.group_system'))]"/>
+        <field name="comment">Full system access including configuration and security settings.</field>
+    </record>
+
+    <!-- ============================================================
+    RECORD RULES - Multi-Company Isolation
+    ============================================================= -->
+
+    <!-- Zakat Calculation Rules -->
+    <record id="rule_zakat_calculation_company" model="ir.rule">
+        <field name="name">Zakat Calculation: Multi-Company</field>
+        <field name="model_id" ref="model_zakat_calculation"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_zakat_calculation_user_own" model="ir.rule">
+        <field name="name">Zakat Calculation: User can see own</field>
+        <field name="model_id" ref="model_zakat_calculation"/>
+        <field name="groups" eval="[(4, ref('group_zakat_user'))]"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_zakat_calculation_manager_all" model="ir.rule">
+        <field name="name">Zakat Calculation: Manager can see all</field>
+        <field name="model_id" ref="model_zakat_calculation"/>
+        <field name="groups" eval="[(4, ref('group_zakat_manager'))]"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Zakat Certificate Rules -->
+    <record id="rule_zakat_certificate_company" model="ir.rule">
+        <field name="name">Zakat Certificate: Multi-Company</field>
+        <field name="model_id" ref="model_zakat_certificate"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_zakat_certificate_user_own" model="ir.rule">
+        <field name="name">Zakat Certificate: User can see own</field>
+        <field name="model_id" ref="model_zakat_certificate"/>
+        <field name="groups" eval="[(4, ref('group_zakat_user'))]"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_zakat_certificate_manager_all" model="ir.rule">
+        <field name="name">Zakat Certificate: Manager can see all</field>
+        <field name="model_id" ref="model_zakat_certificate"/>
+        <field name="groups" eval="[(4, ref('group_zakat_manager'))]"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Waqf Asset Rules -->
+    <record id="rule_waqf_asset_company" model="ir.rule">
+        <field name="name">Waqf Asset: Multi-Company</field>
+        <field name="model_id" ref="model_waqf_asset"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_waqf_asset_user_readonly" model="ir.rule">
+        <field name="name">Waqf Asset: User readonly</field>
+        <field name="model_id" ref="model_waqf_asset"/>
+        <field name="groups" eval="[(4, ref('group_zakat_user'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_waqf_asset_manager_full" model="ir.rule">
+        <field name="name">Waqf Asset: Manager full access</field>
+        <field name="model_id" ref="model_waqf_asset"/>
+        <field name="groups" eval="[(4, ref('group_zakat_manager'))]"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============================================================
+    MENU VISIBILITY RULES
+    ============================================================= -->
+
+    <!-- Hide Waqf menu from regular users (optional) -->
+<!--    <record id="menu_waqf_section" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(4, ref('group_zakat_officer'))]"/>-->
+<!--    </record>-->
+
+    <!-- Hide configuration menu from non-managers -->
+<!--    <record id="menu_zakat_configuration" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(4, ref('group_zakat_manager'))]"/>-->
+<!--    </record>-->
+
+    <!-- ============================================================
+    COLUMN ACCESS RULES (Field-level security)
+    ============================================================= -->
+
+    <!-- Hide sensitive fields from regular users -->
+    <record id="zakat_calculation_field_security" model="ir.model.access">
+        <field name="name">zakat.calculation.field.security</field>
+        <field name="model_id" ref="model_zakat_calculation"/>
+        <field name="group_id" ref="group_zakat_user"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</odoo>

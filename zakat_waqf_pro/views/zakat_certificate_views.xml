@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+    ZAKAT CERTIFICATE TREE VIEW
+    ============================================================= -->
+    <record id="view_zakat_certificate_tree" model="ir.ui.view">
+        <field name="name">zakat.certificate.tree</field>
+        <field name="model">zakat.certificate</field>
+        <field name="arch" type="xml">
+            <list string="Zakat Certificates" decoration-success="state == 'issued'" decoration-danger="state == 'cancelled'">
+                <field name="name" string="Certificate No."/>
+                <field name="recipient_name" string="Recipient"/>
+                <field name="amount_paid" string="Amount" widget="monetary" sum="Total"/>
+                <field name="issue_date" string="Issue Date" widget="date"/>
+                <field name="hijri_issue_date" string="Hijri Date"/>
+                <field name="state" string="Status" widget="badge"/>
+                <field name="calculation_id" string="Calculation Reference"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================
+    ZAKAT CERTIFICATE SEARCH VIEW
+    ============================================================= -->
+    <record id="view_zakat_certificate_search" model="ir.ui.view">
+        <field name="name">zakat.certificate.search</field>
+        <field name="model">zakat.certificate</field>
+        <field name="arch" type="xml">
+            <search string="Search Certificates">
+                <field name="name"/>
+                <field name="recipient_name"/>
+                <field name="calculation_id"/>
+                <filter string="Issued" name="issued" domain="[('state', '=', 'issued')]"/>
+                <filter string="This Month" name="this_month" date="issue_date"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Recipient" name="group_recipient" context="{'group_by': 'recipient_name'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Issue Date" name="group_date" context="{'group_by': 'issue_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================
+    ZAKAT CERTIFICATE FORM VIEW
+    ============================================================= -->
+    <record id="view_zakat_certificate_form" model="ir.ui.view">
+        <field name="name">zakat.certificate.form</field>
+        <field name="model">zakat.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Zakat Certificate">
+                <header>
+                    <button name="action_print_certificate"
+                            string="Print Certificate"
+                            type="object"
+                            class="btn-primary"/>
+                    <button name="action_send_by_email"
+                            string="Send by Email"
+                            type="object"
+                            class="btn-info"/>
+                    <field name="state" widget="statusbar" statusbar_visible="issued,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_print_certificate"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-print">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">Print</span>
+                                <span class="o_stat_text">Certificate</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group name="main_info">
+                        <group name="left">
+                            <field name="name" string="Certificate No." readonly="1"/>
+                            <field name="recipient_name" string="Recipient Name" required="1"/>
+                            <field name="amount_paid" string="Zakat Paid" widget="monetary" required="1"/>
+                            <field name="calculation_id" string="Zakat Calculation" readonly="0"/>
+                        </group>
+                        <group name="right">
+                            <field name="issue_date" string="Issue Date"/>
+                            <field name="hijri_issue_date" string="Hijri Date" readonly="1"/>
+                            <field name="state" string="Status" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="QR Code" name="qr">
+                            <group string="Verification QR Code">
+                                <field name="qr_code" widget="image" class="oe_avatar" style="max-width: 200px; max-height: 200px;"/>
+                                <p class="text-muted">Scan this QR code to verify certificate authenticity.</p>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" nolabel="1" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================
+    ZAKAT CERTIFICATE ACTION WINDOW - THIS IS WHAT THE MENU NEEDS!
+    ============================================================= -->
+    <record id="action_zakat_certificates" model="ir.actions.act_window">
+        <field name="name">Zakat Certificates</field>
+        <field name="res_model">zakat.certificate</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_zakat_certificate_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Generate your first Zakat certificate
+            </p>
+            <p>
+                Certificates are automatically generated from Zakat calculations.
+                They include a unique number, QR code for verification, and official signature.
+            </p>
+        </field>
+    </record>
+
+</odoo>

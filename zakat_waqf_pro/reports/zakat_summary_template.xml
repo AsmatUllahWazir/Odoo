@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="zakat_summary_template">
+        <t t-call="web.html_container">
+            <t t-set="calculations" t-value="docs"/>
+            <t t-call="web.basic_layout">
+                <style>
+                    @page {
+                        size: A4;
+                        margin: 1.5cm;
+                    }
+
+                    body {
+                        font-family: 'Segoe UI', 'Tahoma', Arial, sans-serif;
+                        color: #333;
+                        background: white;
+                    }
+
+                    .report-header {
+                        text-align: center;
+                        margin-bottom: 30px;
+                        border-bottom: 3px solid #b8860b;
+                        padding-bottom: 20px;
+                    }
+
+                    .report-header h1 {
+                        color: #b8860b;
+                        font-size: 32px;
+                        margin-bottom: 8px;
+                        letter-spacing: 1px;
+                    }
+
+                    .report-header h3 {
+                        color: #555;
+                        font-size: 18px;
+                        font-weight: normal;
+                        margin-bottom: 5px;
+                    }
+
+                    .company-info {
+                        font-size: 14px;
+                        color: #666;
+                        margin-top: 10px;
+                    }
+
+                    .report-meta {
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 20px 0;
+                        padding: 10px;
+                        background: #f9f9f9;
+                        border-radius: 8px;
+                        font-size: 13px;
+                    }
+
+                    .summary-cards {
+                        display: flex;
+                        gap: 20px;
+                        margin: 25px 0;
+                        flex-wrap: wrap;
+                    }
+
+                    .card {
+                        flex: 1;
+                        background: linear-gradient(135deg, #1a472a, #2d6a4f);
+                        color: white;
+                        padding: 20px;
+                        border-radius: 12px;
+                        text-align: center;
+                        min-width: 150px;
+                    }
+
+                    .card.gold {
+                        background: linear-gradient(135deg, #b8860b, #d4af37);
+                    }
+
+                    .card-label {
+                        font-size: 14px;
+                        opacity: 0.9;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                    }
+
+                    .card-value {
+                        font-size: 28px;
+                        font-weight: bold;
+                        margin-top: 10px;
+                    }
+
+                    .summary-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 25px 0;
+                        font-size: 13px;
+                    }
+
+                    .summary-table th {
+                        background: #1a472a;
+                        color: white;
+                        padding: 12px 10px;
+                        text-align: left;
+                        font-weight: 600;
+                    }
+
+                    .summary-table td {
+                        border: 1px solid #e0e0e0;
+                        padding: 10px;
+                        vertical-align: top;
+                    }
+
+                    .summary-table tr:nth-child(even) {
+                        background: #fafafa;
+                    }
+
+                    .summary-table tr:hover {
+                        background: #f5f0e8;
+                    }
+
+                    .total-row {
+                        background: #fef8e7 !important;
+                        font-weight: bold;
+                    }
+
+                    .total-row td {
+                        border-top: 2px solid #b8860b;
+                        font-size: 14px;
+                    }
+
+                    .status-badge {
+                        display: inline-block;
+                        padding: 3px 10px;
+                        border-radius: 20px;
+                        font-size: 11px;
+                        font-weight: bold;
+                    }
+
+                    .status-paid {
+                        background: #2d6a4f;
+                        color: white;
+                    }
+
+                    .status-calculated {
+                        background: #f4a261;
+                        color: white;
+                    }
+
+                    .status-draft {
+                        background: #999;
+                        color: white;
+                    }
+
+                    .status-invoiced {
+                        background: #1e88e5;
+                        color: white;
+                    }
+
+                    .status-certified {
+                        background: #b8860b;
+                        color: white;
+                    }
+
+                    .footer {
+                        margin-top: 40px;
+                        text-align: center;
+                        font-size: 11px;
+                        color: #999;
+                        border-top: 1px solid #eee;
+                        padding-top: 20px;
+                    }
+
+                    .school-badge {
+                        background: #e9ecef;
+                        padding: 2px 8px;
+                        border-radius: 12px;
+                        font-size: 11px;
+                        display: inline-block;
+                    }
+
+                    @media print {
+                        body {
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .no-print {
+                            display: none;
+                        }
+                    }
+
+                    .waqf-section {
+                        margin-top: 40px;
+                        page-break-before: avoid;
+                    }
+
+                    .waqf-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 15px 0;
+                        font-size: 12px;
+                    }
+
+                    .waqf-table th {
+                        background: #b8860b;
+                        color: white;
+                        padding: 8px;
+                        text-align: left;
+                    }
+
+                    .waqf-table td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                    }
+
+                    .section-title {
+                        color: #1a472a;
+                        font-size: 20px;
+                        margin: 25px 0 15px 0;
+                        border-left: 4px solid #b8860b;
+                        padding-left: 15px;
+                    }
+                </style>
+
+                <!-- Report Header -->
+                <div class="report-header">
+                    <h1>📊 Zakat Summary Report</h1>
+                    <h3>تقرير ملخص الزكاة</h3>
+                    <div class="company-info">
+                        <strong><t t-esc="docs.env.company.name if docs else 'ZakatPro'"/></strong><br/>
+                        <t t-esc="docs.env.company.street or ''"/>
+                        <t t-esc="', ' if docs.env.company.street and docs.env.company.city else ''"/>
+                        <t t-esc="docs.env.company.city or ''"/>
+                        <t t-esc="', ' if docs.env.company.city and docs.env.company.country_id else ''"/>
+                        <t t-esc="docs.env.company.country_id.name or ''"/>
+                    </div>
+                </div>
+
+                <!-- Report Meta Info -->
+                <div class="report-meta">
+                    <div><strong>Report Date:</strong> <t t-esc="time.strftime('%d %B %Y')"/></div>
+                    <div><strong>Report Time:</strong> <t t-esc="time.strftime('%H:%M:%S')"/></div>
+                    <div><strong>Generated by:</strong> <t t-esc="docs.env.user.name if docs else 'System'"/></div>
+                    <div><strong>Period:</strong>
+                        <t t-if="docs and docs[0].calculation_date">
+                            <t t-esc="min(calc.calculation_date for calc in docs).strftime('%d/%m/%Y') if docs else 'N/A'"/>
+                            to
+                            <t t-esc="max(calc.calculation_date for calc in docs).strftime('%d/%m/%Y') if docs else 'N/A'"/>
+                        </t>
+                        <t t-else="">All Time</t>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="card">
+                        <div class="card-label">Total Calculations</div>
+                        <div class="card-value">
+                            <t t-esc="len(calculations)"/>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">Total Wealth</div>
+                        <div class="card-value">
+                            <t t-esc="'{:,.0f}'.format(sum(calc.total_wealth for calc in calculations))"/>
+                            <span style="font-size: 14px;">SAR</span>
+                        </div>
+                    </div>
+                    <div class="card gold">
+                        <div class="card-label">Total Zakat Due</div>
+                        <div class="card-value">
+                            <t t-esc="'{:,.2f}'.format(sum(calc.zakat_due for calc in calculations))"/>
+                            <span style="font-size: 14px;">SAR</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">Paid Zakat</div>
+                        <div class="card-value">
+                            <t t-esc="'{:,.2f}'.format(sum(calc.zakat_due for calc in calculations if calc.state == 'paid'))"/>
+                            <span style="font-size: 14px;">SAR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Information (if any) -->
+                <div style="background: #fef8e7; padding: 12px; border-radius: 8px; margin: 15px 0; font-size: 12px;" t-if="requestparams">
+                    <strong>🔍 Active Filters:</strong>
+                    <span t-foreach="requestparams" t-as="key, value">
+                        <t t-if="key not in ['model', 'view_type', 'limit', 'view']">
+                            <span style="background: #e9ecef; padding: 2px 8px; border-radius: 12px; margin: 0 5px;">
+                                <t t-esc="key"/>: <t t-esc="value"/>
+                            </span>
+                        </t>
+                    </span>
+                </div>
+
+                <!-- Zakat Calculations Table -->
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Reference</th>
+                            <th>Partner / Company</th>
+                            <th>Date (Gregorian)</th>
+                            <th>Hijri Date</th>
+                            <th>School</th>
+                            <th>Total Wealth (SAR)</th>
+                            <th>Nisab (SAR)</th>
+                            <th>Zakat Due (SAR)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="calculations" t-as="calc" t-foreach-index="idx">
+                            <tr>
+                                <td><t t-esc="idx + 1"/></td>
+                                <td><t t-esc="calc.name or '-'"/></td>
+                                <td><t t-esc="calc.partner_id.name if calc.partner_id else '-'"/></td>
+                                <td><t t-esc="calc.calculation_date.strftime('%d/%m/%Y') if calc.calculation_date else '-'"/></td>
+                                <td><t t-esc="calc.hijri_date or '-'"/></td>
+                                <td>
+                                    <span class="school-badge">
+                                        <t t-esc="calc.school or 'Hanafi'"/>
+                                    </span>
+                                </td>
+                                <td style="text-align: right;">
+                                    <t t-esc="'{:,.2f}'.format(calc.total_wealth)"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <t t-esc="'{:,.2f}'.format(calc.nisab_threshold)"/>
+                                </td>
+                                <td style="text-align: right; color: #b8860b; font-weight: bold;">
+                                    <t t-esc="'{:,.2f}'.format(calc.zakat_due)"/>
+                                </td>
+                                <td>
+                                    <span class="status-badge" t-att-class="{
+                                        'status-paid': calc.state == 'paid',
+                                        'status-calculated': calc.state == 'calculated',
+                                        'status-draft': calc.state == 'draft',
+                                        'status-invoiced': calc.state == 'invoiced',
+                                        'status-certified': calc.state == 'certified',
+                                    }">
+                                        <t t-esc="calc.state or 'draft'"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </t>
+                        <t t-if="not calculations">
+                            <tr>
+                                <td colspan="10" style="text-align: center; color: #999; padding: 40px;">
+                                    No Zakat calculations found for the selected period.
+                                </td>
+                            </tr>
+                        </t>
+                        <t t-if="calculations">
+                            <tr class="total-row">
+                                <td colspan="6" style="text-align: right;"><strong>GRAND TOTAL</strong></td>
+                                <td style="text-align: right;">
+                                    <strong><t t-esc="'{:,.2f}'.format(sum(calc.total_wealth for calc in calculations))"/></strong>
+                                </td>
+                                <td style="text-align: right;">—</td>
+                                <td style="text-align: right;">
+                                    <strong style="color: #b8860b;">
+                                        <t t-esc="'{:,.2f}'.format(sum(calc.zakat_due for calc in calculations))"/>
+                                    </strong>
+                                </td>
+                                <td>—</td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <!-- Waqf Assets Section -->
+                <t t-set="waqf_assets" t-value="docs.env['waqf.asset'].search([])"/>
+                <t t-if="waqf_assets">
+                    <div class="waqf-section">
+                        <div class="section-title">🏢 Waqf Assets Summary</div>
+
+                        <table class="waqf-table">
+                            <thead>
+                                <tr>
+                                    <th>Asset Code</th>
+                                    <th>Asset Name</th>
+                                    <th>Type</th>
+                                    <th>Initial Value</th>
+                                    <th>Current Value</th>
+                                    <th>Annual Income</th>
+                                    <th>Charity %</th>
+                                    <th>Annual Charity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="waqf_assets" t-as="asset">
+                                    <tr>
+                                        <td><t t-esc="asset.asset_code or '-'"/></td>
+                                        <td><t t-esc="asset.name"/></td>
+                                        <td><t t-esc="asset.asset_type"/></td>
+                                        <td style="text-align: right;"><t t-esc="'{:,.2f}'.format(asset.initial_value)"/></td>
+                                        <td style="text-align: right;"><t t-esc="'{:,.2f}'.format(asset.current_value)"/></td>
+                                        <td style="text-align: right;"><t t-esc="'{:,.2f}'.format(asset.annual_income)"/></td>
+                                        <td style="text-align: center;"><t t-esc="asset.allocation_percent"/>%</td>
+                                        <td style="text-align: right; color: #b8860b;">
+                                            <t t-esc="'{:,.2f}'.format(asset.charity_amount)"/>
+                                        </td>
+                                        <td><t t-esc="asset.state"/></td>
+                                    </tr>
+                                </t>
+                                <tr class="total-row">
+                                    <td colspan="3" style="text-align: right;"><strong>TOTAL WAQF</strong></td>
+                                    <td style="text-align: right;">
+                                        <strong><t t-esc="'{:,.2f}'.format(sum(asset.initial_value for asset in waqf_assets))"/></strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <strong><t t-esc="'{:,.2f}'.format(sum(asset.current_value for asset in waqf_assets))"/></strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <strong><t t-esc="'{:,.2f}'.format(sum(asset.annual_income for asset in waqf_assets))"/></strong>
+                                    </td>
+                                    <td>—</td>
+                                    <td style="text-align: right;">
+                                        <strong style="color: #b8860b;">
+                                            <t t-esc="'{:,.2f}'.format(sum(asset.charity_amount for asset in waqf_assets))"/>
+                                        </strong>
+                                    </td>
+                                    <td>—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+
+                <!-- Certificates Issued Section -->
+                <t t-set="certificates" t-value="docs.env['zakat.certificate'].search([('state', '=', 'issued')])"/>
+                <t t-if="certificates">
+                    <div class="waqf-section">
+                        <div class="section-title">📜 Certificates Issued</div>
+
+                        <table class="waqf-table">
+                            <thead>
+                                <tr>
+                                    <th>Certificate No.</th>
+                                    <th>Recipient</th>
+                                    <th>Amount Paid</th>
+                                    <th>Issue Date</th>
+                                    <th>Hijri Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="certificates" t-as="cert">
+                                    <tr>
+                                        <td><t t-esc="cert.name"/></td>
+                                        <td><t t-esc="cert.recipient_name"/></td>
+                                        <td style="text-align: right; color: #b8860b;">
+                                            <t t-esc="'{:,.2f}'.format(cert.amount_paid)"/> SAR
+                                        </td>
+                                        <td><t t-esc="cert.issue_date.strftime('%d/%m/%Y') if cert.issue_date else '-'"/></td>
+                                        <td><t t-esc="cert.hijri_issue_date or '-'"/></td>
+                                    </tr>
+                                </t>
+                                <tr class="total-row">
+                                    <td colspan="2" style="text-align: right;"><strong>Total Certificates Issued</strong></td>
+                                    <td style="text-align: right;">
+                                        <strong><t t-esc="'{:,.2f}'.format(sum(cert.amount_paid for cert in certificates))"/> SAR</strong>
+                                    </td>
+                                    <td colspan="2"><strong><t t-esc="len(certificates)"/> Certificates</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+
+                <!-- Notes Section -->
+                <div style="margin: 30px 0; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                    <strong>📝 Notes:</strong>
+                    <ul style="margin: 10px 0 0 20px; font-size: 12px; color: #666;">
+                        <li>Zakat is calculated at 2.5% of net wealth (Cash + Inventory + Receivables + Gold/Silver + Other Assets).</li>
+                        <li>Nisab threshold is based on 85 grams of gold at current market price.</li>
+                        <li>This report is computer-generated and does not require a signature.</li>
+                        <li>For official Zakat certificates, please refer to individual certificate documents.</li>
+                    </ul>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer">
+                    <p>ZakatPro — Professional Zakat Management Solution for Odoo 17</p>
+                    <p>Generated on <t t-esc="time.strftime('%d/%m/%Y at %H:%M:%S')"/> | © <t t-esc="time.strftime('%Y')"/> ZakatPro</p>
+                </div>
+
+            </t>
+        </t>
+    </template>
+</odoo>

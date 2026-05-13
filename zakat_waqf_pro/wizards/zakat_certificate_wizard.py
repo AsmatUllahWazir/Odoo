@@ -22,4 +22,4 @@ class ZakatCertificateWizard(models.TransientModel):
             'notes': self.notes,
         })
 
-        return cert._print_certificate()
+        return cert.action_print_certificate()

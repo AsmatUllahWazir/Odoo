@@ -1,12 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+        <!-- Sequence for Zakat Calculations -->
         <record id="seq_zakat_calculation" model="ir.sequence">
             <field name="name">Zakat Calculation</field>
             <field name="code">zakat.calculation</field>
-            <field name="prefix">ZKT/</field>
+            <field name="prefix">ZAK/%(year)s/</field>
             <field name="padding">5</field>
-            <field name="company_id" ref="base.main_company"/>
+            <field name="company_id" eval="False"/>
         </record>
+
+        <!-- Sequence for Zakat Certificates -->
+        <record id="seq_zakat_certificate" model="ir.sequence">
+            <field name="name">Zakat Certificate</field>
+            <field name="code">zakat.certificate</field>
+            <field name="prefix">ZKT/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Waqf Assets -->
+        <record id="seq_waqf_asset" model="ir.sequence">
+            <field name="name">Waqf Asset</field>
+            <field name="code">waqf.asset</field>
+            <field name="prefix">WAQF/</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="paperformat_zakat_certificate" model="report.paperformat">
+            <field name="name">Zakat Certificate - Full Page</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
     </data>
 </odoo>

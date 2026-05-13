@@ -2,556 +2,428 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Employee Skill Portfolio - Complete Odoo Module</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Lightbox CSS for better image viewing -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Skill Portfolio - Professional Skill Management for Odoo 17</title>
+    <meta name="description" content="Complete employee skill management system with portal, endorsements, certifications, skill matrix, and AI recommendations. Glassmorphism UI, full Odoo 17 integration.">
+    <meta name="keywords" content="Odoo skills, employee portfolio, skill management, Odoo 17 module, HR skills, certification tracking, skill endorsement, Odoo portal">
+    <meta name="author" content="Your Company">
     <style>
+        /* Reset and base styles - safe for Odoo App Store */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f4f8;
-            color: #0f172a;
-            line-height: 1.6;
+            font-family: -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #2c3e50;
+            background: #fff;
         }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            background-size: 200% 200%;
-            animation: heroGradient 8s ease infinite;
-            color: white;
-            padding: 5rem 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        @keyframes heroGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        .hero .badge-container {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-
-        .hero-badge {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* Container */
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 20px 24px 40px;
         }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 2.2rem;
+        /* Hero section - simple gradient */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 40px 32px;
+            margin-bottom: 40px;
+            color: white;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 28px;
             font-weight: 700;
-            margin: 3rem 0 1.5rem;
-            position: relative;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+        .badge {
             display: inline-block;
-            font-family: 'Space Grotesk', monospace;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 4px 6px;
         }
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 4px;
+        /* Section headings */
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 40px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
         }
-
-        /* Feature Cards Grid */
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 10px;
+            color: #2c3e50;
+        }
+        /* Feature cards (table-based for compatibility) */
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
         }
-
+        .feature-row {
+            display: table-row;
+        }
         .feature-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.8rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.03);
+            display: table-cell;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            width: 33.33%;
+            vertical-align: top;
         }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 35px -12px rgba(102,126,234,0.25);
-            border-color: rgba(102,126,234,0.2);
+        /* Responsive: stack on mobile */
+        @media (max-width: 768px) {
+            .feature-row, .feature-card {
+                display: block;
+                width: 100%;
+                margin-bottom: 16px;
+            }
         }
-
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea20, #764ba220);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: #667eea;
-            margin-bottom: 1.2rem;
+            font-size: 32px;
+            margin-bottom: 12px;
         }
-
-        .feature-card h3 { font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 600; }
-        .feature-card p { color: #475569; font-size: 0.95rem; line-height: 1.5; }
-
-        /* Improved Gallery Grid - NO horizontal scroll, responsive masonry-like */
+        /* Gallery grid - simple table fallback, then flex for modern */
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .gallery-item {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin: 24px 0;
         }
-
+        .gallery-item {
+            flex: 1 1 calc(33.333% - 24px);
+            min-width: 250px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
         .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-
         .gallery-item img {
             width: 100%;
             height: auto;
-            min-height: 220px;
-            max-height: 280px;
-            object-fit: cover;
-            object-position: top;
+            display: block;
             background: #f1f5f9;
-            transition: transform 0.3s ease;
         }
-
-        .gallery-item:hover img {
-            transform: scale(1.02);
-        }
-
         .gallery-caption {
-            padding: 1.2rem;
-            background: white;
+            padding: 14px;
             border-top: 1px solid #e2e8f0;
         }
-
         .gallery-caption h4 {
-            font-size: 1.1rem;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
+            margin-bottom: 6px;
+            color: #2c3e50;
         }
-
         .gallery-caption p {
-            font-size: 0.85rem;
+            font-size: 13px;
             color: #475569;
-            line-height: 1.4;
+            margin-bottom: 8px;
         }
-
-        .gallery-caption .badge-light {
+        .caption-badge {
             display: inline-block;
             background: #e2e8f0;
-            padding: 0.2rem 0.6rem;
+            padding: 2px 10px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 11px;
             font-weight: 600;
-            margin-top: 0.5rem;
+            color: #475569;
         }
-
-        /* Menu Structure */
-        .menu-structure {
-            background: linear-gradient(115deg, #1e293b, #0f172a);
-            border-radius: 28px;
-            padding: 2rem;
-            margin: 2rem 0;
-            color: #e2e8f0;
-        }
-        .menu-tree {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-        .menu-item {
-            background: rgba(255,255,255,0.1);
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-family: monospace;
-        }
-
-        /* Models Table */
-        .models-table {
-            width: 100%;
-            background: white;
-            border-radius: 20px;
-            overflow-x: auto;
-            display: block;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            margin: 1.5rem 0;
-        }
-        .models-table table {
+        /* Technical table */
+        .tech-table {
             width: 100%;
             border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
         }
-        .models-table th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 1rem;
+        .tech-table th, .tech-table td {
+            padding: 12px 16px;
             text-align: left;
-        }
-        .models-table td {
-            padding: 0.8rem 1rem;
             border-bottom: 1px solid #e2e8f0;
         }
-
-        /* Tech Stack */
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin: 1.5rem 0;
+        .tech-table th {
+            background: #f8fafc;
+            font-weight: 700;
+            color: #2c3e50;
         }
-        .tech-badge {
-            background: #e2e8f0;
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #1e293b;
+        .tech-table tr:last-child td {
+            border-bottom: none;
         }
-
-        /* CTA */
-        .cta-section {
+        /* CTA button */
+        .cta-button {
+            display: inline-block;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 32px;
-            padding: 3rem;
-            text-align: center;
             color: white;
-            margin: 3rem 0;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 40px;
             text-decoration: none;
-            transition: all 0.2s ease;
+            font-weight: 700;
+            margin: 20px 0;
+            transition: transform 0.2s;
         }
-        .btn-primary {
-            background: white;
-            color: #667eea;
+        .cta-button:hover {
+            transform: translateY(-2px);
         }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        .btn-outline {
-            border: 2px solid white;
-            color: white;
-            background: transparent;
-        }
-        .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-3px);
-        }
-
         footer {
-            background: #0f172a;
-            color: #94a3b8;
             text-align: center;
-            padding: 2.5rem;
-            margin-top: 4rem;
+            padding: 32px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 40px;
+            color: #64748b;
+            font-size: 13px;
         }
-
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .container { padding: 1rem; }
-            .gallery-grid { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: 1fr; }
-            .section-title { font-size: 1.6rem; }
+            .container { padding: 16px; }
+            .hero { padding: 28px 20px; }
+            .hero h1 { font-size: 24px; }
+            .gallery-item { flex: 1 1 100%; }
         }
     </style>
 </head>
 <body>
-
-<!-- Hero Section -->
-<section class="hero">
-    <h1><i class="fas fa-code-branch"></i> Employee Skill Portfolio</h1>
-    <p style="font-size: 1.2rem; max-width: 700px; margin: 1rem auto;">Enterprise‑grade skill management with stunning portal, endorsements, certification tracking, and AI‑ready analytics for Odoo 17</p>
-    <div class="badge-container">
-        <span class="hero-badge"><i class="fas fa-check-circle"></i> Odoo 17 Certified</span>
-        <span class="hero-badge"><i class="fas fa-globe"></i> Portal Ready</span>
-        <span class="hero-badge"><i class="fas fa-chart-line"></i> Skill Intelligence</span>
-        <span class="hero-badge"><i class="fas fa-shield-alt"></i> HR & Manager Workflows</span>
-    </div>
-</section>
-
 <div class="container">
-    <!-- Module Stats -->
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0;">
-        <div style="background: white; border-radius: 20px; padding: 1.2rem 2rem; text-align: center; flex: 1; min-width: 150px;"><div style="font-size: 2rem; font-weight: 800; color: #667eea;">8+</div><div>Core Models</div></div>
-        <div style="background: white; border-radius: 20px; padding: 1.2rem 2rem; text-align: center; flex: 1; min-width: 150px;"><div style="font-size: 2rem; font-weight: 800; color: #667eea;">15+</div><div>Views & Templates</div></div>
-        <div style="background: white; border-radius: 20px; padding: 1.2rem 2rem; text-align: center; flex: 1; min-width: 150px;"><div style="font-size: 2rem; font-weight: 800; color: #667eea;">100%</div><div>Responsive Portal</div></div>
-        <div style="background: white; border-radius: 20px; padding: 1.2rem 2rem; text-align: center; flex: 1; min-width: 150px;"><div style="font-size: 2rem; font-weight: 800; color: #667eea;">API Ready</div><div>REST Endpoints</div></div>
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Employee Skill Portfolio <span style="font-size: 18px; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 30px;">v17.0</span></h1>
+        <p>Complete skill management system with stunning portal, endorsements, certifications, skill matrix, and AI recommendations for Odoo 17.</p>
+        <div>
+            <span class="badge">✅ Portal Ready</span>
+            <span class="badge">⭐ Endorsements</span>
+            <span class="badge">📜 Certifications</span>
+            <span class="badge">📊 Skill Matrix</span>
+            <span class="badge">🤖 AI Recommendations</span>
+            <span class="badge">📱 Fully Responsive</span>
+        </div>
     </div>
 
-    <!-- Features -->
-    <h2 class="section-title"><i class="fas fa-star me-2"></i> Core Features</h2>
+    <!-- Overview -->
+    <h2>📌 Overview</h2>
+    <p><strong>Employee Skill Portfolio</strong> transforms how organizations track and showcase employee skills. It provides a beautiful public portal where employees can display their skills, certifications, and endorsements. HR and managers gain powerful analytics, skill gap analysis, and AI-powered recommendations. Built with glassmorphism design and full Odoo 17 integration.</p>
+
+    <!-- Core Features (Table-based for compatibility) -->
+    <h2>⭐ Core Features</h2>
     <div class="features-grid">
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-id-card"></i></div><h3>Employee Skill Inventory</h3><p>Track technical, soft skills, certifications, tools with proficiency levels, years of experience & self/manager ratings.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-thumbs-up"></i></div><h3>Endorsement System</h3><p>Request/approve endorsements with relationship types (manager, colleague, client). Anonymous option + endorsement score.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-certificate"></i></div><h3>Certification Management</h3><p>Store certification ID, expiry, issuing body, URL verification. Timeline view, expiry warnings, certificate gallery.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-globe"></i></div><h3>Public & Private Portal</h3><p>Beautiful responsive portal: department grouping, search by skill/category/employee, top endorsed skills, recent certifications.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-simple"></i></div><h3>Skill Score & Matrix</h3><p>Algorithmic skill score (self+manager+endorsements+exp). Gap analysis, assessment framework, skill matrix report.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-tasks"></i></div><h3>Approval Workflow</h3><p>Draft → Submitted → HR Review → Manager Approval → Approved. Verification badge & history.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-book-open"></i></div><h3>Training Recommendations</h3><p>Link skill gaps to training courses, online resources, internal workshops.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-filter"></i></div><h3>Advanced Search & Filters</h3><p>Skill categories, tags, department groups, real-time search.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-mobile-alt"></i></div><h3>Fully Responsive Design</h3><p>Glassmorphism cards, floating particles, intersection animations.</p></div>
+        <div class="feature-row">
+            <div class="feature-card"><div class="feature-icon">📋</div><h3>Skill Inventory</h3><p>Track technical, soft, language, certification, tool skills with proficiency levels, years of experience, and usage frequency.</p></div>
+            <div class="feature-card"><div class="feature-icon">👍</div><h3>Endorsements</h3><p>Request and approve peer endorsements with relationship types (manager, colleague, client). Anonymous option available.</p></div>
+            <div class="feature-card"><div class="feature-icon">🎓</div><h3>Certifications</h3><p>Store certificate ID, expiry date, issuing body, and URL. Timeline view with expiry warnings.</p></div>
+        </div>
+        <div class="feature-row">
+            <div class="feature-card"><div class="feature-icon">🌐</div><h3>Public Portal</h3><p>Glassmorphism portal with department grouping, search, filters, and top skills widget. Fully responsive.</p></div>
+            <div class="feature-card"><div class="feature-icon">📊</div><h3>Skill Score</h3><p>Advanced scoring algorithm combining self rating, manager rating, endorsements, and experience (0-100).</p></div>
+            <div class="feature-card"><div class="feature-icon">✅</div><h3>Approval Workflow</h3><p>Draft → Submitted → HR Review → Manager Approval → Approved. Full verification history.</p></div>
+        </div>
+        <div class="feature-row">
+            <div class="feature-card"><div class="feature-icon">📈</div><h3>Skill Matrix</h3><p>Heatmap view of skills across departments. Export to Excel/PDF. Gap analysis.</p></div>
+            <div class="feature-card"><div class="feature-icon">🤖</div><h3>AI Recommendations</h3><p>Collaborative filtering suggests skills based on similar roles. Role-based skill gap detection.</p></div>
+            <div class="feature-card"><div class="feature-icon">📚</div><h3>Training Programs</h3><p>Link skills to training courses, track completion, auto-assign skills on completion.</p></div>
+        </div>
     </div>
 
-    <!-- Data Models -->
-    <h2 class="section-title"><i class="fas fa-database me-2"></i> Data Models</h2>
-    <div class="models-table">
-        <table>
-            <thead><tr><th>Model</th><th>Description</th><th>Key Fields</th></tr></thead>
-            <tbody>
-                <tr><td><code>employee.skill</code></td><td>Main skill entity</td><td>name, employee_id, skill_type, level, years_experience, skill_score</td></tr>
-                <tr><td><code>skill.endorsement</code></td><td>Peer endorsements</td><td>skill_id, endorser_id, rating, state, relationship</td></tr>
-                <tr><td><code>skill.category</code></td><td>Hierarchical categories</td><td>name, parent_id, skill_type, icon</td></tr>
-                <tr><td><code>skill.tag</code></td><td>Flexible tagging</td><td>name, color, popularity</td></tr>
-                <tr><td><code>employee.skill.assessment</code></td><td>Skill gap analysis</td><td>employee_id, assessment_type, overall_score, state</td></tr>
-                <tr><td><code>skill.training</code></td><td>Training programs</td><td>name, training_type, provider, duration, cost</td></tr>
-                <tr><td><code>skill.history</code></td><td>Change tracking</td><td>skill_id, field_name, old_value, new_value</td></tr>
-                <tr><td><code>endorsement.request</code></td><td>Request system</td><td>requester_id, target_endorser_id, skill_id, token</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Screenshot Gallery with Detailed Descriptions (No horizontal scroll) -->
-    <h2 class="section-title"><i class="fas fa-images me-2"></i> Module Screenshots & Walkthrough</h2>
+    <!-- Screenshot Gallery (with descriptions) - NO horizontal scroll -->
+    <h2>📸 Module Screenshots</h2>
     <div class="gallery-grid">
         <!-- s1.png -->
         <div class="gallery-item">
-            <a href="s1.png" data-lightbox="gallery" data-title="Employee Skill Form - Main View">
-                <img src="s1.png" alt="Employee Skill Form">
-            </a>
+            <img src="s1.png" alt="Employee Skill Form">
             <div class="gallery-caption">
                 <h4>📝 Employee Skill Form</h4>
-                <p>Create and manage skills with name, employee assignment, skill type selection (Technical, Soft, Language, Certification, Tool, etc.), category, and tags. Includes approval buttons (Approve/Reject) and endorsement view.</p>
-                <span class="badge-light"><i class="fas fa-check-circle"></i> Core Model</span>
+                <p>Create and manage skills with name, employee assignment, skill type selection (Technical, Soft, Language, Certification, Tool, etc.), category, and tags. Includes approval buttons.</p>
+                <span class="caption-badge">Core Model</span>
             </div>
         </div>
         <!-- s2.png -->
         <div class="gallery-item">
-            <a href="s2.png" data-lightbox="gallery" data-title="Request Endorsement Form">
-                <img src="s2.png" alt="Request Endorsement">
-            </a>
+            <img src="s2.png" alt="Request Endorsement">
             <div class="gallery-caption">
                 <h4>✉️ Request Endorsement</h4>
-                <p>Employees can request endorsements from colleagues/managers. Includes endorser selection, personal message, relationship type, rating, and visibility settings (public/internal/private).</p>
-                <span class="badge-light"><i class="fas fa-thumbs-up"></i> Social Proof</span>
+                <p>Employees can request endorsements from colleagues/managers. Includes endorser selection, personal message, relationship type, rating, and visibility settings.</p>
+                <span class="caption-badge">Social Proof</span>
             </div>
         </div>
         <!-- s3.png -->
         <div class="gallery-item">
-            <a href="s3.png" data-lightbox="gallery" data-title="Portal Directory - Team Skills">
-                <img src="s3.png" alt="Portal Directory">
-            </a>
+            <img src="s3.png" alt="Portal Directory">
             <div class="gallery-caption">
                 <h4>🌐 Team Skills Directory</h4>
-                <p>Public-facing portal showing all employees with their skills. Includes search bar, statistics counters (total employees, skills, certifications, endorsements), and category filters.</p>
-                <span class="badge-light"><i class="fas fa-globe"></i> Portal Ready</span>
+                <p>Public-facing portal showing all employees with their skills. Includes search bar, statistics counters, and category filters. Glassmorphism design.</p>
+                <span class="caption-badge">Portal Ready</span>
             </div>
         </div>
         <!-- s4.png -->
         <div class="gallery-item">
-            <a href="s4.png" data-lightbox="gallery" data-title="Skills Management Menu">
-                <img src="s4.png" alt="Menu Structure">
-            </a>
+            <img src="s4.png" alt="Menu Structure">
             <div class="gallery-caption">
-                <h4>📂 Navigation Menu</h4>
-                <p>Complete menu structure: Dashboard, All Skills, All Endorsements, Skill Assessments, Training Programs, and Configuration (Categories & Tags). Easy access to all features.</p>
-                <span class="badge-light"><i class="fas fa-bars"></i> Intuitive UX</span>
+                <h4>📂 Menu Structure</h4>
+                <p>Complete navigation: Dashboard, All Skills, All Endorsements, Skill Assessments, Training Programs, and Configuration (Categories & Tags).</p>
+                <span class="caption-badge">Navigation</span>
             </div>
         </div>
         <!-- s5.png -->
         <div class="gallery-item">
-            <a href="s5.png" data-lightbox="gallery" data-title="Proficiency Details Tab">
-                <img src="s5.png" alt="Proficiency Details">
-            </a>
+            <img src="s5.png" alt="Proficiency Details">
             <div class="gallery-caption">
                 <h4>📊 Proficiency Details</h4>
-                <p>Track years of experience, last used date, usage frequency, self rating, manager rating, and overall rating. Includes description, projects used, and key achievements.</p>
-                <span class="badge-light"><i class="fas fa-chart-line"></i> Skill Scoring</span>
+                <p>Track years of experience, last used date, usage frequency, self rating, manager rating, and overall rating. Includes description, projects used, and achievements.</p>
+                <span class="caption-badge">Skill Scoring</span>
             </div>
         </div>
         <!-- s6.png -->
         <div class="gallery-item">
-            <a href="s6.png" data-lightbox="gallery" data-title="Endorsements List View">
-                <img src="s6.png" alt="Endorsements Tab">
-            </a>
+            <img src="s6.png" alt="Endorsements Tab">
             <div class="gallery-caption">
                 <h4>⭐ Endorsements Management</h4>
-                <p>View all endorsements received for a skill. Shows endorser name, date, rating (stars), relationship, status (approved/pending), and comments. Add new endorsements inline.</p>
-                <span class="badge-light"><i class="fas fa-star"></i> Credibility</span>
+                <p>View all endorsements received for a skill. Shows endorser, date, rating (stars), relationship, status, and comments. Add new endorsements inline.</p>
+                <span class="caption-badge">Credibility</span>
             </div>
         </div>
         <!-- s7.png -->
         <div class="gallery-item">
-            <a href="s7.png" data-lightbox="gallery" data-title="Skill Tags Configuration">
-                <img src="s7.png" alt="Skill Tags">
-            </a>
+            <img src="s7.png" alt="Skill Tags">
             <div class="gallery-caption">
                 <h4>🏷️ Skill Tags</h4>
-                <p>Configure tags for flexible skill categorization. Each tag has a name, color code, and active flag. Tags help in filtering and grouping skills across the organization.</p>
-                <span class="badge-light"><i class="fas fa-tags"></i> Flexible</span>
+                <p>Configure tags for flexible skill categorization. Each tag has a name, color code, and active flag.</p>
+                <span class="caption-badge">Flexible</span>
             </div>
         </div>
         <!-- s8.png -->
         <div class="gallery-item">
-            <a href="s8.png" data-lightbox="gallery" data-title="Skill Categories Hierarchy">
-                <img src="s8.png" alt="Skill Categories">
-            </a>
+            <img src="s8.png" alt="Skill Categories">
             <div class="gallery-caption">
                 <h4>📁 Skill Categories</h4>
-                <p>Hierarchical skill categories with parent-child relationships. Each category has a skill type, sequence, description, color, and icon. Organize skills logically.</p>
-                <span class="badge-light"><i class="fas fa-folder-tree"></i> Organization</span>
+                <p>Hierarchical skill categories with parent-child relationships. Each category has a skill type, sequence, description, color, and icon.</p>
+                <span class="caption-badge">Organization</span>
             </div>
         </div>
         <!-- s9.png -->
         <div class="gallery-item">
-            <a href="s9.png" data-lightbox="gallery" data-title="Training Programs">
-                <img src="s9.png" alt="Training Programs">
-            </a>
+            <img src="s9.png" alt="Training Programs">
             <div class="gallery-caption">
                 <h4>🎓 Training Programs</h4>
-                <p>Manage training courses linked to skills. Includes training name, type (online/classroom/workshop/certification), provider, duration, cost, course URL, and related skills.</p>
-                <span class="badge-light"><i class="fas fa-graduation-cap"></i> Development</span>
+                <p>Manage training courses linked to skills. Includes training name, type (online/classroom/workshop/certification), provider, duration, cost, and URL.</p>
+                <span class="caption-badge">Development</span>
             </div>
         </div>
         <!-- s10.png -->
         <div class="gallery-item">
-            <a href="s10.png" data-lightbox="gallery" data-title="Skill Assessment - Gap Analysis">
-                <img src="s10.png" alt="Skill Assessments">
-            </a>
+            <img src="s10.png" alt="Skill Assessments">
             <div class="gallery-caption">
                 <h4>📋 Skill Assessments</h4>
-                <p>Conduct skill gap analysis comparing required vs current levels. Includes assessment name, employee, assessor, assessment type, detailed skill lines, scores, gap calculation, and recommendations.</p>
-                <span class="badge-light"><i class="fas fa-chart-line"></i> Analytics</span>
+                <p>Conduct skill gap analysis comparing required vs current levels. Includes assessment name, employee, assessor, assessment type, detailed skill lines, scores, and gap calculation.</p>
+                <span class="caption-badge">Analytics</span>
             </div>
         </div>
     </div>
 
-    <!-- Menu Structure -->
-    <h2 class="section-title"><i class="fas fa-bars me-2"></i> Menu Structure</h2>
-    <div class="menu-structure">
-        <div class="menu-tree">
-            <span class="menu-item"><i class="fas fa-chart-line"></i> Dashboard</span>
-            <span class="menu-item"><i class="fas fa-list"></i> All Skills</span>
-            <span class="menu-item"><i class="fas fa-thumbs-up"></i> All Endorsements</span>
-            <span class="menu-item"><i class="fas fa-clipboard-list"></i> Skill Assessments</span>
-            <span class="menu-item"><i class="fas fa-graduation-cap"></i> Training Programs</span>
-            <span class="menu-item"><i class="fas fa-cog"></i> Configuration</span>
+    <!-- Technical Specifications -->
+    <h2>⚙️ Technical Specifications</h2>
+    <table class="tech-table">
+        <tr><th style="width: 35%;">Odoo Version</th><td>17.0 (Community & Enterprise)</td></tr>
+        <tr><th>Module Version</th><td>17.0.2.0.0</td></tr>
+        <tr><th>License</th><td>OPL-1 (Odoo Proprietary License v1.0)</td></tr>
+        <tr><th>Dependencies</th><td>base, portal, hr, website, mail</td></tr>
+        <tr><th>Models</th><td>employee.skill, skill.endorsement, skill.category, skill.tag, employee.skill.assessment, skill.training, skill.history, endorsement.request</td></tr>
+        <tr><th>New Menus</th><td>Skills Management (Dashboard, All Skills, Endorsements, Assessments, Training, Configuration)</td></tr>
+        <tr><th>Portal Routes</th><td>/skills, /skills/employee/&lt;id&gt;, /skills/search, /skills/category/&lt;id&gt;</td></tr>
+        <tr><th>Languages</th><td>English (default), Arabic translation ready</td></tr>
+        <tr><th>Multi‑Company</th><td>Yes</td></tr>
+    </table>
+
+    <!-- How It Works -->
+    <h2>🔧 How It Works</h2>
+    <table class="tech-table">
+        <tr><th style="width: 25%;">Step 1</th><td>Install module → Auto-creates security groups and menu structure</td></tr>
+        <tr><th>Step 2</th><td>Configure Skill Categories and Tags (optional, from Configuration menu)</td></tr>
+        <tr><th>Step 3</th><td>Employees add skills via form → Submit for approval</td></tr>
+        <tr><th>Step 4</th><td>HR/Manager approves skills → Skills become verified</td></tr>
+        <tr><th>Step 5</th><td>Skills appear on public portal (/skills) with beautiful glassmorphism design</td></tr>
+        <tr><th>Step 6</th><td>Employees request endorsements, get certified, track skill scores</td></tr>
+    </table>
+
+    <!-- AI & Analytics -->
+    <h2>🤖 AI Recommendations & Analytics</h2>
+    <p>The module includes a powerful recommendation engine that:</p>
+    <ul style="margin: 8px 0 16px 24px;">
+        <li><strong>Collaborative Filtering:</strong> Suggests skills based on colleagues in similar roles</li>
+        <li><strong>Role-Based Gap Analysis:</strong> Compares employee skills against high performers in same job title</li>
+        <li><strong>Skill Velocity Report:</strong> Tracks skill acquisition rate per employee/department</li>
+        <li><strong>Succession Planning:</strong> Identifies potential successors based on skill overlap</li>
+    </ul>
+
+    <!-- Installation -->
+    <h2>📥 Installation & Configuration</h2>
+    <table class="tech-table">
+        <tr><th style="width: 30%;">1. Copy Module</th><td>Place folder in Odoo addons directory</td></tr>
+        <tr><th>2. Update Apps List</th><td>Restart server → Activate developer mode → Refresh Apps</td></tr>
+        <tr><th>3. Install</th><td>Search "Employee Skill Portfolio" → Click Install</td></tr>
+        <tr><th>4. Configure Groups</th><td>Settings → Users → Add users to "Skill / Manager" or "Skill / HR" groups</td></tr>
+        <tr><th>5. Access Portal</th><td>Go to /skills to view public directory</td></tr>
+    </table>
+
+    <!-- Why Choose -->
+    <h2>✅ Why Choose Employee Skill Portfolio?</h2>
+    <div class="features-grid">
+        <div class="feature-row">
+            <div class="feature-card"><div class="feature-icon">🎨</div><h3>Modern UI</h3><p>Glassmorphism design with floating particles, smooth animations, and responsive layout.</p></div>
+            <div class="feature-card"><div class="feature-icon">🔌</div><h3>Zero Config</h3><p>Install and go. Optional configurations for categories, tags, and security groups.</p></div>
         </div>
-        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            <small>⚙️ Configuration submenu: Skill Categories | Skill Tags</small>
+        <div class="feature-row">
+            <div class="feature-card"><div class="feature-icon">🌍</div><h3>Multi-Language</h3><p>English default, ready for Arabic/RTL translation.</p></div>
+            <div class="feature-card"><div class="feature-icon">🔐</div><h3>Secure</h3><p>Granular access rights (Employee, Manager, HR). Portal rules protect data.</p></div>
         </div>
     </div>
 
-    <!-- Technology Stack -->
-    <h2 class="section-title"><i class="fas fa-cogs me-2"></i> Technology Stack</h2>
-    <div class="tech-stack">
-        <span class="tech-badge">Python 3.10+</span>
-        <span class="tech-badge">Odoo 17</span>
-        <span class="tech-badge">PostgreSQL</span>
-        <span class="tech-badge">JavaScript (ES6)</span>
-        <span class="tech-badge">Bootstrap 5</span>
-        <span class="tech-badge">Font Awesome 6</span>
-        <span class="tech-badge">Chart.js</span>
-        <span class="tech-badge">Glassmorphism CSS</span>
-        <span class="tech-badge">REST API</span>
-        <span class="tech-badge">QWeb Templates</span>
-    </div>
+    <!-- Support & Contact -->
+    <h2>📞 Support & Contact</h2>
+    <p>After purchase, you receive:</p>
+    <ul style="margin: 8px 0 16px 24px;">
+        <li>📧 <strong>12 months email support</strong> (response within 24-48 hours)</li>
+        <li>🔄 <strong>Free updates</strong> for 12 months (bug fixes, compatibility, minor features)</li>
+        <li>📚 <strong>Installation guide</strong> included in module documentation</li>
+        <li>🐛 <strong>Bug fixes</strong> prioritized within 72 hours</li>
+    </ul>
+    <p style="background: #f8fafc; padding: 16px; border-radius: 12px; border-left: 4px solid #667eea;">
+        <strong>📧 Contact:</strong> Use Odoo App Store ticket system or email: <a href="mailto:support@yourcompany.com">support@yourcompany.com</a><br>
+        <strong>🌐 Website:</strong> <a href="https://yourcompany.com">yourcompany.com</a>
+    </p>
 
     <!-- Call to Action -->
-    <div class="cta-section">
-        <i class="fas fa-camera-retro" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-        <h2 style="margin-bottom: 1rem;">Transform Skill Management Today</h2>
-        <p style="margin-bottom: 2rem;">Install the module, configure categories, and let employees showcase their expertise.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="#" class="btn btn-primary"><i class="fas fa-download"></i> Get Module</a>
-            <a href="#" class="btn btn-outline"><i class="fas fa-file-alt"></i> Documentation</a>
-        </div>
+    <div style="text-align: center; margin: 40px 0 20px;">
+        <a href="#" class="cta-button">🚀 Get Employee Skill Portfolio →</a>
+        <p style="font-size: 13px; color: #64748b; margin-top: 12px;">One-time payment · Lifetime access · 12 months support & updates</p>
     </div>
 </div>
-
 <footer>
-    <p><i class="fas fa-copyright"></i> Employee Skill Portfolio — Odoo 17 Enterprise Module</p>
-    <p style="margin-top: 0.5rem; font-size: 0.85rem;">Glassmorphism Portal • Endorsement Engine • Certification Tracker • AI‑Ready Skill Analytics</p>
+    <p>© 2026 Employee Skill Portfolio — Developed for Odoo 17 | Glassmorphism Portal | AI-Ready Skill Analytics</p>
+    <p style="margin-top: 8px;">Odoo Proprietary License v1.0 — All rights reserved</p>
 </footer>
-
-<!-- Lightbox JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
-<script>
-    lightbox.option({
-        'resizeDuration': 200,
-        'wrapAround': true,
-        'albumLabel': 'Image %1 of %2',
-        'maxWidth': 1200,
-        'maxHeight': 800
-    });
-</script>
 </body>
 </html>

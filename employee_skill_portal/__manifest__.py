@@ -42,7 +42,7 @@
     #     ],
     # },
 
-    'images': ['static/description/icon.png'],
+    'images': ['static/description/icon.jpg'],
     'installable': True,
     'application': True,
     'license': 'OPL-1',

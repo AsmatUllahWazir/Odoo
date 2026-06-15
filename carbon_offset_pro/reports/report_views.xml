@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_sustainability" model="ir.actions.report">
+        <field name="name">Sustainability Report</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">carbon_offset_pro.report_sustainability_template</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_carbon_certificate" model="ir.actions.report">
+        <field name="name">Carbon Certificate</field>
+        <field name="model">carbon.offset.purchase</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">carbon_offset_pro.report_certificate_template</field>
+        <field name="binding_model_id" ref="model_carbon_offset_purchase"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

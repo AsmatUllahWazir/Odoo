@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_sustainability_dashboard" model="ir.actions.act_window">
+        <field name="name">Sustainability Dashboard</field>
+        <field name="res_model">sustainability.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">main</field>
+        <field name="view_id" ref="view_sustainability_dashboard_form"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Welcome to the Sustainability Dashboard
+            </p>
+            <p>
+                Track your carbon emissions, offset progress, and sustainability metrics in real-time.
+                Use the date filters to analyze specific time periods.
+            </p>
+        </field>
+    </record>
+
+    <record id="view_sustainability_dashboard_form" model="ir.ui.view">
+        <field name="name">sustainability.dashboard.form</field>
+        <field name="model">sustainability.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Sustainability Dashboard">
+                <header>
+                    <button name="action_refresh" type="object" string="Refresh Data" class="btn-primary" icon="fa-refresh"/>
+                    <button name="action_export_report" type="object" string="Export PDF Report" class="btn-secondary" icon="fa-file-pdf-o"/>
+                </header>
+                <sheet>
+                    <div class="sustainability-dashboard">
+                        <!-- Date Range Filter Section -->
+                        <group name="filter_section" string="Date Range Filter" col="4">
+                            <field name="date_from" class="oe_inline"/>
+                            <field name="date_to" class="oe_inline"/>
+                            <button name="action_refresh" type="object" string="Apply Filter" class="btn-primary"/>
+                        </group>
+
+                        <!-- KPI Cards Row 1 -->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="dashboard-card">
+                                    <div class="card-header bg-success">
+                                        <i class="fa fa-cloud"/> Total CO2e Emissions
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="kpi-value"><field name="total_co2_tons" nolabel="1"/></span>
+                                        <span class="kpi-unit">tons</span>
+                                        <div class="kpi-sub"><field name="total_orders" nolabel="1"/> orders in period</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="dashboard-card">
+                                    <div class="card-header bg-info">
+                                        <i class="fa fa-chart-line"/> Average per Order
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="kpi-value"><field name="avg_co2_per_order" nolabel="1"/></span>
+                                        <span class="kpi-unit">kg CO2e</span>
+                                        <div class="kpi-sub">per order</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="dashboard-card">
+                                    <div class="card-header bg-warning">
+                                        <i class="fa fa-leaf"/> Total Offset Purchased
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="kpi-value"><field name="total_offset_tons" nolabel="1"/></span>
+                                        <span class="kpi-unit">tons</span>
+                                        <div class="kpi-sub"><field name="offset_percentage" nolabel="1"/>% of emissions</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="dashboard-card">
+                                    <div class="card-header bg-danger">
+                                        <i class="fa fa-dollar"/> Total Offset Cost
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="kpi-value"><field name="total_offset_cost" widget="monetary" nolabel="1"/></span>
+                                        <div class="kpi-sub">total investment</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar Section -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dashboard-card">
+                                    <div class="card-header bg-success">
+                                        <i class="fa fa-dashboard"/> Carbon Neutral Progress
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="progress">
+<!--                                            <div class="progress-bar" role="progressbar" t-attf-style="width: {{doc.offset_percentage}}%">-->
+                                            <div class="progress-bar" role="progressbar">
+                                                <field name="offset_percentage" nolabel="1"/>% Offset
+                                            </div>
+                                        </div>
+<!--                                        <p class="text-muted mt-2">-->
+<!--                                            <t t-if="doc.offset_percentage &gt;= 100">-->
+<!--                                                <i class="fa fa-check-circle-o text-success"/> Congratulations! You are carbon neutral!-->
+<!--                                            </t>-->
+<!--                                            <t t-elif="doc.offset_percentage &gt;= 50">-->
+<!--                                                <i class="fa fa-line-chart text-warning"/> Great progress! Keep going!-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                                <i class="fa fa-exclamation-triangle text-danger"/> Consider offsetting more emissions to reach carbon neutrality.-->
+<!--                                            </t>-->
+<!--                                        </p>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Two Column Layout -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="dashboard-card">
+                                    <div class="card-header">
+                                        <i class="fa fa-bar-chart"/> Top 5 Emitting Products
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="top_emitting_products" nolabel="1" class="top-emitters-list"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dashboard-card">
+                                    <div class="card-header">
+                                        <i class="fa fa-users"/> Top 5 Emitting Customers
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="top_emitting_customers" nolabel="1" class="top-emitters-list"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Monthly Trends Section -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dashboard-card">
+                                    <div class="card-header">
+                                        <i class="fa fa-line-chart"/> Monthly Emission Trends
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="monthly_trends" nolabel="1" class="monthly-trend"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carbon Tier Distribution -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dashboard-card">
+                                    <div class="card-header">
+                                        <i class="fa fa-pie-chart"/> Carbon Tier Distribution
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="carbon_tier_distribution" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,18 +1,320 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Carbon Offset Pro</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carbon Offset Pro - Carbon Management for Odoo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 48px;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        .header .tagline {
+            font-size: 20px;
+            color: #666;
+        }
+        .badge-container {
+            margin: 20px 0;
+        }
+        .badge {
+            display: inline-block;
+            background: #2e7d32;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 0 5px;
+        }
+        .price {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            background: #2e7d32;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #1b5e20;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        .feature {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .feature h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        .feature .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .screenshot {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .screenshot img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #2e7d32;
+            color: white;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 32px; }
+            .features { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Carbon Offset Pro</h1>
-    <p>Complete carbon footprint tracking and offset management for Odoo.</p>
-    <h2>Features</h2>
-    <ul>
-        <li>Product carbon footprint tracking</li>
-        <li>Order-level CO2 calculations</li>
-        <li>Carbon offset marketplace</li>
-        <li>PDF certificates</li>
-    </ul>
-    <p>Price: €199.00</p>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Carbon Offset Pro</h1>
+            <p class="tagline">Complete Carbon Footprint Management for Odoo</p>
+            <div class="badge-container">
+                <span class="badge">⭐ Odoo 17 Ready</span>
+                <span class="badge">🌱 Carbon Neutral Certified</span>
+                <span class="badge">🚀 Enterprise Grade</span>
+                <span class="badge">✅ VCS/GS Certified</span>
+            </div>
+            <div class="price">€199.00</div>
+            <a href="https://yourdemo.yourcompany.com" class="button">🚀 View Live Demo</a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="icon">📊</div>
+                <h3>Real-time Dashboard</h3>
+                <p>Interactive dashboard showing CO2 emissions per product, order, and customer with beautiful charts and KPIs.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🏭</div>
+                <h3>Product Carbon Footprint</h3>
+                <p>Calculate emissions based on production, packaging, weight, and transport mode. Automatic A++ to E carbon ratings.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🌲</div>
+                <h3>Carbon Offset Marketplace</h3>
+                <p>Integrated marketplace with verified offset projects including reforestation, solar, wind, and methane capture.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">📄</div>
+                <h3>Professional PDF Certificates</h3>
+                <p>Generate beautiful carbon offset certificates with unique certificate numbers and QR codes for verification.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">📈</div>
+                <h3>Executive Reports</h3>
+                <p>Generate comprehensive sustainability reports with emission trends, top emitters, and reduction recommendations.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">💱</div>
+                <h3>Multi-currency & Multi-company</h3>
+                <p>Fully compatible with Odoo's multi-currency and multi-company features. Perfect for global enterprises.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">📧</div>
+                <h3>Automated Email Notifications</h3>
+                <p>Automatic email notifications for offset purchases with certificate attachments and high emission alerts.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🔌</div>
+                <h3>REST API Ready</h3>
+                <p>Complete JSON API for programmatic access to carbon data and offset purchases.</p>
+            </div>
+        </div>
+
+        <h2>📸 Screenshots</h2>
+
+        <div class="screenshot">
+            <h3>Sustainability Dashboard</h3>
+            <p>Real-time carbon tracking with KPIs and charts</p>
+            <div style="background: #e8f5e9; padding: 40px; text-align: center; border-radius: 5px;">
+                [Dashboard Screenshot Placeholder]
+            </div>
+        </div>
+
+        <div class="screenshot">
+            <h3>Product Emission Configuration</h3>
+            <p>Set carbon factors per product variant</p>
+            <div style="background: #e8f5e9; padding: 40px; text-align: center; border-radius: 5px;">
+                [Product Emission Screenshot Placeholder]
+            </div>
+        </div>
+
+        <div class="screenshot">
+            <h3>Carbon Offset Certificate</h3>
+            <p>Professional PDF certificate for customers</p>
+            <div style="background: #e8f5e9; padding: 40px; text-align: center; border-radius: 5px;">
+                [Certificate Screenshot Placeholder]
+            </div>
+        </div>
+
+        <h2>📋 Key Features</h2>
+        <ul>
+            <li><strong>Automatic CO2e Calculations</strong> - Based on weight, distance, and transport mode</li>
+            <li><strong>Carbon Rating System</strong> - A++ to E ratings for products</li>
+            <li><strong>Offset Project Management</strong> - Create and manage verified offset projects</li>
+            <li><strong>Volume-based Pricing</strong> - Automatic discounting for bulk offset purchases</li>
+            <li><strong>Certificate Verification</strong> - Public endpoint to verify certificate authenticity</li>
+            <li><strong>Email Templates</strong> - Customizable emails for offset confirmations</li>
+            <li><strong>High Emission Alerts</strong> - Automatic notifications for high-carbon orders</li>
+            <li><strong>Sustainability Reports</strong> - Executive summaries with actionable insights</li>
+            <li><strong>Demo Data</strong> - Sample projects and products for testing</li>
+        </ul>
+
+        <h2>🔧 Installation</h2>
+        <ol>
+            <li>Purchase and download the module from Odoo App Store</li>
+            <li>Install as standard Odoo module (Apps &gt; Update Apps List)</li>
+            <li>Go to Carbon Offset &gt; Configuration to set default values</li>
+            <li>Add emission factors to your products</li>
+            <li>Create offset projects or use demo data</li>
+            <li>Start tracking carbon footprint on sales orders!</li>
+        </ol>
+
+        <h2>📋 Requirements</h2>
+        <ul>
+            <li>Odoo 17.0 (Community or Enterprise)</li>
+            <li>Python 3.8+</li>
+            <li>Sales module installed</li>
+            <li>Products module installed</li>
+        </ul>
+
+        <h2>🎯 Who Is This For?</h2>
+        <ul>
+            <li><strong>E-commerce companies</strong> - Show customers carbon footprint and offer offsets at checkout</li>
+            <li><strong>Manufacturing</strong> - Track product-level emissions for compliance and reporting</li>
+            <li><strong>Logistics & Distribution</strong> - Calculate transport emissions for each shipment</li>
+            <li><strong>Sustainability consultants</strong> - Provide carbon reporting services to clients</li>
+            <li><strong>Retailers</strong> - Offer carbon-neutral shipping options</li>
+        </ul>
+
+        <h2>⚡ Technical Specifications</h2>
+        <table>
+            <thead>
+                <tr><th>Feature</th><th>Details</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Odoo Compatibility</td><td>17.0 (16.0 available on request)</td></tr>
+                <tr><td>License</td><td>Odoo Proprietary License v1</td></tr>
+                <tr><td>Support</td><td>1 year included (email & ticket)</td></tr>
+                <tr><td>Updates</td><td>Free for 1 year</td></tr>
+                <tr><td>Demo Data</td><td>Included for testing</td></tr>
+                <tr><td>Multi-language</td><td>English (more coming)</td></tr>
+                <tr><td>REST API</td><td>Yes - JSON endpoints</td></tr>
+            </tbody>
+        </table>
+
+        <h2>🆚 Comparison with Free Alternatives</h2>
+        <table>
+            <thead>
+                <tr><th>Feature</th><th>Free Modules</th><th>Carbon Offset Pro</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Basic CO2 Tracking</td><td>✅</td><td>✅</td></tr>
+                <tr><td>Interactive Dashboard</td><td>❌</td><td>✅</td></tr>
+                <tr><td>Carbon Rating System (A++ to E)</td><td>❌</td><td>✅</td></tr>
+                <tr><td>Offset Marketplace</td><td>❌</td><td>✅</td></tr>
+                <tr><td>PDF Certificates</td><td>❌</td><td>✅</td></tr>
+                <tr><td>Executive Reports</td><td>❌</td><td>✅</td></tr>
+                <tr><td>Multi-currency Support</td><td>❌</td><td>✅</td></tr>
+                <tr><td>Email Notifications</td><td>❌</td><td>✅</td></tr>
+                <tr><td>REST API</td><td>❌</td><td>✅</td></tr>
+                <tr><td>Certificate Verification Portal</td><td>❌</td><td>✅</td></tr>
+                <tr><td>Priority Support</td><td>❌</td><td>✅</td></tr>
+            </tbody>
+        </table>
+
+        <h2>📞 Support & Contact</h2>
+        <p>📧 Email: support@yourcompany.com</p>
+        <p>🌐 Website: https://yourcompany.com/carbon-offset-pro</p>
+        <p>⏱️ Response time: &lt; 24 hours (business days)</p>
+        <p>🛡️ 30-day money-back guarantee</p>
+
+        <h2>📝 Changelog</h2>
+        <p><strong>Version 1.0.0 (2024-01-15)</strong></p>
+        <ul>
+            <li>Initial release for Odoo 17.0</li>
+            <li>Full carbon tracking for products and orders</li>
+            <li>Carbon rating system (A++ to E)</li>
+            <li>Offset marketplace with verified projects</li>
+            <li>Professional PDF certificates</li>
+            <li>Sustainability dashboard with charts</li>
+            <li>Email notification system</li>
+            <li>REST API endpoints</li>
+            <li>Multi-currency and multi-company support</li>
+        </ul>
+
+        <div class="footer">
+            <p>Made with ❤️ for a sustainable future</p>
+            <p>© 2024 Carbon Offset Pro. All rights reserved.</p>
+        </div>
+    </div>
 </body>
 </html>

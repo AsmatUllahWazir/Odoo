@@ -18,7 +18,7 @@
         - Auto-offset configuration
         - API endpoints for external integration
     """,
-    'author': 'Your Company',
+    'author': 'Wazirz',
     'website': 'https://yourcompany.com',
     'depends': [
         'base',

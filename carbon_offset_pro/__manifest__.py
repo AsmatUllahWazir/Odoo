@@ -48,6 +48,8 @@
             # 'carbon_offset_pro/static/src/js/dashboard.js',
         ],
     },
+
+    'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,
     'license': 'OPL-1',

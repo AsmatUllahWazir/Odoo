@@ -136,36 +136,13 @@
                                     </tr>
                                     <tr t-if="doc.offset_purchase_id">
                                         <td><strong>Project Type:</strong></td>
-                                        <td><t t-esc="dict(doc.offset_purchase_id._fields['project_id']._fields['project_type'].selection).get(doc.offset_purchase_id.project_id.project_type)"/></td>
+                                        <td><t t-esc="doc.offset_purchase_id.project_id.project_type"/></td>
                                     </tr>
                                     <tr t-if="doc.offset_purchase_id">
                                         <td><strong>Certificate Number:</strong></td>
                                         <td><code><t t-esc="doc.offset_purchase_id.certificate_number or 'Pending'"/></code></td>
                                     </tr>
-                                    <tr t-if="doc.offset_purchase_id">
-                                        <td><strong>Certificate Issue Date:</strong></td>
-                                        <td><t t-esc="doc.offset_purchase_id.certificate_issue_date or 'Pending'"/></td>
-                                    </tr>
                                 </table>
-                            </div>
-                        </div>
-
-                        <!-- Environmental Impact -->
-                        <div class="row mt-4" t-if="doc.carbon_offset_amount_kg > 0">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <strong>🌍 Environmental Impact</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <p>Your offset purchase of <strong><t t-esc="'{0:.2f}'.format(doc.carbon_offset_amount_kg)"/> kg CO2e</strong> is equivalent to:</p>
-                                        <ul>
-                                            <li>🌳 Planting <t t-esc="'{0:.0f}'.format(doc.carbon_offset_amount_kg / 22)"/> trees</li>
-                                            <li>🚗 Taking <t t-esc="'{0:.1f}'.format((doc.carbon_offset_amount_kg / 1000) / 4.6)"/> cars off the road for one year</li>
-                                            <li>💡 Powering <t t-esc="'{0:.0f}'.format((doc.carbon_offset_amount_kg / 1000) * 113)"/> homes for one day</li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -205,152 +182,151 @@
     <template id="report_certificate_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout_landscape">
-                    <div class="page">
-                        <div class="oe_structure"/>
+                <t t-if="doc.exists()">
+                    <t t-call="web.external_layout_landscape">
+                        <div class="page">
+                            <div class="oe_structure"/>
 
-                        <!-- Certificate Header -->
-                        <div class="text-center mt-5 mb-5">
-                            <h1 class="text-success" style="font-size: 48px;">🌿 CARBON OFFSET CERTIFICATE</h1>
-                            <p class="lead">This certificate verifies that the following entity has offset their carbon emissions</p>
-                            <hr style="border-top: 3px solid #28a745; width: 100px; margin: 20px auto;"/>
-                        </div>
-
-                        <!-- Certificate Body -->
-                        <div class="row mt-5">
-                            <div class="col-12 text-center">
-                                <h2 class="text-uppercase" style="font-size: 28px; letter-spacing: 5px;">
-                                    <t t-esc="doc.partner_id.name.upper()"/>
-                                </h2>
-                                <p class="mt-3">has successfully offset</p>
-                                <h1 class="text-success" style="font-size: 64px;">
-                                    <t t-esc="'{0:,.2f}'.format(doc.tons_offset)"/> TONS
-                                </h1>
-                                <p>of carbon dioxide equivalent (CO2e)</p>
-                                <p>through the purchase of verified carbon credits</p>
+                            <!-- Certificate Header -->
+                            <div class="text-center mt-5 mb-5">
+                                <h1 class="text-success" style="font-size: 48px;">🌿 CARBON OFFSET CERTIFICATE</h1>
+                                <p class="lead">This certificate verifies that the following entity has offset their carbon emissions</p>
+                                <hr style="border-top: 3px solid #28a745; width: 100px; margin: 20px auto;"/>
                             </div>
-                        </div>
 
-                        <!-- Environmental Equivalents -->
-                        <div class="row mt-5">
-                            <div class="col-12">
-                                <div class="card bg-light p-4" style="border-radius: 15px;">
-                                    <h4 class="text-center">🌍 Environmental Impact Equivalent to:</h4>
-                                    <div class="row text-center mt-3">
-                                        <div class="col-md-4">
-                                            <span style="font-size: 36px;">🌳</span>
-                                            <h3><t t-esc="'{0:.0f}'.format((doc.tons_offset * 1000) / 22)"/></h3>
-                                            <p>tree seedlings grown for 10 years</p>
+                            <!-- Certificate Body -->
+                            <div class="row mt-5">
+                                <div class="col-12 text-center">
+                                    <h2 class="text-uppercase" style="font-size: 28px; letter-spacing: 5px;">
+                                        <t t-esc="doc.partner_id.name or 'Unknown Customer'"/>
+                                    </h2>
+                                    <p class="mt-3">has successfully offset</p>
+                                    <h1 class="text-success" style="font-size: 64px;">
+                                        <t t-esc="'{0:,.2f}'.format(doc.tons_offset)"/> TONS
+                                    </h1>
+                                    <p>of carbon dioxide equivalent (CO2e)</p>
+                                    <p>through the purchase of verified carbon credits</p>
+                                </div>
+                            </div>
+
+                            <!-- Environmental Equivalents -->
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card bg-light p-4" style="border-radius: 15px;">
+                                        <h4 class="text-center">🌍 Environmental Impact Equivalent to:</h4>
+                                        <div class="row text-center mt-3">
+                                            <div class="col-md-4">
+                                                <span style="font-size: 36px;">🌳</span>
+                                                <h3><t t-esc="'{0:.0f}'.format((doc.tons_offset * 1000) / 22)"/></h3>
+                                                <p>tree seedlings grown for 10 years</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span style="font-size: 36px;">🚗</span>
+                                                <h3><t t-esc="'{0:.1f}'.format(doc.tons_offset / 4.6)"/></h3>
+                                                <p>cars taken off the road for 1 year</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span style="font-size: 36px;">🏠</span>
+                                                <h3><t t-esc="'{0:.1f}'.format(doc.tons_offset / 7.5)"/></h3>
+                                                <p>homes' annual energy use</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <span style="font-size: 36px;">🚗</span>
-                                            <h3><t t-esc="'{0:.1f}'.format(doc.tons_offset / 4.6)"/></h3>
-                                            <p>cars taken off the road for 1 year</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project Details -->
+                            <div class="row mt-5">
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-header bg-success text-white">
+                                            <strong>📋 Offset Project Details</strong>
                                         </div>
-                                        <div class="col-md-4">
-                                            <span style="font-size: 36px;">🏠</span>
-                                            <h3><t t-esc="'{0:.1f}'.format(doc.tons_offset / 7.5)"/></h3>
-                                            <p>homes' annual energy use</p>
+                                        <div class="card-body">
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td width="40%"><strong>Project Name:</strong></td>
+                                                    <td><t t-esc="doc.project_id.project_name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Project Type:</strong></td>
+                                                    <td><t t-esc="doc.project_id.project_type"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Location:</strong></td>
+                                                    <td><t t-esc="doc.project_id.location"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Certification:</strong></td>
+                                                    <td><t t-esc="doc.project_id.certifying_body"/></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-header bg-info text-white">
+                                            <strong>📄 Certificate Information</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td width="50%"><strong>Certificate Number:</strong></td>
+                                                    <td><code><t t-esc="doc.certificate_number"/></code></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Issue Date:</strong></td>
+                                                    <td><t t-esc="doc.certificate_issue_date or doc.purchase_date"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Order Reference:</strong></td>
+                                                    <td><t t-esc="doc.sale_order_id.name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Verified By:</strong></td>
+                                                    <td>Carbon Offset Pro</td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Project Details -->
-                        <div class="row mt-5">
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <strong>📋 Offset Project Details</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-borderless">
-                                            <tr>
-                                                <td width="40%"><strong>Project Name:</strong></td>
-                                                <td><t t-esc="doc.project_id.project_name"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Project Type:</strong></td>
-                                                <td><t t-esc="dict(doc._fields['project_id']._fields['project_type'].selection).get(doc.project_id.project_type)"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Location:</strong></td>
-                                                <td><t t-esc="doc.project_id.location"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Certification:</strong></td>
-                                                <td><t t-esc="dict(doc._fields['project_id']._fields['certifying_body'].selection).get(doc.project_id.certifying_body)"/></td>
-                                            </tr>
-                                        </table>
+                            <!-- Verification Statement -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="alert alert-success text-center">
+                                        <strong>✅ Verified Carbon Offset</strong><br/>
+                                        This purchase neutralizes <t t-esc="'{0:.2f}'.format(doc.tons_offset)"/> tons of CO2e emissions
+                                        through the <t t-esc="doc.project_id.project_name"/> project.
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-header bg-info text-white">
-                                        <strong>📄 Certificate Information</strong>
+                            <!-- Signatures -->
+                            <div class="row mt-5">
+                                <div class="col-6 text-center">
+                                    <div class="border-top d-inline-block pt-2" style="width: 200px;">
+                                        <small>Authorized Signature</small>
                                     </div>
-                                    <div class="card-body">
-                                        <table class="table table-borderless">
-                                            <tr>
-                                                <td width="50%"><strong>Certificate Number:</strong></td>
-                                                <td><code><t t-esc="doc.certificate_number"/></code></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Issue Date:</strong></td>
-                                                <td><t t-esc="doc.certificate_issue_date or doc.purchase_date"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Order Reference:</strong></td>
-                                                <td><t t-esc="doc.sale_order_id.name"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Verified By:</strong></td>
-                                                <td>Carbon Offset Pro</td>
-                                            </tr>
-                                        </table>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="border-top d-inline-block pt-2" style="width: 200px;">
+                                        <small>Carbon Offset Pro</small>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Verification Statement -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="alert alert-success text-center">
-                                    <strong>✅ Verified Carbon Offset</strong><br/>
-                                    This purchase neutralizes <t t-esc="'{0:.2f}'.format(doc.tons_offset)"/> tons of CO2e emissions
-                                    through the <t t-esc="doc.project_id.project_name"/> project, which is independently verified
-                                    by <t t-esc="dict(doc._fields['project_id']._fields['certifying_body'].selection).get(doc.project_id.certifying_body)"/>.
-                                </div>
+                            <!-- Footer -->
+                            <div class="footer mt-5 text-center text-muted small">
+                                <hr/>
+                                Certificate ID: <t t-esc="doc.certificate_number"/> | Verified by Carbon Offset Pro
                             </div>
+                            <div class="oe_structure"/>
                         </div>
-
-                        <!-- Signatures -->
-                        <div class="row mt-5">
-                            <div class="col-6 text-center">
-                                <div class="border-top d-inline-block pt-2" style="width: 200px;">
-                                    <small>Authorized Signature</small>
-                                </div>
-                            </div>
-                            <div class="col-6 text-center">
-                                <div class="border-top d-inline-block pt-2" style="width: 200px;">
-                                    <small>Carbon Offset Pro Seal</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer -->
-                        <div class="footer mt-5 text-center text-muted small">
-                            <hr/>
-                            This certificate is issued automatically and represents a real carbon offset purchase.<br/>
-                            Certificate ID: <t t-esc="doc.certificate_number"/> | Verified by Carbon Offset Pro<br/>
-                            To verify this certificate, visit: <t t-esc="doc.company_id.website or 'https://example.com/verify'"/>
-                        </div>
-                        <div class="oe_structure"/>
-                    </div>
+                    </t>
                 </t>
             </t>
         </t>

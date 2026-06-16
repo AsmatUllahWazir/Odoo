@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_carbon_offset_project_tree" model="ir.ui.view">
+        <field name="name">carbon.offset.project.tree</field>
+        <field name="model">carbon.offset.project</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="project_name"/>
+                <field name="project_type"/>
+                <field name="location"/>
+                <field name="price_per_ton_usd"/>
+                <field name="available_credits_tons"/>
+                <field name="is_active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_carbon_offset_project_form" model="ir.ui.view">
+        <field name="name">carbon.offset.project.form</field>
+        <field name="model">carbon.offset.project</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="project_name"/>
+                            <field name="project_code" readonly="1"/>
+                            <field name="project_type"/>
+                            <field name="location"/>
+                        </group>
+                        <group>
+                            <field name="price_per_ton_usd"/>
+                            <field name="available_credits_tons"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Purchases">
+                            <field name="purchase_ids">
+                                <list>
+                                    <field name="display_name"/>
+                                    <field name="tons_offset"/>
+                                    <field name="purchase_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_carbon_offset_purchase_tree" model="ir.ui.view">
+        <field name="name">carbon.offset.purchase.tree</field>
+        <field name="model">carbon.offset.purchase</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="display_name"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="tons_offset"/>
+<!--                <field name="total_cost" widget="monetary"/>-->
+                <field name="purchase_date"/>
+                <field name="certificate_issued"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_carbon_offset_purchase_form" model="ir.ui.view">
+        <field name="name">carbon.offset.purchase.form</field>
+        <field name="model">carbon.offset.purchase</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="partner_id" readonly="1"/>
+                        <field name="project_id"/>
+                        <field name="tons_offset"/>
+<!--                        <field name="total_cost" widget="monetary" readonly="1"/>-->
+                        <field name="purchase_date"/>
+                        <field name="certificate_number" readonly="1"/>
+                        <field name="certificate_issued"/>
+                    </group>
+                    <footer>
+                        <button name="action_issue_certificate" type="object" string="Download Certificate" class="btn-primary" invisible="certificate_issued"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_carbon_offset_project" model="ir.actions.act_window">
+        <field name="name">Offset Projects</field>
+        <field name="res_model">carbon.offset.project</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_carbon_offset_purchase" model="ir.actions.act_window">
+        <field name="name">Offset Purchases</field>
+        <field name="res_model">carbon.offset.purchase</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_project_amazon" model="carbon.offset.project">
+        <field name="project_name">Amazon Rainforest Protection</field>
+        <field name="project_type">reforestation</field>
+        <field name="location">Brazil</field>
+        <field name="price_per_ton_usd">12.50</field>
+        <field name="available_credits_tons">250000</field>
+        <field name="description">Protecting endangered Amazon rainforest.</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <record id="demo_project_solar" model="carbon.offset.project">
+        <field name="project_name">Rajasthan Solar Farm</field>
+        <field name="project_type">solar</field>
+        <field name="location">India</field>
+        <field name="price_per_ton_usd">8.00</field>
+        <field name="available_credits_tons">500000</field>
+        <field name="description">Large-scale solar energy project.</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <record id="demo_product_emission_laptop" model="carbon.offset.product.emission">
+        <field name="product_id" ref="product.product_product_4"/>
+        <field name="production_emission_kg">150.0</field>
+        <field name="weight_kg">2.5</field>
+        <field name="transport_mode">air</field>
+    </record>
+</odoo>

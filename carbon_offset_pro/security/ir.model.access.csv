@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_emission,product.emission,model_carbon_offset_product_emission,base.group_user,1,1,1,1
+access_offset_project,offset.project,model_carbon_offset_project,base.group_user,1,1,1,1
+access_offset_purchase,offset.purchase,model_carbon_offset_purchase,base.group_user,1,1,1,1
+access_sustainability_dashboard,sustainability.dashboard,model_sustainability_dashboard,base.group_user,1,1,1,0
+access_offset_wizard,offset.wizard,model_carbon_offset_wizard,base.group_user,1,1,1,0

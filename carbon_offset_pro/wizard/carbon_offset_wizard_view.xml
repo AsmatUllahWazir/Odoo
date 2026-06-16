@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_carbon_offset_wizard_form" model="ir.ui.view">
+        <field name="name">carbon.offset.wizard.form</field>
+        <field name="model">carbon.offset.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Carbon Offset">
+                <sheet>
+                    <group>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="total_footprint_kg" readonly="1"/>
+                        <field name="total_footprint_tons" readonly="1"/>
+                        <field name="selected_project_id" required="1"/>
+                        <field name="tons_to_offset" required="1"/>
+                        <field name="estimated_cost" widget="monetary" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_purchase_offset" type="object" string="Purchase Offset" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

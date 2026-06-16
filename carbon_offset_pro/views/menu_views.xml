@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_carbon_offset_root" name="Carbon Offset" sequence="95" web_icon="carbon_offset_pro,static/description/icon.png"/>
+
+    <menuitem id="menu_carbon_offset_config" name="Configuration" parent="menu_carbon_offset_root" sequence="10"/>
+    <menuitem id="menu_product_emission" name="Product Emissions" parent="menu_carbon_offset_config" action="action_product_emission"/>
+
+    <menuitem id="menu_carbon_offset_offsets" name="Carbon Offsets" parent="menu_carbon_offset_root" sequence="20"/>
+    <menuitem id="menu_offset_projects" name="Offset Projects" parent="menu_carbon_offset_offsets" action="action_carbon_offset_project"/>
+    <menuitem id="menu_offset_purchases" name="Offset Purchases" parent="menu_carbon_offset_offsets" action="action_carbon_offset_purchase"/>
+
+    <menuitem id="menu_carbon_offset_reports" name="Reports" parent="menu_carbon_offset_root" sequence="30"/>
+    <menuitem id="menu_sustainability_dashboard" name="Sustainability Dashboard" parent="menu_carbon_offset_reports" action="action_sustainability_dashboard"/>
+</odoo>

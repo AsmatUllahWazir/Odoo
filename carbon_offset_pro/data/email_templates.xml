@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_template_offset_confirmation" model="mail.template">
+        <field name="name">Carbon Offset Purchase Confirmation</field>
+        <field name="model_id" ref="model_carbon_offset_purchase"/>
+        <field name="email_from">${object.company_id.email or 'noreply@example.com'}</field>
+        <field name="email_to">${object.partner_id.email}</field>
+        <field name="subject">Carbon Offset Purchase Confirmation - ${object.certificate_number}</field>
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h2 style="color: #2e7d32;">🌍 Carbon Offset Purchase Confirmation</h2>
+                <p>Dear ${object.partner_id.name},</p>
+                <p>Thank you for purchasing carbon offsets!</p>
+                <h3>Purchase Details</h3>
+                <ul>
+                    <li>Certificate Number: <strong>${object.certificate_number}</strong></li>
+                    <li>Amount Offset: <strong>${object.tons_offset} tons CO2e</strong></li>
+                    <li>Project: <strong>${object.project_id.project_name}</strong></li>
+                </ul>
+                <p>Your carbon offset certificate is attached.</p>
+                <p>Thank you for your commitment to sustainability!</p>
+            </div>
+            ]]>
+        </field>
+        <field name="auto_delete" eval="False"/>
+    </record>
+
+    <record id="email_template_certificate" model="mail.template">
+        <field name="name">Carbon Offset Certificate</field>
+        <field name="model_id" ref="model_carbon_offset_purchase"/>
+        <field name="email_from">${object.company_id.email or 'noreply@example.com'}</field>
+        <field name="email_to">${object.partner_id.email}</field>
+        <field name="subject">Your Carbon Offset Certificate - ${object.certificate_number}</field>
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h2 style="color: #2e7d32;">🌿 Your Carbon Offset Certificate</h2>
+                <p>Dear ${object.partner_id.name},</p>
+                <p>Please find attached your official Carbon Offset Certificate.</p>
+                <p><strong>Certificate:</strong> ${object.certificate_number}</p>
+                <p><strong>Amount Offset:</strong> ${object.tons_offset} tons CO2e</p>
+            </div>
+            ]]>
+        </field>
+        <field name="auto_delete" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_skill_no_restrictions" model="res.groups">
+        <field name="name">Skills / No Restrictions</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+</odoo>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<odoo>-->
+<!--    &lt;!&ndash; Security Groups &ndash;&gt;-->
+<!--    <record id="group_skill_user" model="res.groups">-->
+<!--        <field name="name">Skill / User</field>-->
+<!--        <field name="category_id" ref="base.module_category_human_resources"/>-->
+<!--        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+<!--    </record>-->
+
+<!--    <record id="group_skill_manager" model="res.groups">-->
+<!--        <field name="name">Skill / Manager</field>-->
+<!--        <field name="category_id" ref="base.module_category_human_resources"/>-->
+<!--        <field name="implied_ids" eval="[(4, ref('group_skill_user'))]"/>-->
+<!--    </record>-->
+
+<!--    <record id="group_skill_hr" model="res.groups">-->
+<!--        <field name="name">Skill / HR</field>-->
+<!--        <field name="category_id" ref="base.module_category_human_resources"/>-->
+<!--        <field name="implied_ids" eval="[(4, ref('group_skill_manager'))]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Access Rules &ndash;&gt;-->
+<!--    <record id="employee_skill_rule_user" model="ir.rule">-->
+<!--        <field name="name">Employee Skill: User Own/Team Skills</field>-->
+<!--        <field name="model_id" ref="model_employee_skill"/>-->
+<!--        <field name="global" eval="True"/>-->
+<!--        <field name="domain_force">-->
+<!--            ['|',-->
+<!--             ('employee_id.user_id', '=', user.id),-->
+<!--             '|',-->
+<!--             ('employee_id.parent_id.user_id', '=', user.id),-->
+<!--             ('employee_id.department_id.manager_id.user_id', '=', user.id)]-->
+<!--        </field>-->
+<!--        <field name="groups" eval="[(4, ref('group_skill_user'))]"/>-->
+<!--    </record>-->
+
+<!--    <record id="employee_skill_rule_manager" model="ir.rule">-->
+<!--        <field name="name">Employee Skill: Manager All Access</field>-->
+<!--        <field name="model_id" ref="model_employee_skill"/>-->
+<!--        <field name="global" eval="True"/>-->
+<!--        <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--        <field name="groups" eval="[(4, ref('group_skill_manager'))]"/>-->
+<!--    </record>-->
+
+<!--    <record id="skill_endorsement_rule_user" model="ir.rule">-->
+<!--        <field name="name">Skill Endorsement: User Related Skills</field>-->
+<!--        <field name="model_id" ref="model_skill_endorsement"/>-->
+<!--        <field name="global" eval="True"/>-->
+<!--        <field name="domain_force">-->
+<!--            ['|',-->
+<!--             ('skill_id.employee_id.user_id', '=', user.id),-->
+<!--             ('endorser_id', '=', user.partner_id.id)]-->
+<!--        </field>-->
+<!--        <field name="groups" eval="[(4, ref('group_skill_user'))]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Portal Access Rule &ndash;&gt;-->
+<!--    <record id="employee_skill_rule_portal" model="ir.rule">-->
+<!--        <field name="name">Employee Skill: Portal Access</field>-->
+<!--        <field name="model_id" ref="model_employee_skill"/>-->
+<!--        <field name="global" eval="True"/>-->
+<!--        <field name="domain_force">-->
+<!--            [('employee_id.user_id', '=', user.id)]-->
+<!--        </field>-->
+<!--        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>-->
+<!--    </record>-->
+<!--</odoo>-->

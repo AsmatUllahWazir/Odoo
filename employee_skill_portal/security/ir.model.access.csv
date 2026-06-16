@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_skill_all,employee.skill.all,model_employee_skill,base.group_user,1,1,1,1
+access_employee_skill_public,employee.skill.public,model_employee_skill,base.group_public,1,1,1,1
+access_skill_endorsement_all,skill.endorsement.all,model_skill_endorsement,base.group_user,1,1,1,1
+access_skill_endorsement_public,skill.endorsement.public,model_skill_endorsement,base.group_public,1,1,1,1
+access_skill_category_all,skill.category.all,model_skill_category,base.group_user,1,1,1,1
+access_skill_category_public,skill.category.public,model_skill_category,base.group_public,1,1,1,1
+access_skill_tag_all,skill.tag.all,model_skill_tag,base.group_user,1,1,1,1
+access_skill_tag_public,skill.tag.public,model_skill_tag,base.group_public,1,1,1,1
+access_employee_skill_assessment_all,employee.skill.assessment.all,model_employee_skill_assessment,base.group_user,1,1,1,1
+access_employee_skill_assessment_public,employee.skill.assessment.public,model_employee_skill_assessment,base.group_public,1,1,1,1
+access_skill_training_all,skill.training.all,model_skill_training,base.group_user,1,1,1,1
+access_skill_training_public,skill.training.public,model_skill_training,base.group_public,1,1,1,1
+access_assessment_skill_line_all,assessment.skill.line.all,model_assessment_skill_line,base.group_user,1,1,1,1
+access_assessment_skill_line_public,assessment.skill.line.public,model_assessment_skill_line,base.group_public,1,1,1,1

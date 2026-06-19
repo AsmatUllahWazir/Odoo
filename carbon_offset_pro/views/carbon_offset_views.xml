@@ -76,7 +76,7 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="sale_order_id" readonly="1"/>
+                        <field name="sale_order_id" readonly="0"/>
                         <field name="partner_id" readonly="1"/>
                         <field name="project_id"/>
                         <field name="tons_offset"/>

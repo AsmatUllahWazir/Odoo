@@ -1,332 +1,666 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Sustainability Report Template -->
+    <!-- ==================== SUSTAINABILITY REPORT TEMPLATE ==================== -->
     <template id="report_sustainability_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <div class="oe_structure"/>
+                <t t-if="doc and doc.exists()">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
 
-                        <!-- Header Section -->
-                        <div class="row">
-                            <div class="col-12 text-center mb-4">
-                                <h1 class="text-success">🌍 Sustainability Report</h1>
-                                <h3><t t-esc="doc.name"/></h3>
-                                <p class="text-muted">Generated on <t t-esc="fields.Date.today()"/></p>
-                            </div>
-                        </div>
-
-                        <!-- Customer Information -->
-                        <div class="row mt-4 mb-4">
-                            <div class="col-6">
-                                <strong>Customer:</strong> <t t-esc="doc.partner_id.name"/><br/>
-                                <strong>Order Date:</strong> <t t-esc="doc.date_order"/><br/>
-                                <strong>Order Reference:</strong> <t t-esc="doc.name"/>
-                            </div>
-                            <div class="col-6 text-right">
-                                <div class="card p-3 bg-light">
-                                    <strong>Total Carbon Footprint</strong>
-                                    <h2 class="text-danger">
-                                        <t t-esc="'{0:.2f}'.format(doc.total_carbon_footprint_kg)"/> kg CO2e
-                                    </h2>
-                                    <small>≈ <t t-esc="'{0:.2f}'.format(doc.total_carbon_footprint_kg/1000)"/> tons CO2e</small>
+                            <!-- Header Section -->
+                            <div class="row">
+                                <div class="col-12 text-center mb-4">
+                                    <h1 style="color: #2e7d32;">🌍 Sustainability Report</h1>
+                                    <h3>
+                                        <t t-esc="doc.name"/>
+                                    </h3>
+                                    <p class="text-muted">Generated on
+                                        <t t-esc="get_date()"/>
+                                    </p>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Carbon Tier Badge -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="alert" t-attf-class="#{doc.carbon_tier == 'net_zero' and 'alert-success' or doc.carbon_tier == 'low' and 'alert-info' or doc.carbon_tier == 'medium' and 'alert-warning' or 'alert-danger'}">
-                                    <strong>Carbon Classification:</strong>
-                                    <t t-if="doc.carbon_tier == 'net_zero'">🎉 Net Zero - Excellent! Your order is carbon neutral!</t>
-                                    <t t-elif="doc.carbon_tier == 'low'">🌱 Low Carbon Footprint - Good job!</t>
-                                    <t t-elif="doc.carbon_tier == 'medium'">📊 Medium Carbon Footprint - Consider reducing where possible</t>
-                                    <t t-elif="doc.carbon_tier == 'high'">⚠️ High Carbon Footprint - Offset recommended</t>
-                                    <t t-else="">🚨 Very High Carbon Footprint - Immediate offset required</t>
+                            <!-- Customer Information -->
+                            <div class="row mt-4 mb-4">
+                                <div class="col-6">
+                                    <strong>Customer:</strong>
+                                    <t t-esc="doc.partner_id.name"/>
+                                    <br/>
+                                    <strong>Order Date:</strong>
+                                    <t t-esc="doc.date_order"/>
+                                    <br/>
+                                    <strong>Order Reference:</strong>
+                                    <t t-esc="doc.name"/>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <div style="background: #e8f5e9; padding: 15px; border-radius: 8px;">
+                                        <strong>Total Carbon Footprint</strong>
+                                        <h2 style="color: #dc3545;">
+                                            <t t-esc="'{0:.2f}'.format(calculate_total_emissions(doc))"/>
+                                            kg CO2e
+                                        </h2>
+                                        <small>≈
+                                            <t t-esc="'{0:.2f}'.format(calculate_total_emissions(doc)/1000)"/>
+                                            tons CO2e
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Product Emissions Table -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <h4>📦 Product Emissions Breakdown</h4>
-                                <table class="table table-bordered table-sm">
-                                    <thead>
-                                        <tr class="bg-secondary text-white">
-                                            <th>Product</th>
-                                            <th class="text-right">Quantity</th>
-                                            <th class="text-right">CO2e (kg)</th>
-                                            <th class="text-center">Carbon Rating</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <t t-foreach="doc.order_line" t-as="line">
-                                            <tr t-if="line.line_carbon_footprint_kg > 0">
-                                                <td><t t-esc="line.product_id.display_name"/></td>
-                                                <td class="text-right"><t t-esc="'{0:.0f}'.format(line.product_uom_qty)"/></td>
-                                                <td class="text-right"><t t-esc="'{0:.2f}'.format(line.line_carbon_footprint_kg)"/></td>
-                                                <td class="text-center">
-                                                    <t t-if="line.carbon_rating == 'A++'">🏆 A++ (Best)</t>
-                                                    <t t-elif="line.carbon_rating == 'A'">✅ A (Excellent)</t>
-                                                    <t t-elif="line.carbon_rating == 'B'">👍 B (Good)</t>
-                                                    <t t-elif="line.carbon_rating == 'C'">📊 C (Average)</t>
-                                                    <t t-elif="line.carbon_rating == 'D'">⚠️ D (Poor)</t>
-                                                    <t t-else="">🔴 E (Very Poor)</t>
-                                                </td>
-                                            </tr>
+                            <!-- Carbon Tier Badge -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <t t-set="tier_info" t-value="get_carbon_tier_label(doc.carbon_tier)"/>
+                                    <div class="alert"
+                                         t-attf-class="#{doc.carbon_tier in ['net_zero','low'] and 'alert-success' or doc.carbon_tier == 'medium' and 'alert-warning' or 'alert-danger'}">
+                                        <strong>Carbon Classification:</strong>
+                                        <t t-if="doc.carbon_tier == 'net_zero'">🌟 Net Zero - Excellent! Your order is
+                                            carbon neutral!
                                         </t>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr class="bg-light">
-                                            <th colspan="2" class="text-right">Total:</th>
-                                            <th class="text-right"><t t-esc="'{0:.2f}'.format(doc.total_carbon_footprint_kg)"/> kg</th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                        <t t-elif="doc.carbon_tier == 'low'">✅ Low Carbon Footprint - Good job!</t>
+                                        <t t-elif="doc.carbon_tier == 'medium'">📊 Medium Carbon Footprint - Consider
+                                            reducing where possible
+                                        </t>
+                                        <t t-elif="doc.carbon_tier == 'high'">⚠️ High Carbon Footprint - Offset
+                                            recommended
+                                        </t>
+                                        <t t-else="">🚨 Very High Carbon Footprint - Immediate offset required</t>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Top Emitters Section -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <h4>🔥 Top Emitting Products</h4>
-                                <table class="table table-sm">
-                                    <thead>
+                            <!-- Product Emissions Table -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h4>📦 Product Emissions Breakdown</h4>
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr style="background: #2e7d32; color: white;">
+                                                <th>Product</th>
+                                                <th class="text-right">Quantity</th>
+                                                <th class="text-right">CO2e (kg)</th>
+                                                <th class="text-center">Carbon Rating</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.order_line" t-as="line">
+                                                <tr t-if="line.line_carbon_footprint_kg > 0">
+                                                    <td>
+                                                        <t t-esc="line.product_id.display_name"/>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <t t-esc="'{0:.0f}'.format(line.product_uom_qty)"/>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <t t-esc="'{0:.2f}'.format(line.line_carbon_footprint_kg)"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <t t-if="line.carbon_rating == 'A++'">🏆 A++ (Best)</t>
+                                                        <t t-elif="line.carbon_rating == 'A'">✅ A (Excellent)</t>
+                                                        <t t-elif="line.carbon_rating == 'B'">👍 B (Good)</t>
+                                                        <t t-elif="line.carbon_rating == 'C'">📊 C (Average)</t>
+                                                        <t t-elif="line.carbon_rating == 'D'">⚠️ D (Poor)</t>
+                                                        <t t-else="">🔴 E (Very Poor)</t>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="background: #f5f5f5;">
+                                                <th colspan="2" class="text-right">Total:</th>
+                                                <th class="text-right">
+                                                    <t t-esc="'{0:.2f}'.format(calculate_total_emissions(doc))"/>
+                                                    kg
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Top Emitters Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h4>🔥 Top Emitting Products</h4>
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr style="background: #f5f5f5;">
+                                                <th>Product</th>
+                                                <th class="text-right">CO2e (kg)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="products" t-value="get_emission_breakdown(doc)"/>
+                                            <t t-foreach="products" t-as="item">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="item['product']"/>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <t t-esc="'{0:.2f}'.format(item['emission_kg'])"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Offset Information -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h4>🌲 Carbon Offset Status</h4>
+                                    <table class="table table-bordered">
                                         <tr>
-                                            <th>Product</th>
-                                            <th class="text-right">CO2e (kg)</th>
+                                            <td width="50%">
+                                                <strong>Offset Purchased:</strong>
+                                            </td>
+                                            <td>
+                                                <t t-if="doc.carbon_offset_amount_kg > 0">
+                                                    <span style="color: #28a745;">✅
+                                                        <t t-esc="'{0:.2f}'.format(doc.carbon_offset_amount_kg)"/>
+                                                        kg CO2e
+                                                    </span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="color: #ffc107;">⚠️ No offset purchased yet</span>
+                                                </t>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <t t-set="products" t-value="doc.order_line.sorted(key=lambda l: l.line_carbon_footprint_kg, reverse=True)[:5]"/>
-                                        <t t-foreach="products" t-as="line">
-                                            <tr t-if="line.line_carbon_footprint_kg > 0">
-                                                <td><t t-esc="line.product_id.display_name"/></td>
-                                                <td class="text-right"><t t-esc="'{0:.2f}'.format(line.line_carbon_footprint_kg)"/></td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                </table>
+                                        <tr t-if="doc.offset_purchase_id and doc.offset_purchase_id.exists()">
+                                            <td>
+                                                <strong>Offset Project:</strong>
+                                            </td>
+                                            <td>
+                                                <t t-esc="doc.offset_purchase_id.project_id.project_name"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-if="doc.offset_purchase_id and doc.offset_purchase_id.exists()">
+                                            <td>
+                                                <strong>Project Type:</strong>
+                                            </td>
+                                            <td>
+                                                <t t-esc="doc.offset_purchase_id.project_id.project_type"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-if="doc.offset_purchase_id and doc.offset_purchase_id.exists()">
+                                            <td>
+                                                <strong>Certificate Number:</strong>
+                                            </td>
+                                            <td>
+                                                <code>
+                                                    <t t-esc="get_certificate_number(doc)"/>
+                                                </code>
+                                            </td>
+                                        </tr>
+                                        <tr t-if="doc.offset_purchase_id and doc.offset_purchase_id.exists() and doc.offset_purchase_id.certificate_issued">
+                                            <td>
+                                                <strong>Certificate Issued:</strong>
+                                            </td>
+                                            <td>
+                                                <span style="color: #28a745;">✅ Yes</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Offset Information -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <h4>🌲 Carbon Offset Status</h4>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td width="50%"><strong>Offset Purchased:</strong></td>
-                                        <td>
-                                            <t t-if="doc.carbon_offset_amount_kg > 0">
-                                                <span class="text-success">✅ <t t-esc="'{0:.2f}'.format(doc.carbon_offset_amount_kg)"/> kg CO2e</span>
-                                            </t>
-                                            <t t-else="">
-                                                <span class="text-warning">⚠️ No offset purchased yet</span>
-                                            </t>
-                                        </td>
-                                    </tr>
-                                    <tr t-if="doc.offset_purchase_id">
-                                        <td><strong>Offset Project:</strong></td>
-                                        <td><t t-esc="doc.offset_purchase_id.project_id.project_name"/></td>
-                                    </tr>
-                                    <tr t-if="doc.offset_purchase_id">
-                                        <td><strong>Project Type:</strong></td>
-                                        <td><t t-esc="doc.offset_purchase_id.project_id.project_type"/></td>
-                                    </tr>
-                                    <tr t-if="doc.offset_purchase_id">
-                                        <td><strong>Certificate Number:</strong></td>
-                                        <td><code><t t-esc="doc.offset_purchase_id.certificate_number or 'Pending'"/></code></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Recommendations -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <strong>💡 Recommendations to Reduce Your Carbon Footprint</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul>
-                                            <li>🌿 Choose products with A+ or A carbon ratings</li>
-                                            <li>📦 Consolidate multiple orders to reduce shipping emissions</li>
-                                            <li>🌲 Purchase carbon offsets for unavoidable emissions</li>
-                                            <li>🚚 Select slower shipping methods when possible (lower emissions)</li>
-                                            <li>♻️ Look for our eco-friendly product line with sustainable packaging</li>
-                                        </ul>
+                            <!-- Recommendations -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div style="border: 1px solid #2e7d32; border-radius: 8px; overflow: hidden;">
+                                        <div style="background: #2e7d32; color: white; padding: 10px 15px;">
+                                            <strong>💡 Recommendations to Reduce Your Carbon Footprint</strong>
+                                        </div>
+                                        <div style="padding: 15px;">
+                                            <ul>
+                                                <li>🌿 Choose products with A+ or A carbon ratings</li>
+                                                <li>📦 Consolidate multiple orders to reduce shipping emissions</li>
+                                                <li>🌲 Purchase carbon offsets for unavoidable emissions</li>
+                                                <li>🚚 Select slower shipping methods when possible (lower emissions)
+                                                </li>
+                                                <li>♻️ Look for our eco-friendly product line with sustainable
+                                                    packaging
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="footer mt-5 text-center text-muted small">
-                            <hr/>
-                            This report is generated automatically by Carbon Offset Pro.<br/>
-                            For more information, contact: <t t-esc="doc.company_id.email or 'sustainability@example.com'"/>
+                            <div style="margin-top: 50px; text-align: center; color: #6c757d; font-size: 12px;">
+                                <hr/>
+                                This report is generated automatically by Carbon Offset Pro.
+                                <br/>
+                                For more information, contact:
+                                <t t-esc="doc.company_id.email or 'sustainability@example.com'"/>
+                            </div>
+                            <div class="oe_structure"/>
                         </div>
-                        <div class="oe_structure"/>
+                    </t>
+                </t>
+                <t t-if="not doc or not doc.exists()">
+                    <div class="page text-center">
+                        <h1>Document Not Found</h1>
+                        <p>The requested sustainability report could not be found.</p>
                     </div>
                 </t>
             </t>
         </t>
     </template>
 
-    <!-- Carbon Offset Certificate Template -->
+    <!-- ==================== CARBON OFFSET CERTIFICATE TEMPLATE ==================== -->
+        <!-- ==================== CARBON OFFSET CERTIFICATE TEMPLATE ==================== -->
     <template id="report_certificate_template">
         <t t-call="web.html_container">
+            <t t-if="docs and docs.exists()">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-if="doc and doc.exists()">
+                        <t t-call="web.external_layout">
+                            <div class="page"
+                                 style="padding: 0px !important; margin: 0 !important; font-family: 'Helvetica', 'Arial', sans-serif; background: white; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 100%; max-width: 100%; margin: 0; background: white; padding: 10px 20px 8px 20px; border: 1px solid #e8f5e9; height: 100%;">
+
+                                    <!-- Company Header -->
+                                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2e7d32; padding-bottom: 4px; margin-bottom: 4px;">
+                                        <div style="text-align: center; background: #2e7d32; padding: 4px 20px; border-radius: 20px;">
+                                            <span style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 2px;">CERTIFICATE</span>
+                                        </div>
+                                    </div>
+
+                                    <br/>
+
+                                    <!-- Title -->
+                                    <div style="text-align: center; margin: 4px 0 6px 0;">
+                                        <h4 style="color: #2e7d32; font-size: 20px; font-weight: 700; letter-spacing: 4px; margin: 0; text-transform: uppercase;">Carbon Offset Certificate</h4>
+                                        <br/>
+                                        <p style="color: #6c757d; font-size: 12px; margin: 0; letter-spacing: 2px;">This certificate verifies carbon neutrality</p>
+                                        <br/>
+                                        <div style="width: 500px; height: 2px; background: #2e7d32; margin: 3px auto 0;"/>
+                                    </div>
+
+                                    <br/>
+
+                                    <!-- Row 1: Customer Name & Amount + Environmental Equivalents -->
+                                    <div class="row" style="display: flex; gap: 12px; margin: 4px 0;">
+                                        <!-- Left: Customer Name & Amount -->
+                                        <div class="col-6" style="background: #f0f7ff; flex: 1; background: linear-gradient(135deg, #f8fbf8, #e8f5e9); padding: 8px 18px; border-radius: 8px; border: 1px solid #2e7d32; display: flex; align-items: center; justify-content: space-between;">
+                                            <div style="text-align: left;">
+                                                <p style="text-align: center; font-size: 12px; color: #6c757d; margin: 0;">This certifies that,</p>
+                                                <br/>
+                                                <h5 style="text-align: center; font-size: 16px; color: #2e7d32; font-weight: 700; letter-spacing: 2px; margin: 0; text-transform: uppercase;">
+                                                    <t t-esc="doc.partner_id.name or 'Unknown Customer'"/>
+                                                </h5>
+                                            </div>
+                                            <div style="text-align: center; padding-left: 18px;">
+                                                <br/>
+                                                <p style="text-align: center; font-size: 12px; color: #6c757d; margin: 0;">has offset</p>
+                                                <br/>
+                                                <div>
+                                                    <span style="font-size: 23px; font-weight: 800; color: #2e7d32;">
+                                                        <t t-esc="'{0:,.2f}'.format(doc.tons_offset)"/>
+                                                    </span>
+                                                    <span style="font-size: 15px; font-weight: 700; color: #2e7d32;"> TONS</span>
+                                                </div>
+                                                <br/>
+                                                <p style="font-size: 12px; color: #6c757d; margin: 0;">of carbon dioxide equivalent (CO2e)</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Right: Environmental Equivalents -->
+                                        <div class="col-6" style="background: #f0f7ff; flex: 1; background: linear-gradient(135deg, #f1f8f1, #e8f5e9); border-left: 3px solid #2e7d32; padding: 8px 12px; border-radius: 8px; border: 1px solid #2e7d32; display: flex; align-items: center; justify-content: space-around;">
+                                            <p style="text-align: center; font-size: 18px; font-weight: 700; color: #2e7d32;">Impact</p>
+                                            <div style="display: flex; text-align: center;">
+                                                <div>
+                                                    <span style="font-size: 18px; font-weight: 700; color: #2e7d32; display: block;"><t t-esc="get_equivalent_trees(doc.tons_offset)"/></span>
+                                                    <span style="text-align: center; font-size: 12px; color: #6c757d;">tree seedlings</span>
+                                                    <span style="font-size: 15px; font-weight: 700; color: #2e7d32; display: block;"><t t-esc="get_equivalent_cars(doc.tons_offset)"/></span>
+                                                    <span style="font-size: 12px; color: #6c757d;">cars off road</span>
+                                                    <span style="font-size: 15px; font-weight: 700; color: #2e7d32; display: block;"><t t-esc="get_equivalent_homes(doc.tons_offset)"/></span>
+                                                    <span style="font-size: 12px; color: #6c757d;">homes' energy</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br/>
+
+                                    <!-- Row 2: Project Details + Certificate Details (Side by Side) -->
+                                    <div class="row" style="display: flex; gap: 12px; margin: 4px 0;">
+                                        <!-- Left: Project Details -->
+                                        <div class="col-6" style="flex: 1; background: #f0f7ff; border-radius: 8px; padding: 6px 12px; border-left: 3px solid #2e7d32; border-left: 3px solid #1565c0;">
+                                            <p style="font-size: 15px; font-weight: 600; color: #1565c0; margin: 0 0 3px 0;">Project Details</p>
+                                            <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                                                <tr>
+                                                    <td style="width: 30%; padding: 2px 4px; color: #555; font-weight: 500;">Project:</td>
+                                                    <td style="padding: 2px 4px; color: #333;"><t t-esc="doc.project_id.project_name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 2px 4px; color: #555; font-weight: 500;">Type:</td>
+                                                    <td style="padding: 2px 4px; color: #333;"><t t-esc="get_project_type_label(doc.project_id.project_type)"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 2px 4px; color: #555; font-weight: 500;">Location:</td>
+                                                    <td style="padding: 2px 4px; color: #333;"><t t-esc="doc.project_id.location"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 2px 4px; color: #555; font-weight: 500;">Certification:</td>
+                                                    <td style="padding: 2px 4px; color: #333;"><t t-esc="get_certification_label(doc.project_id.certifying_body)"/></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <!-- Right: Certificate Details -->
+                                        <div class="col-6" style="flex: 1; background: #f0f7ff; border-radius: 8px; padding: 6px 12px; border-left: 3px solid #1565c0;">
+                                            <p style="font-size: 15px; font-weight: 600; color: #1565c0; margin: 0 0 3px 0;">Certificate Details</p>
+                                            <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                                                <tr>
+                                                    <td style="width: 35%; padding: 2px 4px; color: #555; font-weight: 500;">Number:</td>
+                                                    <td style="padding: 2px 4px; color: #333; font-weight: 600;"><code style="font-size: 9px;"><t t-esc="doc.certificate_number"/></code></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 2px 4px; color: #555; font-weight: 500;">Issue Date:</td>
+                                                    <td style="padding: 2px 4px; color: #333;"><t t-esc="doc.certificate_issue_date or doc.purchase_date"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 2px 4px; color: #555; font-weight: 500;">Order:</td>
+                                                    <td style="padding: 2px 4px; color: #333;"><t t-esc="doc.sale_order_id.name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 2px 4px; color: #555; font-weight: 500;">Verified By:</td>
+                                                    <td style="padding: 2px 4px; color: #333; font-weight: 500;">Carbon Offset Pro</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <br/>
+
+                                    <!-- Verification Statement -->
+                                    <div style="text-align: center; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 4px 14px; border-radius: 8px; border-left: 4px solid #1565c0; border: 1px solid #1565c0; margin: 4px 0;">
+                                        <p style="font-size: 12px; color: #1b5e20; margin: 0; text-align: center;">
+                                            Verified — <t t-esc="'{0:.2f}'.format(doc.tons_offset)"/> tons CO2e offset via <strong><t t-esc="doc.project_id.project_name"/></strong>
+                                        </p>
+                                    </div>
+
+                                    <br/>
+
+                                    <!-- Signatures -->
+                                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e0e0e0; padding-top: 6px; margin-top: 4px;">
+                                        <div style="text-align: center; flex: 1;">
+                                            <div style="border-top: 1px solid #555; width: 140px; margin: 0 auto; padding-top: 6px;">
+                                                <p style="font-size: 12px; color: #999; margin: 0;">Authorized Signature</p>
+                                            </div>
+                                        </div>
+
+                                        <br/>
+
+                                        <div style="text-align: center; flex: 1;">
+                                            <div style="display: flex; text-align: center; gap: 4px;">
+                                                <span style="text-align: center; font-size: 15px; font-weight: 600; color: #2e7d32;">Carbon Offset Pro</span>
+                                            </div>
+                                        </div>
+
+                                        <br/>
+
+                                        <div style="text-align: center; flex: 1;">
+                                            <div style="border-top: 1px solid #555; width: 140px; margin: 0 auto; padding-top: 6px;">
+                                                <p style="font-size: 12px; color: #999; margin: 0;">Company Seal</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br/>
+
+                                    <!-- Footer -->
+                                    <div style="text-align: center; border-top: 1px solid #f0f0f0; padding-top: 4px; margin-top: 4px;">
+                                        <p style="font-size: 12px; color: #bbb; margin: 0; letter-spacing: 0.5px;">
+                                            Certificate ID: <t t-esc="doc.certificate_number"/> | Verified by Carbon Offset Pro
+                                        </p>
+                                    </div>
+
+                                    <div class="oe_structure"/>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-if="not doc or not doc.exists()">
+                        <div class="page text-center">
+                            <h1>Certificate Not Found</h1>
+                            <p>The requested certificate does not exist or has been deleted.</p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+            <t t-if="not docs or not docs.exists()">
+                <div class="page text-center">
+                    <h1>No Certificate Found</h1>
+                    <p>The certificate you are looking for could not be found.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ==================== EXECUTIVE SUMMARY TEMPLATE ==================== -->
+    <template id="report_executive_summary">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-if="doc.exists()">
-                    <t t-call="web.external_layout_landscape">
+                <t t-if="doc and doc.exists()">
+                    <t t-call="web.external_layout">
                         <div class="page">
                             <div class="oe_structure"/>
 
-                            <!-- Certificate Header -->
-                            <div class="text-center mt-5 mb-5">
-                                <h1 class="text-success" style="font-size: 48px;">🌿 CARBON OFFSET CERTIFICATE</h1>
-                                <p class="lead">This certificate verifies that the following entity has offset their carbon emissions</p>
-                                <hr style="border-top: 3px solid #28a745; width: 100px; margin: 20px auto;"/>
+                            <div style="text-align: center;">
+                                <h1 style="color: #2e7d32;">📊 Sustainability Executive Summary</h1>
+                                <h4>
+                                    <t t-esc="doc.company_id.name"/>
+                                </h4>
+                                <p>Period:
+                                    <t t-esc="doc.date_from"/>
+                                    to
+                                    <t t-esc="doc.date_to"/>
+                                </p>
+                                <p>Generated:
+                                    <t t-esc="get_date()"/>
+                                </p>
                             </div>
 
-                            <!-- Certificate Body -->
-                            <div class="row mt-5">
-                                <div class="col-12 text-center">
-                                    <h2 class="text-uppercase" style="font-size: 28px; letter-spacing: 5px;">
-                                        <t t-esc="doc.partner_id.name or 'Unknown Customer'"/>
+                            <!-- KPI Cards -->
+                            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                                <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5>Total CO2e</h5>
+                                    <h2 style="color: #dc3545;">
+                                        <t t-esc="'{0:,.0f}'.format(doc.total_co2_kg)"/>
+                                        kg
                                     </h2>
-                                    <p class="mt-3">has successfully offset</p>
-                                    <h1 class="text-success" style="font-size: 64px;">
-                                        <t t-esc="'{0:,.2f}'.format(doc.tons_offset)"/> TONS
-                                    </h1>
-                                    <p>of carbon dioxide equivalent (CO2e)</p>
-                                    <p>through the purchase of verified carbon credits</p>
+                                    <small>(
+                                        <t t-esc="'{0:,.1f}'.format(doc.total_co2_tons)"/>
+                                        tons)
+                                    </small>
+                                </div>
+                                <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5>Total Orders</h5>
+                                    <h2 style="color: #007bff;">
+                                        <t t-esc="doc.total_orders"/>
+                                    </h2>
+                                    <small>orders in period</small>
+                                </div>
+                                <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5>Average per Order</h5>
+                                    <h2 style="color: #ffc107;">
+                                        <t t-esc="'{0:,.1f}'.format(doc.avg_co2_per_order)"/>
+                                        kg
+                                    </h2>
+                                    <small>per order</small>
+                                </div>
+                                <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5>Offset Rate</h5>
+                                    <h2 style="color: #28a745;"><t t-esc="'{0:.1f}'.format(doc.offset_percentage)"/>%
+                                    </h2>
+                                    <small>of emissions offset</small>
                                 </div>
                             </div>
 
-                            <!-- Environmental Equivalents -->
-                            <div class="row mt-5">
-                                <div class="col-12">
-                                    <div class="card bg-light p-4" style="border-radius: 15px;">
-                                        <h4 class="text-center">🌍 Environmental Impact Equivalent to:</h4>
-                                        <div class="row text-center mt-3">
-                                            <div class="col-md-4">
-                                                <span style="font-size: 36px;">🌳</span>
-                                                <h3><t t-esc="'{0:.0f}'.format((doc.tons_offset * 1000) / 22)"/></h3>
-                                                <p>tree seedlings grown for 10 years</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <span style="font-size: 36px;">🚗</span>
-                                                <h3><t t-esc="'{0:.1f}'.format(doc.tons_offset / 4.6)"/></h3>
-                                                <p>cars taken off the road for 1 year</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <span style="font-size: 36px;">🏠</span>
-                                                <h3><t t-esc="'{0:.1f}'.format(doc.tons_offset / 7.5)"/></h3>
-                                                <p>homes' annual energy use</p>
-                                            </div>
-                                        </div>
+                            <!-- Top Products -->
+                            <div style="margin-top: 30px;">
+                                <h4>🔥 Top 5 Emitting Products</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #f5f5f5;">
+                                            <th style="padding: 8px; text-align: left;">Product</th>
+                                            <th style="padding: 8px; text-align: right;">CO2e (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="products" t-value="doc.top_emitting_products.split('\n')"/>
+                                        <t t-foreach="products" t-as="product_line">
+                                            <t t-if="product_line.strip()">
+                                                <t t-set="parts" t-value="product_line.split(':')"/>
+                                                <tr>
+                                                    <td style="padding: 6px; border-bottom: 1px solid #eee;">
+                                                        <t t-esc="parts[0]"/>
+                                                    </td>
+                                                    <td style="padding: 6px; border-bottom: 1px solid #eee; text-align: right;">
+                                                        <t t-esc="parts[1]"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Top Customers -->
+                            <div style="margin-top: 30px;">
+                                <h4>👥 Top 5 Emitting Customers</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #f5f5f5;">
+                                            <th style="padding: 8px; text-align: left;">Customer</th>
+                                            <th style="padding: 8px; text-align: right;">CO2e (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="customers" t-value="doc.top_emitting_customers.split('\n')"/>
+                                        <t t-foreach="customers" t-as="customer_line">
+                                            <t t-if="customer_line.strip()">
+                                                <t t-set="parts" t-value="customer_line.split(':')"/>
+                                                <tr>
+                                                    <td style="padding: 6px; border-bottom: 1px solid #eee;">
+                                                        <t t-esc="parts[0]"/>
+                                                    </td>
+                                                    <td style="padding: 6px; border-bottom: 1px solid #eee; text-align: right;">
+                                                        <t t-esc="parts[1]"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Monthly Trend -->
+                            <div style="margin-top: 30px;">
+                                <h4>📈 Monthly Emission Trends</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #f5f5f5;">
+                                            <th style="padding: 8px; text-align: left;">Month</th>
+                                            <th style="padding: 8px; text-align: right;">CO2e (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="trends" t-value="get_monthly_trend(doc)"/>
+                                        <t t-foreach="trends" t-as="trend">
+                                            <tr>
+                                                <td style="padding: 6px; border-bottom: 1px solid #eee;">
+                                                    <t t-esc="trend['month']"/>
+                                                </td>
+                                                <td style="padding: 6px; border-bottom: 1px solid #eee; text-align: right;">
+                                                    <t t-esc="'{0:,.0f}'.format(trend['emission_kg'])"/>
+                                                    kg
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Carbon Tier Distribution -->
+                            <div style="margin-top: 30px;">
+                                <h4>📊 Carbon Tier Distribution</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #f5f5f5;">
+                                            <th style="padding: 8px; text-align: left;">Tier</th>
+                                            <th style="padding: 8px; text-align: right;">Orders</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="tier_data" t-value="doc.carbon_tier_distribution.split('\n')"/>
+                                        <t t-foreach="tier_data" t-as="tier_line">
+                                            <t t-if="tier_line.strip()">
+                                                <t t-set="parts" t-value="tier_line.split(':')"/>
+                                                <tr>
+                                                    <td style="padding: 6px; border-bottom: 1px solid #eee;">
+                                                        <t t-esc="parts[0]"/>
+                                                    </td>
+                                                    <td style="padding: 6px; border-bottom: 1px solid #eee; text-align: right;">
+                                                        <t t-esc="parts[1]"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Recommendations -->
+                            <div style="margin-top: 30px;">
+                                <div style="border: 1px solid #28a745; border-radius: 8px; overflow: hidden;">
+                                    <div style="background: #28a745; color: white; padding: 10px 15px;">
+                                        <strong>📈 Recommendations for Improvement</strong>
+                                    </div>
+                                    <div style="padding: 15px;">
+                                        <ul>
+                                            <li t-if="doc.offset_percentage &lt; 50">
+                                                ⚠️ Increase carbon offset purchases (current offset rate:<t
+                                                    t-esc="'{0:.1f}'.format(doc.offset_percentage)"/>%)
+                                            </li>
+                                            <li t-if="doc.avg_co2_per_order > 100">
+                                                📦 Consider promoting lower-carbon products in your catalog
+                                            </li>
+                                            <li>
+                                                🚚 Optimize shipping routes and consolidate deliveries to reduce
+                                                transport emissions
+                                            </li>
+                                            <li>
+                                                💡 Switch to renewable energy in production facilities
+                                            </li>
+                                            <li>
+                                                ♻️ Implement sustainable packaging alternatives
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Project Details -->
-                            <div class="row mt-5">
-                                <div class="col-6">
-                                    <div class="card">
-                                        <div class="card-header bg-success text-white">
-                                            <strong>📋 Offset Project Details</strong>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table table-borderless">
-                                                <tr>
-                                                    <td width="40%"><strong>Project Name:</strong></td>
-                                                    <td><t t-esc="doc.project_id.project_name"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Project Type:</strong></td>
-                                                    <td><t t-esc="doc.project_id.project_type"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Location:</strong></td>
-                                                    <td><t t-esc="doc.project_id.location"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Certification:</strong></td>
-                                                    <td><t t-esc="doc.project_id.certifying_body"/></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-6">
-                                    <div class="card">
-                                        <div class="card-header bg-info text-white">
-                                            <strong>📄 Certificate Information</strong>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table table-borderless">
-                                                <tr>
-                                                    <td width="50%"><strong>Certificate Number:</strong></td>
-                                                    <td><code><t t-esc="doc.certificate_number"/></code></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Issue Date:</strong></td>
-                                                    <td><t t-esc="doc.certificate_issue_date or doc.purchase_date"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Order Reference:</strong></td>
-                                                    <td><t t-esc="doc.sale_order_id.name"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Verified By:</strong></td>
-                                                    <td>Carbon Offset Pro</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Verification Statement -->
-                            <div class="row mt-4">
-                                <div class="col-12">
-                                    <div class="alert alert-success text-center">
-                                        <strong>✅ Verified Carbon Offset</strong><br/>
-                                        This purchase neutralizes <t t-esc="'{0:.2f}'.format(doc.tons_offset)"/> tons of CO2e emissions
-                                        through the <t t-esc="doc.project_id.project_name"/> project.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Signatures -->
-                            <div class="row mt-5">
-                                <div class="col-6 text-center">
-                                    <div class="border-top d-inline-block pt-2" style="width: 200px;">
-                                        <small>Authorized Signature</small>
-                                    </div>
-                                </div>
-                                <div class="col-6 text-center">
-                                    <div class="border-top d-inline-block pt-2" style="width: 200px;">
-                                        <small>Carbon Offset Pro</small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="footer mt-5 text-center text-muted small">
+                            <div style="margin-top: 50px; text-align: center; color: #6c757d; font-size: 12px;">
                                 <hr/>
-                                Certificate ID: <t t-esc="doc.certificate_number"/> | Verified by Carbon Offset Pro
+                                Generated by Carbon Offset Pro - Empowering businesses to achieve net-zero emissions
                             </div>
                             <div class="oe_structure"/>
                         </div>
                     </t>
+                </t>
+                <t t-if="not doc or not doc.exists()">
+                    <div class="page text-center">
+                        <h1>Report Not Found</h1>
+                        <p>The requested executive summary could not be found.</p>
+                    </div>
                 </t>
             </t>
         </t>

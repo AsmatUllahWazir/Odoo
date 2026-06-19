@@ -4,3 +4,7 @@ access_offset_project,offset.project,model_carbon_offset_project,base.group_user
 access_offset_purchase,offset.purchase,model_carbon_offset_purchase,base.group_user,1,1,1,1
 access_sustainability_dashboard,sustainability.dashboard,model_sustainability_dashboard,base.group_user,1,1,1,0
 access_offset_wizard,offset.wizard,model_carbon_offset_wizard,base.group_user,1,1,1,0
+access_carbon_scope_all,carbon.scope.all,model_carbon_scope,base.group_user,1,1,1,1
+access_carbon_category_all,carbon.category.all,model_carbon_category,base.group_user,1,1,1,1
+access_carbon_emission_factor_all,carbon.emission.factor.all,model_carbon_emission_factor,base.group_user,1,1,1,1
+access_carbon_emission_record_all,carbon.emission.record.all,model_carbon_emission_record,base.group_user,1,1,1,1

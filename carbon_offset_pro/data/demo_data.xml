@@ -1,5 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Scopes -->
+    <record id="demo_scope_1" model="carbon.scope">
+        <field name="name">Direct Emissions</field>
+        <field name="code">Scope 1</field>
+        <field name="sequence">10</field>
+        <field name="description">Direct emissions from owned or controlled sources</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <record id="demo_scope_2" model="carbon.scope">
+        <field name="name">Indirect Emissions (Energy)</field>
+        <field name="code">Scope 2</field>
+        <field name="sequence">20</field>
+        <field name="description">Indirect emissions from the generation of purchased energy</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <record id="demo_scope_3" model="carbon.scope">
+        <field name="name">Indirect Emissions (Value Chain)</field>
+        <field name="code">Scope 3</field>
+        <field name="sequence">30</field>
+        <field name="description">All other indirect emissions in the value chain</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <!-- Categories -->
+    <record id="demo_category_stationary" model="carbon.category">
+        <field name="name">Stationary Combustion</field>
+        <field name="code">SC-001</field>
+        <field name="scope_id" ref="demo_scope_1"/>
+        <field name="sequence">10</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <record id="demo_category_fugitive" model="carbon.category">
+        <field name="name">Fugitive Emissions</field>
+        <field name="code">FE-001</field>
+        <field name="scope_id" ref="demo_scope_1"/>
+        <field name="sequence">20</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <record id="demo_category_electricity" model="carbon.category">
+        <field name="name">Purchased Electricity</field>
+        <field name="code">PE-001</field>
+        <field name="scope_id" ref="demo_scope_2"/>
+        <field name="sequence">10</field>
+        <field name="is_active">True</field>
+    </record>
+
+    <!-- Emission Factors -->
+    <record id="demo_factor_maintenance" model="carbon.emission.factor">
+        <field name="name">Maintenance Activity</field>
+        <field name="code">MAINT-001</field>
+        <field name="category_id" ref="demo_category_fugitive"/>
+        <field name="uom_id" ref="uom.product_uom_hour"/>
+        <field name="factor_value">0.5</field>
+        <field name="source">GHG Protocol</field>
+        <field name="is_default">True</field>
+        <field name="is_active">True</field>
+        <field name="description">Emission factor for general maintenance activities</field>
+    </record>
+
+    <record id="demo_factor_equipment" model="carbon.emission.factor">
+        <field name="name">Equipment Operation</field>
+        <field name="code">EQ-001</field>
+        <field name="category_id" ref="demo_category_stationary"/>
+        <field name="uom_id" ref="uom.product_uom_hour"/>
+        <field name="factor_value">2.5</field>
+        <field name="source">EPA</field>
+        <field name="is_default">False</field>
+        <field name="is_active">True</field>
+        <field name="description">Emission factor for heavy equipment operation</field>
+    </record>
+
+    <record id="demo_factor_electricity" model="carbon.emission.factor">
+        <field name="name">Grid Electricity</field>
+        <field name="code">ELEC-001</field>
+        <field name="category_id" ref="demo_category_electricity"/>
+        <field name="uom_id" ref="uom.product_uom_kwh"/>
+        <field name="factor_value">0.4</field>
+        <field name="source">IPCC</field>
+        <field name="is_default">False</field>
+        <field name="is_active">True</field>
+        <field name="description">Emission factor for purchased electricity from grid</field>
+    </record>
+
+    <!-- Continue existing demo projects -->
     <record id="demo_project_amazon" model="carbon.offset.project">
         <field name="project_name">Amazon Rainforest Protection</field>
         <field name="project_type">reforestation</field>
@@ -18,12 +106,5 @@
         <field name="available_credits_tons">500000</field>
         <field name="description">Large-scale solar energy project.</field>
         <field name="is_active">True</field>
-    </record>
-
-    <record id="demo_product_emission_laptop" model="carbon.offset.product.emission">
-        <field name="product_id" ref="product.product_product_4"/>
-        <field name="production_emission_kg">150.0</field>
-        <field name="weight_kg">2.5</field>
-        <field name="transport_mode">air</field>
     </record>
 </odoo>

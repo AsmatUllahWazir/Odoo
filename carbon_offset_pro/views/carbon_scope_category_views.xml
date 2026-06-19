@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Scope Views -->
+    <record id="view_carbon_scope_tree" model="ir.ui.view">
+        <field name="name">carbon.scope.tree</field>
+        <field name="model">carbon.scope</field>
+        <field name="arch" type="xml">
+            <tree string="Scopes">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="sequence"/>
+                <field name="is_active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_carbon_scope_form" model="ir.ui.view">
+        <field name="name">carbon.scope.form</field>
+        <field name="model">carbon.scope</field>
+        <field name="arch" type="xml">
+            <form string="Scope">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="is_active"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_carbon_scope" model="ir.actions.act_window">
+        <field name="name">Scopes</field>
+        <field name="res_model">carbon.scope</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Category Views -->
+    <record id="view_carbon_category_tree" model="ir.ui.view">
+        <field name="name">carbon.category.tree</field>
+        <field name="model">carbon.category</field>
+        <field name="arch" type="xml">
+            <tree string="Categories">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="scope_id"/>
+                <field name="sequence"/>
+                <field name="is_active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_carbon_category_form" model="ir.ui.view">
+        <field name="name">carbon.category.form</field>
+        <field name="model">carbon.category</field>
+        <field name="arch" type="xml">
+            <form string="Category">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="scope_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="is_active"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_carbon_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">carbon.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Emission Factor Views -->
+    <record id="view_carbon_emission_factor_tree" model="ir.ui.view">
+        <field name="name">carbon.emission.factor.tree</field>
+        <field name="model">carbon.emission.factor</field>
+        <field name="arch" type="xml">
+            <tree string="Emission Factors">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="uom_id"/>
+                <field name="factor_value"/>
+                <field name="source"/>
+                <field name="is_default"/>
+                <field name="is_active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_carbon_emission_factor_form" model="ir.ui.view">
+        <field name="name">carbon.emission.factor.form</field>
+        <field name="model">carbon.emission.factor</field>
+        <field name="arch" type="xml">
+            <form string="Emission Factor">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="category_id"/>
+                            <field name="uom_id"/>
+                            <field name="factor_value"/>
+                        </group>
+                        <group>
+                            <field name="source"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="is_default"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_carbon_emission_factor" model="ir.actions.act_window">
+        <field name="name">Emission Factors</field>
+        <field name="res_model">carbon.emission.factor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

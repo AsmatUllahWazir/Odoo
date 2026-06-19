@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Root Menu -->
     <menuitem id="menu_carbon_offset_root" name="Carbon Offset" sequence="95" web_icon="carbon_offset_pro,static/description/icon.png"/>
 
+    <!-- Configuration Menu -->
     <menuitem id="menu_carbon_offset_config" name="Configuration" parent="menu_carbon_offset_root" sequence="10"/>
-    <menuitem id="menu_product_emission" name="Product Emissions" parent="menu_carbon_offset_config" action="action_product_emission"/>
 
+    <!-- Sub-menus under Configuration (actions defined elsewhere) -->
+    <menuitem id="menu_product_emission" name="Product Emissions" parent="menu_carbon_offset_config" action="action_product_emission" sequence="10"/>
+    <menuitem id="menu_carbon_governance_config" name="Governance Configuration" parent="menu_carbon_offset_config" sequence="5"/>
+    <menuitem id="menu_carbon_scope" name="Scopes" parent="menu_carbon_governance_config" action="action_carbon_scope" sequence="5"/>
+    <menuitem id="menu_carbon_category" name="Categories" parent="menu_carbon_governance_config" action="action_carbon_category" sequence="10"/>
+    <menuitem id="menu_carbon_emission_factor" name="Emission Factors" parent="menu_carbon_governance_config" action="action_carbon_emission_factor" sequence="15"/>
+
+    <!-- Carbon Offset Menu -->
     <menuitem id="menu_carbon_offset_offsets" name="Carbon Offsets" parent="menu_carbon_offset_root" sequence="20"/>
-    <menuitem id="menu_offset_projects" name="Offset Projects" parent="menu_carbon_offset_offsets" action="action_carbon_offset_project"/>
-    <menuitem id="menu_offset_purchases" name="Offset Purchases" parent="menu_carbon_offset_offsets" action="action_carbon_offset_purchase"/>
+    <menuitem id="menu_offset_projects" name="Offset Projects" parent="menu_carbon_offset_offsets" action="action_carbon_offset_project" sequence="10"/>
+    <menuitem id="menu_offset_purchases" name="Offset Purchases" parent="menu_carbon_offset_offsets" action="action_carbon_offset_purchase" sequence="20"/>
 
+    <!-- Carbon Emission Records -->
+    <menuitem id="menu_carbon_emission_records" name="Emission Records" parent="menu_carbon_offset_root" action="action_carbon_emission_record" sequence="15"/>
+
+    <!-- Reports Menu -->
     <menuitem id="menu_carbon_offset_reports" name="Reports" parent="menu_carbon_offset_root" sequence="30"/>
-    <menuitem id="menu_sustainability_dashboard" name="Sustainability Dashboard" parent="menu_carbon_offset_reports" action="action_sustainability_dashboard"/>
+    <menuitem id="menu_sustainability_dashboard" name="Sustainability Dashboard" parent="menu_carbon_offset_reports" action="action_sustainability_dashboard" sequence="10"/>
 </odoo>

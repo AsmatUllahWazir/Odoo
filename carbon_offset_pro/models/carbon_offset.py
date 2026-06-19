@@ -1,5 +1,5 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -15,7 +15,8 @@ class CarbonOffsetProject(models.Model):
     # Basic Information
     project_name = fields.Char(string='Project Name', required=True, tracking=True)
     project_code = fields.Char(string='Project Code', readonly=True, copy=False,
-                               default=lambda self: self.env['ir.sequence'].next_by_code('carbon.offset.project.code') or 'NEW')
+                               default=lambda self: self.env['ir.sequence'].next_by_code(
+                                   'carbon.offset.project.code') or 'NEW')
     project_type = fields.Selection([
         ('reforestation', '🌳 Reforestation & Afforestation'),
         ('solar', '☀️ Solar Energy'),
@@ -43,7 +44,8 @@ class CarbonOffsetProject(models.Model):
 
     # Financial
     price_per_ton_usd = fields.Float(string='Price per Ton (USD)', required=True, default=15.0, tracking=True)
-    available_credits_tons = fields.Float(string='Available Credits (tons)', required=True, default=10000.0, tracking=True)
+    available_credits_tons = fields.Float(string='Available Credits (tons)', required=True, default=10000.0,
+                                          tracking=True)
     minimum_purchase_tons = fields.Float(string='Minimum Purchase (tons)', default=0.1)
     total_sold_tons = fields.Float(string='Total Sold (tons)', compute='_compute_sold', store=True)
     total_revenue_usd = fields.Float(string='Total Revenue (USD)', compute='_compute_sold', store=True)
@@ -124,7 +126,7 @@ class CarbonOffsetPurchase(models.Model):
     discount_percentage = fields.Float(string='Discount %', compute='_compute_unit_price', store=True)
     total_cost_usd = fields.Float(string='Total Cost (USD)', compute='_compute_total_cost', store=True)
     total_cost_company_currency = fields.Monetary(string='Total Cost', compute='_compute_total_cost', store=True,
-                                                   currency_field='currency_id')
+                                                  currency_field='currency_id')
     currency_id = fields.Many2one('res.currency', related='sale_order_id.currency_id', store=True)
 
     # Dates
@@ -143,7 +145,14 @@ class CarbonOffsetPurchase(models.Model):
     @api.depends('sale_order_id', 'project_id', 'tons_offset')
     def _compute_display_name(self):
         for purchase in self:
-            purchase.display_name = f"CO2-{purchase.id:06d} - {purchase.tons_offset:.2f}t - {purchase.partner_id.name}"
+            try:
+                purchase_id = int(purchase.id) if purchase.id else 0
+                display = f"CO2-{purchase_id:06d} - {purchase.tons_offset:.2f}t"
+                if purchase.partner_id and purchase.partner_id.exists() and purchase.partner_id.name:
+                    display += f" - {purchase.partner_id.name}"
+                purchase.display_name = display
+            except (ValueError, TypeError):
+                purchase.display_name = f"CO2-New - {purchase.tons_offset:.2f}t"
 
     @api.depends('tons_offset')
     def _compute_kg(self):
@@ -152,11 +161,12 @@ class CarbonOffsetPurchase(models.Model):
 
     @api.depends('tons_offset', 'project_id')
     def _compute_unit_price(self):
-        for purchase in purchase:
-            if purchase.project_id and purchase.tons_offset:
+        for purchase in self:
+            if purchase.project_id and purchase.project_id.exists() and purchase.tons_offset:
                 discounted_price = purchase.project_id.get_discounted_price(purchase.tons_offset)
                 original_price = purchase.project_id.price_per_ton_usd
-                purchase.discount_percentage = ((original_price - discounted_price) / original_price * 100) if original_price > 0 else 0
+                purchase.discount_percentage = (
+                            (original_price - discounted_price) / original_price * 100) if original_price > 0 else 0
                 purchase.unit_price_usd = discounted_price
             else:
                 purchase.unit_price_usd = 0
@@ -165,73 +175,127 @@ class CarbonOffsetPurchase(models.Model):
     @api.depends('tons_offset', 'unit_price_usd', 'sale_order_id.currency_id', 'purchase_date')
     def _compute_total_cost(self):
         for purchase in self:
-            usd_cost = purchase.tons_offset * purchase.unit_price_usd
-            purchase.total_cost_usd = usd_cost
-            if purchase.sale_order_id and purchase.sale_order_id.currency_id:
-                purchase.total_cost_company_currency = purchase.sale_order_id.currency_id._convert(
-                    usd_cost,
-                    purchase.sale_order_id.company_id.currency_id,
-                    purchase.sale_order_id.company_id,
-                    purchase.purchase_date or fields.Date.today()
-                )
-            else:
-                purchase.total_cost_company_currency = usd_cost
+            try:
+                usd_cost = purchase.tons_offset * purchase.unit_price_usd
+                purchase.total_cost_usd = usd_cost
+                if purchase.sale_order_id and purchase.sale_order_id.exists() and purchase.sale_order_id.currency_id:
+                    purchase.total_cost_company_currency = purchase.sale_order_id.currency_id._convert(
+                        usd_cost,
+                        purchase.sale_order_id.company_id.currency_id,
+                        purchase.sale_order_id.company_id,
+                        purchase.purchase_date or fields.Date.today()
+                    )
+                else:
+                    purchase.total_cost_company_currency = usd_cost
+            except Exception as e:
+                _logger.warning(f"Error computing total cost for purchase {purchase.id}: {e}")
+                purchase.total_cost_company_currency = purchase.tons_offset * purchase.unit_price_usd
 
     @api.depends('certificate_number')
     def _compute_qr_data(self):
         for purchase in self:
-            base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            purchase.certificate_qr = f"{base_url}/carbon-offset/verify/{purchase.certificate_number}"
+            if purchase.certificate_number:
+                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                purchase.certificate_qr = f"{base_url}/carbon-offset/verify/{purchase.certificate_number}"
+            else:
+                purchase.certificate_qr = ''
 
     @api.constrains('tons_offset')
     def _check_tons_offset(self):
         for purchase in self:
             if purchase.tons_offset <= 0:
                 raise ValidationError(_("Tons offset must be greater than 0."))
-            if purchase.project_id and purchase.tons_offset < purchase.project_id.minimum_purchase_tons:
-                raise ValidationError(_("Minimum purchase is %.2f tons for this project.") % purchase.project_id.minimum_purchase_tons)
-            if purchase.project_id and purchase.tons_offset > purchase.project_id.available_credits_tons + purchase.tons_offset:
-                # Adding the current purchase to available check (for create)
-                pass
+            if purchase.project_id and purchase.project_id.exists() and purchase.tons_offset < purchase.project_id.minimum_purchase_tons:
+                raise ValidationError(
+                    _("Minimum purchase is %.2f tons for this project.") % purchase.project_id.minimum_purchase_tons)
 
     @api.model
     def create(self, vals):
         vals['certificate_number'] = self.env['ir.sequence'].next_by_code('carbon.offset.certificate') or '/'
         purchase = super().create(vals)
 
-        # Reduce available credits from project
-        purchase.project_id.available_credits_tons -= purchase.tons_offset
+        if purchase.project_id and purchase.project_id.exists():
+            purchase.project_id.available_credits_tons -= purchase.tons_offset
 
-        # Update sale order
-        purchase.sale_order_id.write({
-            'carbon_offset_amount_kg': purchase.offset_kg,
-            'offset_purchase_id': purchase.id,
-        })
+        if purchase.sale_order_id and purchase.sale_order_id.exists():
+            purchase.sale_order_id.write({
+                'carbon_offset_amount_kg': purchase.offset_kg,
+                'offset_purchase_id': purchase.id,
+            })
 
         # Send confirmation email
-        if purchase.partner_id.email:
-            template = self.env.ref('carbon_offset_pro.email_template_offset_confirmation', raise_if_not_found=False)
-            if template:
-                template.send_mail(purchase.id, force_send=True)
+        if purchase.partner_id and purchase.partner_id.exists() and purchase.partner_id.email:
+            try:
+                template = self.env.ref('carbon_offset_pro.email_template_offset_confirmation',
+                                        raise_if_not_found=False)
+                if template:
+                    template.send_mail(purchase.id, force_send=True)
+            except Exception as e:
+                _logger.warning(f"Failed to send confirmation email: {e}")
 
         return purchase
 
     def action_issue_certificate(self):
         self.ensure_one()
+
+        # Check if record still exists
+        if not self.exists():
+            return {
+                'type': 'ir.actions.act_window',
+                'name': _('Error'),
+                'res_model': 'carbon.offset.purchase',
+                'view_mode': 'tree,form',
+                'target': 'current',
+            }
+
         if not self.certificate_issued:
             self.write({
                 'certificate_issued': True,
                 'certificate_issue_date': fields.Date.today(),
             })
-        return self.env.ref('carbon_offset_pro.action_report_carbon_certificate').report_action(self)
+
+        # Check if report action exists before calling it
+        try:
+            report_action = self.env.ref('carbon_offset_pro.action_report_carbon_certificate', raise_if_not_found=False)
+            if report_action:
+                return report_action.report_action(self)
+            else:
+                raise UserError(_("Certificate report action not found. Please contact support."))
+        except Exception as e:
+            _logger.error(f"Error generating certificate: {e}")
+            raise UserError(_("Failed to generate certificate. Please try again later."))
 
     def action_send_certificate_email(self):
         self.ensure_one()
-        if not self.partner_id.email:
+
+        if not self.exists():
+            return {
+                'type': 'ir.actions.act_window',
+                'name': _('Error'),
+                'res_model': 'carbon.offset.purchase',
+                'view_mode': 'tree,form',
+                'target': 'current',
+            }
+
+        if not self.partner_id or not self.partner_id.exists() or not self.partner_id.email:
             raise ValidationError(_("Customer has no email address configured."))
 
-        template = self.env.ref('carbon_offset_pro.email_template_certificate', raise_if_not_found=False)
-        if template:
-            template.send_mail(self.id, force_send=True)
-            self.email_sent = True
-        return True
+        try:
+            template = self.env.ref('carbon_offset_pro.email_template_certificate', raise_if_not_found=False)
+            if template:
+                template.send_mail(self.id, force_send=True)
+                self.email_sent = True
+                return {
+                    'type': 'ir.actions.act_window',
+                    'name': _('Success'),
+                    'res_model': 'carbon.offset.purchase',
+                    'res_id': self.id,
+                    'view_mode': 'form',
+                    'target': 'current',
+                }
+            else:
+                raise UserError(_("Email template not found. Please contact support."))
+        except Exception as e:
+            _logger.error(f"Failed to send certificate email: {e}")
+            raise UserError(_("Failed to send email. Please try again later."))
+        

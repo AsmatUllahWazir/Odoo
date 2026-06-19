@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_carbon_emission_record_tree" model="ir.ui.view">
+        <field name="name">carbon.emission.record.tree</field>
+        <field name="model">carbon.emission.record</field>
+        <field name="arch" type="xml">
+            <tree string="Emission Records" decoration-success="state == 'verified'" decoration-info="state == 'submitted'" decoration-warning="state == 'draft'" decoration-danger="state == 'rejected'" decoration-primary="state == 'offset'">
+                <field name="record_date"/>
+                <field name="display_name"/>
+                <field name="source_model"/>
+                <field name="source_id"/>
+                <field name="scope_id"/>
+                <field name="category_id"/>
+                <field name="activity_quantity"/>
+                <field name="calculated_co2e_kg" sum="Total CO2e"/>
+                <field name="state" widget="badge"/>
+                <field name="is_offset"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_carbon_emission_record_form" model="ir.ui.view">
+        <field name="name">carbon.emission.record.form</field>
+        <field name="model">carbon.emission.record</field>
+        <field name="arch" type="xml">
+            <form string="Emission Record">
+                <header>
+                    <button name="action_submit" type="object" string="Submit" class="btn-primary"
+                            invisible="state not in ['draft']" icon="fa-paper-plane"/>
+                    <button name="action_verify" type="object" string="Verify" class="btn-success"
+                            invisible="state != 'submitted'" icon="fa-check"/>
+                    <button name="action_reject" type="object" string="Reject" class="btn-danger"
+                            invisible="state not in ['draft', 'submitted']" icon="fa-times"/>
+                    <button name="action_mark_offset" type="object" string="Mark as Offset" class="btn-info"
+                            invisible="state != 'verified'" icon="fa-leaf"/>
+                    <button name="action_create_offset_purchase" type="object" string="Purchase Offset" class="btn-primary"
+                            invisible="state != 'verified'" icon="fa-shopping-cart"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,verified,offset"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
+                    </div>
+                    <group name="main_data">
+                        <group name="source_info" string="Source Information">
+                            <field name="record_date"/>
+                            <field name="source_model"/>
+                            <field name="source_id"/>
+                            <field name="source_ref" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group name="emission_info" string="Emission Information">
+                            <field name="scope_id" required="1"/>
+                            <field name="category_id" required="1"/>
+                            <field name="factor_id" required="1"/>
+                            <field name="activity_uom_id" readonly="1"/>
+                            <field name="activity_quantity" required="1"/>
+                            <field name="calculated_co2e_kg" readonly="1"/>
+                            <field name="calculated_co2e_tons" readonly="1"/>
+                        </group>
+                    </group>
+                    <group name="workflow_info" string="Workflow Information">
+                        <group>
+                            <field name="submitted_by_id"/>
+                            <field name="submitted_date"/>
+                        </group>
+                        <group>
+                            <field name="is_offset" ivisible="1"/>
+                            <field name="verified_by_id"/>
+                            <field name="verified_date"/>
+                        </group>
+                    </group>
+                    <group name="offset_info" string="Offset Information" invisible="not is_offset">
+                        <field name="offset_purchase_id"/>
+                    </group>
+                    <field name="notes" colspan="4" placeholder="Add any additional notes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_carbon_emission_record_search" model="ir.ui.view">
+        <field name="name">carbon.emission.record.search</field>
+        <field name="model">carbon.emission.record</field>
+        <field name="arch" type="xml">
+            <search string="Search Emission Records">
+                <field name="display_name"/>
+                <field name="source_model"/>
+                <field name="source_id"/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <filter name="verified" string="Verified" domain="[('state','=','verified')]"/>
+                <filter name="offset" string="Offset" domain="[('state','=','offset')]"/>
+                <filter name="rejected" string="Rejected" domain="[('state','=','rejected')]"/>
+                <separator/>
+                <filter name="unoffset" string="Not Offset" domain="[('is_offset','=',False)]"/>
+                <filter name="this_month" string="This Month" domain="[('record_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_scope" string="Scope" context="{'group_by':'scope_id'}"/>
+                    <filter name="group_by_category" string="Category" context="{'group_by':'category_id'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_by_source" string="Source Model" context="{'group_by':'source_model'}"/>
+                    <filter name="group_by_date" string="Date" context="{'group_by':'record_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_carbon_emission_record_kanban" model="ir.ui.view">
+        <field name="name">carbon.emission.record.kanban</field>
+        <field name="model">carbon.emission.record</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="display_name"/>
+                <field name="record_date"/>
+                <field name="calculated_co2e_kg"/>
+                <field name="state"/>
+                <field name="source_model"/>
+                <field name="scope_id"/>
+                <field name="category_id"/>
+                <field name="is_offset"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <span class="fa fa-cloud" style="font-size: 32px; color: #2e7d32;"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="display_name"/>
+                                </strong>
+                                <div class="text-muted">
+                                    <field name="source_model"/> | <field name="record_date"/>
+                                </div>
+                                <div>
+                                    <span class="badge badge-success">
+                                        <field name="calculated_co2e_kg"/> kg CO2e
+                                    </span>
+                                    <span class="badge" t-attf-class="#{record.state.value == 'verified' and 'badge-success' or record.state.value == 'submitted' and 'badge-info' or record.state.value == 'draft' and 'badge-warning' or record.state.value == 'rejected' and 'badge-danger' or 'badge-primary'}">
+                                        <field name="state"/>
+                                    </span>
+                                </div>
+                                <div t-if="record.is_offset.value">
+                                    <span class="badge badge-primary">Offset</span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_carbon_emission_record" model="ir.actions.act_window">
+        <field name="name">Emission Records</field>
+        <field name="res_model">carbon.emission.record</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="view_carbon_emission_record_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Track carbon emissions from all sources
+            </p>
+            <p>
+                Emissions are automatically created from integrated modules like Maintenance and Sales.
+                Review, verify, and offset them to achieve carbon neutrality.
+            </p>
+        </field>
+    </record>
+</odoo>

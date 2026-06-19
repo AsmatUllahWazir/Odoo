@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Sustainability Report -->
     <record id="action_report_sustainability" model="ir.actions.report">
         <field name="name">Sustainability Report</field>
         <field name="model">sale.order</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">carbon_offset_pro.report_sustainability_template</field>
+        <field name="report_file">carbon_offset_pro.report_sustainability_template</field>
         <field name="binding_model_id" ref="sale.model_sale_order"/>
         <field name="binding_type">report</field>
+        <field name="print_report_name">'Sustainability_Report_%s' % (object.name)</field>
     </record>
 
+    <!-- Carbon Offset Certificate -->
     <record id="action_report_carbon_certificate" model="ir.actions.report">
-        <field name="name">Carbon Certificate</field>
+        <field name="name">Carbon Offset Certificate</field>
         <field name="model">carbon.offset.purchase</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">carbon_offset_pro.report_certificate_template</field>
+        <field name="report_file">carbon_offset_pro.report_certificate_template</field>
         <field name="binding_model_id" ref="model_carbon_offset_purchase"/>
         <field name="binding_type">report</field>
+        <field name="print_report_name">'Carbon_Certificate_%s' % (object.certificate_number or object.id)</field>
+    </record>
+
+    <!-- Executive Summary Report -->
+    <record id="action_report_executive_summary" model="ir.actions.report">
+        <field name="name">Executive Sustainability Summary</field>
+        <field name="model">sustainability.dashboard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">carbon_offset_pro.report_executive_summary</field>
+        <field name="report_file">carbon_offset_pro.report_executive_summary</field>
+        <field name="binding_model_id" ref="model_sustainability_dashboard"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Executive_Summary_%s' % (object.name or 'Report')</field>
     </record>
 </odoo>

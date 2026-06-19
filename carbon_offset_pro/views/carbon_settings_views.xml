@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Standalone Settings Form -->
+    <record id="view_carbon_config_settings_form" model="ir.ui.view">
+        <field name="name">carbon.config.settings.form</field>
+        <field name="model">carbon.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Carbon Governance Settings">
+                <header>
+                    <button name="action_save" string="Save" type="object" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_settings_container">
+                        <div class="oe_settings">
+                            <div class="settings_header">
+                                <h2>🌍 Carbon Governance Settings</h2>
+                                <p class="text-muted">
+                                    Configure how carbon emissions are tracked, managed, and integrated across your Odoo instance.
+                                </p>
+                            </div>
+
+                            <!-- General Settings -->
+                            <div class="setting_group">
+                                <h3>General Settings</h3>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <field name="carbon_governance_enabled"/>
+                                        <label for="carbon_governance_enabled">Enable Carbon Governance</label>
+                                        <p class="text-muted">
+                                            Enable to track and manage carbon emissions across all integrated modules
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Auto-Submit -->
+                            <div class="setting_group" invisible="not carbon_governance_enabled">
+                                <h3>Workflow Automation</h3>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <field name="auto_submit_records"/>
+                                        <label for="auto_submit_records">Auto-Submit Carbon Records</label>
+                                        <p class="text-muted">
+                                            Automatically submit carbon emission records after creation for faster workflow
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Maintenance Integration -->
+                            <div class="setting_group" invisible="not carbon_governance_enabled">
+                                <h3>🔧 Maintenance Integration</h3>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <field name="maintenance_integration_enabled"/>
+                                        <label for="maintenance_integration_enabled">Enable Maintenance Integration</label>
+                                        <p class="text-muted">
+                                            Track emissions from maintenance activities like equipment repairs and inspections
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mt-2" invisible="not maintenance_integration_enabled">
+                                    <div class="col-12">
+                                        <label for="default_maintenance_scope_id">Maintenance Default Scope</label>
+                                        <field name="default_maintenance_scope_id"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="default_maintenance_category_id">Maintenance Default Category</label>
+                                        <field name="default_maintenance_category_id"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="default_maintenance_factor_id">Maintenance Default Factor</label>
+                                        <field name="default_maintenance_factor_id"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <field name="auto_submit_maintenance_records"/>
+                                        <label for="auto_submit_maintenance_records">Auto-Submit Maintenance Records</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Future Integrations -->
+                            <div class="setting_group" invisible="not carbon_governance_enabled">
+                                <h3>🚀 Future Integrations</h3>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <field name="enable_purchase_integration"/>
+                                        <label for="enable_purchase_integration">Enable Purchase Integration</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <field name="enable_fleet_integration"/>
+                                        <label for="enable_fleet_integration">Enable Fleet Integration</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <field name="enable_project_integration"/>
+                                        <label for="enable_project_integration">Enable Project Integration</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_carbon_config_settings" model="ir.actions.act_window">
+        <field name="name">Carbon Governance Settings</field>
+        <field name="res_model">carbon.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_carbon_config_settings" name="Governance Settings"
+              parent="menu_carbon_offset_config" action="action_carbon_config_settings" sequence="0"/>
+</odoo>

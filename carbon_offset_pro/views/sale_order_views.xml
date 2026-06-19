@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<!--    <record id="view_sale_order_form_inherit" model="ir.ui.view">-->
-<!--        <field name="name">sale.order.carbon.offset.inherit</field>-->
-<!--        <field name="model">sale.order</field>-->
-<!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <xpath expr="//group[@name='sale_order_details']" position="after">-->
-<!--                <group name="carbon_footprint" string="🌍 Carbon Footprint &amp; Offsets" col="4">-->
-<!--                    <field name="total_carbon_footprint_kg" readonly="1" string="Total CO2e (kg)"/>-->
-<!--                    <field name="total_carbon_footprint_tons" readonly="1" string="Total CO2e (tons)"/>-->
-<!--                    <field name="carbon_tier" readonly="1" widget="badge"/>-->
-<!--                    <separator/>-->
-<!--                    <field name="carbon_offset_amount_kg" readonly="1" string="Offset Purchased (kg)"/>-->
-<!--                    <field name="carbon_offset_amount_tons" readonly="1" string="Offset Purchased (tons)"/>-->
-<!--                    <field name="offset_percentage" readonly="1" string="Offset %"/>-->
-<!--                    <field name="offset_cost" widget="monetary" readonly="1"/>-->
-<!--                    <field name="is_fully_offset" readonly="1"/>-->
-<!--                    <separator/>-->
-<!--                    <field name="sustainability_notes" colspan="4" placeholder="Add sustainability notes..."/>-->
-<!--                    <group colspan="4" col="2">-->
-<!--                        <button name="action_open_offset_wizard" type="object" string="Purchase Carbon Offset" -->
-<!--                                class="btn-primary" icon="fa-leaf"-->
-<!--                                invisible="total_carbon_footprint_kg &lt;= 0"/>-->
-<!--                        <button name="action_generate_sustainability_report" type="object" -->
-<!--                                string="Generate Report" class="btn-secondary" icon="fa-file-pdf-o"/>-->
-<!--                    </group>-->
-<!--                </group>-->
-<!--            </xpath>-->
-<!--        </field>-->
-<!--    </record>-->
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.carbon.offset.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='customer_signature']" position="after">
+                <page string="Carbon Footprint &amp; Offsets" name="cfo">
+                    <group>
+                        <group>
+                            <field name="total_carbon_footprint_kg" readonly="1" string="Total CO2e (kg)"/>
+                            <field name="total_carbon_footprint_tons" readonly="1" string="Total CO2e (tons)"/>
+                            <field name="carbon_tier" readonly="1" widget="badge"/>
+                            <field name="carbon_offset_amount_kg" readonly="1" string="Offset Purchased (kg)"/>
+                            <field name="carbon_offset_amount_tons" readonly="1" string="Offset Purchased (tons)"/>
+                        </group>
+                        <group>
+                            <field name="offset_percentage" readonly="1" string="Offset %"/>
+                            <field name="offset_cost" readonly="1"/>
+                            <field name="is_fully_offset" readonly="1"/>
+                            <field name="sustainability_notes" placeholder="Add sustainability notes..."/>
+                        </group>
+                        <group>
+                            <button name="action_open_offset_wizard" type="object" string="Purchase Carbon Offset"
+                                    class="btn-primary" icon="fa-leaf"/>
+<!--                                    invisible="total_carbon_footprint_kg &lt;= 0"/>-->
+                            <button name="action_generate_sustainability_report" type="object"
+                                    string="Generate Report" class="btn-secondary" icon="fa-file-pdf-o"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
 
     <record id="view_order_line_tree_inherit" model="ir.ui.view">
         <field name="name">sale.order.line.carbon.offset.inherit</field>

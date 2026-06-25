@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Main Parent Menu -->
+        <menuitem id="wazirz_parking_root_menu"
+                  name="Parking Management"
+                  sequence="10"
+                  web_icon="wazirz_parking_management,static/description/icon.png"/>
+
+        <!-- Configuration Menu -->
+        <menuitem id="wazirz_parking_configuration_menu"
+                  name="Configuration"
+                  parent="wazirz_parking_root_menu"
+                  sequence="1"
+                  groups="wazirz_parking_management.group_parking_config_manager"/>
+
+        <!-- Building Floors (Configuration) -->
+        <menuitem id="wazirz_menu_building_floor"
+                  name="Building Floors"
+                  parent="wazirz_parking_configuration_menu"
+                  action="wazirz_parking_management.wazirz_action_building_floor"
+                  sequence="10"
+                  groups="wazirz_parking_management.group_parking_config_manager"/>
+
+        <!-- Floor Locations (Configuration) -->
+<!--        <menuitem id="wazirz_menu_floor_location"-->
+<!--                  name="Floor Locations"-->
+<!--                  parent="wazirz_parking_configuration_menu"-->
+<!--                  action="wazirz_parking_management.wazirz_action_floor_location"-->
+<!--                  sequence="20"-->
+<!--                  groups="wazirz_parking_management.group_parking_config_manager"/>-->
+
+        <!-- Car Types (Configuration) -->
+<!--        <menuitem id="wazirz_menu_car_type"-->
+<!--                  name="Car Types"-->
+<!--                  parent="wazirz_parking_configuration_menu"-->
+<!--                  action="wazirz_parking_management.wazirz_action_car_type"-->
+<!--                  sequence="30"-->
+<!--                  groups="wazirz_parking_management.group_parking_config_manager"/>-->
+
+        <!-- Separator -->
+        <menuitem id="wazirz_parking_separator_1"
+                  name="Management"
+                  parent="wazirz_parking_root_menu"
+                  sequence="2"
+                  groups="wazirz_parking_management.group_parking_management_approval"/>
+
+        <!-- Clients Menu -->
+        <menuitem id="wazirz_menu_client_floor"
+                  name="Clients"
+                  parent="wazirz_parking_root_menu"
+                  action="wazirz_parking_management.wazirz_action_client_floor"
+                  sequence="10"
+                  groups="wazirz_parking_management.group_parking_user"/>
+
+        <!-- Parking Requests Menu -->
+        <menuitem id="wazirz_menu_parking"
+                  name="Parking Requests"
+                  parent="wazirz_parking_root_menu"
+                  action="wazirz_parking_management.wazirz_action_parking"
+                  sequence="20"
+                  groups="wazirz_parking_management.group_parking_user"/>
+
+        <!-- Access Cards Menu -->
+<!--        <menuitem id="wazirz_menu_access_card"-->
+<!--                  name="Access Cards"-->
+<!--                  parent="wazirz_parking_root_menu"-->
+<!--                  action="wazirz_parking_management.wazirz_action_access_card"-->
+<!--                  sequence="30"-->
+<!--                  groups="wazirz_parking_management.group_parking_user"/>-->
+
+        <!-- Separator -->
+        <menuitem id="wazirz_parking_separator_2"
+                  name="Reports"
+                  parent="wazirz_parking_root_menu"
+                  sequence="90"
+                  groups="wazirz_parking_management.group_parking_administrator"/>
+
+        <!-- Reports Menu -->
+        <menuitem id="wazirz_menu_parking_reports"
+                  name="Reports"
+                  parent="wazirz_parking_root_menu"
+                  sequence="100"
+                  groups="wazirz_parking_management.group_parking_administrator"/>
+
+        <!-- Parking Summary Report -->
+        <menuitem id="wazirz_menu_parking_summary_report"
+                  name="Parking Summary Report"
+                  parent="wazirz_menu_parking_reports"
+                  action="wazirz_parking_management.wazirz_action_parking_summary_report"
+                  sequence="10"
+                  groups="wazirz_parking_management.group_parking_administrator"/>
+
+        <!-- Client Parking Report -->
+        <menuitem id="wazirz_menu_client_parking_report"
+                  name="Client Parking Report"
+                  parent="wazirz_menu_parking_reports"
+                  action="wazirz_parking_management.wazirz_action_client_parking_report"
+                  sequence="20"
+                  groups="wazirz_parking_management.group_parking_administrator"/>
+
+        <!-- Occupancy Report -->
+        <menuitem id="wazirz_menu_occupancy_report"
+                  name="Occupancy Report"
+                  parent="wazirz_menu_parking_reports"
+                  action="wazirz_parking_management.wazirz_action_occupancy_report"
+                  sequence="30"
+                  groups="wazirz_parking_management.group_parking_administrator"/>
+
+    </data>
+</odoo>

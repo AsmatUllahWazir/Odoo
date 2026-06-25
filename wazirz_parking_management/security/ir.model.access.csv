@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_building_floor_user,building.floor.user,model_building_floor,group_parking_user,1,0,0,0
+access_building_floor_manager,building.floor.manager,model_building_floor,group_parking_administrator,1,1,1,1
+access_client_floor_user,client.floor.user,model_client_floor,group_parking_user,1,0,0,0
+access_client_floor_manager,client.floor.manager,model_client_floor,group_parking_administrator,1,1,1,1
+access_client_floor_line_user,client.floor.line.user,model_client_floor_line,group_parking_user,1,0,0,0
+access_client_floor_line_manager,client.floor.line.manager,model_client_floor_line,group_parking_administrator,1,1,1,1
+access_car_parking_user,car.parking.user,model_car_parking,group_parking_user,1,1,1,1
+access_car_parking_manager,car.parking.manager,model_car_parking,group_parking_administrator,1,1,1,1
+access_reject_reason_wizard,reject.reason.wizard,model_reject_reason_wizard,group_parking_user,1,1,1,0
+access_block_reason_wizard,block.reason.wizard,model_block_reason_wizard,group_parking_user,1,1,1,0
+access_floor_location,floor.location,model_floor_location,group_parking_config_manager,1,1,1,1
+access_car_type,car.type,model_car_type,group_parking_config_manager,1,1,1,1

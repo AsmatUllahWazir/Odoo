@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Building Floor Form View -->
+        <record id="wazirz_building_floor_form_view" model="ir.ui.view">
+            <field name="name">wazirz.building.floor.form</field>
+            <field name="model">building.floor</field>
+            <field name="arch" type="xml">
+                <form string="Floor">
+                    <sheet>
+                        <div class="oe_title" colspan="2">
+                            <label class="oe_inline" for="name"/>
+                            <h1>
+                                <field force_save="1" name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="parking_spaces"/>
+                                <field name="valet" invisible="1"/>
+                                <field name="valet_plus"/>
+<!--                                <field name="access_card_limit" string="Card Limit"/>-->
+                            </group>
+                            <group>
+                                <field name="active"/>
+                                <field name="location_id"/>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Parking Statistics">
+                                <field name="used_normal_parking" readonly="1"/>
+                                <field name="used_valet_parking" readonly="1"/>
+                                <field name="used_parking_spaces" readonly="1"/>
+                                <field name="remaining_parking_spaces" readonly="1"/>
+                                <field name="remaining_valet_plus" readonly="1"/>
+                            </group>
+                            <group string="Assignment Status">
+                                <field name="is_assigned"/>
+                                <field name="host_company_id"/>
+                                <field name="host_company_line_ids">
+                                    <tree>
+                                        <field name="host_company_id"/>
+                                        <field name="company_representative"/>
+                                        <field name="company_representative_1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Building Floor Tree View -->
+        <record id="wazirz_building_floor_tree_view" model="ir.ui.view">
+            <field name="name">wazirz.building.floor.tree</field>
+            <field name="model">building.floor</field>
+            <field name="arch" type="xml">
+                <tree string="Floors">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                    <field name="active"/>
+                    <field name="parking_spaces"/>
+                    <field name="valet" column_invisible="1"/>
+                    <field name="valet_plus"/>
+<!--                    <field name="access_card_limit"/>-->
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Building Floor Search View -->
+        <record id="wazirz_building_floor_search_view" model="ir.ui.view">
+            <field name="name">wazirz.building.floor.search</field>
+            <field name="model">building.floor</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="location_id"/>
+                    <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                    <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                    <group expand="1" string="Group By">
+                        <filter name="group_location" string="Location" context="{'group_by': 'location_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Building Floor Action -->
+        <record id="wazirz_action_building_floor" model="ir.actions.act_window">
+            <field name="name">Building Floors</field>
+            <field name="res_model">building.floor</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="wazirz_building_floor_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new building floor
+                </p>
+            </field>
+        </record>
+
+        <!-- Floor Location (Configuration) -->
+<!--        <record id="wazirz_action_floor_location" model="ir.actions.act_window">-->
+<!--            <field name="name">Floor Locations</field>-->
+<!--            <field name="res_model">floor.location</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="o_view_nocontent_smiling_face">-->
+<!--                    Add floor locations-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <!-- Car Type (Configuration) -->
+<!--        <record id="wazirz_action_car_type" model="ir.actions.act_window">-->
+<!--            <field name="name">Car Types</field>-->
+<!--            <field name="res_model">car.type</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="o_view_nocontent_smiling_face">-->
+<!--                    Add car types-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

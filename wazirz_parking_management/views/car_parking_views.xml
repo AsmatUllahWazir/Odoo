@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Parking Form View -->
+        <record id="wazirz_view_parking_form" model="ir.ui.view">
+            <field name="name">wazirz.car.parking.form</field>
+            <field name="model">car.parking</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button class="btn btn-primary" name="%(wazirz_parking_management.wazirz_parking_report_action)d"
+                                type="action" string="Print Report"/>
+<!--                        invisible="state not in ['active', 'submitted', 'management_approval', 'tech_active', 'blocked']"-->
+                        <button class="btn btn-warning" invisible="state not in ['active']" name="action_cancel"
+                                groups="wazirz_parking_management.group_parking_cancel,wazirz_parking_management.group_parking_administrator"
+                                string="Cancel" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['draft']" name="action_submit"
+                                groups="wazirz_parking_management.group_parking_management_approval,wazirz_parking_management.group_parking_administrator"
+                                string="Submit" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['submitted', 'edit']" name="action_management_approve"
+                                groups="wazirz_parking_management.group_parking_management_approval,wazirz_parking_management.group_parking_administrator"
+                                string="Management Approve" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['management_approval', 'edit']" name="action_tech_approve"
+                                groups="wazirz_parking_management.group_parking_tech_active,wazirz_parking_management.group_parking_administrator"
+                                string="Tech Approve" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['tech_active', 'edit']" name="action_activate"
+                                groups="wazirz_parking_management.group_parking_active,wazirz_parking_management.group_parking_administrator"
+                                string="Activate" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['active']" name="action_edit"
+                                groups="wazirz_parking_management.group_parking_management_approval,wazirz_parking_management.group_parking_administrator"
+                                string="Edit" type="object"/>
+                        <button class="oe_highlight" invisible="state not in ['disable']" name="action_archive"
+                                groups="wazirz_parking_management.group_parking_active,wazirz_parking_management.group_parking_administrator"
+                                string="Archive" type="object"/>
+                        <button invisible="state in ['draft']" name="action_draft"
+                                groups="wazirz_parking_management.group_parking_administrator" class="btn btn-warning" string="Rework"
+                                type="object"/>
+                        <button class="btn btn-danger" name="action_reject" type="object" string="Reject"
+                                invisible="state not in ['draft', 'submitted', 'management_approval', 'edit', 'active']"
+                                groups="wazirz_parking_management.group_parking_management_approval,wazirz_parking_management.group_parking_administrator"/>
+                        <button class="btn btn-warning" name="action_block" type="object" string="Block"
+                                invisible="state not in ['active']"
+                                groups="wazirz_parking_management.group_parking_block,wazirz_parking_management.group_parking_administrator"/>
+                        <button class="btn btn-success" name="action_unblock" type="object" string="Unblock"
+                                invisible="state not in ['blocked']"
+                                groups="wazirz_parking_management.group_parking_block,wazirz_parking_management.group_parking_administrator"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,management_approval,tech_active,active,blocked"/>
+                    </header>
+
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_inline"/>
+                            <h1>
+                                <field name="name" readonly="1" force_save="1"/>
+                            </h1>
+                        </div>
+
+                        <group colspan="2" col="2">
+                            <group>
+                                <field name="available_floor_ids" widget="many2many_tags" invisible="1"/>
+                                <field name="host_cmp_id" required="1" readonly="state not in ['draft', 'edit']" invisible="1"
+                                       options="{'no_create': True}"/>
+                                <field name="host_company_id" readonly="1" invisible="1"/>
+                                <field name="active" invisible="1"/>
+                                <field name="emp_name" required="1" readonly="state not in ['draft', 'edit']"/>
+                                <field name="emp_internal_no" readonly="state not in ['draft', 'edit']"/>
+                                <field name="emp_phone" required="1" readonly="state not in ['draft', 'edit']"/>
+                                <field name="emp_email" readonly="state not in ['draft', 'edit']"/>
+                                <field name="floor_id" readonly="state not in ['draft', 'edit']" options="{'no_create': True}"/>
+                                <field name="parking_type" readonly="state not in ['draft', 'edit']"/>
+                                <field name="number_plate" invisible="0"/>
+                                <field name="number_plate_arabic" invisible="0"/>
+                            </group>
+
+                            <group>
+                                <field name="car_color" readonly="state not in ['draft', 'edit']"/>
+                                <field name="car_model" readonly="state not in ['draft', 'edit']"/>
+                                <field name="car_type_id" readonly="state not in ['draft', 'edit']" options="{'no_create': True}"/>
+                                <field name="tag" readonly="state not in ['draft', 'edit']"/>
+                                <field name="time_in" readonly="state not in ['draft', 'edit']"/>
+                                <field name="time_out" readonly="state not in ['draft', 'edit']"/>
+
+                                <field name="rejected_by" readonly="1" invisible="state != 'rejected'"/>
+                                <field name="rejected_date" readonly="1" invisible="state != 'rejected'"/>
+                                <field name="rejection_reason" readonly="1" invisible="state != 'rejected'"/>
+                                <field name="blocked_by" readonly="1" invisible="state != 'blocked'"/>
+                                <field name="blocked_date" readonly="1" invisible="state != 'blocked'"/>
+                                <field name="block_reason" readonly="1" invisible="state != 'blocked'"/>
+                                <field name="unblocked_by" readonly="1" invisible="state != 'active'"/>
+                                <field name="unblocked_date" readonly="1" invisible="state != 'active'"/>
+                            </group>
+                        </group>
+
+                        <!-- License Plate Input -->
+                        <group colspan="2">
+                            <div class="o_plate_root">
+                                <div class="o_plate_section o_plate_letters">
+                                    <field name="part1_1" class="o_plate_char" placeholder="A"
+                                           readonly="state not in ['draft', 'edit']" required="1"/>
+                                    <field name="part1_2" class="o_plate_char" placeholder="B"
+                                           readonly="state not in ['draft', 'edit']"/>
+                                    <field name="part1_3" class="o_plate_char" placeholder="C"
+                                           readonly="state not in ['draft', 'edit']"/>
+                                </div>
+                                <div class="o_plate_section o_plate_digits">
+                                    <field name="part2_1" class="o_plate_char" placeholder="1"
+                                           readonly="state not in ['draft', 'edit']" required="1"/>
+                                    <field name="part2_2" class="o_plate_char" placeholder="2"
+                                           readonly="state not in ['draft', 'edit']"/>
+                                    <field name="part2_3" class="o_plate_char" placeholder="3"
+                                           readonly="state not in ['draft', 'edit']"/>
+                                    <field name="part2_4" class="o_plate_char" placeholder="4"
+                                           readonly="state not in ['draft', 'edit']"/>
+                                </div>
+                                <div class="o_plate_section o_plate_letters">
+                                    <field name="part3_1" class="o_plate_char" placeholder="ا"
+                                           readonly="state not in ['draft', 'edit']" required="1"/>
+                                    <field name="part3_2" class="o_plate_char" placeholder="ب"
+                                           readonly="state not in ['draft', 'edit']"/>
+                                    <field name="part3_3" class="o_plate_char" placeholder="ج"
+                                           readonly="state not in ['draft', 'edit']"/>
+                                </div>
+                            </div>
+                        </group>
+
+                        <group string="Parking Statistics" colspan="2">
+                            <group>
+                                <field name="total_parking_spaces" readonly="1"/>
+                                <field name="used_normal_parking" readonly="1"/>
+                                <field name="used_valet_parking" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="used_parking_spaces" readonly="1"/>
+                                <field name="remaining_parking_spaces" readonly="1"/>
+                                <field name="remaining_valet_plus" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                    <div class="o_plate_style">
+                        <style>
+                            .o_plate_root { display:flex; gap:12px; align-items:center; margin:16px 0; flex-wrap:wrap; }
+                            .o_plate_section { display:flex; gap:4px; padding:6px; border-radius:6px; }
+                            .o_plate_letters { background:#ffffff; border:2px solid #ddd;}
+                            .o_plate_digits { background:#ffffff; border:2px solid #ddd; }
+                            .o_plate_char input {
+                                width:48px !important;
+                                height:56px !important;
+                                text-align:center;
+                                line-height:56px !important;
+                                font-weight:bold;
+                                font-size:20px;
+                                text-transform:uppercase;
+                                border:2px solid #333;
+                                border-radius:4px;
+                                background:transparent;
+                                box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+                                display:flex !important;
+                                align-items:center;
+                                justify-content:center;
+                            }
+                            .o_plate_char input::placeholder {
+                                color:#aaa;
+                                opacity:1;
+                            }
+                            .o_plate_char input[readonly] {
+                                background:#f8f9fa !important;
+                                border-color:#dee2e6 !important;
+                                color:#6c757d;
+                            }
+                        </style>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Parking Tree View -->
+        <record id="wazirz_view_parking_tree" model="ir.ui.view">
+            <field name="name">wazirz.car.parking.tree</field>
+            <field name="model">car.parking</field>
+            <field name="arch" type="xml">
+                <tree editable="top" open_form_view="True">
+                    <field name="name"/>
+                    <field name="host_cmp_id" column_invisible="0" options="{'no_create': True}" required="1"/>
+                    <field name="host_company_id" column_invisible="1"/>
+                    <field name="number_plate" optional="show"/>
+                    <field name="number_plate_arabic" optional="show"/>
+                    <field name="car_color" optional="show"/>
+                    <field name="car_model" optional="show"/>
+                    <field name="car_type_id" optional="show"/>
+                    <field name="emp_name" required="1"/>
+                    <field name="emp_internal_no"/>
+                    <field name="emp_phone" required="1" optional="show"/>
+                    <field name="emp_email" optional="show"/>
+                    <field name="tag" optional="show"/>
+                    <field name="state" readonly="1"/>
+                    <field name="available_floor_ids" column_invisible="1"/>
+                    <field name="floor_id" optional="show" column_invisible="0" options="{'no_create': True}"/>
+                    <field name="parking_type" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Parking Search View -->
+        <record id="wazirz_view_parking_search" model="ir.ui.view">
+            <field name="name">wazirz.car.parking.search</field>
+            <field name="model">car.parking</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="host_company_id"/>
+                    <field name="emp_name"/>
+                    <field name="emp_phone"/>
+                    <field name="emp_email"/>
+                    <field name="number_plate" string="Car Number"/>
+                    <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                    <filter name="active" string="Active" domain="[('state', '=', 'active')]"/>
+                    <filter name="blocked" string="Blocked" domain="[('state', '=', 'blocked')]"/>
+                    <filter name="rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                    <group expand="1" string="Group by">
+                        <filter string="Status" name="state" context="{'group_by': 'state'}"/>
+                        <filter string="Floor" name="floor_id" context="{'group_by': 'floor_id'}"/>
+                        <filter string="Client" name="host_cmp_id" context="{'group_by': 'host_cmp_id'}"/>
+                        <filter string="Parking Type" name="parking_type" context="{'group_by': 'parking_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Parking Action -->
+        <record id="wazirz_action_parking" model="ir.actions.act_window">
+            <field name="name">Parking Requests</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">car.parking</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new parking request
+                </p>
+            </field>
+        </record>
+
+        <!-- Access Card Action -->
+<!--        <record id="wazirz_action_access_card" model="ir.actions.act_window">-->
+<!--            <field name="name">Access Cards</field>-->
+<!--            <field name="res_model">access.card</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="o_view_nocontent_smiling_face">-->
+<!--                    Manage access cards-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <!-- Report Actions -->
+        <record id="wazirz_action_parking_summary_report" model="ir.actions.act_window">
+            <field name="name">Parking Summary Report</field>
+            <field name="res_model">car.parking</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_group_by_floor': 1}</field>
+            <field name="help" type="html">
+                <p>Summary of all parking requests</p>
+            </field>
+        </record>
+
+        <record id="wazirz_action_client_parking_report" model="ir.actions.act_window">
+            <field name="name">Client Parking Report</field>
+            <field name="res_model">car.parking</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_group_by_client': 1}</field>
+            <field name="help" type="html">
+                <p>Parking requests grouped by client</p>
+            </field>
+        </record>
+
+        <record id="wazirz_action_occupancy_report" model="ir.actions.act_window">
+            <field name="name">Occupancy Report</field>
+            <field name="res_model">building.floor</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p>Parking occupancy by floor</p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Reject Reason Wizard -->
+        <record id="view_reject_reason_wizard" model="ir.ui.view">
+            <field name="name">reject.reason.wizard.form</field>
+            <field name="model">reject.reason.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Rejection Reason">
+                    <group>
+                        <field name="reason" placeholder="Enter rejection reason..." required="1"/>
+                        <field name="model_name" invisible="1"/>
+                        <field name="record_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Block Reason Wizard -->
+        <record id="view_block_reason_wizard" model="ir.ui.view">
+            <field name="name">block.reason.wizard.form</field>
+            <field name="model">block.reason.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Block Reason">
+                    <group>
+                        <field name="reason" placeholder="Enter block reason..." required="1"/>
+                        <field name="model_name" invisible="1"/>
+                        <field name="record_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

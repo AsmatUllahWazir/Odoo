@@ -39,11 +39,13 @@ Key Features:
         'views/wizard_views.xml',
         'views/menus.xml',
     ],
+
+    'images': ['static/description/icon.png'],
     'demo': [],
     'installable': True,
     'application': True,
     'auto_install': False,
     'license': 'LGPL-3',
-    'price': 99.00,
+    'price': 12.00,
     'currency': 'USD',
 }

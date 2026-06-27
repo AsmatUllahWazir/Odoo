@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_access_card_form" model="ir.ui.view">
+        <field name="name">view.access.card.form</field>
+        <field name="model">access.card</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button class="btn btn-warning" invisible="state not in ['active']" name="canceled_action"
+                            groups="base.group_system" string="Cancel" type="object"/>
+                    <button class="oe_highlight" invisible="state not in ['draft']" name="submit_action"
+                            groups="base.group_system" string="Submit" type="object"/>
+                    <button class="oe_highlight" invisible="state not in ['management_approval']" name="active_action"
+                            groups="base.group_system" string="Activate" type="object"/>
+                    <button class="oe_highlight" invisible="state not in ['tech_active']" name="tech_active_action"
+                            groups="base.group_system" string="Activate" type="object"/>
+                    <button invisible="state in ['draft', 'canceled', 'rejected']" name="draft_action" type="object"
+                            groups="base.group_system" class="btn btn-warning" string="Rework"/>
+                    <button class="btn btn-danger" name="action_reject" type="object" string="Reject"
+                            invisible="state not in ['draft', 'management_approval']" groups="base.group_system"/>
+                    <button class="btn btn-warning" name="action_block" type="object" string="Block"
+                            invisible="state not in ['active']" groups="base.group_system"/>
+                    <button class="btn btn-success" name="action_unblock" type="object" string="Unblock"
+                            invisible="state not in ['blocked']" groups="base.group_system"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,management_approval,tech_active,active,blocked"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_box_access_card" type="object" class="oe_stat_button" icon="fa-list-alt">
+                            <field name="old_count" widget="statinfo" string="History"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <label class="oe_inline" for="name"/>
+                        <h1>
+                            <field force_save="1" name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="available_unit_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="host_comp_id" required="1" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="host_company_id" readonly="1" invisible="1"/>
+                            <field name="emp_name" required="1" readonly="state != 'draft'"/>
+                            <field name="emp_phone" required="1" readonly="state != 'draft'"/>
+                            <field name="emp_email" readonly="state != 'draft'"/>
+                            <field name="card_no" readonly="state != 'draft'"/>
+                            <field name="card_level_id" readonly="state != 'draft'" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="card_type_id" readonly="state != 'draft'" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="unit_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="request_date" readonly="state != 'draft'"/>
+                            <field name="issued_date" readonly="state != 'draft'"/>
+                            <field name="expiry_date" readonly="state != 'draft'"/>
+                            <field name="received_date" readonly="state != 'draft'"/>
+                            <field name="rejection_reason" readonly="1" invisible="state != 'rejected'"/>
+                            <field name="block_reason" readonly="1" invisible="state != 'blocked'"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_access_card_tree" model="ir.ui.view">
+        <field name="name">view.access.card.tree</field>
+        <field name="model">access.card</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="available_unit_ids" column_invisible="1"/>
+                <field name="host_comp_id" options="{'no_create': True}" required="1"/>
+                <field name="host_company_id" column_invisible="1"/>
+                <field name="emp_name" required="1"/>
+                <field name="emp_phone" required="1" optional="show"/>
+                <field name="emp_email" optional="show"/>
+                <field name="card_no" optional="show"/>
+                <field name="unit_id" optional="show" options="{'no_create': True}"/>
+                <field name="request_date" optional="show"/>
+                <field name="issued_date" optional="show"/>
+                <field name="expiry_date" optional="show"/>
+                <field name="received_date" optional="show"/>
+                <field name="card_level_id" optional="show" options="{'no_create': True, 'no_open': True}"/>
+                <field name="state" readonly="1" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_access_card_search" model="ir.ui.view">
+        <field name="name">view.access.card.search</field>
+        <field name="model">access.card</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="host_company_id"/>
+                <field name="emp_name"/>
+                <field name="emp_phone"/>
+                <field name="emp_email"/>
+                <field name="card_no"/>
+                <group>
+                    <filter string="Status" name="state" context="{'group_by': 'state'}"/>
+                    <filter string="Floor" name="unit_id" context="{'group_by': 'unit_id'}"/>
+                    <filter string="Client" name="host_company_id" context="{'group_by': 'host_company_id'}"/>
+                    <filter string="Card Level" name="card_level_id" context="{'group_by': 'card_level_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_access_card" model="ir.actions.act_window">
+        <field name="name">Personal Access</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">access.card</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Start a new personal access card request
+            </p>
+        </field>
+    </record>
+</odoo>

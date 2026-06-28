@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_access_card_level" model="ir.actions.act_window">
+        <field name="name">Card Levels</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">access.card.level</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure access card levels
+            </p>
+        </field>
+    </record>
+
+    <record id="action_access_card_type" model="ir.actions.act_window">
+        <field name="name">Card Types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">access.card.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure access card types
+            </p>
+        </field>
+    </record>
+
+    <!-- Main Menu -->
+    <menuitem id="building_management_menu"
+              name="Building Management"
+              sequence="10"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="building_management_config_menu"
+              name="Configuration"
+              parent="building_management_menu"
+              sequence="5"/>
+
+    <!-- Buildings Sub-menu -->
+    <menuitem id="building_floor_menu"
+              name="Building Floors"
+              parent="building_management_config_menu"
+              action="action_building_floor"
+              sequence="10"/>
+
+    <!-- Access Card Types and Levels -->
+    <menuitem id="access_card_level_menu"
+              name="Card Levels"
+              parent="building_management_config_menu"
+              action="action_access_card_level"
+              sequence="20"/>
+
+    <menuitem id="access_card_type_menu"
+              name="Card Types"
+              parent="building_management_config_menu"
+              action="action_access_card_type"
+              sequence="30"/>
+
+    <!-- Operations Menu -->
+    <menuitem id="building_management_operations_menu"
+              name="Operations"
+              parent="building_management_menu"
+              sequence="10"/>
+
+    <!-- Clients -->
+    <menuitem id="client_floor_menu"
+              name="Clients"
+              parent="building_management_operations_menu"
+              action="action_client_floor"
+              sequence="10"/>
+
+    <!-- Access Cards -->
+    <menuitem id="access_card_menu"
+              name="Access Cards"
+              parent="building_management_operations_menu"
+              action="action_access_card"
+              sequence="20"/>
+
+    <!-- Access Card Level Action -->
+
+    <!-- Access Card Type Action -->
+
+</odoo>

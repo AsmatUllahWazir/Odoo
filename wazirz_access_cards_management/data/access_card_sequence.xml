@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="seq_access_card" model="ir.sequence">
+            <field name="name">Access Card Sequence</field>
+            <field name="code">access.card.id</field>
+            <field name="prefix">AC-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="floor_1" model="building.floor">
+            <field name="floor_number">1</field>
+            <field name="building_name">Main Building</field>
+            <field name="floor_area">500</field>
+<!--            <field name="capacity">100</field>-->
+            <field name="access_card_limit">50</field>
+            <field name="parking_spaces">20</field>
+        </record>
+</odoo>

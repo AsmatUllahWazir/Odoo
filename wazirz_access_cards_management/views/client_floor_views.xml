@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Client Floor Form View -->
+    <record id="view_client_floor_form" model="ir.ui.view">
+        <field name="name">view.client.floor.form</field>
+        <field name="model">client.floor</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button class="oe_highlight" name="action_view_access_cards" type="object" string="Access Cards"/>
+<!--                    <button class="oe_highlight" name="action_view_parking" type="object" string="Parking"/>-->
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_access_cards" type="object" class="oe_stat_button" icon="fa-id-card">
+                            <span>Access Cards</span>
+                        </button>
+<!--                        <button name="action_view_parking" type="object" class="oe_stat_button" icon="fa-car">-->
+<!--                            <span>Parking</span>-->
+<!--                        </button>-->
+                    </div>
+                    <group>
+                        <group>
+                            <div class="oe_title" colspan="2">
+                                <label class="oe_inline" for="name"/>
+                                <h1>
+                                    <field force_save="1" name="name"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <div colspan="2">
+                                <h1>
+                                    <field name="company_image" widget="image" class="oe_avatar m-0"/>
+                                </h1>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="user_ids" invisible="1"/>
+                            <field name="child_ids" widget="many2many_tags" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="floor_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="access_limit"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Floor Assignments">
+                            <field name="host_company_line_ids">
+                                <list editable="bottom" create="1" delete="1">
+                                    <field name="company_representative" column_invisible="1"/>
+                                    <field name="company_representative_1" options="{'no_create': True}"/>
+                                    <field name="floor_id" options="{'no_create': True}"/>
+                                    <field name="assigned_date"/>
+                                    <field name="notes"/>
+                                    <field name="possible_representative_ids" column_invisible="1"/>
+                                    <field name="possible_representative_ids_1" column_invisible="1"/>
+                                    <field name="possible_floor_ids" column_invisible="1"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="company_representative" invisible="1"/>
+                                        <field name="company_representative_1" options="{'no_create': True}"/>
+                                        <field name="floor_id" options="{'no_create': True}"/>
+                                        <field name="assigned_date"/>
+                                        <field name="notes"/>
+                                        <field name="possible_representative_ids" invisible="1"/>
+                                        <field name="possible_representative_ids_1" invisible="1"/>
+                                        <field name="possible_floor_ids" invisible="1"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Client Floor Tree View -->
+    <record id="view_client_floor_tree" model="ir.ui.view">
+        <field name="name">view.client.floor.tree</field>
+        <field name="model">client.floor</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="floor_ids" widget="many2many_tags"/>
+                <field name="access_limit"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Client Floor Search View -->
+    <record id="view_client_floor_search" model="ir.ui.view">
+        <field name="name">view.client.floor.search</field>
+        <field name="model">client.floor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="floor_ids"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <separator/>
+                <filter string="Inactive" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Client Floor Action -->
+    <record id="action_client_floor" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">client.floor</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_client_floor_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new client
+            </p>
+        </field>
+    </record>
+</odoo>

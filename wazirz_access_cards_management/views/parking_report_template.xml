@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- PDF Report Template - Self-contained Professional Report -->
+        <template id="report_parking_template">
+            <div style="font-family: 'Arial', 'Helvetica', sans-serif; padding: 40px 50px; max-width: 1000px; margin: 0 auto; background: #ffffff;">
+
+                <!-- ===== HEADER ===== -->
+                <div style="border-bottom: 4px solid #0f3460; padding-bottom: 15px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <!-- Left: Company Info -->
+                        <div>
+                            <div style="font-size: 28px; font-weight: 800; color: #0f3460; letter-spacing: -1px;">
+                                Wazirz
+                                <span style="font-weight: 300; color: #6c757d; font-size: 18px;">Parking</span>
+                            </div>
+                            <div style="font-size: 12px; color: #6c757d; margin-top: 2px;">
+                                Parking Management System
+                            </div>
+                        </div>
+                        <!-- Right: Report Info -->
+                        <div style="text-align: right;">
+                            <div style="font-size: 20px; font-weight: 700; color: #0f3460;">Parking Report</div>
+                            <div style="font-size: 12px; color: #6c757d; margin-top: 2px;">
+                                Ref: <strong style="color: #0f3460;"><span t-field="doc.name"/></strong>
+                            </div>
+                            <div style="font-size: 11px; color: #6c757d; margin-top: 2px;">
+                                <span t-esc="current_datetime"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== STATUS SUMMARY ===== -->
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 120px; background: #f8f9fa; padding: 8px 15px; border-radius: 4px; border-left: 3px solid #0f3460;">
+                        <div style="font-size: 10px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px;">Status</div>
+                        <div style="font-weight: 700; font-size: 14px; color: #0f3460;">
+                            <span t-field="doc.state"/>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 120px; background: #f8f9fa; padding: 8px 15px; border-radius: 4px; border-left: 3px solid #28a745;">
+                        <div style="font-size: 10px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px;">Parking Type</div>
+                        <div style="font-weight: 700; font-size: 14px; color: #28a745;">
+                            <span t-field="doc.parking_type"/>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 120px; background: #f8f9fa; padding: 8px 15px; border-radius: 4px; border-left: 3px solid #ffc107;">
+                        <div style="font-size: 10px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px;">Floor/Unit</div>
+                        <div style="font-weight: 700; font-size: 14px;">
+                            <span t-if="doc.floor_id"><span t-field="doc.floor_id.name"/></span>
+                            <span t-else="">N/A</span>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 120px; background: #f8f9fa; padding: 8px 15px; border-radius: 4px; border-left: 3px solid #dc3545;">
+                        <div style="font-size: 10px; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px;">Active</div>
+                        <div style="font-weight: 700; font-size: 14px;">
+                            <span t-if="doc.active" style="color: #28a745;">✓ Active</span>
+                            <span t-else="" style="color: #dc3545;">✗ Inactive</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== TWO COLUMN LAYOUT ===== -->
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                    <tr>
+                        <!-- LEFT COLUMN -->
+                        <td style="width: 50%; vertical-align: top; padding-right: 10px;">
+
+                            <!-- EMPLOYEE DETAILS -->
+                            <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; margin-bottom: 12px; background: #ffffff;">
+                                <h4 style="margin: 0 0 10px; color: #0f3460; font-size: 13px; border-bottom: 2px solid #0f3460; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    👤 Employee Details
+                                </h4>
+                                <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d; width: 35%;">Employee Name</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.emp_name"><span t-field="doc.emp_name"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Employee ID</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.emp_internal_no"><span t-field="doc.emp_internal_no"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Phone</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.emp_phone"><span t-field="doc.emp_phone"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Email</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.emp_email"><span t-field="doc.emp_email"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- VEHICLE DETAILS -->
+                            <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; background: #ffffff;">
+                                <h4 style="margin: 0 0 10px; color: #0f3460; font-size: 13px; border-bottom: 2px solid #0f3460; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    🚗 Vehicle Details
+                                </h4>
+                                <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d; width: 35%;">License Plate (EN)</td>
+                                        <td style="padding: 4px 0; font-weight: 700; font-size: 14px; color: #0f3460;">
+                                            <span t-field="doc.number_plate"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">License Plate (AR)</td>
+                                        <td style="padding: 4px 0; font-weight: 700; font-size: 14px; direction: rtl; text-align: right; color: #0f3460;">
+                                            <span t-field="doc.number_plate_arabic"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Car Color</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.car_color"><span t-field="doc.car_color"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Car Model</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.car_model"><span t-field="doc.car_model"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Car Type</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.car_type_id"><span t-field="doc.car_type_id.name"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Tag</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.tag"><span t-field="doc.tag"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+
+                        <!-- RIGHT COLUMN -->
+                        <td style="width: 50%; vertical-align: top; padding-left: 10px;">
+
+                            <!-- CLIENT & LOCATION -->
+                            <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; margin-bottom: 12px; background: #ffffff;">
+                                <h4 style="margin: 0 0 10px; color: #0f3460; font-size: 13px; border-bottom: 2px solid #0f3460; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    🏢 Client &amp; Location
+                                </h4>
+                                <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d; width: 35%;">Client</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.host_cmp_id"><span t-field="doc.host_cmp_id.name"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Floor/Unit</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.floor_id"><span t-field="doc.floor_id.name"/></span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Location</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-if="doc.floor_id and doc.floor_id.location_id">
+                                                <span t-field="doc.floor_id.location_id.name"/>
+                                            </span>
+                                            <span t-else="" style="color: #adb5bd;">N/A</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- PARKING CAPACITY -->
+                            <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; margin-bottom: 12px; background: #ffffff;">
+                                <h4 style="margin: 0 0 10px; color: #0f3460; font-size: 13px; border-bottom: 2px solid #0f3460; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    📊 Parking Capacity
+                                </h4>
+
+                                <!-- Progress Bar -->
+                                <div style="margin-bottom: 8px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px;">
+                                        <span style="color: #6c757d;">Occupancy</span>
+                                        <span style="font-weight: 700; color: #0f3460;">
+                                            <t t-esc="str(calculate_occupancy(doc.floor_id.id))"/>%
+                                        </span>
+                                    </div>
+                                    <div style="background: #e9ecef; border-radius: 10px; height: 6px; overflow: hidden;">
+                                        <div t-att-style="'width: ' + str(calculate_occupancy(doc.floor_id.id)) + '%; ' +
+                                                           'background: linear-gradient(90deg, #28a745, #20c997); ' +
+                                                           'height: 100%; border-radius: 10px;'"></div>
+                                    </div>
+                                </div>
+
+                                <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 3px 0; color: #6c757d; width: 40%;">Total Spaces</td>
+                                        <td style="padding: 3px 0; font-weight: 700; color: #0f3460;">
+<!--                                            <span t-field="doc.total_parking_spaces"/>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 3px 0; color: #6c757d;">Used Spaces</td>
+                                        <td style="padding: 3px 0; font-weight: 600; color: #dc3545;">
+                                            <span t-field="doc.used_parking_spaces"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 3px 0; color: #6c757d;">Remaining</td>
+                                        <td style="padding: 3px 0; font-weight: 700; color: #28a745; font-size: 14px;">
+                                            <span t-field="doc.remaining_parking_spaces"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="doc.parking_type == 'valet_pl'">
+                                        <td style="padding: 3px 0; color: #6c757d;">Valet+ (T / U / R)</td>
+<!--                                        <td style="padding: 3px 0; font-weight: 600;">-->
+<!--                                            <span t-field="doc.total_valet_plus"/> /-->
+<!--                                            <span t-field="doc.used_valet_plus"/> /-->
+<!--                                            <span style="color: #28a745; font-weight: 700;">-->
+<!--                                                <span t-field="doc.remaining_valet_plus"/>-->
+<!--                                            </span>-->
+<!--                                        </td>-->
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- TIMESTAMPS -->
+                            <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; background: #ffffff;">
+                                <h4 style="margin: 0 0 10px; color: #0f3460; font-size: 13px; border-bottom: 2px solid #0f3460; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    ⏰ Timestamps
+                                </h4>
+                                <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d; width: 35%;">Time In</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-field="doc.time_in"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 4px 0; color: #6c757d;">Time Out</td>
+                                        <td style="padding: 4px 0; font-weight: 600;">
+                                            <span t-field="doc.time_out"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- ===== REJECTION/BLOCK SECTION ===== -->
+                <div t-if="doc.state == 'rejected' or doc.state == 'blocked'"
+                     style="margin-top: 10px; border: 1px solid #ffc107; border-radius: 4px; padding: 12px; background: #fff8e1;">
+                    <div t-if="doc.state == 'rejected'">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span style="font-size: 18px;">⛔</span>
+                            <strong style="color: #dc3545;">Rejected</strong>
+                            <span style="color: #6c757d; font-size: 12px;">by</span>
+                            <strong><span t-field="doc.rejected_by.name"/></strong>
+                            <span style="color: #6c757d; font-size: 12px;">on</span>
+                            <span t-field="doc.rejected_date"/>
+                        </div>
+                        <div style="margin-top: 5px; padding: 5px 10px; background: white; border-radius: 3px; font-size: 12px; border-left: 3px solid #dc3545;">
+                            <strong>Reason:</strong> <span t-field="doc.rejection_reason"/>
+                        </div>
+                    </div>
+                    <div t-if="doc.state == 'blocked'">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span style="font-size: 18px;">🚫</span>
+                            <strong style="color: #ff6f00;">Blocked</strong>
+                            <span style="color: #6c757d; font-size: 12px;">by</span>
+                            <strong><span t-field="doc.blocked_by.name"/></strong>
+                            <span style="color: #6c757d; font-size: 12px;">on</span>
+                            <span t-field="doc.blocked_date"/>
+                        </div>
+                        <div style="margin-top: 5px; padding: 5px 10px; background: white; border-radius: 3px; font-size: 12px; border-left: 3px solid #ffc107;">
+                            <strong>Reason:</strong> <span t-field="doc.block_reason"/>
+                        </div>
+                        <div t-if="doc.unblocked_by" style="margin-top: 5px; color: #28a745; font-size: 12px;">
+                            ✅ Unblocked by <strong><span t-field="doc.unblocked_by.name"/></strong>
+                            on <span t-field="doc.unblocked_date"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== FOOTER ===== -->
+                <div style="margin-top: 20px; padding-top: 12px; border-top: 2px solid #e9ecef;">
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; color: #6c757d; flex-wrap: wrap; gap: 5px;">
+                        <span>
+                            <span style="font-weight: 600; color: #0f3460;">Wazirz</span> Parking Management System v1.0
+                        </span>
+                        <span>Report: <span t-field="doc.name"/></span>
+                        <span>Page 1 of 1</span>
+                        <span>Generated: <span t-esc="current_datetime"/></span>
+                    </div>
+                    <div style="text-align: center; margin-top: 5px; font-size: 9px; color: #adb5bd;">
+                        This is a system-generated report. For inquiries, contact your parking administrator.
+                    </div>
+                </div>
+
+            </div>
+        </template>
+
+        <!-- PDF Report Binding -->
+<!--        <record id="wazirz_parking_report_action" model="ir.actions.report">-->
+<!--            <field name="name">Parking Request Report</field>-->
+<!--            <field name="model">car.parking</field>-->
+<!--            <field name="report_type">qweb-pdf</field>-->
+<!--            <field name="report_name">wazirz_parking_management.report_parking_template</field>-->
+<!--            <field name="report_file">wazirz_parking_management.report_parking_template</field>-->
+<!--            <field name="binding_model_id" ref="model_car_parking"/>-->
+<!--            <field name="binding_type">report</field>-->
+<!--            <field name="print_report_name">'Parking Report - %s' % (object.name or '')</field>-->
+<!--        </record>-->
+
+</odoo>

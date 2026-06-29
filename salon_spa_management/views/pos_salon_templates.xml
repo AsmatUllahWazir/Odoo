@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- POS Appointment Button -->
+    <template id="pos_salon_appointment_button" name="Salon Appointment Button" inherit_id="point_of_sale.Pos">
+        <xpath expr="//div[hasclass('pos-content')]" position="after">
+            <div class="pos-salon-sidebar" t-if="pos.config.salon_enabled">
+                <t t-call="salon_spa_management.pos_salon_sidebar"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- POS Sidebar Template -->
+    <template id="pos_salon_sidebar" name="POS Salon Sidebar">
+        <div class="pos-salon-sidebar-content">
+            <div class="pos-salon-header">
+                <h4>Salon Appointments</h4>
+                <button class="btn btn-sm btn-primary" t-on-click="loadAppointments">
+                    Refresh
+                </button>
+            </div>
+            <div class="pos-salon-appointments">
+                <t t-foreach="pos.salon_current_appointments" t-as="appointment">
+                    <div class="pos-appointment-item" t-attf-class="{{ appointment.state == 'confirmed' ? 'pos-appointment-confirmed' : appointment.state == 'checked_in' ? 'pos-appointment-checkedin' : appointment.state == 'in_progress' ? 'pos-appointment-progress' : 'pos-appointment-default' }}">
+                        <div class="appointment-info">
+                            <strong><t t-esc="appointment.customer_id.name"/></strong>
+                            <span class="badge"><t t-esc="appointment.state"/></span>
+                            <div class="appointment-details">
+                                <t t-esc="appointment.employee_id.name"/> -
+                                <t t-foreach="appointment.service_ids" t-as="service">
+                                    <t t-esc="service.name"/>
+                                </t>
+                            </div>
+                            <div class="appointment-time">
+                                <t t-esc="appointment.appointment_date"/>
+                            </div>
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="btn btn-sm btn-success" t-on-click="checkInAppointment(appointment)">
+                                Check In
+                            </button>
+                            <button class="btn btn-sm btn-danger" t-on-click="cancelAppointment(appointment)">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================ -->
+    <!-- WEBSITE PORTAL TEMPLATES                    -->
+    <!-- ============================================ -->
+
+    <!-- Online Booking Page -->
+<template id="salon_booking_portal" name="Salon Booking Portal">
+    <t t-call="website.layout">
+        <div class="container mt-4 mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center mb-4">💇 Book an Appointment</h1>
+                    <p class="text-center text-muted mb-4">Choose your service, staff, and preferred time slot</p>
+                </div>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <div class="step-indicator">
+                            <span class="step active" id="step1">1. Select Service</span>
+                            <span class="step" id="step2">2. Choose Staff</span>
+                            <span class="step" id="step3">3. Pick Time</span>
+                            <span class="step" id="step4">4. Confirm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Step 1: Select Service -->
+                            <div id="step1_content" class="booking-step">
+                                <h4 class="mb-3">Select Your Service</h4>
+                                <div class="row">
+                                    <t t-foreach="services" t-as="service">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="service-card"
+                                                 t-attf-data-service-id="{{ service.id }}"
+                                                 t-attf-data-price="{{ service.price }}"
+                                                 t-attf-data-duration="{{ service.duration }}"
+                                                 onclick="selectService(this)">
+                                                <div class="card h-100">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><t t-esc="service.name"/></h5>
+                                                        <p class="card-text text-muted">
+                                                            <t t-esc="service.duration"/> minutes
+                                                        </p>
+                                                        <p class="card-text">
+                                                            <strong>$<t t-esc="service.price"/></strong>
+                                                        </p>
+                                                        <button class="btn btn-outline-primary btn-sm">Select</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-primary" onclick="goToStep(2)" id="step1_next">
+                                        Continue <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Choose Staff -->
+                            <div id="step2_content" class="booking-step" style="display:none;">
+                                <h4 class="mb-3">Choose Your Staff</h4>
+                                <div class="row">
+                                    <t t-foreach="staff" t-as="employee">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="staff-card"
+                                                 t-attf-data-staff-id="{{ employee.id }}"
+                                                 onclick="selectStaff(this)">
+                                                <div class="card h-100">
+                                                    <div class="card-body text-center">
+                                                        <div class="avatar-circle mb-2">
+                                                            <span class="avatar-text"><t t-esc="employee.name[0]"/></span>
+                                                        </div>
+                                                        <h5 class="card-title"><t t-esc="employee.name"/></h5>
+                                                        <p class="card-text">
+                                                            <span class="badge badge-info">
+                                                                <t t-esc="employee.salon_skill_level"/>
+                                                            </span>
+                                                        </p>
+                                                        <button class="btn btn-outline-primary btn-sm">Select</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-secondary" onclick="goToStep(1)">
+                                        <i class="fa fa-arrow-left"></i> Back
+                                    </button>
+                                    <button class="btn btn-primary" onclick="goToStep(3)" id="step2_next">
+                                        Continue <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Pick Time -->
+                            <div id="step3_content" class="booking-step" style="display:none;">
+                                <h4 class="mb-3">Select Date &amp; Time</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Date</label>
+                                            <input type="date" class="form-control" id="booking_date"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Time</label>
+                                            <input type="time" class="form-control" id="booking_time" min="09:00" max="18:00"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="availability_status" class="alert alert-info">
+                                    <i class="fa fa-info-circle"></i> Select a date and time to check availability
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-secondary" onclick="goToStep(2)">
+                                        <i class="fa fa-arrow-left"></i> Back
+                                    </button>
+                                    <button class="btn btn-primary" onclick="goToStep(4)" id="step3_next">
+                                        Continue <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Confirm -->
+                            <div id="step4_content" class="booking-step" style="display:none;">
+                                <h4 class="mb-3">Confirm Your Booking</h4>
+                                <div class="confirmation-details">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Service:</h5>
+                                            <p id="confirm_service">-</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Staff:</h5>
+                                            <p id="confirm_staff">-</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Date &amp; Time:</h5>
+                                            <p id="confirm_datetime">-</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Duration:</h5>
+                                            <p id="confirm_duration">-</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Price:</h5>
+                                            <p id="confirm_price">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label>Your Name *</label>
+                                    <input type="text" class="form-control" id="customer_name"
+                                           t-attf-value="{{ request.env.user.partner_id.name if request.env.user.partner_id else '' }}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number *</label>
+                                    <input type="tel" class="form-control" id="customer_phone"
+                                           t-attf-value="{{ request.env.user.partner_id.phone if request.env.user.partner_id else '' }}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" class="form-control" id="customer_email"
+                                           t-attf-value="{{ request.env.user.partner_id.email if request.env.user.partner_id else '' }}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Special Requests</label>
+                                    <textarea class="form-control" id="special_requests" rows="2"
+                                              placeholder="Any special requirements?"></textarea>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-secondary" onclick="goToStep(3)">
+                                        <i class="fa fa-arrow-left"></i> Back
+                                    </button>
+                                    <button class="btn btn-success btn-lg" onclick="submitBooking()">
+                                        <i class="fa fa-check"></i> Confirm Booking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+    <!-- Customer Portal: My Appointments -->
+<template id="portal_my_appointments" name="My Appointments">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_title">My Appointments</t>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">📅 My Appointments</h4>
+                            <a href="/salon/booking" class="btn btn-primary btn-sm">
+                                <i class="fa fa-plus"></i> Book New
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <t t-if="appointments">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Date &amp; Time</th>
+                                                <th>Staff</th>
+                                                <th>Services</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="appointments" t-as="appt">
+                                                <td><t t-esc="appt.name"/></td>
+                                                <td>
+                                                    <t t-esc="appt.appointment_date.strftime('%B %d, %Y at %I:%M %p')"/>
+                                                </td>
+                                                <td><t t-esc="appt.employee_id.name"/></td>
+                                                <td>
+                                                    <t t-foreach="appt.service_ids" t-as="service">
+                                                        <span class="badge" t-attf-class="badge-{{ 'badge-info' if service_index == 0 else 'badge-secondary' }}">
+                                                            <t t-esc="service.name"/>
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <span class="badge" t-attf-class="badge-{{
+                                                        'warning' if appt.state == 'confirmed' else
+                                                        'info' if appt.state == 'checked_in' else
+                                                        'primary' if appt.state == 'in_progress' else
+                                                        'success' if appt.state == 'completed' else
+                                                        'danger' if appt.state == 'cancelled' else
+                                                        'secondary'
+                                                    }}">
+                                                        <t t-esc="appt.state"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a t-if="appt.state in ['confirmed','draft']"
+                                                       href="#"
+                                                       class="btn btn-sm btn-danger"
+                                                       data-toggle="modal"
+                                                       data-target="#cancelModal"
+                                                       t-att-data-appointment="appt.id">
+                                                        <i class="fa fa-times"></i> Cancel
+                                                    </a>
+                                                    <a t-attf-href="/my/appointment/{{ appt.id }}"
+                                                       class="btn btn-sm btn-info">
+                                                        <i class="fa fa-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Pagination -->
+                                <t t-if="pager">
+                                    <t t-call="website.pager"/>
+                                </t>
+                            </t>
+                            <t t-if="not appointments">
+                                <div class="text-center py-5">
+                                    <i class="fa fa-calendar fa-4x text-muted mb-3"></i>
+                                    <h4>No Appointments Found</h4>
+                                    <p class="text-muted">You haven't booked any appointments yet.</p>
+                                    <a href="/salon/booking" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i> Book Your First Appointment
+                                    </a>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+    <!-- Customer Portal: Appointment Detail -->
+    <template id="portal_appointment_detail" name="Appointment Details">
+        <t t-call="portal.portal_layout">
+            <t t-set="page_title">Appointment Details</t>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0">📋 Appointment <t t-esc="appointment.name"/></h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>📅 Date &amp; Time</h5>
+                                        <p><t t-esc="appointment.appointment_date.strftime('%B %d, %Y at %I:%M %p')"/></p>
+
+                                        <h5>👤 Staff</h5>
+                                        <p><t t-esc="appointment.employee_id.name"/></p>
+
+                                        <h5>💺 Chair</h5>
+                                        <p><t t-esc="appointment.chair_id.name or 'Not assigned'"/></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>💇 Services</h5>
+                                        <ul class="list-unstyled">
+                                            <li t-foreach="appointment.service_ids" t-as="service">
+                                                <span class="badge badge-info mr-1"><t t-esc="service.duration"/> min</span>
+                                                <t t-esc="service.name"/>
+                                            </li>
+                                        </ul>
+
+                                        <h5>📊 Status</h5>
+                                        <span class="badge" t-attf-class="badge-{{
+                                            appointment.state == 'confirmed' ? 'warning' :
+                                            appointment.state == 'checked_in' ? 'info' :
+                                            appointment.state == 'in_progress' ? 'primary' :
+                                            appointment.state == 'completed' ? 'success' :
+                                            appointment.state == 'cancelled' ? 'danger' :
+                                            'secondary'
+                                        }}">
+                                            <t t-esc="appointment.state"/>
+                                        </span>
+
+                                        <t t-if="appointment.is_member">
+                                            <p class="mt-2">
+                                                <span class="badge badge-success"><i class="fa fa-star"></i> Member</span>
+                                            </p>
+                                        </t>
+                                    </div>
+                                </div>
+
+                                <div t-if="appointment.notes" class="mt-3">
+                                    <h5>📝 Notes</h5>
+                                    <p class="text-muted"><t t-esc="appointment.notes"/></p>
+                                </div>
+
+                                <div t-if="appointment.cancellation_reason" class="mt-3">
+                                    <h5>⚠️ Cancellation Reason</h5>
+                                    <p class="text-danger"><t t-esc="appointment.cancellation_reason"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">⚡ Quick Actions</h5>
+                            </div>
+                            <div class="card-body">
+                                <button t-if="appointment.state in ['confirmed','draft']"
+                                        class="btn btn-danger btn-block mb-2"
+                                        data-toggle="modal"
+                                        data-target="#cancelModal"
+                                        t-att-data-appointment="appointment.id">
+                                    <i class="fa fa-times"></i> Cancel Appointment
+                                </button>
+                                <a href="/my/appointments" class="btn btn-secondary btn-block">
+                                    <i class="fa fa-arrow-left"></i> Back to List
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h5 class="mb-0">📊 Additional Info</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Booking Type:</strong>
+                                    <t t-esc="appointment.is_online_booking ? 'Online' : 'In-Store'"/>
+                                </p>
+                                <p><strong>Created:</strong>
+                                    <t t-esc="appointment.create_date.strftime('%B %d, %Y at %H:%M')"/>
+                                </p>
+                                <t t-if="appointment.order_id">
+                                    <p><strong>Order:</strong>
+                                        <t t-esc="appointment.order_id.name"/>
+                                    </p>
+                                </t>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h5 class="mb-0">📞 Need Help?</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">Contact us for any questions about your appointment.</p>
+                                <a href="mailto:info@salon.com" class="btn btn-outline-primary btn-block">
+                                    <i class="fa fa-envelope"></i> Contact Us
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Customer Portal: My Membership -->
+    <template id="portal_my_membership" name="My Membership">
+        <t t-call="portal.portal_layout">
+            <t t-set="page_title">My Membership</t>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <i class="fa fa-id-card fa-4x text-primary mb-3"></i>
+                                <h4><t t-esc="partner.membership_id.name or 'No Membership'"/></h4>
+                                <p class="text-muted">
+                                    <t t-if="partner.is_member">
+                                        Member since <t t-esc="partner.membership_start_date"/>
+                                    </t>
+                                    <t t-if="not partner.is_member">
+                                        Not a member yet
+                                    </t>
+                                </p>
+                                <t t-if="partner.is_member">
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-success"
+                                             t-attf-style="width: {{ ((partner.total_spent or 0) / 1000) * 100 if partner.total_spent else 0 }}%">
+                                            <t t-esc="'$' + str(partner.total_spent or 0) + ' spent'"/>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted">
+                                        <strong>Next tier:</strong> $1000 to reach Gold
+                                    </p>
+                                    <p>
+                                        <span class="badge badge-info">
+                                            <i class="fa fa-star"></i> <t t-esc="partner.membership_id.discount_percentage"/>% discount
+                                        </span>
+                                    </p>
+                                </t>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3" t-if="partner.is_member and membership_card">
+                            <div class="card-header">
+                                <h5 class="mb-0">💳 Membership Card</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <p><strong>Card #:</strong> <t t-esc="membership_card.name"/></p>
+                                <p><strong>Status:</strong>
+                                    <span class="badge" t-attf-class="badge-{{
+                                        membership_card.state == 'active' ? 'success' :
+                                        membership_card.state == 'expired' ? 'danger' :
+                                        'warning'
+                                    }}">
+                                        <t t-esc="membership_card.state"/>
+                                    </span>
+                                </p>
+                                <p><strong>Expires:</strong>
+                                    <t t-esc="membership_card.expiry_date or 'Never'"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0">🏆 Membership Plans</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <t t-foreach="membership_plans" t-as="plan">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="card h-100" t-attf-class="{{
+                                                partner.membership_id.id == plan.id ? 'border-primary shadow' : ''
+                                            }}">
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title">
+                                                        <t t-esc="plan.name"/>
+                                                        <t t-if="partner.membership_id.id == plan.id">
+                                                            <span class="badge badge-success">✓ Active</span>
+                                                        </t>
+                                                    </h5>
+                                                    <h6 class="card-subtitle mb-2 text-muted">
+                                                        <t t-esc="plan.discount_percentage"/>% discount
+                                                    </h6>
+                                                    <div class="price mb-3">
+                                                        <span class="h4"><t t-esc="plan.price" widget="monetary"/></span>
+                                                        <span class="text-muted">/year</span>
+                                                    </div>
+                                                    <p class="card-text small">
+                                                        <t t-esc="plan.benefits"/>
+                                                    </p>
+                                                    <t t-if="plan.duration > 0">
+                                                        <p class="card-text small text-muted">
+                                                            <i class="fa fa-clock-o"></i> <t t-esc="plan.duration"/> days
+                                                        </p>
+                                                    </t>
+                                                    <t t-if="partner.membership_id.id != plan.id">
+                                                        <form t-attf-action="/my/membership/upgrade" method="POST">
+                                                            <input type="hidden" name="plan_id" t-att-value="plan.id"/>
+                                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                            <button type="submit" class="btn btn-primary btn-block mt-2">
+                                                                <t t-if="partner.is_member">Upgrade</t>
+                                                                <t t-if="not partner.is_member">Subscribe</t>
+                                                            </button>
+                                                        </form>
+                                                    </t>
+                                                    <t t-if="partner.membership_id.id == plan.id">
+                                                        <button class="btn btn-success btn-block mt-2">
+                                                            <i class="fa fa-check"></i> Current Plan
+                                                        </button>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="alert alert-info mt-3">
+                                    <i class="fa fa-info-circle"></i>
+                                    Membership includes discounts on all services and priority booking.
+                                    Terms and conditions apply.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3" t-if="partner.is_member">
+                            <div class="card-header">
+                                <h5 class="mb-0">📊 Membership Benefits</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="benefit-item">
+                                            <i class="fa fa-percent text-success"></i>
+                                            <span><t t-esc="partner.membership_id.discount_percentage"/>% off all services</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="benefit-item">
+                                            <i class="fa fa-calendar-check text-success"></i>
+                                            <span>Priority booking</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="benefit-item">
+                                            <i class="fa fa-gift text-success"></i>
+                                            <span>Birthday offers</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="benefit-item">
+                                            <i class="fa fa-star text-success"></i>
+                                            <span>Exclusive promotions</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Cancel Appointment Modal -->
+    <template id="cancel_appointment_modal">
+        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">⚠️ Cancel Appointment</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&amp;</span>
+                        </button>
+                    </div>
+                    <form t-attf-action="/my/appointment/{{ appointment_id }}/cancel" method="POST">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="modal-body">
+                            <p>Are you sure you want to cancel this appointment?</p>
+                            <div class="alert alert-warning">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                This action cannot be undone.
+                            </div>
+                            <div class="form-group">
+                                <label for="reason">Reason for cancellation</label>
+                                <select class="form-control" id="reason" name="reason">
+                                    <option value="">Select a reason...</option>
+                                    <option value="Scheduling conflict">Scheduling conflict</option>
+                                    <option value="Change of plans">Change of plans</option>
+                                    <option value="Not feeling well">Not feeling well</option>
+                                    <option value="Found alternative">Found alternative</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reason_text">Additional comments</label>
+                                <textarea class="form-control" id="reason_text" name="reason_text"
+                                          rows="2" placeholder="Any additional details..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                <i class="fa fa-times"></i> Close
+                            </button>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa fa-check"></i> Yes, Cancel Appointment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ============================================ -->
+    <!-- STYLES AND SCRIPTS                          -->
+    <!-- ============================================ -->
+
+    <template id="salon_booking_styles" name="Salon Booking Styles">
+        <style>
+            /* Step Indicator */
+            .step-indicator {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+            }
+            .step {
+                display: inline-block;
+                padding: 8px 16px;
+                background: #e9ecef;
+                border-radius: 20px;
+                color: #6c757d;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            .step.active {
+                background: #667eea;
+                color: white;
+            }
+            .step.completed {
+                background: #28a745;
+                color: white;
+            }
+
+            /* Service Cards */
+            .service-card {
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+            .service-card:hover {
+                transform: translateY(-5px);
+            }
+            .service-card.selected {
+                border: 2px solid #667eea;
+                border-radius: 4px;
+            }
+
+            /* Staff Cards */
+            .staff-card {
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+            .staff-card:hover {
+                transform: translateY(-5px);
+            }
+            .staff-card.selected {
+                border: 2px solid #667eea;
+                border-radius: 4px;
+            }
+            .avatar-circle {
+                width: 60px;
+                height: 60px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 10px;
+            }
+            .avatar-text {
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            /* Confirmation Details */
+            .confirmation-details {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 8px;
+                margin: 15px 0;
+            }
+            .confirmation-details h5 {
+                color: #495057;
+                font-size: 14px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .confirmation-details p {
+                font-size: 18px;
+                font-weight: 500;
+                margin-bottom: 15px;
+            }
+
+            /* Benefit Items */
+            .benefit-item {
+                padding: 10px;
+                border-bottom: 1px solid #e9ecef;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .benefit-item i {
+                font-size: 20px;
+                width: 30px;
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .step-indicator {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+                .step {
+                    font-size: 12px;
+                    padding: 5px 10px;
+                }
+                .confirmation-details p {
+                    font-size: 16px;
+                }
+            }
+        </style>
+    </template>
+
+    <template id="salon_booking_scripts" name="Salon Booking Scripts">
+    <script>
+        (function() {
+            'use strict';
+
+            var selectedService = null;
+            var selectedStaff = null;
+            var selectedDate = null;
+
+            window.selectService = function(element) {
+                // Remove previous selection
+                document.querySelectorAll('.service-card').forEach(function(c) {
+                    c.classList.remove('selected');
+                });
+                element.classList.add('selected');
+                selectedService = element.dataset.serviceId;
+                var nextBtn = document.getElementById('step1_next');
+                if (nextBtn) nextBtn.disabled = false;
+
+                // Update confirmation
+                var serviceName = element.querySelector('.card-title').textContent;
+                var price = element.dataset.price;
+                var duration = element.dataset.duration;
+
+                var confirmService = document.getElementById('confirm_service');
+                var confirmDuration = document.getElementById('confirm_duration');
+                var confirmPrice = document.getElementById('confirm_price');
+
+                if (confirmService) confirmService.textContent = serviceName;
+                if (confirmDuration) confirmDuration.textContent = duration + ' minutes';
+                if (confirmPrice) confirmPrice.textContent = '$' + price;
+            };
+
+            window.selectStaff = function(element) {
+                document.querySelectorAll('.staff-card').forEach(function(c) {
+                    c.classList.remove('selected');
+                });
+                element.classList.add('selected');
+                selectedStaff = element.dataset.staffId;
+                var nextBtn = document.getElementById('step2_next');
+                if (nextBtn) nextBtn.disabled = false;
+
+                // Update confirmation
+                var staffName = element.querySelector('.card-title').textContent;
+                var confirmStaff = document.getElementById('confirm_staff');
+                if (confirmStaff) confirmStaff.textContent = staffName;
+            };
+
+            window.goToStep = function(step) {
+                // Hide all steps
+                for (var i = 1; i &lt;= 4; i++) {
+                    var el = document.getElementById('step' + i + '_content');
+                    if (el) el.style.display = 'none';
+                }
+
+                // Show selected step
+                var target = document.getElementById('step' + step + '_content');
+                if (target) target.style.display = 'block';
+
+                // Update step indicators
+                document.querySelectorAll('.step').forEach(function(s) {
+                    s.classList.remove('active', 'completed');
+                    var stepNum = parseInt(s.id.replace('step', ''));
+                    if (stepNum === step) {
+                        s.classList.add('active');
+                    } else if (stepNum step) {
+                        s.classList.add('completed');
+                    }
+                });
+            };
+
+            window.checkAvailability = function() {
+                var date = document.getElementById('booking_date').value;
+                var time = document.getElementById('booking_time').value;
+                var statusEl = document.getElementById('availability_status');
+                var nextBtn = document.getElementById('step3_next');
+
+                if (!date || !time) {
+                    if (statusEl) {
+                        statusEl.className = 'alert alert-warning';
+                        statusEl.innerHTML = Please select both date and time';
+                    }
+                    if (nextBtn) nextBtn.disabled = true;
+                    return;
+                }
+
+                var datetime = date + 'T' + time + ':00';
+                selectedDate = datetime;
+
+                // Update confirmation
+                var dateObj = new Date(date + 'T' + time);
+                var confirmDatetime = document.getElementById('confirm_datetime');
+                if (confirmDatetime) {
+                    confirmDatetime.textContent =
+                        dateObj.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }) + ' at ' + dateObj.toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                }
+
+                // Check availability via AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/salon/booking/check_availability', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (statusEl) {
+                            if (response.available) {
+                                statusEl.className = 'alert alert-success';
+                                statusEl.innerHTML = response.message;
+                                if (nextBtn) nextBtn.disabled = false;
+                            } else {
+                                statusEl.className = 'alert alert-danger';
+                                statusEl.innerHTML = response.message;
+                                if (nextBtn) nextBtn.disabled = true;
+                            }
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify({
+                    employee_id: selectedStaff,
+                    appointment_date: datetime,
+                    duration: 30
+                }));
+            };
+
+            window.submitBooking = function() {
+                var name = document.getElementById('customer_name').value;
+                var phone = document.getElementById('customer_phone').value;
+                var email = document.getElementById('customer_email').value;
+                var requests = document.getElementById('special_requests').value;
+
+                if (!name || !phone) {
+                    alert('Please fill in your name and phone number.');
+                    return;
+                }
+
+                var data = {
+                    customer_name: name,
+                    customer_phone: phone,
+                    customer_email: email,
+                    service_ids: [selectedService],
+                    employee_id: selectedStaff,
+                    appointment_date: selectedDate,
+                    special_requests: requests
+                };
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/salon/booking/create', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            alert('✅ ' + response.message + '\nAppointment #: ' + response.appointment_number);
+                            window.location.href = '/my/appointments';
+                        } else {
+                            alert('❌ Error: ' + response.message);
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            };
+
+            // Set minimum date to today and add event listeners
+            document.addEventListener('DOMContentLoaded', function() {
+                var dateInput = document.getElementById('booking_date');
+                var timeInput = document.getElementById('booking_time');
+
+                if (dateInput) {
+                    // Set min date to today
+                    var today = new Date().toISOString().split('T')[0];
+                    dateInput.setAttribute('min', today);
+                    dateInput.addEventListener('change', window.checkAvailability);
+                }
+                if (timeInput) {
+                    timeInput.addEventListener('change', window.checkAvailability);
+                }
+            });
+
+        })();
+    </script>
+</template>
+
+    <!-- ============================================ -->
+    <!-- INHERITED TEMPLATES                         -->
+    <!-- ============================================ -->
+
+    <!-- Add to Portal Layout -->
+<!--    <template id="salon_portal_extend" name="Salon Portal Extension" inherit_id="portal.portal_layout">-->
+<!--        <xpath expr="//div[hasclass('o_portal_navbar')]" position="after">-->
+<!--            <t t-call="salon_spa_management.cancel_appointment_modal"/>-->
+<!--            <t t-call="salon_spa_management.salon_booking_styles"/>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+    <!-- Add to Website Layout for Booking Page -->
+<!--    <template id="salon_website_extend" name="Salon Website Extension" inherit_id="website.layout">-->
+<!--        <xpath expr="//footer" position="after">-->
+<!--            <t t-if="request.path == '/salon/booking'">-->
+<!--                <t t-call="salon_spa_management.salon_booking_scripts"/>-->
+<!--            </t>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+    <!-- Add Membership Link to Portal Sidebar -->
+<!--    <template id="salon_portal_sidebar" name="Salon Portal Sidebar" inherit_id="portal.portal_sidebar">-->
+<!--        <xpath expr="//ul[hasclass('o_portal_nav')]" position="inside">-->
+<!--            <li class="o_portal_item">-->
+<!--                <a href="/my/appointments" class="nav-link">-->
+<!--                    <i class="fa fa-calendar"></i> My Appointments-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="o_portal_item">-->
+<!--                <a href="/my/membership" class="nav-link">-->
+<!--                    <i class="fa fa-id-card"></i> My Membership-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+    <!-- Add Appointment Counter to Portal Home -->
+<!--    <template id="salon_portal_home" name="Salon Portal Home" inherit_id="portal.portal_my_home">-->
+<!--        <xpath expr="//div[hasclass('o_portal_dashboard')]" position="inside">-->
+<!--            <div class="o_portal_my_home_salon" t-if="upcoming_appointments">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-6 col-lg-3 mt-4">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-body text-center">-->
+<!--                                <h1 class="text-primary"><t t-esc="upcoming_appointments"/></h1>-->
+<!--                                <p class="card-text text-muted">Upcoming Appointments</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-6 col-lg-3 mt-4">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-body text-center">-->
+<!--                                <h1 class="text-success"><t t-esc="total_appointments"/></h1>-->
+<!--                                <p class="card-text text-muted">Total Appointments</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-6 col-lg-3 mt-4">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-body text-center">-->
+<!--                                <h1 class="text-warning"><i class="fa fa-star"></i></h1>-->
+<!--                                <p class="card-text text-muted" t-if="membership_active">-->
+<!--                                    <span class="badge badge-success">Active Member</span>-->
+<!--                                </p>-->
+<!--                                <p class="card-text text-muted" t-if="not membership_active">-->
+<!--                                    <a href="/my/membership" class="btn btn-sm btn-primary">Join Now</a>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+</odoo>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================ -->
+    <!-- PRODUCT KIT VIEWS                          -->
+    <!-- ============================================ -->
+
+    <!-- Product Kit Tree View -->
+    <record id="view_salon_product_kit_tree" model="ir.ui.view">
+        <field name="name">salon.product.kit.tree</field>
+        <field name="model">salon.product.kit</field>
+        <field name="arch" type="xml">
+            <list string="Product Kits">
+                <field name="name"/>
+                <field name="service_id"/>
+                <field name="total_price" widget="monetary" sum="Total"/>
+                <field name="kit_line_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Product Kit Form View -->
+    <record id="view_salon_product_kit_form" model="ir.ui.view">
+        <field name="name">salon.product.kit.form</field>
+        <field name="model">salon.product.kit</field>
+        <field name="arch" type="xml">
+            <form string="Product Kit">
+                <header>
+                    <button name="action_apply_kit" type="object"
+                            string="Apply Kit"
+                            class="oe_highlight" invisible="kit_line_ids == []"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Kit Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="service_id" required="1"
+                                   domain="[('active', '=', True)]"
+                                   context="{'default_is_package': True}"/>
+                        </group>
+                        <group>
+                            <field name="total_price" widget="monetary" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Kit Lines">
+                            <field name="kit_line_ids" nolabel="1">
+                                <list string="Kit Lines" editable="bottom">
+                                    <field name="product_id" required="1"
+                                           domain="[('type', '=', 'product'), ('sale_ok', '=', True)]"/>
+                                    <field name="quantity" required="1"/>
+                                    <field name="price_unit" widget="monetary" readonly="1"/>
+                                    <field name="subtotal" widget="monetary" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Usage">
+                            <group string="Product Kit Information">
+                                <p class="text-muted">
+                                    This product kit will automatically deduct the listed products from inventory
+                                    when the service is performed.
+                                </p>
+                                <div class="alert alert-info">
+                                    <i class="fa fa-info-circle"></i>
+                                    Total Kit Value: <field name="total_price" widget="monetary"/>
+                                </div>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- PRODUCT KIT LINE VIEWS (if needed)          -->
+    <!-- ============================================ -->
+    <record id="view_salon_product_kit_line_tree" model="ir.ui.view">
+        <field name="name">salon.product.kit.line.tree</field>
+        <field name="model">salon.product.kit.line</field>
+        <field name="arch" type="xml">
+            <list string="Kit Lines" editable="bottom">
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="price_unit" widget="monetary"/>
+                <field name="subtotal" widget="monetary" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Product Kit Action -->
+    <record id="action_salon_product_kit" model="ir.actions.act_window">
+        <field name="name">Product Kits</field>
+        <field name="res_model">salon.product.kit</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create product kits to bundle products with services.
+            </p>
+        </field>
+    </record>
+
+</odoo>

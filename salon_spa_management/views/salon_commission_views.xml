@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================ -->
+    <!-- COMMISSION RULE VIEWS                       -->
+    <!-- ============================================ -->
+
+    <!-- Commission Rule Tree View -->
+    <record id="view_salon_commission_rule_tree" model="ir.ui.view">
+        <field name="name">salon.commission.rule.tree</field>
+        <field name="model">salon.commission.rule</field>
+        <field name="arch" type="xml">
+            <list string="Commission Rules" decoration-success="method=='fixed'" decoration-info="method=='section'">
+                <field name="employee_id"/>
+                <field name="method" widget="badge"/>
+                <field name="fixed_percentage" widget="percentage" sum="Total"/>
+                <field name="min_amount" widget="monetary"/>
+                <field name="max_amount" widget="monetary"/>
+                <field name="section_percentage" widget="percentage"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Commission Rule Form View -->
+    <record id="view_salon_commission_rule_form" model="ir.ui.view">
+        <field name="name">salon.commission.rule.form</field>
+        <field name="model">salon.commission.rule</field>
+        <field name="arch" type="xml">
+            <form string="Commission Rule">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            Commission Rule for <field name="employee_id" placeholder="Select Staff"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1"/>
+                            <field name="method" required="1" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="fixed_percentage" widget="percentage" invisible="method != 'fixed'" required="method != 'fixed'"/>
+                            <field name="min_amount" widget="monetary" invisible="method != 'section'"/>
+                            <field name="max_amount" widget="monetary" invisible="method != 'section'"/>
+                            <field name="section_percentage" widget="percentage" invisible="method != 'section'" required="method != 'section'"/>
+                        </group>
+                    </group>
+                    <group string="Help">
+                        <p class="text-muted" invisible="method != 'fixed'">
+                            Fixed percentage commission: Staff receives this percentage of all service revenue.
+                        </p>
+                        <p class="text-muted" invisible="method != 'section'">
+                            Section based commission: Staff receives the section percentage for revenue between min and max amounts.
+                        </p>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- EMPLOYEE COMMISSION VIEWS                   -->
+    <!-- ============================================ -->
+
+    <!-- Employee Commission Tree View -->
+    <record id="view_salon_employee_commission_tree" model="ir.ui.view">
+        <field name="name">salon.employee.commission.tree</field>
+        <field name="model">salon.employee.commission</field>
+        <field name="arch" type="xml">
+            <list string="Employee Commissions"
+                  decoration-success="state=='paid'"
+                  decoration-warning="state=='confirmed'"
+                  decoration-muted="state=='draft'">
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="total_revenue" widget="monetary" sum="Total Revenue"/>
+                <field name="total_commission" widget="monetary" sum="Total Commission"/>
+                <field name="state" widget="badge"/>
+                <field name="order_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Employee Commission Form View -->
+    <record id="view_salon_employee_commission_form" model="ir.ui.view">
+        <field name="name">salon.employee.commission.form</field>
+        <field name="model">salon.employee.commission</field>
+        <field name="arch" type="xml">
+            <form string="Employee Commission">
+                <header>
+                    <button name="action_confirm" type="object"
+                            string="Confirm"
+                            class="oe_highlight" invisible="state not in ['draft']"/>
+                    <button name="action_pay" type="object"
+                            string="Mark as Paid"
+                            class="oe_highlight" invisible="state not in ['confirmed']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            Commission Report for <field name="employee_id" placeholder="Select Staff"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1"/>
+                            <field name="date" required="1"/>
+                            <field name="state" widget="badge"/>
+                        </group>
+                        <group>
+                            <field name="total_revenue" widget="monetary" readonly="1"/>
+                            <field name="total_commission" widget="monetary" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Orders">
+                            <field name="order_ids" nolabel="1">
+                                <list string="Orders" decoration-success="state=='done'">
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="order_date"/>
+                                    <field name="total_amount" widget="monetary"/>
+                                    <field name="total_commission" widget="monetary"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Summary">
+                            <group string="Commission Breakdown">
+                                <p><strong>Total Revenue:</strong> <field name="total_revenue" widget="monetary"/></p>
+                                <p><strong>Total Commission:</strong> <field name="total_commission" widget="monetary"/></p>
+                                <p><strong>Commission Rate:</strong>
+<!--                                    <t t-esc="(total_commission / total_revenue * 100) if total_revenue else 0"/>%-->
+                                </p>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Employee Commission Action -->
+    <record id="action_salon_employee_commission" model="ir.actions.act_window">
+        <field name="name">Commission Reports</field>
+        <field name="res_model">salon.employee.commission</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View and manage staff commission reports.
+            </p>
+        </field>
+    </record>
+
+    <!-- Commission Rule Action -->
+    <record id="action_salon_commission_rule" model="ir.actions.act_window">
+        <field name="name">Commission Rules</field>
+        <field name="res_model">salon.commission.rule</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define commission rules for your staff members.
+            </p>
+        </field>
+    </record>
+</odoo>

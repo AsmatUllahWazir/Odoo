@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Partner Form -->
+    <record id="view_res_partner_salon_form" model="ir.ui.view">
+        <field name="name">res.partner.salon.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Salon" invisible="customer_rank == 0">
+                    <group>
+                        <group>
+                            <field name="is_member" invisible="customer_rank == 0"/>
+                            <field name="membership_id" invisible="not is_member"/>
+                            <field name="membership_card_id" invisible="not is_member"/>
+                            <field name="membership_start_date" invisible="not is_member"/>
+                            <field name="membership_expiry_date" invisible="not is_member"/>
+                            <field name="loyalty_points"/>
+                        </group>
+                        <group>
+                            <field name="preferred_staff_id"/>
+                            <field name="preferred_service_ids" widget="many2many_tags"/>
+                            <field name="birthday" widget="date"/>
+                            <field name="allergies"/>
+                        </group>
+                    </group>
+                    <group string="Statistics">
+                        <group>
+                            <field name="total_visits"/>
+                            <field name="total_spent" widget="monetary"/>
+                            <field name="last_visit_date"/>
+                        </group>
+                    </group>
+                    <button name="action_view_appointments" type="object"
+                            string="View Appointments"
+                            class="btn-primary"/>
+                    <button name="action_view_orders" type="object"
+                            string="View Orders"
+                            class="btn-secondary"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Partner Tree View Extension -->
+    <record id="view_res_partner_salon_tree" model="ir.ui.view">
+        <field name="name">res.partner.salon.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="phone" position="after">
+                <field name="is_member" invisible="1"/>
+                <field name="membership_id" invisible="1"/>
+                <field name="total_visits" sum="Total" invisible="1"/>
+                <field name="total_spent" sum="Total" invisible="1"/>
+            </field>
+        </field>
+    </record>
+</odoo>

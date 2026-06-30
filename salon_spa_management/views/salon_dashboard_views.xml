@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_salon_dashboard_form" model="ir.ui.view">
+        <field name="name">salon.dashboard.form</field>
+        <field name="model">salon.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Salon Dashboard">
+                <sheet>
+                    <div class="o_dashboard">
+                        <!-- Summary Cards -->
+                        <div class="row mt16">
+                            <div class="col-lg-3 col-md-6 mb16">
+                                <div class="card o_dashboard_card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Today's Appointments</h5>
+                                        <h2 class="text-primary">
+                                            <span class="badge badge-pill badge-primary">
+                                                <field name="today_appointments" readonly="1"/>
+                                            </span>
+                                        </h2>
+                                        <p class="card-text text-muted">
+                                            <span class="text-success">
+                                                <field name="today_completed" readonly="1"/> completed
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb16">
+                                <div class="card o_dashboard_card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Today's Revenue</h5>
+                                        <h2 class="text-success">
+                                            <field name="today_revenue" widget="monetary" readonly="1"/>
+                                        </h2>
+                                        <p class="card-text text-muted">
+                                            <span class="text-primary">
+                                                <field name="today_orders" readonly="1"/> orders
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb16">
+                                <div class="card o_dashboard_card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Active Staff</h5>
+                                        <h2 class="text-info">
+                                            <field name="active_staff" readonly="1"/>
+                                        </h2>
+                                        <p class="card-text text-muted">
+                                            <span class="text-warning">
+                                                <field name="staff_on_break" readonly="1"/> on break
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb16">
+                                <div class="card o_dashboard_card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Available Chairs</h5>
+                                        <h2 class="text-warning">
+                                            <field name="available_chairs" readonly="1"/>
+                                        </h2>
+                                        <p class="card-text text-muted">
+                                            <span class="text-danger">
+                                                <field name="occupied_chairs" readonly="1"/> occupied
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts -->
+                        <div class="row">
+                            <div class="col-lg-6 mb16">
+                                <div class="card o_dashboard_card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Weekly Revenue</h5>
+                                        <div class="o_dashboard_chart" id="weekly_revenue_chart"></div>
+                                        <p class="card-text text-muted text-center">
+                                            <span class="text-primary">This Week:</span>
+                                            <field name="weekly_revenue" widget="monetary" readonly="1"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb16">
+                                <div class="card o_dashboard_card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Monthly Revenue</h5>
+                                        <div class="o_dashboard_chart" id="monthly_revenue_chart"></div>
+                                        <p class="card-text text-muted text-center">
+                                            <span class="text-primary">This Month:</span>
+                                            <field name="monthly_revenue" widget="monetary" readonly="1"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Appointments -->
+                        <div class="row">
+                            <div class="col-12 mb16">
+                                <div class="card o_dashboard_card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Recent Appointments</h5>
+                                        <field name="recent_appointment_ids" readonly="1" nolabel="1">
+                                            <tree string="Recent Appointments"
+                                                  decoration-danger="state in ['cancelled','no_show']"
+                                                  decoration-warning="state in ['confirmed','checked_in','in_progress']">
+                                                <field name="name"/>
+                                                <field name="customer_id"/>
+                                                <field name="employee_id"/>
+                                                <field name="appointment_date"/>
+                                                <field name="state" widget="badge"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dashboard Model -->
+    <record id="model_salon_dashboard" model="ir.model">
+        <field name="name">Salon Dashboard</field>
+        <field name="model">salon.dashboard</field>
+        <field name="transient">True</field>
+    </record>
+
+    <record id="action_salon_dashboard" model="ir.actions.act_window">
+        <field name="name">Salon Dashboard</field>
+        <field name="res_model">salon.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_salon_dashboard_form"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Salon Dashboard - Quick overview of your salon business
+            </p>
+        </field>
+    </record>
+
+</odoo>

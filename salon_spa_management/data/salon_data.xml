@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences -->
+        <record id="seq_salon_appointment" model="ir.sequence">
+            <field name="name">Salon Appointment</field>
+            <field name="code">salon.appointment</field>
+            <field name="prefix">SA/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_salon_order" model="ir.sequence">
+            <field name="name">Salon Order</field>
+            <field name="code">salon.order</field>
+            <field name="prefix">SO/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_salon_membership_card" model="ir.sequence">
+            <field name="name">Salon Membership Card</field>
+            <field name="code">salon.membership.card</field>
+            <field name="prefix">MC/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Default Service Categories -->
+        <record id="category_hair" model="salon.service.category">
+            <field name="name">Hair Services</field>
+            <field name="description">Hair cutting, styling, coloring, and treatments</field>
+        </record>
+
+        <record id="category_nails" model="salon.service.category">
+            <field name="name">Nail Services</field>
+            <field name="description">Manicure, pedicure, nail art, and enhancements</field>
+        </record>
+
+        <record id="category_skin" model="salon.service.category">
+            <field name="name">Skin Services</field>
+            <field name="description">Facials, peels, and skin treatments</field>
+        </record>
+
+        <record id="category_massage" model="salon.service.category">
+            <field name="name">Massage Services</field>
+            <field name="description">Relaxation, therapeutic, and sports massage</field>
+        </record>
+
+        <!-- Sub-categories -->
+        <record id="category_hair_cut" model="salon.service.category">
+            <field name="name">Haircuts &amp; Styling</field>
+            <field name="parent_id" ref="category_hair"/>
+        </record>
+
+        <record id="category_hair_color" model="salon.service.category">
+            <field name="name">Hair Coloring</field>
+            <field name="parent_id" ref="category_hair"/>
+        </record>
+
+        <record id="category_manicure" model="salon.service.category">
+            <field name="name">Manicure</field>
+            <field name="parent_id" ref="category_nails"/>
+        </record>
+
+        <record id="category_pedicure" model="salon.service.category">
+            <field name="name">Pedicure</field>
+            <field name="parent_id" ref="category_nails"/>
+        </record>
+
+        <record id="category_facial" model="salon.service.category">
+            <field name="name">Facials</field>
+            <field name="parent_id" ref="category_skin"/>
+        </record>
+
+        <record id="category_relaxation" model="salon.service.category">
+            <field name="name">Relaxation Massage</field>
+            <field name="parent_id" ref="category_massage"/>
+        </record>
+
+        <!-- Email Templates -->
+        <record id="email_template_appointment_confirmation" model="mail.template">
+            <field name="name">Appointment Confirmation</field>
+            <field name="model_id" ref="model_salon_appointment"/>
+            <field name="subject">Appointment Confirmation: ${object.name}</field>
+            <field name="body_html"><![CDATA[
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <h2 style="color: #2c3e50;">Appointment Confirmation</h2>
+                    <p>Dear ${object.customer_id.name},</p>
+                    <p>Your appointment has been confirmed.</p>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                        <strong>Appointment Details:</strong><br/>
+                        <strong>Date:</strong> ${object.appointment_date.strftime('%B %d, %Y at %I:%M %p')}<br/>
+                        <strong>Staff:</strong> ${object.employee_id.name}<br/>
+                        <strong>Services:</strong>
+                        <ul>
+                            <t t-foreach="object.service_ids" t-as="service">
+                                <li>${service.name}</li>
+                            </t>
+                        </ul>
+                    </div>
+                    <p>We look forward to serving you!</p>
+                    <p style="color: #7f8c8d; font-size: 12px;">To cancel or reschedule, please contact us.</p>
+                </div>
+            ]]></field>
+            <field name="email_from">${object.company_id.email}</field>
+            <field name="email_to">${object.customer_id.email}</field>
+            <field name="partner_to">${object.customer_id.id}</field>
+        </record>
+
+        <record id="email_template_appointment_reminder" model="mail.template">
+            <field name="name">Appointment Reminder</field>
+            <field name="model_id" ref="model_salon_appointment"/>
+            <field name="subject">Reminder: Your Appointment Tomorrow</field>
+            <field name="body_html"><![CDATA[
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <h2 style="color: #2c3e50;">Appointment Reminder</h2>
+                    <p>Dear ${object.customer_id.name},</p>
+                    <p>This is a reminder for your appointment:</p>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                        <strong>Date:</strong> ${object.appointment_date.strftime('%B %d, %Y at %I:%M %p')}<br/>
+                        <strong>Staff:</strong> ${object.employee_id.name}<br/>
+                        <strong>Location:</strong> ${object.company_id.name}<br/>
+                        <strong>Address:</strong> ${object.company_id.partner_id.street}
+                    </div>
+                    <p>Please arrive 10 minutes early for your appointment.</p>
+                    <p style="color: #7f8c8d; font-size: 12px;">Contact us if you need to cancel or reschedule.</p>
+                </div>
+            ]]></field>
+            <field name="email_from">${object.company_id.email}</field>
+            <field name="email_to">${object.customer_id.email}</field>
+            <field name="partner_to">${object.customer_id.id}</field>
+        </record>
+    </data>
+</odoo>

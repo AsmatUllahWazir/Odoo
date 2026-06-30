@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================ -->
+    <!-- APPOINTMENT REPORT                          -->
+    <!-- ============================================ -->
+    <record id="action_report_salon_appointment" model="ir.actions.report">
+        <field name="name">Appointment Report</field>
+        <field name="model">salon.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">salon_spa_management.salon_appointment_report</field>
+        <field name="report_file">salon_spa_management.salon_appointment_report</field>
+        <field name="binding_model_id" ref="model_salon_appointment"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Appointment Report - %s' % (object.name)</field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- ORDER REPORT                               -->
+    <!-- ============================================ -->
+    <record id="action_report_salon_order" model="ir.actions.report">
+        <field name="name">Order Report</field>
+        <field name="model">salon.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">salon_spa_management.salon_order_report</field>
+        <field name="report_file">salon_spa_management.salon_order_report</field>
+        <field name="binding_model_id" ref="model_salon_order"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Order Report - %s' % (object.name)</field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- COMMISSION REPORT                          -->
+    <!-- ============================================ -->
+    <record id="action_report_salon_commission" model="ir.actions.report">
+        <field name="name">Commission Report</field>
+        <field name="model">salon.employee.commission</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">salon_spa_management.salon_commission_report</field>
+        <field name="report_file">salon_spa_management.salon_commission_report</field>
+        <field name="binding_model_id" ref="model_salon_employee_commission"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Commission Report - %s' % (object.employee_id.name)</field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- REVENUE REPORT                             -->
+    <!-- ============================================ -->
+    <record id="action_report_salon_revenue" model="ir.actions.report">
+        <field name="name">Revenue Report</field>
+        <field name="model">salon.revenue.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">salon_spa_management.salon_revenue_report</field>
+        <field name="report_file">salon_spa_management.salon_revenue_report</field>
+        <field name="print_report_name">'Revenue Report - %s to %s' % (data['date_from'] if data else '', data['date_to'] if data else '')</field>
+    </record>
+
+    <!-- Revenue Report Wizard -->
+    <record id="action_salon_revenue_report_wizard" model="ir.actions.act_window">
+        <field name="name">Revenue Report</field>
+        <field name="res_model">salon.revenue.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="salon_spa_management.model_salon_order"/>
+        <field name="binding_type">action</field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- MEMBERSHIP REPORT                          -->
+    <!-- ============================================ -->
+    <record id="action_report_salon_membership" model="ir.actions.report">
+        <field name="name">Membership Report</field>
+        <field name="model">salon.membership.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">salon_spa_management.salon_membership_report</field>
+        <field name="report_file">salon_spa_management.salon_membership_report</field>
+        <field name="print_report_name">'Membership Report - %s' % (datetime.now().strftime('%B %d, %Y'))</field>
+    </record>
+
+    <record id="action_salon_membership_report_wizard" model="ir.actions.act_window">
+        <field name="name">Membership Report</field>
+        <field name="res_model">salon.membership.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="salon_spa_management.model_salon_membership"/>
+        <field name="binding_type">action</field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- DAILY REPORT                               -->
+    <!-- ============================================ -->
+    <record id="action_report_salon_daily" model="ir.actions.report">
+        <field name="name">Daily Report</field>
+        <field name="model">salon.daily.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">salon_spa_management.salon_daily_report</field>
+        <field name="report_file">salon_spa_management.salon_daily_report</field>
+        <field name="print_report_name">'Daily Report - %s' % (data['report_date'] if data else '')</field>
+    </record>
+
+    <record id="action_salon_daily_report_wizard" model="ir.actions.act_window">
+        <field name="name">Daily Report</field>
+        <field name="res_model">salon.daily.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="salon_spa_management.model_salon_appointment"/>
+        <field name="binding_type">action</field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- REPORT WIZARD MODELS                       -->
+    <!-- ============================================ -->
+    <record id="model_salon_revenue_report_wizard" model="ir.model">
+        <field name="name">Revenue Report Wizard</field>
+        <field name="model">salon.revenue.report.wizard</field>
+        <field name="transient">True</field>
+    </record>
+
+    <record id="model_salon_membership_report_wizard" model="ir.model">
+        <field name="name">Membership Report Wizard</field>
+        <field name="model">salon.membership.report.wizard</field>
+        <field name="transient">True</field>
+    </record>
+
+    <record id="model_salon_daily_report_wizard" model="ir.model">
+        <field name="name">Daily Report Wizard</field>
+        <field name="model">salon.daily.report.wizard</field>
+        <field name="transient">True</field>
+    </record>
+</odoo>

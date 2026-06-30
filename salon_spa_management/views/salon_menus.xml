@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_salon_root" 
+              name="Salon" 
+              sequence="10"
+              web_icon="salon_spa_management,static/description/icon.png"/>
+
+    <menuitem id="menu_salon_appointments" 
+              name="Appointments" 
+              parent="menu_salon_root"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_appointment_list" 
+              name="All Appointments" 
+              parent="menu_salon_appointments"
+              action="action_salon_appointment"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_appointment_calendar"
+              name="Calendar"
+              parent="menu_salon_appointments"
+              action="action_salon_appointment_calendar"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_services" 
+              name="Services" 
+              parent="menu_salon_root"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_service_list" 
+              name="Services" 
+              parent="menu_salon_services"
+              action="action_salon_service"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_service_category" 
+              name="Categories" 
+              parent="menu_salon_services"
+              action="action_salon_service_category"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_product_kits"
+              name="Product Kits"
+              parent="menu_salon_services"
+              action="action_salon_product_kit"
+              sequence="30"/>
+
+    <menuitem id="menu_salon_orders" 
+              name="Orders" 
+              parent="menu_salon_root"
+              sequence="30"/>
+
+    <menuitem id="menu_salon_order_list" 
+              name="All Orders" 
+              parent="menu_salon_orders"
+              action="action_salon_order"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_chairs" 
+              name="Chairs &amp; Stations" 
+              parent="menu_salon_root"
+              sequence="40"/>
+
+    <menuitem id="menu_salon_chair_list" 
+              name="Chairs" 
+              parent="menu_salon_chairs"
+              action="action_salon_chair"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_chair_dashboard" 
+              name="Chair Dashboard" 
+              parent="menu_salon_chairs"
+              action="action_salon_chair_dashboard"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_membership" 
+              name="Memberships" 
+              parent="menu_salon_root"
+              sequence="50"/>
+
+    <menuitem id="menu_salon_membership_plans" 
+              name="Membership Plans" 
+              parent="menu_salon_membership"
+              action="action_salon_membership"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_membership_cards" 
+              name="Membership Cards" 
+              parent="menu_salon_membership"
+              action="action_salon_membership_card"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_commission" 
+              name="Commission" 
+              parent="menu_salon_root"
+              sequence="60"/>
+
+    <menuitem id="menu_salon_commission_rules"
+              name="Commission Rules"
+              parent="menu_salon_commission"
+              action="action_salon_commission_rule"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_commission_reports"
+              name="Commission Reports"
+              parent="menu_salon_commission"
+              action="action_salon_employee_commission"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_dashboard" 
+              name="Dashboard" 
+              parent="menu_salon_root"
+              action="action_salon_dashboard"
+              sequence="5"/>
+</odoo>

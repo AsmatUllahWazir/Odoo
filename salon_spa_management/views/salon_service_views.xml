@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Actions -->
+    <record id="action_salon_service" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">salon.service</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define your salon services here.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_salon_service_category" model="ir.actions.act_window">
+        <field name="name">Service Categories</field>
+        <field name="res_model">salon.service.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_salon_service_tree" model="ir.ui.view">
+        <field name="name">salon.service.tree</field>
+        <field name="model">salon.service</field>
+        <field name="arch" type="xml">
+            <tree string="Services" decoration-success="active==True" decoration-muted="active==False">
+                <field name="name" string="Service"/>
+                <field name="service_code"/>
+                <field name="category_id"/>
+                <field name="duration" sum="Total"/>
+                <field name="price" sum="Total"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_salon_service_form" model="ir.ui.view">
+        <field name="name">salon.service.form</field>
+        <field name="model">salon.service</field>
+        <field name="arch" type="xml">
+            <form string="Service">
+                <header>
+                    <button name="toggle_active" type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to archive this service?" invisible="active">
+                        Activate
+                    </button>
+                    <button name="toggle_active" type="object"
+                            confirm="Are you sure you want to archive this service?" invisible="active">
+                        Archive
+                    </button>
+                    <field name="active" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Service Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="service_code" placeholder="Code"/>
+                            <field name="category_id"/>
+                            <field name="sub_category_ids" widget="many2many_tags"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="duration" widget="float_time"
+                                   options="{'step': 5}"
+                                   help="Duration in minutes"/>
+                            <field name="buffer_time" widget="float_time"
+                                   options="{'step': 5}"/>
+                            <field name="requires_chair"/>
+                            <field name="requires_room"/>
+                            <field name="is_package"/>
+                        </group>
+                    </group>
+                    <group string="Pricing">
+                        <group>
+                            <field name="price"/>
+                            <field name="member_price"
+                                   help="Price for members with applicable membership"/>
+                        </group>
+                        <group>
+                            <field name="commission_percentage" widget="percentage"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Consumable Products">
+                            <field name="product_ids"
+                                   widget="many2many_tags"
+                                   domain="[('type', '=', 'product')]"
+                                   context="{'default_type': 'product'}"/>
+                        </page>
+                        <page string="Staff">
+                            <field name="assigned_employee_ids"
+                                   widget="many2many_tags"
+                                   domain="[('salon_skill_level', '!=', False)]"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Category Tree View -->
+    <record id="view_salon_service_category_tree" model="ir.ui.view">
+        <field name="name">salon.service.category.tree</field>
+        <field name="model">salon.service.category</field>
+        <field name="arch" type="xml">
+            <tree string="Categories" decoration-success="active==True" decoration-muted="active==False">
+                <field name="complete_name"/>
+                <field name="parent_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Category Form View -->
+    <record id="view_salon_service_category_form" model="ir.ui.view">
+        <field name="name">salon.service.category.form</field>
+        <field name="model">salon.service.category</field>
+        <field name="arch" type="xml">
+            <form string="Service Category">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Category Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="parent_id"/>
+                        <field name="description"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

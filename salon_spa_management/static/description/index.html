@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .badge-container {
+            margin-top: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin: 5px 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .section h2 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            font-size: 20px;
+            color: #4a5568;
+            margin: 20px 0 10px 0;
+        }
+
+        .section p {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-card h4 {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 0;
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li .icon {
+            margin-right: 12px;
+        }
+
+        .highlight-box {
+            background: #ebf8ff;
+            border: 1px solid #bee3f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #2b6cb0;
+            margin-bottom: 10px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pricing-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .pricing-card h4 {
+            font-size: 20px;
+            color: #2d3748;
+        }
+
+        .pricing-card .price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin: 15px 0;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .pricing-card ul li {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .pricing-card ul li:before {
+            content: "✓ ";
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .compatibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .compat-item {
+            background: #edf2f7;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #718096;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 30px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .section h2 {
+                font-size: 24px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>💇 Salon & Spa Management</h1>
+        <p>Complete salon management solution with appointment booking, POS integration, membership management, and
+            advanced analytics</p>
+        <div class="badge-container">
+            <span class="badge">⭐ Odoo 18</span>
+            <span class="badge">🏆 App Store Approved</span>
+            <span class="badge">🔒 Secure</span>
+        </div>
+    </div>
+
+    <!-- Overview -->
+    <div class="section">
+        <h2>📋 Overview</h2>
+        <p>Salon & Spa Management is a comprehensive Odoo module designed specifically for salons, spas, and beauty
+            centers. It streamlines operations from appointment booking to staff management, inventory, and financial
+            reporting.</p>
+        <div class="highlight-box">
+            <h4>✨ Key Benefits</h4>
+            <ul class="feature-list">
+                <li>📈 Increase revenue with automated appointment management</li>
+                <li>👥 Improve customer experience with online booking and reminders</li>
+                <li>💰 Optimize staff utilization with intelligent scheduling</li>
+                <li>📊 Make data-driven decisions with detailed analytics</li>
+                <li>🔄 Save time with automated workflows and notifications</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Core Features -->
+    <div class="section">
+        <h2>🎯 Core Features</h2>
+        <div class="grid">
+            <div class="feature-card">
+                <h4>📅 Appointment Management</h4>
+                <p>Complete appointment lifecycle from booking to completion with calendar view, drag-and-drop
+                    scheduling, and automated notifications.</p>
+            </div>
+            <div class="feature-card">
+                <h4>👩‍💼 Staff Management</h4>
+                <p>Manage staff skills, schedules, commissions, and performance with detailed reporting and
+                    analytics.</p>
+            </div>
+            <div class="feature-card">
+                <h4>💺 Chair Management</h4>
+                <p>Track chair availability, assignments, and revenue with interactive dashboard and visual status
+                    indicators.</p>
+            </div>
+            <div class="feature-card">
+                <h4>🏆 Membership & Loyalty</h4>
+                <p>Create tiered membership plans with discounts, track member benefits, and build customer loyalty.</p>
+            </div>
+            <div class="feature-card">
+                <h4>🛒 POS Integration</h4>
+                <p>Seamless integration with Odoo POS for check-in, check-out, billing, and payment processing.</p>
+            </div>
+            <div class="feature-card">
+                <h4>📊 Analytics & Reporting</h4>
+                <p>Comprehensive dashboards and reports for revenue, staff performance, and business growth
+                    tracking.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Features -->
+    <div class="section">
+        <h2>🔧 Detailed Features</h2>
+
+        <h3>📅 Appointment Management</h3>
+        <ul class="feature-list">
+            <li><span class="icon">✅</span> Online booking portal with real-time availability</li>
+            <li><span class="icon">✅</span> Calendar view with drag-and-drop functionality</li>
+            <li><span class="icon">✅</span> Automated email/SMS confirmations and reminders</li>
+            <li><span class="icon">✅</span> Check-in/Check-out workflow with status tracking</li>
+            <li><span class="icon">✅</span> Multi-service appointments with duration calculation</li>
+            <li><span class="icon">✅</span> Cancel and reschedule with reason tracking</li>
+            <li><span class="icon">✅</span> No-show management with automatic notifications</li>
+        </ul>
+
+        <h3>👩‍💼 Staff Management</h3>
+        <ul class="feature-list">
+            <li><span class="icon">✅</span> Skill-based service assignment</li>
+            <li><span class="icon">✅</span> Commission calculation (fixed and section-based)</li>
+            <li><span class="icon">✅</span> Working hours and break management</li>
+            <li><span class="icon">✅</span> Performance analytics and productivity tracking</li>
+            <li><span class="icon">✅</span> Staff schedule with appointment load balancing</li>
+            <li><span class="icon">✅</span> Commission reports and payment management</li>
+        </ul>
+
+        <h3>💺 Chair Management</h3>
+        <ul class="feature-list">
+            <li><span class="icon">✅</span> Interactive visual dashboard with chair status</li>
+            <li><span class="icon">✅</span> Real-time occupancy tracking and reporting</li>
+            <li><span class="icon">✅</span> Daily revenue and order count per chair</li>
+            <li><span class="icon">✅</span> Maintenance and reservation management</li>
+            <li><span class="icon">✅</span> Historical usage data and analytics</li>
+        </ul>
+
+        <h3>🏆 Membership & Loyalty</h3>
+        <ul class="feature-list">
+            <li><span class="icon">✅</span> Multiple membership tiers with custom benefits</li>
+            <li><span class="icon">✅</span> Automated renewal reminders and expiration tracking</li>
+            <li><span class="icon">✅</span> Barcode generation for membership cards</li>
+            <li><span class="icon">✅</span> Loyalty points accumulation and redemption</li>
+            <li><span class="icon">✅</span> Customer portal for membership management</li>
+            <li><span class="icon">✅</span> Special pricing for members on services</li>
+        </ul>
+
+        <h3>🛒 POS Integration</h3>
+        <ul class="feature-list">
+            <li><span class="icon">✅</span> Seamless appointment creation from POS</li>
+            <li><span class="icon">✅</span> Check-in/out workflow integrated with POS</li>
+            <li><span class="icon">✅</span> Real-time appointment list in POS interface</li>
+            <li><span class="icon">✅</span> Integrated billing and payment processing</li>
+            <li><span class="icon">✅</span> Sidebar view for quick appointment management</li>
+        </ul>
+
+        <h3>📊 Analytics & Reporting</h3>
+        <ul class="feature-list">
+            <li><span class="icon">✅</span> Interactive dashboard with key metrics</li>
+            <li><span class="icon">✅</span> Revenue analysis by day, week, month, year</li>
+            <li><span class="icon">✅</span> Staff performance reports with commissions</li>
+            <li><span class="icon">✅</span> Service popularity and revenue contribution</li>
+            <li><span class="icon">✅</span> Customer analytics and retention metrics</li>
+            <li><span class="icon">✅</span> Export reports to PDF and Excel</li>
+        </ul>
+    </div>
+
+    <!-- Technical Features -->
+    <div class="section">
+        <h2>⚙️ Technical Features</h2>
+        <ul class="feature-list">
+            <li><span class="icon">🔒</span> <strong>Security:</strong> Role-based access control with manager, staff,
+                and customer groups
+            </li>
+            <li><span class="icon">🏢</span> <strong>Multi-Company Support:</strong> Full multi-company compatibility for
+                salon chains
+            </li>
+            <li><span class="icon">🌍</span> <strong>Multi-Language:</strong> Translation-ready with translatable fields
+            </li>
+            <li><span class="icon">🔄</span> <strong>Workflows:</strong> Automated workflows for appointment and order
+                management
+            </li>
+            <li><span class="icon">📧</span> <strong>Email Templates:</strong> Customizable email templates for
+                notifications
+            </li>
+            <li><span class="icon">📱</span> <strong>Responsive Design:</strong> Fully responsive for all devices</li>
+            <li><span class="icon">🔌</span> <strong>Extensible:</strong> Built with Odoo best practices for easy
+                customization
+            </li>
+        </ul>
+    </div>
+
+    <!-- User Roles -->
+    <div class="section">
+        <h2>👥 User Roles & Access</h2>
+        <div class="grid">
+            <div class="feature-card">
+                <h4>🏢 Salon Manager</h4>
+                <p>Full access to all features including configuration, reporting, and staff management. Can create
+                    services, manage memberships, and view all analytics.</p>
+            </div>
+            <div class="feature-card">
+                <h4>💇 Salon Staff</h4>
+                <p>Access to appointments, check-in/out, view assigned services, and track personal commissions. Limited
+                    to own appointments and performance data.</p>
+            </div>
+            <div class="feature-card">
+                <h4>👤 Customers</h4>
+                <p>Online portal access for booking, viewing appointments, managing memberships, and accessing loyalty
+                    benefits.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing -->
+<!--    <div class="section">-->
+<!--        <h2>💰 Pricing Plans</h2>-->
+<!--        <div class="pricing-grid">-->
+<!--            <div class="pricing-card">-->
+<!--                <h4>🌱 Starter</h4>-->
+<!--                <div class="price">$149.99</div>-->
+<!--                <ul>-->
+<!--                    <li>Basic appointment management</li>-->
+<!--                    <li>Up to 2 staff members</li>-->
+<!--                    <li>5 chair management</li>-->
+<!--                    <li>Email notifications</li>-->
+<!--                    <li>Basic reporting</li>-->
+<!--                    <li>Community support</li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="pricing-card" style="border-color: #667eea; background: #f7fafc;">-->
+<!--                <h4>⭐ Professional</h4>-->
+<!--                <div class="price">$249.99</div>-->
+<!--                <ul>-->
+<!--                    <li>All Starter features</li>-->
+<!--                    <li>Unlimited staff members</li>-->
+<!--                    <li>Unlimited chairs</li>-->
+<!--                    <li>Membership & loyalty</li>-->
+<!--                    <li>POS integration</li>-->
+<!--                    <li>Advanced reporting</li>-->
+<!--                    <li>Mobile app ready</li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="pricing-card">-->
+<!--                <h4>🏢 Enterprise</h4>-->
+<!--                <div class="price">$399.99</div>-->
+<!--                <ul>-->
+<!--                    <li>All Professional features</li>-->
+<!--                    <li>Multi-company support</li>-->
+<!--                    <li>Multi-branch management</li>-->
+<!--                    <li>Custom development</li>-->
+<!--                    <li>Priority support</li>-->
+<!--                    <li>On-premise deployment</li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <p style="text-align: center; color: #718096; margin-top: 15px;">-->
+<!--            * 30-day money-back guarantee. All plans include 60 days of free support.-->
+<!--        </p>-->
+<!--    </div>-->
+
+    <!-- Compatibility -->
+    <div class="section">
+        <h2>🔄 Compatibility</h2>
+        <div class="compatibility-grid">
+            <div class="compat-item">✅ Odoo 16.0</div>
+            <div class="compat-item">✅ Odoo 17.0</div>
+            <div class="compat-item">✅ Odoo 18.0</div>
+            <div class="compat-item">✅ Community Edition</div>
+            <div class="compat-item">✅ Enterprise Edition</div>
+            <div class="compat-item">✅ Online</div>
+            <div class="compat-item">✅ On-premise</div>
+            <div class="compat-item">✅ Odoo.sh</div>
+        </div>
+    </div>
+
+    <!-- Installation -->
+    <div class="section">
+        <h2>📦 Installation</h2>
+        <div class="highlight-box">
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li>Download the module from Odoo App Store</li>
+                <li>Place the module in your Odoo addons directory</li>
+                <li>Update the apps list (Apps → Update Apps List)</li>
+                <li>Search for "Salon & Spa Management"</li>
+                <li>Click Install</li>
+                <li>Configure your services, staff, and chairs</li>
+                <li>Start managing your salon!</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Support -->
+    <div class="section">
+        <h2>📧 Support</h2>
+        <p>We provide comprehensive support to ensure your salon runs smoothly:</p>
+        <ul class="feature-list">
+            <li><span class="icon">📧</span> <strong>Email Support:</strong> asmatullahwazir415@gmail.com (Response within 24
+                hours)
+            </li>
+            <li><span class="icon">📖</span> <strong>Documentation:</strong> Complete user manual and video tutorials
+            </li>
+            <li><span class="icon">🐛</span> <strong>Bug Fixes:</strong> Free bug fixes for 12 months</li>
+            <li><span class="icon">🔄</span> <strong>Updates:</strong> Free updates for minor versions</li>
+            <li><span class="icon">💬</span> <strong>Community:</strong> Active community forum for discussions</li>
+        </ul>
+    </div>
+
+    <!-- Changelog -->
+    <div class="section">
+        <h2>📝 Changelog</h2>
+        <div style="margin: 10px 0;">
+            <p><strong>Version 18.0.1.0.0</strong> - Initial Release</p>
+            <ul style="margin-left: 20px; color: #4a5568;">
+                <li>Complete appointment management system</li>
+                <li>Staff management with commission calculation</li>
+                <li>Chair management with dashboard</li>
+                <li>Membership and loyalty program</li>
+                <li>POS integration</li>
+                <li>Customer portal</li>
+                <li>Comprehensive reporting</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2026 Wazirz. All rights reserved.</p>
+        <p>
+            <a href="mailto:asmatullahwazir415@gmail.com">Support</a>
+        </p>
+        <p style="font-size: 12px; color: #a0aec0; margin-top: 10px;">
+            💇 Salon & Spa Management - Made with ❤️ for Odoo
+        </p>
+    </div>
+</div>
+</body>
+</html>

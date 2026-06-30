@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <templates id="template" xml:space="preserve">
+        <!-- POS Salon Appointment Popup -->
+        <t t-name="SalonAppointmentPopup">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Book Appointment</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <select class="form-control" t-model="appointment.customer_id">
+                            <option value="">Select Customer</option>
+                            <t t-foreach="customers" t-as="customer">
+                                <option t-att-value="customer.id">
+                                    <t t-esc="customer.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Service</label>
+                        <select class="form-control" t-model="appointment.service_ids">
+                            <option value="">Select Service</option>
+                            <t t-foreach="services" t-as="service">
+                                <option t-att-value="service.id">
+                                    <t t-esc="service.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Staff</label>
+                        <select class="form-control" t-model="appointment.employee_id">
+                            <option value="">Select Staff</option>
+                            <t t-foreach="staff" t-as="employee">
+                                <option t-att-value="employee.id">
+                                    <t t-esc="employee.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date &amp; Time</label>
+                        <input type="datetime-local" class="form-control" t-model="appointment.appointment_date"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" t-on-click="saveAppointment">Book</button>
+                </div>
+            </div>
+        </t>
+    </templates>
+</odoo>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Services -->
+        <record id="demo_service_haircut" model="salon.service">
+            <field name="name">Haircut &amp; Style</field>
+            <field name="service_code">HC001</field>
+            <field name="category_id" ref="category_hair_cut"/>
+            <field name="duration">30</field>
+            <field name="price">50.00</field>
+            <field name="member_price">42.50</field>
+            <field name="commission_percentage">15</field>
+        </record>
+
+        <record id="demo_service_hair_color" model="salon.service">
+            <field name="name">Hair Coloring</field>
+            <field name="service_code">HC002</field>
+            <field name="category_id" ref="category_hair_color"/>
+            <field name="duration">90</field>
+            <field name="price">120.00</field>
+            <field name="member_price">102.00</field>
+            <field name="commission_percentage">20</field>
+        </record>
+
+        <record id="demo_service_manicure" model="salon.service">
+            <field name="name">Deluxe Manicure</field>
+            <field name="service_code">MN001</field>
+            <field name="category_id" ref="category_manicure"/>
+            <field name="duration">45</field>
+            <field name="price">40.00</field>
+            <field name="member_price">34.00</field>
+            <field name="commission_percentage">15</field>
+        </record>
+
+        <record id="demo_service_pedicure" model="salon.service">
+            <field name="name">Deluxe Pedicure</field>
+            <field name="service_code">PD001</field>
+            <field name="category_id" ref="category_pedicure"/>
+            <field name="duration">60</field>
+            <field name="price">55.00</field>
+            <field name="member_price">46.75</field>
+            <field name="commission_percentage">15</field>
+        </record>
+
+        <record id="demo_service_facial" model="salon.service">
+            <field name="name">Hydrating Facial</field>
+            <field name="service_code">FC001</field>
+            <field name="category_id" ref="category_facial"/>
+            <field name="duration">60</field>
+            <field name="price">85.00</field>
+            <field name="member_price">72.25</field>
+            <field name="commission_percentage">18</field>
+        </record>
+
+        <record id="demo_service_massage" model="salon.service">
+            <field name="name">Swedish Massage</field>
+            <field name="service_code">MS001</field>
+            <field name="category_id" ref="category_relaxation"/>
+            <field name="duration">60</field>
+            <field name="price">95.00</field>
+            <field name="member_price">80.75</field>
+            <field name="commission_percentage">20</field>
+        </record>
+
+        <!-- Demo Chairs -->
+        <record id="demo_chair_1" model="salon.chair">
+            <field name="name">Station 1</field>
+            <field name="code">S1</field>
+            <field name="location">Main Floor - Left</field>
+        </record>
+
+        <record id="demo_chair_2" model="salon.chair">
+            <field name="name">Station 2</field>
+            <field name="code">S2</field>
+            <field name="location">Main Floor - Center</field>
+        </record>
+
+        <record id="demo_chair_3" model="salon.chair">
+            <field name="name">Station 3</field>
+            <field name="code">S3</field>
+            <field name="location">Main Floor - Right</field>
+        </record>
+
+        <!-- Demo Membership Plans -->
+        <record id="demo_membership_bronze" model="salon.membership">
+            <field name="name">Bronze</field>
+            <field name="code">BRZ</field>
+            <field name="type">tier</field>
+            <field name="tier_level">1</field>
+            <field name="discount_percentage">5</field>
+            <field name="duration">365</field>
+            <field name="price">99.00</field>
+            <field name="benefits">5% off all services. Priority booking.</field>
+        </record>
+
+        <record id="demo_membership_silver" model="salon.membership">
+            <field name="name">Silver</field>
+            <field name="code">SLV</field>
+            <field name="type">tier</field>
+            <field name="tier_level">2</field>
+            <field name="discount_percentage">10</field>
+            <field name="duration">365</field>
+            <field name="price">199.00</field>
+            <field name="benefits">10% off all services. 1 free service per year. Priority booking.</field>
+        </record>
+
+        <record id="demo_membership_gold" model="salon.membership">
+            <field name="name">Gold</field>
+            <field name="code">GLD</field>
+            <field name="type">tier</field>
+            <field name="tier_level">3</field>
+            <field name="discount_percentage">20</field>
+            <field name="duration">365</field>
+            <field name="price">399.00</field>
+            <field name="benefits">20% off all services. 2 free services per year. VIP access. Free product samples.</field>
+        </record>
+    </data>
+</odoo>

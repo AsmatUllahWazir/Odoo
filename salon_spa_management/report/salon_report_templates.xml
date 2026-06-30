@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================ -->
+    <!-- COMMON REPORT STYLES                       -->
+    <!-- ============================================ -->
+    <template id="salon_report_style">
+        <style>
+            /* General Styles */
+            .salon-report {
+                font-family: 'Arial', 'Helvetica', sans-serif;
+                color: #333;
+                padding: 10px;
+                font-size: 12px;
+            }
+            .salon-report .header {
+                border-bottom: 3px solid #667eea;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            .salon-report .header .company-name {
+                font-size: 22px;
+                font-weight: bold;
+                color: #2d3748;
+            }
+            .salon-report .header .company-details {
+                font-size: 11px;
+                color: #718096;
+                margin-top: 3px;
+            }
+            .salon-report .header .report-title {
+                font-size: 20px;
+                font-weight: bold;
+                color: #2d3748;
+                text-align: center;
+                margin: 12px 0 5px 0;
+            }
+            .salon-report .header .report-subtitle {
+                font-size: 13px;
+                color: #718096;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .salon-report .header .report-meta {
+                font-size: 10px;
+                color: #a0aec0;
+                text-align: right;
+            }
+
+            /* Content Styles */
+            .salon-report .section {
+                margin-bottom: 15px;
+            }
+            .salon-report .section-title {
+                font-size: 14px;
+                font-weight: bold;
+                color: #2d3748;
+                border-bottom: 2px solid #e2e8f0;
+                padding-bottom: 5px;
+                margin-bottom: 10px;
+            }
+            .salon-report table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 11px;
+                margin-bottom: 10px;
+            }
+            .salon-report table thead th {
+                background: #f7fafc;
+                color: #2d3748;
+                font-weight: bold;
+                padding: 6px 8px;
+                border: 1px solid #e2e8f0;
+                text-align: left;
+            }
+            .salon-report table tbody td {
+                padding: 5px 8px;
+                border: 1px solid #e2e8f0;
+            }
+            .salon-report table tbody tr:nth-child(even) {
+                background: #f7fafc;
+            }
+            .salon-report table tfoot td {
+                font-weight: bold;
+                padding: 6px 8px;
+                border: 1px solid #e2e8f0;
+                background: #edf2f7;
+            }
+            .salon-report .summary-box {
+                background: #f7fafc;
+                padding: 12px 15px;
+                border-radius: 5px;
+                border: 1px solid #e2e8f0;
+                margin-bottom: 15px;
+            }
+            .salon-report .summary-box .stat {
+                display: inline-block;
+                margin-right: 30px;
+                min-width: 100px;
+            }
+            .salon-report .summary-box .stat .label {
+                font-size: 10px;
+                color: #718096;
+                display: block;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .salon-report .summary-box .stat .value {
+                font-size: 18px;
+                font-weight: bold;
+                color: #2d3748;
+            }
+            .salon-report .text-right {
+                text-align: right;
+            }
+            .salon-report .text-center {
+                text-align: center;
+            }
+            .salon-report .text-success {
+                color: #48bb78;
+            }
+            .salon-report .text-danger {
+                color: #fc8181;
+            }
+            .salon-report .text-warning {
+                color: #ecc94b;
+            }
+            .salon-report .text-info {
+                color: #63b3ed;
+            }
+            .salon-report .currency {
+                font-weight: 500;
+            }
+
+            /* Footer Styles */
+            .salon-report .footer {
+                border-top: 2px solid #e2e8f0;
+                padding-top: 10px;
+                margin-top: 20px;
+                font-size: 9px;
+                color: #718096;
+                text-align: center;
+            }
+            .salon-report .footer .page-number {
+                float: right;
+            }
+            .salon-report .footer .report-date {
+                float: left;
+            }
+
+            /* Status Badge */
+            .salon-report .badge {
+                padding: 2px 10px;
+                border-radius: 12px;
+                font-size: 10px;
+                font-weight: bold;
+                color: white;
+                display: inline-block;
+            }
+            .salon-report .badge-success {
+                background: #48bb78;
+            }
+            .salon-report .badge-danger {
+                background: #fc8181;
+            }
+            .salon-report .badge-warning {
+                background: #ecc94b;
+            }
+            .salon-report .badge-info {
+                background: #63b3ed;
+            }
+            .salon-report .badge-secondary {
+                background: #a0aec0;
+            }
+
+            /* Clearfix */
+            .salon-report .clearfix::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+
+            .salon-report .no-data {
+                text-align: center;
+                color: #a0aec0;
+                padding: 20px;
+                font-style: italic;
+            }
+
+            @page {
+                margin: 1.5cm 1.5cm 1.5cm 1.5cm;
+                @top-center {
+                    content: "Salon &amp; Spa Management";
+                    font-size: 8px;
+                    color: #a0aec0;
+                }
+                @bottom-center {
+                    content: "Page " counter(page) " of " counter(pages);
+                    font-size: 8px;
+                    color: #a0aec0;
+                }
+            }
+        </style>
+    </template>
+
+    <!-- ============================================ -->
+    <!-- COMMISSION REPORT - FIXED                   -->
+    <!-- ============================================ -->
+    <template id="salon_commission_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="salon-report">
+                    <!-- Header -->
+                    <div class="header">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="company-name"><t t-esc="company.name"/></span>
+                            <span class="report-meta">
+<!--                                Printed: <t t-esc="datetime.now().strftime('%B %d, %Y at %I:%M %p')"/>-->
+                            </span>
+                        </div>
+                        <div class="company-details">
+                            <t t-if="company.partner_id.street">
+                                <t t-esc="company.partner_id.street"/>
+                                <t t-if="company.partner_id.city">, <t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.state_id">, <t t-esc="company.partner_id.state_id.name"/></t>
+                            </t>
+                            <t t-if="company.phone"> | Phone: <t t-esc="company.phone"/></t>
+                            <t t-if="company.email"> | Email: <t t-esc="company.email"/></t>
+                        </div>
+                        <div class="report-title">💼 Commission Report</div>
+                        <div class="report-subtitle">
+                            <t t-esc="doc.employee_id.name"/> - <t t-esc="doc.date.strftime('%B %Y')"/>
+                        </div>
+                    </div>
+
+                    <!-- Summary Box -->
+                    <div class="section">
+                        <div class="summary-box clearfix">
+                            <div class="stat">
+                                <span class="label">Staff Member</span>
+                                <span class="value"><t t-esc="doc.employee_id.name"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Period</span>
+                                <span class="value"><t t-esc="doc.date.strftime('%B %d, %Y')"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Status</span>
+                                <span class="value">
+                                    <span class="badge" t-attf-class="badge-{{
+                                        'badge-success' if doc.state == 'paid' else
+                                        'badge-warning' if doc.state == 'confirmed' else
+                                        'badge-secondary'
+                                    }}">
+                                        <t t-esc="doc.state"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commission Summary -->
+                    <div class="section">
+                        <div class="section-title">Commission Summary</div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="width: 50%;"><strong>Total Revenue</strong></td>
+                                    <td class="text-right"><strong>$<t t-esc="format_currency(doc.total_revenue)"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Commission Earned</strong></td>
+                                    <td class="text-right"><strong>$<t t-esc="format_currency(doc.total_commission)"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Commission Rate</strong></td>
+<!--                                    <td class="text-right"><strong><t t-esc="'%.2f' % doc.commission_rate"/>%</strong></td>-->
+                                </tr>
+                                <tr>
+                                    <td><strong>Number of Orders</strong></td>
+                                    <td class="text-right"><strong><t t-esc="len(doc.order_ids)"/></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Order Details -->
+                    <div class="section" t-if="doc.order_ids">
+                        <div class="section-title">Order Details</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">Order #</th>
+                                    <th style="width: 25%;">Customer</th>
+                                    <th style="width: 20%;">Date</th>
+                                    <th style="width: 20%;" class="text-right">Revenue</th>
+                                    <th style="width: 20%;" class="text-right">Commission</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.order_ids" t-as="order">
+                                    <tr>
+                                        <td><t t-esc="order.name"/></td>
+                                        <td><t t-esc="order.partner_id.name"/></td>
+                                        <td><t t-esc="order.order_date.strftime('%b %d, %Y')"/></td>
+                                        <td class="text-right">$<t t-esc="format_currency(order.total_amount)"/></td>
+                                        <td class="text-right">$<t t-esc="format_currency(order.total_commission or 0)"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"><strong>Totals</strong></td>
+                                    <td class="text-right"><strong>$<t t-esc="format_currency(doc.total_revenue)"/></strong></td>
+                                    <td class="text-right"><strong>$<t t-esc="format_currency(doc.total_commission)"/></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div t-if="not doc.order_ids" class="no-data">
+                        No orders found for this commission period.
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer clearfix">
+<!--                        <span class="report-date">Generated: <t t-esc="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/></span>-->
+                        <span class="page-number">Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============================================ -->
+    <!-- REVENUE REPORT - IMPROVED                  -->
+    <!-- ============================================ -->
+    <template id="salon_revenue_report">
+        <t t-call="web.html_container">
+            <div class="salon-report">
+                <!-- Header -->
+                <div class="header">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="company-name"><t t-esc="company.name"/></span>
+                        <span class="report-meta">
+<!--                            Printed: <t t-esc="datetime.now().strftime('%B %d, %Y at %I:%M %p')"/>-->
+                        </span>
+                    </div>
+                    <div class="company-details">
+                        <t t-if="company.partner_id.street">
+                            <t t-esc="company.partner_id.street"/>
+                            <t t-if="company.partner_id.city">, <t t-esc="company.partner_id.city"/></t>
+                            <t t-if="company.partner_id.state_id">, <t t-esc="company.partner_id.state_id.name"/></t>
+                        </t>
+                        <t t-if="company.phone"> | Phone: <t t-esc="company.phone"/></t>
+                        <t t-if="company.email"> | Email: <t t-esc="company.email"/></t>
+                    </div>
+                    <div class="report-title">📊 Revenue Report</div>
+                    <div class="report-subtitle">
+                        <t t-esc="date_from"/> to <t t-esc="date_to"/>
+                    </div>
+                </div>
+
+                <!-- Summary Box -->
+                <div class="section">
+                    <div class="summary-box clearfix">
+                        <div class="stat">
+                            <span class="label">Total Revenue</span>
+                            <span class="value" style="color: #667eea;">$<t t-esc="format_currency(total_revenue)"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Total Orders</span>
+                            <span class="value"><t t-esc="total_orders"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Average Order</span>
+                            <span class="value">$<t t-esc="format_currency(avg_order_value)"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Total Commission</span>
+                            <span class="value">$<t t-esc="format_currency(total_commission)"/></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Breakdown -->
+                <div class="section" t-if="daily_stats">
+                    <div class="section-title">Daily Revenue Breakdown</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th class="text-right">Orders</th>
+                                <th class="text-right">Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="daily_stats.items()" t-as="item">
+                                <tr>
+                                    <td><t t-esc="item[0]"/></td>
+                                    <td class="text-right"><t t-esc="item[1]['orders']"/></td>
+                                    <td class="text-right">$<t t-esc="format_currency(item[1]['revenue'])"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td class="text-right"><strong><t t-esc="total_orders"/></strong></td>
+                                <td class="text-right"><strong>$<t t-esc="format_currency(total_revenue)"/></strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Service Breakdown -->
+                <div class="section" t-if="service_stats">
+                    <div class="section-title">Revenue by Service</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th class="text-right">Units</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Commission</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="service_stats.items()" t-as="item">
+                                <tr>
+                                    <td><t t-esc="item[0]"/></td>
+                                    <td class="text-right"><t t-esc="item[1]['count']"/></td>
+                                    <td class="text-right">$<t t-esc="format_currency(item[1]['revenue'])"/></td>
+                                    <td class="text-right">$<t t-esc="format_currency(item[1]['commission'])"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Staff Performance -->
+                <div class="section" t-if="staff_stats">
+                    <div class="section-title">Staff Performance</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Staff</th>
+                                <th class="text-right">Orders</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Commission</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="staff_stats.items()" t-as="item">
+                                <tr>
+                                    <td><t t-esc="item[0]"/></td>
+                                    <td class="text-right"><t t-esc="item[1]['orders']"/></td>
+                                    <td class="text-right">$<t t-esc="format_currency(item[1]['revenue'])"/></td>
+                                    <td class="text-right">$<t t-esc="format_currency(item[1]['commission'])"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer clearfix">
+<!--                    <span class="report-date">Generated: <t t-esc="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/></span>-->
+                    <span class="page-number">Page <span class="page"/> of <span class="topage"/></span>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============================================ -->
+    <!-- APPOINTMENT REPORT                         -->
+    <!-- ============================================ -->
+    <template id="salon_appointment_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="salon-report">
+                    <!-- Header -->
+                    <div class="header">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="company-name"><t t-esc="company.name"/></span>
+                            <span class="report-meta">
+<!--                                Printed: <t t-esc="datetime.now().strftime('%B %d, %Y at %I:%M %p')"/>-->
+                            </span>
+                        </div>
+                        <div class="company-details">
+                            <t t-if="company.partner_id.street">
+                                <t t-esc="company.partner_id.street"/>
+                                <t t-if="company.partner_id.city">, <t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.state_id">, <t t-esc="company.partner_id.state_id.name"/></t>
+                            </t>
+                            <t t-if="company.phone"> | Phone: <t t-esc="company.phone"/></t>
+                            <t t-if="company.email"> | Email: <t t-esc="company.email"/></t>
+                        </div>
+                        <div class="report-title">📅 Appointment Report</div>
+                        <div class="report-subtitle">
+                            Appointment #<t t-esc="doc.name"/> - <t t-esc="doc.customer_id.name"/>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="summary-box clearfix">
+                            <div class="stat">
+                                <span class="label">Customer</span>
+                                <span class="value"><t t-esc="doc.customer_id.name"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Staff</span>
+                                <span class="value"><t t-esc="doc.employee_id.name"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Date &amp; Time</span>
+                                <span class="value"><t t-esc="doc.appointment_date.strftime('%B %d, %Y at %I:%M %p')"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Status</span>
+                                <span class="value">
+                                    <span class="badge" t-attf-class="badge-{{
+                                        'badge-success' if doc.state == 'completed' else
+                                        'badge-warning' if doc.state in ['confirmed','checked_in','in_progress'] else
+                                        'badge-danger' if doc.state in ['cancelled','no_show'] else
+                                        'badge-secondary'
+                                    }}">
+                                        <t t-esc="doc.state"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Service Details</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 60%;">Service</th>
+                                    <th style="width: 20%;">Duration (min)</th>
+                                    <th style="width: 20%;" class="text-right">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.service_ids" t-as="service">
+                                    <tr>
+                                        <td><t t-esc="service.name"/></td>
+                                        <td><t t-esc="service.duration"/></td>
+                                        <td class="text-right">$<t t-esc="format_currency(service.price)"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"><strong>Total</strong></td>
+                                    <td class="text-right"><strong>$<t t-esc="format_currency(sum(doc.service_ids.mapped('price')))"/></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer clearfix">
+<!--                        <span class="report-date">Generated: <t t-esc="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/></span>-->
+                        <span class="page-number">Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============================================ -->
+    <!-- ORDER REPORT                               -->
+    <!-- ============================================ -->
+    <template id="salon_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="salon-report">
+                    <!-- Header -->
+                    <div class="header">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="company-name"><t t-esc="company.name"/></span>
+                            <span class="report-meta">
+<!--                                Printed: <t t-esc="datetime.now().strftime('%B %d, %Y at %I:%M %p')"/>-->
+                            </span>
+                        </div>
+                        <div class="company-details">
+                            <t t-if="company.partner_id.street">
+                                <t t-esc="company.partner_id.street"/>
+                                <t t-if="company.partner_id.city">, <t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.state_id">, <t t-esc="company.partner_id.state_id.name"/></t>
+                            </t>
+                            <t t-if="company.phone"> | Phone: <t t-esc="company.phone"/></t>
+                            <t t-if="company.email"> | Email: <t t-esc="company.email"/></t>
+                        </div>
+                        <div class="report-title">🧾 Order Report</div>
+                        <div class="report-subtitle">
+                            Order #<t t-esc="doc.name"/> - <t t-esc="doc.partner_id.name"/>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="summary-box clearfix">
+                            <div class="stat">
+                                <span class="label">Customer</span>
+                                <span class="value"><t t-esc="doc.partner_id.name"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Staff</span>
+                                <span class="value"><t t-esc="doc.employee_id.name or 'N/A'"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Date</span>
+                                <span class="value"><t t-esc="doc.order_date.strftime('%B %d, %Y at %I:%M %p')"/></span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">Status</span>
+                                <span class="value">
+                                    <span class="badge" t-attf-class="badge-{{
+                                        'badge-success' if doc.state == 'done' else
+                                        'badge-warning' if doc.state in ['confirmed','in_progress'] else
+                                        'badge-danger' if doc.state == 'cancelled' else
+                                        'badge-secondary'
+                                    }}">
+                                        <t t-esc="doc.state"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Order Lines</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">Service</th>
+                                    <th style="width: 20%;">Staff</th>
+                                    <th style="width: 10%;" class="text-right">Qty</th>
+                                    <th style="width: 15%;" class="text-right">Unit Price</th>
+                                    <th style="width: 10%;" class="text-right">Discount</th>
+                                    <th style="width: 15%;" class="text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.order_line_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line.service_id.name"/></td>
+                                        <td><t t-esc="line.employee_id.name or '-'"/></td>
+                                        <td class="text-right"><t t-esc="line.quantity"/></td>
+                                        <td class="text-right">$<t t-esc="format_currency(line.price_unit)"/></td>
+                                        <td class="text-right"><t t-esc="line.discount"/>%</td>
+                                        <td class="text-right">$<t t-esc="format_currency(line.price_subtotal)"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-right"><strong>Total</strong></td>
+                                    <td class="text-right"><strong>$<t t-esc="format_currency(doc.total_amount)"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-right"><strong>Total Commission</strong></td>
+                                    <td class="text-right"><strong>$<t t-esc="format_currency(doc.total_commission)"/></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer clearfix">
+<!--                        <span class="report-date">Generated: <t t-esc="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/></span>-->
+                        <span class="page-number">Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============================================ -->
+    <!-- MEMBERSHIP REPORT                          -->
+    <!-- ============================================ -->
+    <template id="salon_membership_report">
+        <t t-call="web.html_container">
+            <div class="salon-report">
+                <!-- Header -->
+                <div class="header">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="company-name"><t t-esc="company.name"/></span>
+                        <span class="report-meta">
+<!--                            Printed: <t t-esc="datetime.now().strftime('%B %d, %Y at %I:%M %p')"/>-->
+                        </span>
+                    </div>
+                    <div class="company-details">
+                        <t t-if="company.partner_id.street">
+                            <t t-esc="company.partner_id.street"/>
+                            <t t-if="company.partner_id.city">, <t t-esc="company.partner_id.city"/></t>
+                            <t t-if="company.partner_id.state_id">, <t t-esc="company.partner_id.state_id.name"/></t>
+                        </t>
+                        <t t-if="company.phone"> | Phone: <t t-esc="company.phone"/></t>
+                        <t t-if="company.email"> | Email: <t t-esc="company.email"/></t>
+                    </div>
+                    <div class="report-title">🏆 Membership Report</div>
+                    <div class="report-subtitle">
+<!--                        As of <t t-esc="datetime.now().strftime('%B %d, %Y')"/>-->
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="summary-box clearfix">
+                        <div class="stat">
+                            <span class="label">Total Members</span>
+                            <span class="value"><t t-esc="total_members"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Active Members</span>
+                            <span class="value text-success"><t t-esc="active_members"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Expiring Soon</span>
+                            <span class="value text-warning"><t t-esc="len(expiring_soon)"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Member Revenue</span>
+                            <span class="value" style="color: #667eea;">$<t t-esc="format_currency(total_member_revenue)"/></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" t-if="plan_stats">
+                    <div class="section-title">Membership Plans</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th class="text-right">Members</th>
+                                <th class="text-right">Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="plan_stats.items()" t-as="item">
+                                <tr>
+                                    <td><t t-esc="item[0]"/></td>
+                                    <td class="text-right"><t t-esc="item[1]"/></td>
+                                    <td class="text-right">
+                                        <t t-esc="'%.1f' % ((item[1] / total_members * 100) if total_members > 0 else 0)"/>%
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td class="text-right"><strong><t t-esc="total_members"/></strong></td>
+                                <td class="text-right"><strong>100%</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer clearfix">
+<!--                    <span class="report-date">Generated: <t t-esc="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/></span>-->
+                    <span class="page-number">Page <span class="page"/> of <span class="topage"/></span>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============================================ -->
+    <!-- DAILY REPORT                               -->
+    <!-- ============================================ -->
+    <template id="salon_daily_report">
+        <t t-call="web.html_container">
+            <div class="salon-report">
+                <!-- Header -->
+                <div class="header">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="company-name"><t t-esc="company.name"/></span>
+                        <span class="report-meta">
+<!--                            Printed: <t t-esc="datetime.now().strftime('%B %d, %Y at %I:%M %p')"/>-->
+                        </span>
+                    </div>
+                    <div class="company-details">
+                        <t t-if="company.partner_id.street">
+                            <t t-esc="company.partner_id.street"/>
+                            <t t-if="company.partner_id.city">, <t t-esc="company.partner_id.city"/></t>
+                            <t t-if="company.partner_id.state_id">, <t t-esc="company.partner_id.state_id.name"/></t>
+                        </t>
+                        <t t-if="company.phone"> | Phone: <t t-esc="company.phone"/></t>
+                        <t t-if="company.email"> | Email: <t t-esc="company.email"/></t>
+                    </div>
+                    <div class="report-title">📋 Daily Report</div>
+                    <div class="report-subtitle">
+                        <t t-esc="report_date.strftime('%B %d, %Y')"/>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="summary-box clearfix">
+                        <div class="stat">
+                            <span class="label">Appointments</span>
+                            <span class="value"><t t-esc="total_appointments"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Completed</span>
+                            <span class="value text-success"><t t-esc="completed_appointments"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Cancelled/No Show</span>
+                            <span class="value text-danger"><t t-esc="cancelled_appointments + no_show_appointments"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Revenue</span>
+                            <span class="value" style="color: #667eea;">$<t t-esc="format_currency(total_revenue)"/></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Orders</span>
+                            <span class="value"><t t-esc="total_orders"/></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" t-if="staff_performance">
+                    <div class="section-title">Staff Performance</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Staff</th>
+                                <th class="text-right">Appointments</th>
+                                <th class="text-right">Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="staff_performance.items()" t-as="item">
+                                <tr>
+                                    <td><t t-esc="item[0]"/></td>
+                                    <td class="text-right"><t t-esc="item[1]['appointments']"/></td>
+                                    <td class="text-right">$<t t-esc="format_currency(item[1]['revenue'])"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer clearfix">
+<!--                    <span class="report-date">Generated: <t t-esc="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/></span>-->
+                    <span class="page-number">Page <span class="page"/> of <span class="topage"/></span>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

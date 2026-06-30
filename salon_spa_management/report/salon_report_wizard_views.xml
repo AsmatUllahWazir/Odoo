@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================ -->
+    <!-- REVENUE REPORT WIZARD                       -->
+    <!-- ============================================ -->
+    <record id="view_salon_revenue_report_wizard_form" model="ir.ui.view">
+        <field name="name">salon.revenue.report.wizard.form</field>
+        <field name="model">salon.revenue.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Revenue Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <span class="fa fa-line-chart" style="color: #667eea; margin-right: 10px;"/>
+                            Revenue Report
+                        </h1>
+                        <p class="text-muted">Generate revenue report for a specific date range</p>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_from" widget="date"
+                                   options="{'datepicker': {'format': 'MM/DD/YYYY'}}"/>
+                            <field name="date_to" widget="date"
+                                   options="{'datepicker': {'format': 'MM/DD/YYYY'}}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_print_report" string="Print Report"
+                                type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- MEMBERSHIP REPORT WIZARD                    -->
+    <!-- ============================================ -->
+    <record id="view_salon_membership_report_wizard_form" model="ir.ui.view">
+        <field name="name">salon.membership.report.wizard.form</field>
+        <field name="model">salon.membership.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Membership Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <span class="fa fa-id-card" style="color: #667eea; margin-right: 10px;"/>
+                            Membership Report
+                        </h1>
+                        <p class="text-muted">Generate a complete membership report</p>
+                    </div>
+                    <group>
+                        <group>
+                            <div class="alert alert-info">
+                                <i class="fa fa-info-circle"/> This report will include:
+                                <ul style="margin-top: 8px;">
+                                    <li>Total members and active members</li>
+                                    <li>Membership plan distribution</li>
+                                    <li>Members expiring soon</li>
+                                    <li>Member revenue and spending</li>
+                                    <li>Complete member list</li>
+                                </ul>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_print_report" string="Print Report"
+                                type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- DAILY REPORT WIZARD                        -->
+    <!-- ============================================ -->
+    <record id="view_salon_daily_report_wizard_form" model="ir.ui.view">
+        <field name="name">salon.daily.report.wizard.form</field>
+        <field name="model">salon.daily.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Daily Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <span class="fa fa-calendar" style="color: #667eea; margin-right: 10px;"/>
+                            Daily Report
+                        </h1>
+                        <p class="text-muted">Generate daily report for a specific date</p>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="report_date" widget="date"
+                                   options="{'datepicker': {'format': 'MM/DD/YYYY'}}"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" style="margin: 10px 0;">
+                        <i class="fa fa-info-circle"/> This report will include:
+                        <ul style="margin-top: 8px;">
+                            <li>Appointments for the selected day</li>
+                            <li>Completed and cancelled appointments</li>
+                            <li>Daily revenue and orders</li>
+                            <li>Staff performance for the day</li>
+                            <li>Chair utilization</li>
+                        </ul>
+                    </div>
+                    <footer>
+                        <button name="action_print_report" string="Print Report"
+                                type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- ADD WIZARD ACTIONS TO MENUS                 -->
+    <!-- ============================================ -->
+    <menuitem id="menu_salon_reports"
+              name="Reports"
+              parent="menu_salon_root"
+              sequence="70"/>
+
+    <menuitem id="menu_salon_revenue_report"
+              name="Revenue Report"
+              parent="menu_salon_reports"
+              action="action_salon_revenue_report_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_salon_membership_report"
+              name="Membership Report"
+              parent="menu_salon_reports"
+              action="action_salon_membership_report_wizard"
+              sequence="20"/>
+
+    <menuitem id="menu_salon_daily_report"
+              name="Daily Report"
+              parent="menu_salon_reports"
+              action="action_salon_daily_report_wizard"
+              sequence="30"/>
+</odoo>

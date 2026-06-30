@@ -17,3 +17,6 @@ access_salon_product_kit_user,salon.product.kit.user,model_salon_product_kit,bas
 access_salon_product_kit_manager,salon.product.kit.manager,model_salon_product_kit,base.group_system,1,1,1,1
 access_salon_service_category_user,salon.service.category.user,model_salon_service_category,base.group_user,1,1,1,1
 access_salon_service_category_manager,salon.service.category.manager,model_salon_service_category,base.group_system,1,1,1,1
+access_salon_revenue_report_wizard_user,salon.revenue.report.wizard.user,model_salon_revenue_report_wizard,base.group_user,1,1,1,1
+access_salon_membership_report_wizard_user,salon.membership.report.wizard.user,model_salon_membership_report_wizard,base.group_user,1,1,1,1
+access_salon_daily_report_wizard_user,salon.daily.report.wizard.user,model_salon_daily_report_wizard,base.group_user,1,1,1,1

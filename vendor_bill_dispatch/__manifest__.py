@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Vendor Bill Dispatch - Multi-Company OCR Automation',
+    'name': 'Vendor Bill Dispatch - Multi-Company OCR',
     'version': '19.0.1.0.0',
     'category': 'Accounting/Accounting',
     'summary': 'Centralized OCR processing and automatic vendor bill dispatch across multiple companies',
@@ -22,10 +22,9 @@
         * Multi-company security and separation
         * KPI dashboard for monitoring performance
 
-        Similar to: Zendoc, Basware, Coupa invoice automation
     """,
-    'author': 'ABCG Gul-e-Daman Society',
-    'website': 'https://www.abcg.io',
+    'author': 'Wazirz',
+    'website': '',
     'license': 'LGPL-3',
     'depends': [
         'base',

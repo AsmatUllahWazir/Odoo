@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Bill Dispatch - Multi-Company OCR Automation for Odoo 19</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: #f8fafc;
+        }
+
+        a {
+            text-decoration: none;
+            color: #7141c4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== HEADER / HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 50%, #7141c4 100%);
+            color: #ffffff;
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(113, 65, 196, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge i {
+            margin-right: 8px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: rgba(255,255,255,0.85);
+            max-width: 640px;
+            margin-bottom: 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #ffffff;
+            color: #1a1a2e;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255,255,255,0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #ffffff;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero-stats .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-stats .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #a78bfa;
+        }
+
+        .hero-stats .stat-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ===== VERSION BANNER ===== */
+        .version-banner {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 0;
+        }
+
+        .version-banner .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .version-banner .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .version-banner .badge strong {
+            color: #1a1a2e;
+        }
+
+        .version-banner .badge i {
+            color: #7141c4;
+        }
+
+        /* ===== SECTION COMMON ===== */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 18px;
+            max-width: 640px;
+            margin: 0 auto 48px;
+        }
+
+        .section-title .highlight {
+            background: linear-gradient(135deg, #7141c4, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== FEATURES ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(113, 65, 196, 0.12);
+            border-color: #7141c4;
+        }
+
+        .feature-card .icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #7141c4;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        /* ===== WORKFLOW ===== */
+        .workflow-section {
+            background: #ffffff;
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            position: relative;
+        }
+
+        .workflow-step {
+            text-align: center;
+            padding: 24px 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed #e2e8f0;
+            position: relative;
+        }
+
+        .workflow-step .step-number {
+            width: 36px;
+            height: 36px;
+            background: #7141c4;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin: 0 auto 12px;
+        }
+
+        .workflow-step .step-icon {
+            font-size: 28px;
+            color: #7141c4;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .workflow-step h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .workflow-step p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ===== RULE TYPES ===== */
+        .rule-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .rule-type-tag {
+            background: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a2e;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .rule-type-tag:hover {
+            background: #7141c4;
+            color: #ffffff;
+            border-color: #7141c4;
+        }
+
+        .rule-type-tag i {
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+        /* ===== PRICING ===== */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .pricing-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: #7141c4;
+            box-shadow: 0 8px 32px rgba(113, 65, 196, 0.15);
+            transform: scale(1.02);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.02) translateY(-4px);
+        }
+
+        .pricing-card .plan-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .pricing-card .price {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin: 16px 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 18px;
+            font-weight: 400;
+            color: #64748b;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        .pricing-card ul li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-card ul li i {
+            color: #22c55e;
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ===== COMPARISON TABLE ===== */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .comparison-table th {
+            background: #1a1a2e;
+            color: #ffffff;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .comparison-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .comparison-table .check {
+            color: #22c55e;
+        }
+
+        .comparison-table .cross {
+            color: #ef4444;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 28px 24px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .testimonial-card .stars {
+            color: #f59e0b;
+            margin-bottom: 12px;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 15px;
+            color: #1a1a2e;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-card .author .avatar {
+            width: 44px;
+            height: 44px;
+            background: #e9d5ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7141c4;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .testimonial-card .author .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .testimonial-card .author .role {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .faq-item .question {
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-item .question i {
+            color: #7141c4;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item .answer {
+            margin-top: 12px;
+            color: #475569;
+            display: none;
+        }
+
+        .faq-item.active .answer {
+            display: block;
+        }
+
+        .faq-item.active .question i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #1a1a2e;
+            color: rgba(255,255,255,0.7);
+            padding: 48px 0 32px;
+        }
+
+        .footer .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer h4 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer a {
+            color: rgba(255,255,255,0.6);
+            display: block;
+            padding: 4px 0;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: #ffffff;
+        }
+
+        .footer .copyright {
+            grid-column: 1 / -1;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-4px);
+            }
+
+            .footer .container {
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+
+            .workflow-steps {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .footer .container {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 13px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     VERSION BANNER
+     ============================================================ -->
+<div class="version-banner">
+    <div class="container">
+        <span class="badge">
+            <i class="fas fa-cube"></i>
+            <strong>Vendor Bill Dispatch</strong>
+            <span style="color:#94a3b8;">|</span>
+            v19.0.1.0.0
+            <span style="color:#94a3b8;">|</span>
+            Odoo 19 Enterprise
+        </span>
+        <span class="badge">
+            <i class="fas fa-check-circle" style="color:#22c55e;"></i>
+            <span style="color:#22c55e;">Ready for Production</span>
+        </span>
+    </div>
+</div>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<header class="hero">
+    <div class="container hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-rocket"></i>
+            New Release — Complete Invoice Automation
+        </div>
+
+        <h1>
+            Vendor Bill Dispatch <br>
+            <span>Multi-Company OCR Automation</span>
+        </h1>
+
+        <p>
+            Centralized OCR processing and automatic vendor bill dispatch across multiple companies.
+            From invoice reception to accounting posting — fully automated.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#" class="btn btn-primary">
+                <i class="fas fa-download"></i>
+                Download from App Store
+            </a>
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-play-circle"></i>
+                Watch Demo
+            </a>
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-book"></i>
+                Documentation
+            </a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number">9</span>
+                <span class="stat-label">Rule Types</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">6</span>
+                <span class="stat-label">Workflow States</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Audit Trail</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Companies Supported</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================
+     OVERVIEW
+     ============================================================ -->
+<section>
+    <div class="container">
+        <h2 class="section-title">
+            Enterprise-Grade <span class="highlight">Invoice Automation</span>
+        </h2>
+        <p class="section-subtitle">
+            Transform your vendor bill processing from a manual, error-prone task into an automated,
+            auditable workflow. Similar to Zendoc, Basware, or Coupa — but built natively for Odoo.
+        </p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:32px; background:#ffffff; border-radius:16px; padding:40px; border:1px solid #e2e8f0;">
+            <div>
+                <h4 style="font-size:16px; font-weight:700; margin-bottom:12px;">The Problem</h4>
+                <ul style="list-style:none; padding:0; color:#475569;">
+                    <li style="padding:6px 0;"><i class="fas fa-times" style="color:#ef4444; margin-right:10px;"></i>Manual invoice processing is slow and error-prone</li>
+                    <li style="padding:6px 0;"><i class="fas fa-times" style="color:#ef4444; margin-right:10px;"></i>Multi-company routing is complex and inconsistent</li>
+                    <li style="padding:6px 0;"><i class="fas fa-times" style="color:#ef4444; margin-right:10px;"></i>No visibility into approval bottlenecks</li>
+                    <li style="padding:6px 0;"><i class="fas fa-times" style="color:#ef4444; margin-right:10px;"></i>Audit trail is fragmented or missing</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="font-size:16px; font-weight:700; margin-bottom:12px;">Our Solution</h4>
+                <ul style="list-style:none; padding:0; color:#475569;">
+                    <li style="padding:6px 0;"><i class="fas fa-check" style="color:#22c55e; margin-right:10px;"></i>End-to-end automation from OCR to posting</li>
+                    <li style="padding:6px 0;"><i class="fas fa-check" style="color:#22c55e; margin-right:10px;"></i>Intelligent rule-based multi-company routing</li>
+                    <li style="padding:6px 0;"><i class="fas fa-check" style="color:#22c55e; margin-right:10px;"></i>Real-time KPI dashboard and analytics</li>
+                    <li style="padding:6px 0;"><i class="fas fa-check" style="color:#22c55e; margin-right:10px;"></i>Complete audit trail with validation history</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     WORKFLOW
+     ============================================================ -->
+<section class="workflow-section">
+    <div class="container">
+        <h2 class="section-title">
+            Complete <span class="highlight">Dispatch Workflow</span>
+        </h2>
+        <p class="section-subtitle">
+            From invoice upload to accounting posting — every step is tracked and automated.
+        </p>
+
+        <div class="workflow-steps">
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <span class="step-icon"><i class="fas fa-upload"></i></span>
+                <h4>Upload / Email</h4>
+                <p>Manual upload or automatic email reception</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <span class="step-icon"><i class="fas fa-robot"></i></span>
+                <h4>Auto OCR</h4>
+                <p>Automatic extraction using Odoo IAP</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <span class="step-icon"><i class="fas fa-route"></i></span>
+                <h4>Auto Dispatch</h4>
+                <p>Intelligent rule-based routing</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <span class="step-icon"><i class="fas fa-check-double"></i></span>
+                <h4>Business Validation</h4>
+                <p>Content verification by managers</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">5</div>
+                <span class="step-icon"><i class="fas fa-building"></i></span>
+                <h4>Finance Validation</h4>
+                <p>CFO approval for high-value invoices</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">6</div>
+                <span class="step-icon"><i class="fas fa-file-invoice"></i></span>
+                <h4>Accounting Posting</h4>
+                <p>Final manual posting by accountants</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FEATURES
+     ============================================================ -->
+<section style="background:#ffffff;">
+    <div class="container">
+        <h2 class="section-title">
+            Powerful <span class="highlight">Features</span>
+        </h2>
+        <p class="section-subtitle">
+            Everything you need for enterprise-grade vendor bill processing.
+        </p>
+
+        <div class="features-grid">
+            <!-- Feature 1 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-file-pdf"></i></div>
+                <h3>OCR Processing</h3>
+                <p>Automatic OCR on upload using Odoo Document Digitization (IAP). Extracts vendor, amounts, dates, taxes, and more.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-code-branch"></i></div>
+                <h3>9 Rule Types</h3>
+                <p>Vendor name, VAT, country, IBAN, currency, amount range, keywords, specific partners, and advanced domain filters.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-building"></i></div>
+                <h3>Multi-Company</h3>
+                <p>Full multi-company support with strict record rules and company separation. HUB company for central OCR processing.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-user-check"></i></div>
+                <h3>2-Tier Validation</h3>
+                <p>Business validation for content verification. Finance validation for high-value invoices (configurable threshold).</p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-history"></i></div>
+                <h3>Audit Trail</h3>
+                <p>Complete validation history with user, timestamp, company changes, state transitions, and rejection reasons.</p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-chart-line"></i></div>
+                <h3>KPI Dashboard</h3>
+                <p>Real-time metrics: auto-routing percentage, OCR confidence, processing times, approval bottlenecks, and more.</p>
+            </div>
+
+            <!-- Feature 7 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-envelope"></i></div>
+                <h3>Email Reception</h3>
+                <p>Receive vendor bills via email automatically. Invoices are created, OCR processed, and routed — fully hands-off.</p>
+            </div>
+
+            <!-- Feature 8 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-bolt"></i></div>
+                <h3>Bulk Operations</h3>
+                <p>Bulk approve multiple invoices at once. Bulk reject with reasons. Batch OCR processing for efficiency.</p>
+            </div>
+
+            <!-- Feature 9 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Security & Compliance</h3>
+                <p>5 user roles from DMS User to Admin. Multi-company record rules. Complete separation of duties and audit readiness.</p>
+            </div>
+
+            <!-- Feature 10 -->
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-sliders-h"></i></div>
+                <h3>Fully Configurable</h3>
+                <p>Configure OCR provider, confidence thresholds, finance approval thresholds, notifications, retention policies, and more.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     RULE TYPES
+     ============================================================ -->
+<section style="background:#f8fafc;">
+    <div class="container">
+        <h2 class="section-title">
+            9 <span class="highlight">Dispatch Rule Types</span>
+        </h2>
+        <p class="section-subtitle">
+            Unmatched flexibility for routing vendor bills to the right company.
+        </p>
+
+        <div class="rule-types">
+            <div class="rule-type-tag"><i class="fas fa-user"></i> Vendor Name</div>
+            <div class="rule-type-tag"><i class="fas fa-id-card"></i> Vendor VAT</div>
+            <div class="rule-type-tag"><i class="fas fa-globe"></i> Vendor Country</div>
+            <div class="rule-type-tag"><i class="fas fa-university"></i> IBAN</div>
+            <div class="rule-type-tag"><i class="fas fa-money-bill-wave"></i> Currency</div>
+            <div class="rule-type-tag"><i class="fas fa-arrows-alt-h"></i> Amount Range</div>
+            <div class="rule-type-tag"><i class="fas fa-keyword"></i> OCR Keywords</div>
+            <div class="rule-type-tag"><i class="fas fa-user-tie"></i> Specific Partner</div>
+            <div class="rule-type-tag"><i class="fas fa-filter"></i> Domain Filter</div>
+        </div>
+
+        <div style="max-width:700px; margin:32px auto 0; background:#ffffff; border-radius:12px; padding:24px; border:1px solid #e2e8f0;">
+            <p style="color:#475569; text-align:center; font-size:14px;">
+                <i class="fas fa-lightbulb" style="color:#f59e0b; margin-right:8px;"></i>
+                <strong>Example:</strong> Belgian vendors (VAT BE*) → Company A · French IBAN (FR*) → Company B ·
+                High-value EUR invoices (> €10,000) → Company HQ
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     USER ROLES
+     ============================================================ -->
+<section>
+    <div class="container">
+        <h2 class="section-title">
+            <span class="highlight">5 User Roles</span> for Complete Control
+        </h2>
+        <p class="section-subtitle">
+            Proper separation of duties with granular access control.
+        </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+            <div style="background:#ffffff; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <div style="background:#e9d5ff; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#7141c4; font-size:24px;"><i class="fas fa-user"></i></div>
+                <h4 style="font-weight:600;">DMS User</h4>
+                <p style="font-size:13px; color:#64748b;">Upload and view invoices</p>
+            </div>
+            <div style="background:#ffffff; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <div style="background:#dbeafe; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#3b82f6; font-size:24px;"><i class="fas fa-check-circle"></i></div>
+                <h4 style="font-weight:600;">Business Validator</h4>
+                <p style="font-size:13px; color:#64748b;">Approve / reject invoices</p>
+            </div>
+            <div style="background:#ffffff; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <div style="background:#fce7f3; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#ec4899; font-size:24px;"><i class="fas fa-gem"></i></div>
+                <h4 style="font-weight:600;">Finance Validator</h4>
+                <p style="font-size:13px; color:#64748b;">Approve high-value invoices</p>
+            </div>
+            <div style="background:#ffffff; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <div style="background:#fef3c7; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#f59e0b; font-size:24px;"><i class="fas fa-cog"></i></div>
+                <h4 style="font-weight:600;">Dispatch Manager</h4>
+                <p style="font-size:13px; color:#64748b;">Configure rules & workflows</p>
+            </div>
+            <div style="background:#ffffff; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <div style="background:#d1fae5; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#059669; font-size:24px;"><i class="fas fa-user-shield"></i></div>
+                <h4 style="font-weight:600;">Dispatch Admin</h4>
+                <p style="font-size:13px; color:#64748b;">Full system access</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PRICING
+     ============================================================ -->
+<!--<section style="background:#f8fafc;">-->
+<!--    <div class="container">-->
+<!--        <h2 class="section-title">-->
+<!--            Simple <span class="highlight">Pricing</span>-->
+<!--        </h2>-->
+<!--        <p class="section-subtitle">-->
+<!--            One-time payment. No subscription fees. Unlimited users.-->
+<!--        </p>-->
+
+<!--        <div class="pricing-grid">-->
+<!--            &lt;!&ndash; Community &ndash;&gt;-->
+<!--            <div class="pricing-card">-->
+<!--                <div class="plan-name">Community</div>-->
+<!--                <div class="price">€0</div>-->
+<!--                <ul>-->
+<!--                    <li><i class="fas fa-check"></i> Basic OCR & Dispatch</li>-->
+<!--                    <li><i class="fas fa-check"></i> Up to 3 companies</li>-->
+<!--                    <li><i class="fas fa-check"></i> Email reception</li>-->
+<!--                    <li><i class="fas fa-times" style="color:#ef4444;"></i> 2-tier validation</li>-->
+<!--                    <li><i class="fas fa-times" style="color:#ef4444;"></i> KPI Dashboard</li>-->
+<!--                </ul>-->
+<!--                <a href="#" class="btn btn-primary" style="background:#e2e8f0; color:#1a1a2e; justify-content:center; padding:12px;">-->
+<!--                    <i class="fas fa-download"></i> Free Download-->
+<!--                </a>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Professional (Featured) &ndash;&gt;-->
+<!--            <div class="pricing-card featured">-->
+<!--                <div style="background:#7141c4; color:#ffffff; font-size:12px; font-weight:600; padding:4px 16px; border-radius:20px; display:inline-block; margin-bottom:12px;">MOST POPULAR</div>-->
+<!--                <div class="plan-name">Professional</div>-->
+<!--                <div class="price">€299 <span>one-time</span></div>-->
+<!--                <ul>-->
+<!--                    <li><i class="fas fa-check"></i> All Community features</li>-->
+<!--                    <li><i class="fas fa-check"></i> Up to 10 companies</li>-->
+<!--                    <li><i class="fas fa-check"></i> 2-tier validation workflow</li>-->
+<!--                    <li><i class="fas fa-check"></i> Complete KPI Dashboard</li>-->
+<!--                    <li><i class="fas fa-check"></i> Audit trail & validation history</li>-->
+<!--                    <li><i class="fas fa-check"></i> Bulk operations</li>-->
+<!--                </ul>-->
+<!--                <a href="#" class="btn btn-primary" style="background:#7141c4; color:#ffffff; justify-content:center; padding:12px;">-->
+<!--                    <i class="fas fa-shopping-cart"></i> Buy Now-->
+<!--                </a>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Enterprise &ndash;&gt;-->
+<!--            <div class="pricing-card">-->
+<!--                <div class="plan-name">Enterprise</div>-->
+<!--                <div class="price">€599 <span>one-time</span></div>-->
+<!--                <ul>-->
+<!--                    <li><i class="fas fa-check"></i> All Professional features</li>-->
+<!--                    <li><i class="fas fa-check"></i> Unlimited companies</li>-->
+<!--                    <li><i class="fas fa-check"></i> Priority support</li>-->
+<!--                    <li><i class="fas fa-check"></i> Custom rule development</li>-->
+<!--                    <li><i class="fas fa-check"></i> Training & implementation</li>-->
+<!--                </ul>-->
+<!--                <a href="#" class="btn btn-primary" style="background:#1a1a2e; color:#ffffff; justify-content:center; padding:12px;">-->
+<!--                    <i class="fas fa-building"></i> Contact Sales-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!-- ============================================================
+     COMPARISON TABLE (vs Competitors)
+     ============================================================ -->
+<section>
+    <div class="container">
+        <h2 class="section-title">
+            Why <span class="highlight">Vendor Bill Dispatch</span>?
+        </h2>
+        <p class="section-subtitle">
+            Compare with other solutions in the market.
+        </p>
+
+        <div style="overflow-x:auto;">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Vendor Bill Dispatch</th>
+                        <th>Zendoc</th>
+                        <th>Basware</th>
+                        <th>Coupa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>One-time fee</td><td class="check"><i class="fas fa-check"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td></tr>
+                    <tr><td>Natively built for Odoo</td><td class="check"><i class="fas fa-check"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td></tr>
+                    <tr><td>Multi-company support</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>9 rule types</td><td class="check"><i class="fas fa-check"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td></tr>
+                    <tr><td>2-tier approval workflow</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Complete audit trail</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>KPI Dashboard</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Email reception</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Bulk operations</td><td class="check"><i class="fas fa-check"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Self-hosted</td><td class="check"><i class="fas fa-check"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td><td class="cross"><i class="fas fa-times"></i></td></tr>
+<!--                    <tr><td><strong>Price</strong></td><td><strong>€299</strong></td><td>€2,400/year</td><td>€3,600/year</td><td>Custom</td></tr>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
+<section style="background:#ffffff;">
+    <div class="container">
+        <h2 class="section-title">
+            What <span class="highlight">Customers Say</span>
+        </h2>
+        <p class="section-subtitle">
+            Trusted by businesses across Europe and beyond.
+        </p>
+
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <blockquote>"This module saved us 20+ hours per week on vendor bill processing. The auto-dispatch rules are incredibly flexible."</blockquote>
+                <div class="author">
+                    <div class="avatar">JD</div>
+                    <div>
+                        <div class="name">John Doe</div>
+                        <div class="role">CFO, TechCorp Belgium</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <blockquote>"The audit trail is perfect for our compliance needs. We can trace every invoice from reception to posting."</blockquote>
+                <div class="author">
+                    <div class="avatar">MS</div>
+                    <div>
+                        <div class="name">Marie Schmidt</div>
+                        <div class="role">Accountant, Global Logistics</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <blockquote>"We have 7 companies in 4 countries. This module handles all our routing needs with 90%+ auto-routing rate."</blockquote>
+                <div class="author">
+                    <div class="avatar">PL</div>
+                    <div>
+                        <div class="name">Pierre Laurent</div>
+                        <div class="role">Operations Director, EuroGroup</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section style="background:#f8fafc;">
+    <div class="container">
+        <h2 class="section-title">
+            Frequently Asked <span class="highlight">Questions</span>
+        </h2>
+        <p class="section-subtitle">
+            Everything you need to know about the Vendor Bill Dispatch module.
+        </p>
+
+        <div class="faq-list" id="faqList">
+            <div class="faq-item active">
+                <div class="question">
+                    <span>What Odoo version is this compatible with?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    This module is built for <strong>Odoo 19 Enterprise</strong>. It uses the latest features available in Odoo 19, including Odoo 19's accounting improvements and the new document digitization API.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="question">
+                    <span>Do I need IAP credits for OCR?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    Yes. The module uses <strong>Odoo Document Digitization (IAP)</strong> for OCR processing. You need to purchase IAP credits from Odoo. The module includes a fallback to manual entry if OCR fails.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="question">
+                    <span>Can I use this without the OCR feature?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    Absolutely. The module works perfectly as a manual dispatch system. You can enter vendor bill data manually, and the dispatch rules will still route the invoice to the correct company.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="question">
+                    <span>How many companies can I use?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    There is <strong>no technical limit</strong>. The module supports unlimited companies. The pricing tiers (Professional: up to 10, Enterprise: unlimited) are based on license terms, not technical limitations.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="question">
+                    <span>Is there a free trial?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    Yes! We offer a <strong>15-day free trial</strong> of the Professional edition. No credit card required. After the trial, you can choose to purchase or revert to the Community edition.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="question">
+                    <span>What support is included?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    All editions include <strong>email support</strong> and access to our documentation. Professional and Enterprise editions include <strong>priority support</strong> with faster response times. Enterprise includes implementation assistance.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="question">
+                    <span>Can I customize the dispatch rules?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    Yes. The module is <strong>fully customizable</strong>. You can add new rule types, modify existing ones, or create custom dispatch logic. The domain filter rule type allows advanced custom filters.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="question">
+                    <span>How does email reception work?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="answer">
+                    Configure an email alias (e.g., <code>vendor.bills@yourdomain.com</code>). Invoices sent to this address are automatically:
+                    1. Created in the HUB company
+                    2. OCR processed
+                    3. Dispatched to the correct company
+                    4. Ready for validation
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section style="background:linear-gradient(135deg, #1a1a2e 0%, #2d1b69 50%, #7141c4 100%); color:#ffffff; padding:60px 0;">
+    <div class="container" style="text-align:center;">
+        <h2 style="font-size:36px; font-weight:700; margin-bottom:16px;">
+            Ready to Transform Your <br>
+            <span style="background:linear-gradient(135deg, #a78bfa, #f472b6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Vendor Bill Processing</span>?
+        </h2>
+        <p style="font-size:18px; color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px;">
+            Join hundreds of businesses already saving hours every day with automated invoice processing.
+        </p>
+        <div style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center;">
+            <a href="#" class="btn btn-primary" style="background:#ffffff; color:#1a1a2e;">
+                <i class="fas fa-download"></i> Start Free Trial
+            </a>
+            <a href="#" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3); color:#ffffff;">
+                <i class="fas fa-book"></i> Read Documentation
+            </a>
+            <a href="#" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3); color:#ffffff;">
+                <i class="fas fa-video"></i> Watch Demo
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+    <div class="container">
+        <div>
+            <h4 style="font-size:20px; font-weight:800; color:#ffffff;">
+                <i class="fas fa-file-invoice" style="color:#a78bfa;"></i>
+                Vendor Bill Dispatch
+            </h4>
+            <p style="font-size:14px; max-width:300px; margin-top:8px;">
+                Enterprise-grade multi-company OCR automation for Odoo 19.
+            </p>
+            <div style="margin-top:16px; display:flex; gap:12px;">
+                <a href="#" style="color:rgba(255,255,255,0.5); font-size:20px;"><i class="fab fa-github"></i></a>
+                <a href="#" style="color:rgba(255,255,255,0.5); font-size:20px;"><i class="fab fa-youtube"></i></a>
+                <a href="#" style="color:rgba(255,255,255,0.5); font-size:20px;"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+        <div>
+            <h4>Product</h4>
+            <a href="#">Features</a>
+            <a href="#">Pricing</a>
+            <a href="#">Changelog</a>
+            <a href="#">Roadmap</a>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="#">Documentation</a>
+            <a href="#">Implementation Guide</a>
+            <a href="#">API Reference</a>
+            <a href="#">FAQ</a>
+        </div>
+        <div>
+            <h4>Company</h4>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <div class="copyright">
+            © 2026 Vendor Bill Dispatch Module. Made with <i class="fas fa-heart" style="color:#ec4899;"></i> for the Odoo Community.
+            <br>
+            <span style="font-size:12px; color:rgba(255,255,255,0.4);">Odoo is a trademark of Odoo S.A. This module is not affiliated with Odoo S.A.</span>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================
+     SCRIPT
+     ============================================================ -->
+<script>
+    // ===== FAQ Toggle =====
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.question');
+        question.addEventListener('click', () => {
+            const wasActive = item.classList.contains('active');
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            // Open this one if it wasn't active
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

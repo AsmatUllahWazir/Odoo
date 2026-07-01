@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Configuration Form View -->
+        <record id="view_vendor_bill_dispatch_config_form" model="ir.ui.view">
+            <field name="name">vendor.bill.dispatch.config.form</field>
+            <field name="model">vendor.bill.dispatch.config</field>
+            <field name="arch" type="xml">
+                <form string="Vendor Bill Dispatch Configuration">
+                    <header>
+                        <button name="action_test_ocr" string="Test OCR Connection" type="object" class="btn-primary"/>
+                        <button name="action_view_statistics" string="View Statistics" type="object"
+                                class="btn-secondary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="%(action_dispatch_rules)d" type="action" class="oe_stat_button"
+                                    icon="fa-list">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Dispatch</span>
+                                    <span class="o_stat_text">Rules</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Configuration Name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group string="Basic Configuration">
+                                <field name="active"/>
+                                <field name="hub_company_id" options="{'no_create': True}"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group string="Statistics">
+                                <field name="total_bills_processed"/>
+                                <field name="auto_routed_percentage" widget="percentage"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Email &amp; Reception" name="reception">
+                                <group>
+                                    <group>
+                                        <field name="enable_email_reception"/>
+                                        <field name="reception_email"
+                                               invisible="not enable_email_reception"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="OCR Configuration" name="ocr">
+                                <group>
+                                    <group>
+                                        <field name="auto_ocr_on_upload"/>
+                                        <field name="ocr_provider"/>
+                                        <field name="ocr_confidence_threshold" widget="percentage"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Dispatch Rules" name="dispatch">
+                                <group>
+                                    <group>
+                                        <field name="auto_dispatch_enabled"/>
+                                        <field name="fallback_to_manual"/>
+                                        <field name="default_fallback_company_id"
+                                               invisible="fallback_to_manual"
+                                               required="not fallback_to_manual and auto_dispatch_enabled"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Validation Workflow" name="validation">
+                                <group>
+                                    <group string="Business Validation">
+                                        <field name="enable_business_validation"/>
+                                        <field name="notify_business_validator"/>
+                                    </group>
+                                    <group string="Finance Validation">
+                                        <field name="enable_finance_validation"/>
+                                        <field name="finance_approval_threshold" widget="monetary"/>
+                                        <field name="notify_finance_validator"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Notifications" name="notifications">
+                                <group>
+                                    <field name="notify_on_dispatch"/>
+                                </group>
+                            </page>
+
+                            <page string="Advanced Settings" name="advanced">
+                                <group>
+                                    <group>
+                                        <field name="allow_company_change_after_routing"/>
+                                        <field name="lock_company_after_validation"/>
+                                        <field name="retention_days"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Configuration list View -->
+        <record id="view_vendor_bill_dispatch_config_list" model="ir.ui.view">
+            <field name="name">vendor.bill.dispatch.config.list</field>
+            <field name="model">vendor.bill.dispatch.config</field>
+            <field name="arch" type="xml">
+                <list string="Dispatch Configurations">
+                    <field name="name"/>
+                    <field name="hub_company_id"/>
+                    <field name="auto_dispatch_enabled"/>
+                    <field name="enable_business_validation"/>
+                    <field name="enable_finance_validation"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Configuration Action -->
+        <record id="action_vendor_bill_dispatch_config" model="ir.actions.act_window">
+            <field name="name">Dispatch Configuration</field>
+            <field name="res_model">vendor.bill.dispatch.config</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configure Vendor Bill Dispatch System
+                </p>
+                <p>
+                    Set up OCR, dispatch rules, and validation workflows for automated vendor bill processing.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

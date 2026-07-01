@@ -1,0 +1,9 @@
+<odoo>
+    <data noupdate="1">
+        <record id="default_vendor_dispatch_config" model="vendor.bill.dispatch.config">
+            <field name="name">Default Configuration</field>
+            <field name="active">True</field>
+            <field name="hub_company_id" ref="base.main_company"/>
+        </record>
+    </data>
+</odoo>

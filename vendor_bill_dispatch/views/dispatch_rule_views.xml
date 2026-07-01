@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_dispatch_rule_form" model="ir.ui.view">
+            <field name="name">vendor.bill.dispatch.rule.form</field>
+            <field name="model">vendor.bill.dispatch.rule</field>
+            <field name="arch" type="xml">
+                <form string="Dispatch Rule">
+                    <header>
+                        <button name="action_test_rule" string="Test Rule" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_test_rule" icon="fa-check-circle">
+                                <field name="match_count" widget="statinfo" string="Matches"/>
+                            </button>
+                        </div>
+
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                                invisible="active"/>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Rule Name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="active"/>
+                                <field name="sequence"/>
+                                <field name="priority"/>
+                            </group>
+                            <group>
+                                <field name="target_company_id"/>
+                                <field name="last_match_date"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Criteria" name="criteria">
+                                <group>
+                                    <field name="rule_type"/>
+                                </group>
+
+                                <group invisible="rule_type != 'vendor_name'">
+                                    <field name="vendor_name_pattern" required="rule_type == 'vendor_name'"/>
+                                </group>
+
+                                <group invisible="rule_type != 'vendor_vat'">
+                                    <field name="vendor_vat_pattern" required="rule_type == 'vendor_vat'"/>
+                                </group>
+
+                                <group invisible="rule_type != 'vendor_country'">
+                                    <field name="vendor_country_ids" widget="many2many_tags"
+                                           required="rule_type == 'vendor_country'"/>
+                                </group>
+
+                                <group invisible="rule_type != 'iban'">
+                                    <field name="iban_pattern" required="rule_type == 'iban'"/>
+                                </group>
+
+                                <group invisible="rule_type != 'currency'">
+                                    <field name="currency_ids" widget="many2many_tags"
+                                           required="rule_type == 'currency'"/>
+                                </group>
+
+                                <group invisible="rule_type != 'amount_range'">
+                                    <field name="amount_min" required="rule_type == 'amount_range'"/>
+                                    <field name="amount_max"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+
+                                <group invisible="rule_type != 'keyword'">
+                                    <field name="keyword_list" required="rule_type == 'keyword'"/>
+                                    <field name="keyword_match_type"/>
+                                </group>
+
+                                <group invisible="rule_type != 'partner_id'">
+                                    <field name="partner_ids" widget="many2many_tags"
+                                           required="rule_type == 'partner_id'"/>
+                                </group>
+
+                                <group invisible="rule_type != 'domain'">
+                                    <field name="domain_filter" required="rule_type == 'domain'"/>
+                                </group>
+                            </page>
+                            <page string="Behavior" name="behavior">
+                                <group>
+                                    <field name="require_manual_confirmation"/>
+                                    <field name="stop_on_match"/>
+                                </group>
+                            </page>
+
+                            <page string="Description" name="description">
+                                <field name="description" placeholder="Describe when this rule should be applied..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_dispatch_rule_list" model="ir.ui.view">
+            <field name="name">vendor.bill.dispatch.rule.list</field>
+            <field name="model">vendor.bill.dispatch.rule</field>
+            <field name="arch" type="xml">
+                <list string="Dispatch Rules">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="rule_type"/>
+                    <field name="target_company_id"/>
+                    <field name="priority"/>
+                    <field name="match_count"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_dispatch_rules" model="ir.actions.act_window">
+            <field name="name">Dispatch Rules</field>
+            <field name="res_model">vendor.bill.dispatch.rule</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

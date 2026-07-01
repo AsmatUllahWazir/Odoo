@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Demo Dispatch Rules -->
+        <record id="demo_rule_belgium_vat" model="vendor.bill.dispatch.rule">
+            <field name="name">Belgian Vendors (VAT)</field>
+            <field name="rule_type">vendor_vat</field>
+            <field name="vendor_vat_pattern">BE*</field>
+            <field name="target_company_id" ref="base.main_company"/>
+            <field name="priority">10</field>
+            <field name="sequence">10</field>
+            <field name="description">Routes all Belgian vendors (VAT starting with BE) to main company</field>
+        </record>
+
+        <record id="demo_rule_eur_currency" model="vendor.bill.dispatch.rule">
+            <field name="name">EUR Currency Bills</field>
+            <field name="rule_type">currency</field>
+            <field name="currency_ids" eval="[(4, ref('base.EUR'))]"/>
+            <field name="target_company_id" ref="base.main_company"/>
+            <field name="priority">50</field>
+            <field name="sequence">50</field>
+            <field name="description">Routes EUR currency bills to main company</field>
+        </record>
+
+    </data>
+</odoo>

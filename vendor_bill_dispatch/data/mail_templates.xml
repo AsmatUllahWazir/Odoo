@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="email_template_dispatch_notification" model="mail.template">
+            <field name="name">Vendor Bill Dispatched</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="subject">New Vendor Bill Dispatched - {{ object.partner_id.name }}</field>
+            <field name="body_html"><![CDATA[
+                <p>Hello,</p>
+                <p>A new vendor bill has been dispatched to your company and requires attention:</p>
+                <ul>
+                    <li><strong>Vendor:</strong> {{ object.partner_id.name }}</li>
+                    <li><strong>Amount:</strong> {{ object.amount_total }} {{ object.currency_id.name }}</li>
+                    <li><strong>Invoice Date:</strong> {{ object.invoice_date }}</li>
+                    <li><strong>Company:</strong> {{ object.company_id.name }}</li>
+                </ul>
+                <p>Please review and approve the invoice at your earliest convenience.</p>
+            ]]></field>
+        </record>
+
+        <record id="email_template_approval_request" model="mail.template">
+            <field name="name">Vendor Bill Approval Request</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="subject">Approval Required - Vendor Bill {{ object.name or 'New' }}</field>
+            <field name="body_html"><![CDATA[
+                <p>Hello,</p>
+                <p>A vendor bill requires your approval:</p>
+                <ul>
+                    <li><strong>Vendor:</strong> {{ object.partner_id.name }}</li>
+                    <li><strong>Amount:</strong> {{ object.amount_total }} {{ object.currency_id.name }}</li>
+                    <li><strong>Invoice Number:</strong> {{ object.ref or 'N/A' }}</li>
+                    <li><strong>Invoice Date:</strong> {{ object.invoice_date }}</li>
+                </ul>
+                <p>Please login to Odoo to review and approve this invoice.</p>
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>

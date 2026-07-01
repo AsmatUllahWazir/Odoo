@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Security groups MUST be in noupdate="1" -->
+    <data noupdate="1">
+
+        <!-- DMS User -->
+        <record id="group_dms_user" model="res.groups">
+            <field name="name">DMS User</field>
+        </record>
+
+        <!-- Business Validator -->
+        <record id="group_business_validator" model="res.groups">
+            <field name="name">Business Validator</field>
+            <field name="implied_ids" eval="[(4, ref('vendor_bill_dispatch.group_dms_user'))]"/>
+        </record>
+
+        <!-- Finance Validator -->
+        <record id="group_finance_validator" model="res.groups">
+            <field name="name">Finance Validator</field>
+            <field name="implied_ids" eval="[(4, ref('vendor_bill_dispatch.group_business_validator'))]"/>
+        </record>
+
+        <!-- Dispatch Manager -->
+        <record id="group_dispatch_manager" model="res.groups">
+            <field name="name">Dispatch Manager</field>
+            <field name="implied_ids" eval="[(4, ref('vendor_bill_dispatch.group_finance_validator'))]"/>
+        </record>
+
+        <!-- Dispatch Admin -->
+        <record id="group_dispatch_admin" model="res.groups">
+            <field name="name">Dispatch Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('vendor_bill_dispatch.group_dispatch_manager'))]"/>
+        </record>
+
+    </data>
+</odoo>

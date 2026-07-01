@@ -1,0 +1,82 @@
+/* Vendor Bill Dispatch Dashboard Styles */
+
+.dispatch_dashboard {
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.dispatch_kpi_card {
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dispatch_kpi_card h3 {
+    margin-top: 0;
+    color: #495057;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.dispatch_kpi_value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #007bff;
+    margin: 10px 0;
+}
+
+.dispatch_kpi_label {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.dispatch_state_badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dispatch_state_badge.ocr_draft {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.dispatch_state_badge.routed {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.dispatch_state_badge.to_approve {
+    background-color: #fd7e14;
+    color: #fff;
+}
+
+.dispatch_state_badge.approved {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.dispatch_state_badge.rejected {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.ocr_confidence_high {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.ocr_confidence_medium {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.ocr_confidence_low {
+    color: #dc3545;
+    font-weight: bold;
+}

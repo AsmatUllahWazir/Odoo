@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Root Menu -->
+        <menuitem id="menu_vendor_bill_dispatch_root"
+                  name="Bill Dispatch"
+                  sequence="01" web_icon="vendor_bill_dispatch,static/description/img/logo.png"/>
+        <!-- Vendor Bills Menu -->
+        <menuitem id="menu_vendor_bills"
+                  name="Vendor Bills"
+                  parent="menu_vendor_bill_dispatch_root"
+                  sequence="10"/>
+
+        <menuitem id="menu_vendor_bills_ocr_draft"
+                  action="action_vendor_bills_ocr_draft"
+                  parent="menu_vendor_bill_dispatch_root"
+                  name="Bills - OCR Draft"
+                  sequence="02"/>
+
+        <menuitem id="menu_vendor_bills_to_approve"
+                  action="action_vendor_bills_to_approve"
+                  parent="menu_vendor_bill_dispatch_root"
+                  name="Bills - To Approve"
+                  sequence="03"/>
+
+        <menuitem id="menu_vendor_bills_finance"
+                  action="action_vendor_bills_finance_approval"
+                  parent="menu_vendor_bill_dispatch_root"
+                  name="Bills - Finance Approve"
+                  sequence="04"/>
+
+
+        <!-- Reporting Menu -->
+        <menuitem id="menu_dispatch_reporting"
+                  name="Reporting"
+                  parent="menu_vendor_bill_dispatch_root"
+                  sequence="05"
+                  groups="vendor_bill_dispatch.group_dispatch_manager"/>
+
+        <menuitem id="menu_dispatch_dashboard"
+                  action="action_dispatch_dashboard"
+                  parent="menu_dispatch_reporting"
+                  sequence="01"/>
+
+        <menuitem id="menu_validation_history"
+                  action="action_validation_history"
+                  parent="menu_dispatch_reporting"
+                  sequence="02"/>
+
+
+        <!-- Configuration Menu -->
+        <menuitem id="menu_dispatch_config"
+                  name="Configuration"
+                  parent="menu_vendor_bill_dispatch_root"
+                  sequence="06"
+                  groups="vendor_bill_dispatch.group_dispatch_manager"/>
+
+        <menuitem id="menu_dispatch_rules"
+                  action="action_dispatch_rules"
+                  parent="menu_dispatch_config"
+                  name="Dispatch Rules"
+                  sequence="01"/>
+
+        <menuitem id="menu_dispatch_settings"
+                  action="action_vendor_bill_dispatch_config"
+                  parent="menu_dispatch_config"
+                  name="Dispatch Configuration"
+                  sequence="02"/>
+
+
+    </data>
+</odoo>

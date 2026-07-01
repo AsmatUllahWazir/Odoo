@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_dispatch_kpi_graph" model="ir.ui.view">
+            <field name="name">dispatch.kpi.graph</field>
+            <field name="model">dispatch.kpi</field>
+            <field name="arch" type="xml">
+                <graph string="Dispatch Statistics" type="line">
+                    <field name="date" interval="month"/>
+                    <field name="auto_routed_percentage" type="measure"/>
+                    <field name="total_bills" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="view_dispatch_kpi_pivot" model="ir.ui.view">
+            <field name="name">dispatch.kpi.pivot</field>
+            <field name="model">dispatch.kpi</field>
+            <field name="arch" type="xml">
+                <pivot string="Dispatch Analysis">
+                    <field name="date" interval="month" type="row"/>
+                    <field name="company_id" type="col"/>
+                    <field name="total_bills" type="measure"/>
+                    <field name="auto_routed_percentage" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_dispatch_kpi_list" model="ir.ui.view">
+            <field name="name">dispatch.kpi.list</field>
+            <field name="model">dispatch.kpi</field>
+            <field name="arch" type="xml">
+                <list string="Dispatch KPI">
+                    <field name="date"/>
+                    <field name="company_id"/>
+                    <field name="total_bills"/>
+                    <field name="auto_routed_bills"/>
+                    <field name="auto_routed_percentage" widget="percentage"/>
+                    <field name="ocr_processed"/>
+                    <field name="avg_ocr_confidence" widget="percentage"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_dispatch_dashboard" model="ir.actions.act_window">
+            <field name="name">Dispatch Dashboard</field>
+            <field name="res_model">dispatch.kpi</field>
+            <field name="view_mode">graph,pivot,list</field>
+        </record>
+
+    </data>
+</odoo>

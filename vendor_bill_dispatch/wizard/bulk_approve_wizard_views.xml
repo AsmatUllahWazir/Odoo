@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_bulk_approve_wizard_form" model="ir.ui.view">
+            <field name="name">vendor.bill.bulk.approve.wizard.form</field>
+            <field name="model">vendor.bill.bulk.approve.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Bulk Approve Invoices">
+                    <group>
+                        <field name="invoice_ids" invisible="1"/>
+                        <field name="approval_type"/>
+                        <field name="invoice_count"/>
+                        <field name="total_amount" widget="monetary"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="notes" placeholder="Optional approval notes..."/>
+                    </group>
+                    <footer>
+                        <button name="action_approve_all" string="Approve All" type="object" class="btn-success"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

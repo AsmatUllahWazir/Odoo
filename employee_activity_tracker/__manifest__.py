@@ -34,8 +34,8 @@
         - Multi-company support
         - Async background logging for zero performance impact
     """,
-    'author': 'Aryan ABCG',
-    'website': 'https:abcgio.com',
+    'author': 'Wazirz',
+    'website': '',
     'license': 'LGPL-3',
     'depends': [
         'base',
@@ -82,7 +82,6 @@
     'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,
-    'license': 'LGPL-3',
     'price': 35.00,
     'currency': 'USD',
 }

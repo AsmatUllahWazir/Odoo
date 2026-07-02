@@ -1,0 +1,21 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tracker_session_user,activity.tracker.session user,model_activity_tracker_session,group_tracker_user,1,0,0,0
+access_tracker_session_manager,activity.tracker.session manager,model_activity_tracker_session,group_tracker_manager,1,1,1,0
+access_tracker_session_admin,activity.tracker.session admin,model_activity_tracker_session,group_tracker_admin,1,1,1,1
+access_tracker_log_user,activity.tracker.log user,model_activity_tracker_log,group_tracker_user,1,0,0,0
+access_tracker_log_manager,activity.tracker.log manager,model_activity_tracker_log,group_tracker_manager,1,1,1,0
+access_tracker_log_admin,activity.tracker.log admin,model_activity_tracker_log,group_tracker_admin,1,1,1,1
+access_tracker_field_change_user,activity.tracker.field.change user,model_activity_tracker_field_change,group_tracker_user,1,0,0,0
+access_tracker_field_change_manager,activity.tracker.field.change manager,model_activity_tracker_field_change,group_tracker_manager,1,1,1,0
+access_tracker_field_change_admin,activity.tracker.field.change admin,model_activity_tracker_field_change,group_tracker_admin,1,1,1,1
+access_tracker_button_click_user,activity.tracker.button.click user,model_activity_tracker_button_click,group_tracker_user,1,0,0,0
+access_tracker_button_click_manager,activity.tracker.button.click manager,model_activity_tracker_button_click,group_tracker_manager,1,1,1,0
+access_tracker_button_click_admin,activity.tracker.button.click admin,model_activity_tracker_button_click,group_tracker_admin,1,1,1,1
+access_tracker_security_log_user,activity.tracker.security.log user,model_activity_tracker_security_log,group_tracker_user,1,0,0,0
+access_tracker_security_log_manager,activity.tracker.security.log manager,model_activity_tracker_security_log,group_tracker_manager,1,1,1,0
+access_tracker_security_log_admin,activity.tracker.security.log admin,model_activity_tracker_security_log,group_tracker_admin,1,1,1,1
+access_tracker_access_log_user,activity.tracker.access.log user,model_activity_tracker_access_log,group_tracker_user,1,0,0,0
+access_tracker_access_log_manager,activity.tracker.access.log manager,model_activity_tracker_access_log,group_tracker_manager,1,1,1,0
+access_tracker_access_log_admin,activity.tracker.access.log admin,model_activity_tracker_access_log,group_tracker_admin,1,1,1,1
+access_tracker_config_model_manager,activity.tracker.config.model manager,model_activity_tracker_config_model,group_tracker_manager,1,0,0,0
+access_tracker_config_model_admin,activity.tracker.config.model admin,model_activity_tracker_config_model,group_tracker_admin,1,1,1,1

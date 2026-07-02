@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tracker_field_change_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.field.change.tree</field>
+        <field name="model">activity.tracker.field.change</field>
+        <field name="arch" type="xml">
+            <tree string="Field Changes">
+                <field name="change_datetime"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="model_description" string="Object"/>
+                <field name="record_name" string="Document"/>
+                <field name="field_label" string="Field"/>
+                <field name="field_type" string="Type" optional="show"/>
+                <field name="old_value_display" string="Old Value"/>
+                <field name="new_value_display" string="New Value"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tracker_field_change_form" model="ir.ui.view">
+        <field name="name">activity.tracker.field.change.form</field>
+        <field name="model">activity.tracker.field.change</field>
+        <field name="arch" type="xml">
+            <form string="Field Change Detail">
+                <sheet>
+                    <group>
+                        <group string="Change Info">
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="change_datetime"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Target">
+                            <field name="model_description" string="Object"/>
+                            <field name="model_name" string="Technical Name"/>
+                            <field name="record_id"/>
+                            <field name="record_name"/>
+                        </group>
+                    </group>
+                    <group string="Field Changed">
+                        <group>
+                            <field name="field_label" string="Field Label"/>
+                            <field name="field_name" string="Technical Name"/>
+                            <field name="field_type" string="Field Type"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Old Value">
+                            <field name="old_value" nolabel="1" widget="text"/>
+                        </group>
+                        <group string="New Value">
+                            <field name="new_value" nolabel="1" widget="text"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tracker_field_change_search" model="ir.ui.view">
+        <field name="name">activity.tracker.field.change.search</field>
+        <field name="model">activity.tracker.field.change</field>
+        <field name="arch" type="xml">
+            <search string="Search Field Changes">
+                <field name="user_id"/>
+                <field name="model_name"/>
+                <field name="field_name"/>
+                <field name="record_name"/>
+                <separator/>
+                <filter string="Today" name="today"/>
+<!--                <filter string="Today" name="today" domain="[('change_datetime', '>=', current_date)]"/>-->
+                <filter string="This Week" name="this_week"/>
+<!--                <filter string="This Week" name="this_week" domain="[('change_datetime', '>=', current_week_start)]"/>-->
+                <group expand="0" string="Group By">
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Model" name="group_model" context="{'group_by': 'model_name'}"/>
+                    <filter string="Field" name="group_field" context="{'group_by': 'field_name'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'change_datetime:day'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tracker_field_change_log" model="ir.actions.act_window">
+        <field name="name">Field Change Logs</field>
+        <field name="res_model">activity.tracker.field.change</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_tracker_field_change_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+
+</odoo>

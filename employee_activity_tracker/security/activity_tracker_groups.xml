@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ================================================================
+             Security Groups for Activity Tracker
+             ================================================================ -->
+
+        <record id="module_activity_tracker" model="ir.module.category">
+            <field name="name">Activity Tracker</field>
+            <field name="description">Manage employee activity tracking and monitoring</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <!-- Group: User (can view own activity only) -->
+        <record id="group_tracker_user" model="res.groups">
+            <field name="name">Activity Tracker / User</field>
+            <field name="category_id" ref="module_activity_tracker"/>
+            <field name="comment">Can view their own session history and activity logs.</field>
+        </record>
+
+        <!-- Group: Manager (can view all users' activities) -->
+        <record id="group_tracker_manager" model="res.groups">
+            <field name="name">Activity Tracker / Manager</field>
+            <field name="category_id" ref="module_activity_tracker"/>
+            <field name="implied_ids" eval="[(4, ref('group_tracker_user'))]"/>
+            <field name="comment">Can view all users' activity logs and monitoring dashboard.</field>
+        </record>
+
+        <!-- Group: Admin (full access, can delete logs) -->
+        <record id="group_tracker_admin" model="res.groups">
+            <field name="name">Activity Tracker / Administrator</field>
+            <field name="category_id" ref="module_activity_tracker"/>
+            <field name="implied_ids" eval="[(4, ref('group_tracker_manager'))]"/>
+            <field name="comment">Full access including log deletion, config, and force-logout.</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+    </data>
+</odoo>

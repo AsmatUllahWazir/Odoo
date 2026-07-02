@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ====================================================================
+         Config Settings: Activity Tracker Section
+         ==================================================================== -->
+    <record id="view_general_config_activity_tracker" model="ir.ui.view">
+        <field name="name">res.config.settings.activity.tracker</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.action_general_configuration"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="before">
+                <div class="app_settings_block" data-string="Activity Tracker"
+                     data-key="employee_activity_tracker"
+                     groups="employee_activity_tracker.group_tracker_admin">
+
+                    <h2>Activity Tracker &amp; Monitor</h2>
+
+                    <div class="row mt16 o_settings_container">
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Session Settings</span>
+                                <div class="text-muted">Configure session timeout and idle detection.</div>
+                                <div class="content-group mt8">
+                                    <div class="row">
+                                        <label for="tracker_session_timeout_hours" class="col-lg-6 o_light_label"/>
+                                        <field name="tracker_session_timeout_hours" class="col-lg-6"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="tracker_idle_threshold_minutes" class="col-lg-6 o_light_label"/>
+                                        <field name="tracker_idle_threshold_minutes" class="col-lg-6"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="tracker_enable_field_tracking"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="tracker_enable_field_tracking" class="o_form_label"/>
+                                <div class="text-muted">Track old/new values for every field change.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="tracker_enable_button_tracking"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="tracker_enable_button_tracking" class="o_form_label"/>
+                                <div class="text-muted">Track every button click and workflow action.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="tracker_enable_access_tracking"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="tracker_enable_access_tracking" class="o_form_label"/>
+                                <div class="text-muted">Track URL visits and menu access.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="tracker_send_daily_report"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="tracker_send_daily_report" class="o_form_label"/>
+                                <div class="text-muted">Send daily activity report by email.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="tracker_send_weekly_report"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="tracker_send_weekly_report" class="o_form_label"/>
+                                <div class="text-muted">Send weekly productivity report by email.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Alert Email</span>
+                                <div class="text-muted">Email address to receive alerts and reports.</div>
+                                <div class="content-group mt8">
+                                    <field name="tracker_alert_email" placeholder="ceo@company.com"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Log Retention Policy</span>
+                                <div class="text-muted">Automatically clean up logs older than these thresholds.</div>
+                                <div class="content-group mt8">
+                                    <div class="row">
+                                        <label for="tracker_log_retention_days" class="col-lg-6 o_light_label"/>
+                                        <field name="tracker_log_retention_days" class="col-lg-4"/>
+                                        <span class="col-lg-2 o_light_label">days</span>
+                                    </div>
+                                    <div class="row">
+                                        <label for="tracker_failed_login_threshold" class="col-lg-6 o_light_label"/>
+                                        <field name="tracker_failed_login_threshold" class="col-lg-4"/>
+                                        <span class="col-lg-2 o_light_label">attempts</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ====================================================================
+         Model Exclusion Config
+         ==================================================================== -->
+    <record id="view_tracker_config_model_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.config.model.tree</field>
+        <field name="model">activity.tracker.config.model</field>
+        <field name="arch" type="xml">
+            <tree string="Tracker Model Configuration" editable="bottom">
+                <field name="model_name"/>
+                <field name="model_description"/>
+                <field name="is_excluded"/>
+                <field name="track_crud"/>
+                <field name="track_fields"/>
+                <field name="track_buttons"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tracker_config_model" model="ir.actions.act_window">
+        <field name="name">Tracker Model Configuration</field>
+        <field name="res_model">activity.tracker.config.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

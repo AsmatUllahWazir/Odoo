@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Employee Activity Tracker & Monitor - Full Odoo Activity Logging, Session Monitoring, and CEO Dashboard." />
+    <title>Employee Activity Tracker & Monitor - Odoo App Store</title>
+    <style>
+        /* ---- Modern Reset & Base ---- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background: #f8fafc;
+            color: #1e293b;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px -15px rgba(0,0,0,0.15);
+            padding: 2.5rem;
+            transition: all 0.2s;
+        }
+        /* ---- Typography ---- */
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        h1 { font-size: 2.8rem; color: #0f172a; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1.2rem; color: #475569; margin-bottom: 2rem; border-left: 4px solid #3b82f6; padding-left: 1.2rem; }
+        h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+        h3 { font-size: 1.3rem; margin: 1.5rem 0 0.5rem; color: #1e293b; }
+        a { color: #2563eb; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        ul, ol { padding-left: 1.8rem; margin: 0.8rem 0; }
+        li { margin-bottom: 0.3rem; }
+        /* ---- Badges & Tags ---- */
+        .badge-group { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1rem 0 1.5rem; }
+        .badge {
+            background: #e2e8f0; color: #1e293b; padding: 0.3rem 1rem; border-radius: 40px;
+            font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em;
+        }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-orange { background: #ffedd5; color: #9a3412; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-purple { background: #ede9fe; color: #5b21b6; }
+        .price-badge {
+            display: inline-block; background: #0f172a; color: white; padding: 0.4rem 1.8rem;
+            border-radius: 60px; font-weight: 700; font-size: 1.8rem; letter-spacing: -0.02em;
+            margin: 0.5rem 0 1rem;
+        }
+        .price-badge small { font-size: 1rem; font-weight: 400; }
+        /* ---- Grid & Cards ---- */
+        .feature-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem; margin: 1.5rem 0;
+        }
+        .feature-card {
+            background: #f1f5f9; border-radius: 16px; padding: 1.5rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px -8px rgba(0,0,0,0.12); }
+        .feature-card .icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+        .feature-card h4 { font-size: 1rem; font-weight: 600; color: #0f172a; }
+        .feature-card p { font-size: 0.9rem; color: #475569; margin: 0.3rem 0 0; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0; }
+        @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+        /* ---- Tables ---- */
+        .features-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; }
+        .features-table th {
+            text-align: left; background: #f1f5f9; padding: 0.6rem 1rem;
+            font-weight: 600; color: #0f172a; border-radius: 8px 8px 0 0;
+        }
+        .features-table td { padding: 0.6rem 1rem; border-bottom: 1px solid #e2e8f0; }
+        .features-table tr:last-child td { border: none; }
+        .check { color: #16a34a; font-weight: 700; }
+        /* ---- Buttons ---- */
+        .btn {
+            display: inline-block; background: #0f172a; color: white; padding: 0.8rem 2.2rem;
+            border-radius: 60px; font-weight: 600; text-decoration: none; transition: background 0.2s;
+            border: none; cursor: pointer;
+        }
+        .btn:hover { background: #1e293b; text-decoration: none; }
+        .btn-primary { background: #2563eb; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-outline { background: transparent; color: #2563eb; border: 2px solid #2563eb; }
+        .btn-outline:hover { background: #eff6ff; }
+        .cta-box {
+            background: #0f172a; color: white; border-radius: 24px; padding: 2.5rem;
+            text-align: center; margin: 2.5rem 0 1rem;
+        }
+        .cta-box h2 { color: white; border: none; margin: 0 0 0.5rem; }
+        .cta-box p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 1.5rem; }
+        .cta-box .btn-primary { background: #facc15; color: #0f172a; font-size: 1.2rem; }
+        .cta-box .btn-primary:hover { background: #fde047; }
+        hr { border: none; border-top: 2px solid #e2e8f0; margin: 2rem 0; }
+        .footer-note { text-align: center; color: #94a3b8; font-size: 0.9rem; margin-top: 2rem; }
+        /* ---- Responsive tweaks ---- */
+        @media (max-width: 600px) {
+            .container { padding: 1.5rem; }
+            h1 { font-size: 2rem; }
+            .price-badge { font-size: 1.4rem; }
+        }
+        .screenshot-placeholder {
+            background: #e2e8f0; border-radius: 16px; padding: 4rem 2rem; text-align: center;
+            color: #64748b; border: 2px dashed #94a3b8; margin: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+        .screenshot-placeholder strong { color: #0f172a; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <h1>🔍 Employee Activity Tracker &amp; Monitor</h1>
+    <div class="subtitle">
+        Complete real-time employee activity tracking, session monitoring, audit logs, field change history,
+        and CEO dashboard.
+    </div>
+
+    <div class="badge-group">
+        <span class="badge badge-blue">v17.0.1.0.0</span>
+        <span class="badge badge-green">Odoo 17 • 18 • 19</span>
+        <span class="badge badge-orange">HR / Security</span>
+        <span class="badge badge-purple">Enterprise Ready</span>
+        <span class="badge badge-red">⭐ Featured</span>
+    </div>
+
+    <div style="margin: 1.5rem 0;">
+        <span class="price-badge">€349 <small>one-time license</small></span>
+        <br/>
+        <a href="#" class="btn btn-primary" style="margin-top: 0.5rem;">🛒 Get This Module</a>
+        <a href="#" class="btn btn-outline" style="margin-left: 0.8rem;">📖 View Documentation</a>
+    </div>
+
+    <!-- ============================================================
+    OVERVIEW
+    ============================================================ -->
+    <h2>📋 Overview</h2>
+    <p>
+        <strong>Employee Activity Tracker &amp; Monitor</strong> is a complete, advanced activity tracking
+        and monitoring system for Odoo. It gives you unparalleled visibility into every action taken by your
+        users—from login to logout. Whether you are a <strong>CEO, HR Manager, Security Officer, or System Administrator</strong>,
+        this module helps you maintain security, improve productivity, and ensure compliance.
+    </p>
+    <p>
+        The module automatically tracks <strong>all CRUD operations</strong>, <strong>field-level changes</strong>
+        (old vs. new values), <strong>button clicks</strong>, <strong>menu/URL access</strong>, and
+        <strong>session details</strong> (IP, browser, OS, device type) with zero configuration required.
+        A beautiful <strong>real-time dashboard</strong> provides instant insights into who is online,
+        what they are doing, and any suspicious activity.
+    </p>
+
+    <!-- ============================================================
+    KEY FEATURES
+    ============================================================ -->
+    <h2>🚀 Key Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <span class="icon">🕒</span>
+            <h4>Session Lifecycle Management</h4>
+            <p>Track every login, logout, session duration, IP, browser, OS, device type, and idle status.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">📝</span>
+            <h4>Full Activity Audit Log</h4>
+            <p>Log all create, write, and delete operations across every model in your Odoo instance.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">🔎</span>
+            <h4>Field-Level Change Tracking</h4>
+            <p>See exactly what changed: old value → new value for every field update on every record.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">🖱️</span>
+            <h4>Button Click Tracking</h4>
+            <p>Track every significant button press (Confirm, Validate, Approve) and server action.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">📊</span>
+            <h4>Live CEO Dashboard</h4>
+            <p>Real-time stats: active users, idle users, activity breakdown, module usage, security alerts.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">🛡️</span>
+            <h4>Security &amp; Suspicious Activity</h4>
+            <p>Log failed logins, permission changes, developer mode toggles, and trigger alerts on suspicious behavior.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">📬</span>
+            <h4>Daily / Weekly Email Reports</h4>
+            <p>Automatically send summary reports to the CEO or administrator every day and every Monday.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">⚙️</span>
+            <h4>Fully Configurable</h4>
+            <p>Exclude models, set idle thresholds, define retention policies, and manage tracking options from a single settings panel.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    DETAILED FEATURES TABLE
+    ============================================================ -->
+    <h2>📌 Detailed Feature List</h2>
+    <table class="features-table">
+        <thead>
+            <tr><th>Feature</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Session Tracking</strong></td><td>Login, logout, IP address, user agent, browser, OS, device type, session duration, idle detection.</td></tr>
+            <tr><td><strong>Global ORM Tracking</strong></td><td>Automatically tracks create, write, and unlink on every model. Zero configuration required.</td></tr>
+            <tr><td><strong>Field Change History</strong></td><td>Captures old and new values for every field change. Perfect for audit and compliance.</td></tr>
+            <tr><td><strong>Button &amp; Workflow Tracking</strong></td><td>Logs every button click and workflow action (e.g., Confirm Order, Validate Invoice).</td></tr>
+            <tr><td><strong>Menu &amp; View Access</strong></td><td>Records which menus, views (form, list, kanban), and reports users access.</td></tr>
+            <tr><td><strong>Real-Time Dashboard</strong></td><td>Active/idle/offline counters, activity breakdown, module usage chart, security alerts, top users.</td></tr>
+            <tr><td><strong>User Status &amp; Timeline</strong></td><td>See online status of users (green/yellow/gray) and a detailed timeline of their activities.</td></tr>
+            <tr><td><strong>Security &amp; Suspicious Activity</strong></td><td>Logs failed logins, password changes, group changes, developer mode. Alerts on brute-force attempts.</td></tr>
+            <tr><td><strong>Force Logout</strong></td><td>Administrators can forcefully terminate any active session from the session log or dashboard.</td></tr>
+            <tr><td><strong>Automated Email Reports</strong></td><td>Daily and weekly summary reports sent directly to a designated email address.</td></tr>
+            <tr><td><strong>Data Retention &amp; Cleanup</strong></td><td>Configurable log retention (default 365 days) with automated cron job cleanup.</td></tr>
+            <tr><td><strong>Multi-Company Support</strong></td><td>Fully compatible with Odoo's multi-company setup.</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================
+    WHY THIS MODULE
+    ============================================================ -->
+    <h2>💡 Why Choose This Module?</h2>
+    <div class="two-col">
+        <div>
+            <h3>🎯 For CEOs &amp; Managers</h3>
+            <ul>
+                <li>Get real-time visibility into your team's activity.</li>
+                <li>Identify productivity bottlenecks and top-performing users.</li>
+                <li>Receive daily/weekly reports without logging in.</li>
+            </ul>
+            <h3>🔐 For Security &amp; Compliance</h3>
+            <ul>
+                <li>Maintain a complete audit trail for ISO/GDPR compliance.</li>
+                <li>Detect and respond to suspicious activity (failed logins, IP anomalies).</li>
+                <li>Track who changed what, and when.</li>
+            </ul>
+        </div>
+        <div>
+            <h3>⚡ For System Administrators</h3>
+            <ul>
+                <li>Zero configuration — works out of the box with all modules.</li>
+                <li>Lightweight and optimized for performance (batch inserts, asynchronous logging).</li>
+                <li>Easily exclude high-traffic models to reduce noise.</li>
+            </ul>
+            <h3>👥 For HR &amp; Team Leads</h3>
+            <ul>
+                <li>Understand user adoption of Odoo features.</li>
+                <li>Identify training gaps based on module usage.</li>
+                <li>Review individual employee activity timelines.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SCREENSHOTS
+    ============================================================ -->
+    <h2>🖼️ Screenshots</h2>
+    <!-- Replace the div below with actual <img> tags and remove the placeholder -->
+    <div class="screenshot-placeholder">
+        <strong>📸 Live Dashboard</strong><br/>
+        Real-time activity, session stats, module usage chart, and security alerts.
+        <br/><span style="font-size:0.85rem;">(Add your actual screenshot here)</span>
+    </div>
+    <div class="screenshot-placeholder">
+        <strong>📸 Field Change Log</strong><br/>
+        Track old vs. new values for every field update.
+        <br/><span style="font-size:0.85rem;">(Add your actual screenshot here)</span>
+    </div>
+    <div class="screenshot-placeholder">
+        <strong>📸 User Timeline</strong><br/>
+        Complete chronological activity history for any user.
+        <br/><span style="font-size:0.85rem;">(Add your actual screenshot here)</span>
+    </div>
+
+    <!-- ============================================================
+    COMPATIBILITY
+    ============================================================ -->
+    <h2>🔧 Technical Details</h2>
+    <ul>
+        <li><strong>Compatibility:</strong> Odoo 17, 18, 19 (Enterprise &amp; Community)</li>
+        <li><strong>Dependencies:</strong> base, web, mail, hr, base_setup, base_automation</li>
+        <li><strong>Installation:</strong> Standard Odoo module installation. No extra libraries required.</li>
+        <li><strong>Performance:</strong> Optimized with batch inserts, asynchronous logging, and configurable exclusions.</li>
+        <li><strong>Support:</strong> Includes 3 months of free technical support and updates.</li>
+    </ul>
+
+    <!-- ============================================================
+    WHAT'S INCLUDED
+    ============================================================ -->
+    <h2>📦 What's Included</h2>
+    <ul>
+        <li><strong>Full Source Code</strong> – No obfuscation, open for customization.</li>
+        <li><strong>User &amp; Security Groups</strong> – Pre-configured user, manager, and admin roles.</li>
+        <li><strong>Dashboard &amp; Reports</strong> – Live dashboard and email reporting templates.</li>
+        <li><strong>Automated Cron Jobs</strong> – Session cleanup, retention policy, suspicious activity checks.</li>
+        <li><strong>Detailed Documentation</strong> – Installation and configuration guide included.</li>
+        <li><strong>3 Months Free Support</strong> – Direct email/chat support from the developer.</li>
+    </ul>
+
+    <!-- ============================================================
+    PRICING & CALL TO ACTION
+    ============================================================ -->
+    <div class="cta-box">
+        <h2>🚀 Ready to Track Every Action?</h2>
+        <p>
+            Get the <strong>Employee Activity Tracker &amp; Monitor</strong> module today and
+            gain complete visibility into your Odoo system.
+        </p>
+        <a href="#" class="btn btn-primary">🛒 Buy Now – €349</a>
+        <br/><br/>
+        <a href="#" style="color: #94a3b8; font-size: 0.9rem;">Or <strong>Request a Demo</strong> / Contact Sales</a>
+    </div>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <hr/>
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size:0.9rem; color: #64748b;">
+        <div>
+            <strong>Author:</strong> Aryan ABCG<br/>
+            <strong>Website:</strong> <a href="#">abcgio.com</a>
+        </div>
+        <div>
+            <strong>License:</strong> LGPL-3<br/>
+            <strong>Version:</strong> 17.0.1.0.0
+        </div>
+        <div>
+            <strong>Support:</strong> <a href="#">support@abcgio.com</a><br/>
+            <strong>Docs:</strong> <a href="#">Documentation Link</a>
+        </div>
+    </div>
+    <div class="footer-note">
+        © 2026 Employee Activity Tracker &amp; Monitor. All rights reserved.
+    </div>
+
+</div>
+<!-- End container -->
+</body>
+</html>

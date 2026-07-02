@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ====================================================================
+         Activity Log: Tree View
+         ==================================================================== -->
+    <record id="emp_activity_tracker_log_tree_view" model="ir.ui.view">
+        <field name="name">emp.activity.tracker.log.tree</field>
+        <field name="model">activity.tracker.log</field>
+        <field name="arch" type="xml">
+            <tree string="Activity Logs"
+                  decoration-danger="result in ('failed', 'denied')"
+                  decoration-warning="action_type in ('unlink', 'failed_login')"
+                  decoration-success="action_type in ('login', 'create', 'approval')">
+                <field name="action_datetime"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="action_type" widget="badge"/>
+                <field name="action_summary"/>
+                <field name="model_description" string="Object"/>
+                <field name="record_name" string="Document"/>
+                <field name="module_name" string="Module"/>
+                <field name="result" widget="badge"/>
+                <field name="ip_address"/>
+                <field name="duration_ms" string="Duration (ms)" optional="hide"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ====================================================================
+         Activity Log: Form View
+         ==================================================================== -->
+    <record id="emp_activity_tracker_log_form_view" model="ir.ui.view">
+        <field name="name">emp.activity.tracker.log.form</field>
+        <field name="model">activity.tracker.log</field>
+        <field name="arch" type="xml">
+            <form string="Activity Detail">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="action_summary"/></h1>
+                    </div>
+                    <group>
+                        <group string="Activity">
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="action_type" widget="badge"/>
+                            <field name="action_datetime"/>
+                            <field name="result" widget="badge"/>
+                            <field name="duration_ms"/>
+                        </group>
+                        <group string="Target">
+                            <field name="model_description" string="Object"/>
+                            <field name="model_name" string="Technical Name"/>
+                            <field name="record_id"/>
+                            <field name="record_name"/>
+                            <field name="module_name"/>
+                            <field name="menu_name"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Network">
+                            <field name="ip_address"/>
+                            <field name="is_api_call"/>
+                            <field name="url_path"/>
+                        </group>
+                        <group string="Session">
+                            <field name="session_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Detail">
+                        <field name="action_detail" nolabel="1"/>
+                    </group>
+                    <group string="Error" invisible="not error_message">
+                        <field name="error_message" nolabel="1" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ====================================================================
+         Activity Log: Search View
+         ==================================================================== -->
+    <record id="emp_activity_tracker_log_search_view" model="ir.ui.view">
+        <field name="name">emp.activity.tracker.log.search</field>
+        <field name="model">activity.tracker.log</field>
+        <field name="arch" type="xml">
+            <search string="Search Activities">
+                <field name="user_id"/>
+                <field name="action_type"/>
+                <field name="model_name"/>
+                <field name="module_name"/>
+                <field name="record_name"/>
+                <field name="action_summary"/>
+                <field name="ip_address"/>
+                <separator/>
+                <filter string="Creates" name="creates" domain="[('action_type', '=', 'create')]"/>
+                <filter string="Updates" name="updates" domain="[('action_type', '=', 'write')]"/>
+                <filter string="Deletes" name="deletes" domain="[('action_type', '=', 'unlink')]"/>
+                <filter string="Button Clicks" name="buttons" domain="[('action_type', '=', 'button_click')]"/>
+                <filter string="Approvals" name="approvals" domain="[('action_type', '=', 'approval')]"/>
+                <filter string="Reports" name="reports" domain="[('action_type', '=', 'report_print')]"/>
+                <filter string="Exports" name="exports" domain="[('action_type', '=', 'export')]"/>
+                <filter string="Imports" name="imports" domain="[('action_type', '=', 'import')]"/>
+                <filter string="Logins" name="logins" domain="[('action_type', 'in', ('login', 'logout', 'failed_login'))]"/>
+                <separator/>
+                <filter string="Failed" name="failed" domain="[('result', 'in', ('failed', 'denied'))]"/>
+                <filter string="Successful" name="success" domain="[('result', '=', 'success')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('action_datetime', '>=', current_date)]"/>
+                <filter string="This Week" name="this_week"/>
+<!--                <filter string="This Week" name="this_week" domain="[('action_datetime', '>=', current_week_start)]"/>-->
+                <filter string="This Month" name="this_month"/>
+<!--                <filter string="This Month" name="this_month" domain="[('action_datetime', '>=', current_month_start)]"/>-->
+                <group expand="0" string="Group By">
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Action Type" name="group_action_type" context="{'group_by': 'action_type'}"/>
+                    <filter string="Module" name="group_module" context="{'group_by': 'module_name'}"/>
+                    <filter string="Model" name="group_model" context="{'group_by': 'model_name'}"/>
+                    <filter string="Result" name="group_result" context="{'group_by': 'result'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                    <filter string="Hour" name="group_hour" context="{'group_by': 'action_datetime:hour'}"/>
+                    <filter string="Day" name="group_day" context="{'group_by': 'action_datetime:day'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'action_datetime:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ====================================================================
+         Action: Activity Log
+         ==================================================================== -->
+    <record id="emp_activity_tracker_log_action" model="ir.actions.act_window">
+        <field name="name">Activity Logs</field>
+        <field name="res_model">activity.tracker.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="emp_activity_tracker_log_search_view"/>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No activity logs yet.
+            </p>
+            <p>Activities are automatically tracked when users interact with Odoo.</p>
+        </field>
+    </record>
+
+</odoo>

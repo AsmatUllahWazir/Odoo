@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default system parameters -->
+        <record id="param_tracker_enabled" model="ir.config_parameter">
+            <field name="key">activity_tracker.enabled</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_session_timeout" model="ir.config_parameter">
+            <field name="key">activity_tracker.session_timeout_hours</field>
+            <field name="value">8</field>
+        </record>
+        <record id="param_idle_threshold" model="ir.config_parameter">
+            <field name="key">activity_tracker.idle_threshold_minutes</field>
+            <field name="value">15</field>
+        </record>
+        <record id="param_enable_field_tracking" model="ir.config_parameter">
+            <field name="key">activity_tracker.enable_field_tracking</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_enable_button_tracking" model="ir.config_parameter">
+            <field name="key">activity_tracker.enable_button_tracking</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_enable_access_tracking" model="ir.config_parameter">
+            <field name="key">activity_tracker.enable_access_tracking</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_log_retention" model="ir.config_parameter">
+            <field name="key">activity_tracker.log_retention_days</field>
+            <field name="value">365</field>
+        </record>
+        <record id="param_failed_login_threshold" model="ir.config_parameter">
+            <field name="key">activity_tracker.failed_login_threshold</field>
+            <field name="value">5</field>
+        </record>
+        <record id="param_daily_report" model="ir.config_parameter">
+            <field name="key">activity_tracker.send_daily_report</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_weekly_report" model="ir.config_parameter">
+            <field name="key">activity_tracker.send_weekly_report</field>
+            <field name="value">True</field>
+        </record>
+    </data>
+</odoo>

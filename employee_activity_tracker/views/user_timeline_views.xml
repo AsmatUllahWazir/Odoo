@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ====================================================================
+         User Status List View
+         ==================================================================== -->
+    <record id="view_tracker_user_status_tree" model="ir.ui.view">
+        <field name="name">res.users.tracker.status.tree</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <tree string="Users Activity Status">
+                <field name="image_128" widget="image" class="o_list_avatar" optional="show"/>
+                <field name="name"/>
+                <field name="login"/>
+                <field name="tracker_session_status" string="Status" widget="badge"/>
+                <field name="tracker_last_login" string="Last Login"/>
+                <field name="tracker_current_ip" string="IP"/>
+                <field name="tracker_session_count" string="Total Sessions"/>
+                <field name="tracker_activity_count" string="Actions Today"/>
+                <button name="action_view_user_sessions" type="object"
+                        string="Sessions" icon="fa-clock-o" class="btn-sm btn-secondary"/>
+                <button name="action_view_user_activities" type="object"
+                        string="Timeline" icon="fa-list" class="btn-sm btn-info"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <record id="view_tracker_user_status_search" model="ir.ui.view">-->
+<!--        <field name="name">res.users.tracker.status.search</field>-->
+<!--        <field name="model">res.users</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Search Users">-->
+<!--                <field name="name"/>-->
+<!--                <field name="login"/>-->
+<!--                <field name="tracker_session_status"/>-->
+<!--                <separator/>-->
+<!--                <filter string="Online" name="online_users"-->
+<!--                        domain="[('tracker_session_status', 'in', ('active', 'idle'))]"/>-->
+<!--                <filter string="Active" name="active_users"-->
+<!--                        domain="[('tracker_session_status', '=', 'active')]"/>-->
+<!--                <filter string="Idle" name="idle_users"-->
+<!--                        domain="[('tracker_session_status', '=', 'idle')]"/>-->
+<!--                <filter string="Offline" name="offline_users"-->
+<!--                        domain="[('tracker_session_status', '=', 'offline')]"/>-->
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Status" name="group_status"-->
+<!--                            context="{'group_by': 'tracker_session_status'}"/>-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="action_tracker_user_status" model="ir.actions.act_window">
+        <field name="name">User Activity Status</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">tree,form</field>
+<!--        <field name="search_view_id" ref="view_tracker_user_status_search"/>-->
+        <field name="domain">[('share', '=', False), ('active', '=', True)]</field>
+        <field name="context">{'search_default_online_users': 1}</field>
+    </record>
+
+    <!-- ====================================================================
+         Full Timeline View
+         ==================================================================== -->
+    <record id="view_tracker_full_timeline_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.log.full.timeline</field>
+        <field name="model">activity.tracker.log</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <tree string="Full User Timeline">
+                <field name="action_datetime" string="Time"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="action_type" widget="badge"/>
+                <field name="action_summary" string="What Happened"/>
+                <field name="module_name" string="Module"/>
+                <field name="model_description" string="Object" optional="show"/>
+                <field name="record_name" string="Document" optional="show"/>
+                <field name="result" widget="badge"/>
+                <field name="session_id" optional="hide"/>
+                <field name="ip_address" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tracker_full_timeline" model="ir.actions.act_window">
+        <field name="name">Full Activity Timeline</field>
+        <field name="res_model">activity.tracker.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tracker_full_timeline_tree"/>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+
+</odoo>

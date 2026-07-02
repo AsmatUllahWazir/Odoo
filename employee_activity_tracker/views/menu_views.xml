@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ====================================================================
+         Main Menu: Activity Tracker
+         ==================================================================== -->
+
+    <menuitem id="menu_activity_tracker_root"
+              name="Activity Tracker"
+              sequence="85"
+              web_icon="employee_activity_tracker,static/src/img/icon.png"
+              groups="employee_activity_tracker.group_tracker_user"/>
+
+    <!-- ================================================================
+         Sub-menu 1: Dashboard
+         ================================================================ -->
+    <menuitem id="menu_tracker_dashboard"
+              name="Live Dashboard"
+              parent="menu_activity_tracker_root"
+              action="action_tracker_dashboard"
+              sequence="10"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <!-- ================================================================
+         Sub-menu 2: Sessions
+         ================================================================ -->
+    <menuitem id="menu_tracker_sessions"
+              name="Sessions"
+              parent="menu_activity_tracker_root"
+              sequence="20"
+              groups="employee_activity_tracker.group_tracker_user"/>
+
+    <menuitem id="menu_tracker_all_sessions"
+              name="All Session Logs"
+              parent="menu_tracker_sessions"
+              action="action_tracker_session_log"
+              sequence="10"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_active_sessions"
+              name="Active Sessions"
+              parent="menu_tracker_sessions"
+              action="action_tracker_active_sessions"
+              sequence="20"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_user_status"
+              name="User Online Status"
+              parent="menu_tracker_sessions"
+              action="action_tracker_user_status"
+              sequence="30"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <!-- ================================================================
+         Sub-menu 3: Activity Logs
+         ================================================================ -->
+    <menuitem id="menu_tracker_activities"
+              name="Activity Logs"
+              parent="menu_activity_tracker_root"
+              sequence="30"
+              groups="employee_activity_tracker.group_tracker_user"/>
+
+    <menuitem id="menu_tracker_all_activities"
+              name="All Activities"
+              parent="menu_tracker_activities"
+              action="emp_activity_tracker_log_action"
+              sequence="10"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_timeline"
+              name="Full Timeline"
+              parent="menu_tracker_activities"
+              action="action_tracker_full_timeline"
+              sequence="20"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_user_timeline"
+              name="My Activity"
+              parent="menu_tracker_activities"
+              action="action_tracker_user_timeline"
+              sequence="30"
+              groups="employee_activity_tracker.group_tracker_user"/>
+
+    <!-- ================================================================
+         Sub-menu 4: Audit Logs
+         ================================================================ -->
+    <menuitem id="menu_tracker_audit"
+              name="Audit Logs"
+              parent="menu_activity_tracker_root"
+              sequence="40"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_field_changes"
+              name="Field Change Log"
+              parent="menu_tracker_audit"
+              action="action_tracker_field_change_log"
+              sequence="10"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_button_clicks"
+              name="Button Click Log"
+              parent="menu_tracker_audit"
+              action="action_tracker_button_click_log"
+              sequence="20"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_access_log"
+              name="Access / Navigation Log"
+              parent="menu_tracker_audit"
+              action="action_tracker_access_log"
+              sequence="30"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <!-- ================================================================
+         Sub-menu 5: Security
+         ================================================================ -->
+    <menuitem id="menu_tracker_security"
+              name="Security"
+              parent="menu_activity_tracker_root"
+              sequence="50"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <menuitem id="menu_tracker_security_log"
+              name="Security Event Log"
+              parent="menu_tracker_security"
+              action="action_tracker_security_log"
+              sequence="10"
+              groups="employee_activity_tracker.group_tracker_manager"/>
+
+    <!-- ================================================================
+         Sub-menu 6: Configuration
+         ================================================================ -->
+    <menuitem id="menu_tracker_config"
+              name="Configuration"
+              parent="menu_activity_tracker_root"
+              sequence="90"
+              groups="employee_activity_tracker.group_tracker_admin"/>
+
+<!--    <menuitem id="menu_tracker_config_model"-->
+<!--              name="Model Tracking Rules"-->
+<!--              parent="menu_tracker_config"-->
+<!--              action="action_tracker_config_model"-->
+<!--              sequence="10"-->
+<!--              groups="employee_activity_tracker.group_tracker_admin"/>-->
+
+    <menuitem id="menu_tracker_settings"
+              name="Settings"
+              parent="menu_tracker_config"
+              action="base_setup.action_general_configuration"
+              sequence="20"
+              groups="employee_activity_tracker.group_tracker_admin"/>
+
+</odoo>

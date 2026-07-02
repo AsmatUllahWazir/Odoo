@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ====================================================================
+         Activity Tracker: Main Dashboard (Client Action)
+         ==================================================================== -->
+    <record id="action_tracker_dashboard" model="ir.actions.client">
+        <field name="name">Activity Monitor Dashboard</field>
+        <field name="tag">activity_tracker.Dashboard</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- ====================================================================
+         User Timeline View
+         ==================================================================== -->
+    <record id="view_tracker_user_timeline_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.log.timeline.tree</field>
+        <field name="model">activity.tracker.log</field>
+        <field name="arch" type="xml">
+            <tree string="User Activity Timeline">
+                <field name="action_datetime"/>
+                <field name="action_type" widget="badge"/>
+                <field name="action_summary"/>
+                <field name="model_description" string="Object"/>
+                <field name="record_name" string="Document"/>
+                <field name="module_name"/>
+                <field name="result" widget="badge"/>
+                <field name="ip_address" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tracker_user_timeline" model="ir.actions.act_window">
+        <field name="name">User Activity Timeline</field>
+        <field name="res_model">activity.tracker.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tracker_user_timeline_tree"/>
+        <field name="context">{'search_default_today': 1, 'group_by': 'user_id'}</field>
+    </record>
+
+</odoo>

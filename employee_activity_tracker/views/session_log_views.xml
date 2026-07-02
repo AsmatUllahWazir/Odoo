@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tracker_session_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.session.tree</field>
+        <field name="model">activity.tracker.session</field>
+        <field name="arch" type="xml">
+            <tree string="Session Logs">
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="login_datetime"/>
+                <field name="logout_datetime"/>
+                <field name="session_duration" string="Duration (h)" widget="float_time"/>
+                <field name="ip_address"/>
+                <field name="browser"/>
+                <field name="operating_system"/>
+                <field name="device_type" widget="badge"/>
+                <field name="status" widget="badge"/>
+                <field name="activity_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tracker_session_form" model="ir.ui.view">
+        <field name="name">activity.tracker.session.form</field>
+        <field name="model">activity.tracker.session</field>
+        <field name="arch" type="xml">
+            <form string="Session Details">
+                <header>
+                    <button name="action_force_logout" type="object"
+                            string="Force Logout" class="btn-danger"
+                            groups="employee_activity_tracker.group_tracker_admin"
+                            invisible="status in ('logged_out', 'expired', 'forced_logout')"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="active,idle,logged_out"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_name_computed"/></h1>
+                    </div>
+                    <group>
+                        <group string="Session Info">
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="status" widget="badge"/>
+                        </group>
+                        <group string="Timing">
+                            <field name="login_datetime"/>
+                            <field name="logout_datetime"/>
+                            <field name="last_activity"/>
+                            <field name="session_duration" widget="float_time"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Network &amp; Device">
+                            <field name="ip_address"/>
+                            <field name="browser"/>
+                            <field name="operating_system"/>
+                            <field name="device_type"/>
+                        </group>
+                        <group string="Activity Counts">
+                            <field name="activity_count"/>
+                            <field name="page_views"/>
+                            <field name="form_opens"/>
+                            <field name="records_created"/>
+                            <field name="records_modified"/>
+                            <field name="records_deleted"/>
+                        </group>
+                    </group>
+                    <group string="User Agent">
+                        <field name="user_agent" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tracker_session_search" model="ir.ui.view">
+        <field name="name">activity.tracker.session.search</field>
+        <field name="model">activity.tracker.session</field>
+        <field name="arch" type="xml">
+            <search string="Search Sessions">
+                <field name="user_id"/>
+                <field name="ip_address"/>
+                <field name="browser"/>
+                <field name="status"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('status', '=', 'active')]"/>
+                <filter string="Idle" name="idle" domain="[('status', '=', 'idle')]"/>
+                <filter string="Logged Out" name="logged_out" domain="[('status', '=', 'logged_out')]"/>
+                <filter string="Online" name="online" domain="[('status', 'in', ('active', 'idle'))]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('login_datetime', '>=', current_date)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                    <filter string="Browser" name="group_browser" context="{'group_by': 'browser'}"/>
+                    <filter string="Device Type" name="group_device" context="{'group_by': 'device_type'}"/>
+                    <filter string="Login Date" name="group_date" context="{'group_by': 'login_datetime:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tracker_session_log" model="ir.actions.act_window">
+        <field name="name">Session Logs</field>
+        <field name="res_model">activity.tracker.session</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_tracker_session_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+
+    <record id="action_tracker_active_sessions" model="ir.actions.act_window">
+        <field name="name">Active Sessions</field>
+        <field name="res_model">activity.tracker.session</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_tracker_session_search"/>
+        <field name="domain">[('status', 'in', ['active', 'idle'])]</field>
+        <field name="context">{'search_default_online': 1}</field>
+    </record>
+
+</odoo>

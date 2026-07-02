@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ====================================================================
+         Button Click Log Views
+         ==================================================================== -->
+    <record id="view_tracker_button_click_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.button.click.tree</field>
+        <field name="model">activity.tracker.button.click</field>
+        <field name="arch" type="xml">
+            <tree string="Button Click Logs">
+                <field name="click_datetime"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="button_string" string="Button Label"/>
+                <field name="button_name" string="Method" optional="hide"/>
+                <field name="model_description" string="Object"/>
+                <field name="record_name" string="Document"/>
+                <field name="module_name" string="Module"/>
+                <field name="result" widget="badge"/>
+                <field name="duration_ms" string="Duration (ms)" optional="hide"/>
+                <field name="ip_address" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tracker_button_click_search" model="ir.ui.view">
+        <field name="name">activity.tracker.button.click.search</field>
+        <field name="model">activity.tracker.button.click</field>
+        <field name="arch" type="xml">
+            <search string="Search Button Clicks">
+                <field name="user_id"/>
+                <field name="button_string"/>
+                <field name="model_name"/>
+                <field name="module_name"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('click_datetime', '>=', current_date)]"/>
+                <filter string="Failed" name="failed" domain="[('result', '=', 'failed')]"/>
+                <filter string="Denied" name="denied" domain="[('result', '=', 'denied')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Button" name="group_button" context="{'group_by': 'button_string'}"/>
+                    <filter string="Module" name="group_module" context="{'group_by': 'module_name'}"/>
+                    <filter string="Result" name="group_result" context="{'group_by': 'result'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'click_datetime:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tracker_button_click_log" model="ir.actions.act_window">
+        <field name="name">Button Click Logs</field>
+        <field name="res_model">activity.tracker.button.click</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_tracker_button_click_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+
+    <!-- ====================================================================
+         Security Log Views
+         ==================================================================== -->
+    <record id="view_tracker_security_log_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.security.log.tree</field>
+        <field name="model">activity.tracker.security.log</field>
+        <field name="arch" type="xml">
+            <tree string="Security Logs">
+                <field name="event_datetime"/>
+                <field name="event_type" widget="badge"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="target_user_id" optional="show"/>
+                <field name="ip_address"/>
+                <field name="severity" widget="badge"/>
+                <field name="description"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tracker_security_log_search" model="ir.ui.view">
+        <field name="name">activity.tracker.security.log.search</field>
+        <field name="model">activity.tracker.security.log</field>
+        <field name="arch" type="xml">
+            <search string="Search Security Logs">
+                <field name="user_id"/>
+                <field name="event_type"/>
+                <field name="ip_address"/>
+                <separator/>
+                <filter string="Critical" name="critical" domain="[('severity', '=', 'critical')]"/>
+                <filter string="Warnings" name="warnings" domain="[('severity', '=', 'warning')]"/>
+                <filter string="Failed Logins" name="failed_logins" domain="[('event_type', '=', 'failed_login')]"/>
+                <filter string="Suspicious" name="suspicious" domain="[('event_type', '=', 'suspicious')]"/>
+                <filter string="Today" name="today" domain="[('event_datetime', '>=', current_date)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Event Type" name="group_type" context="{'group_by': 'event_type'}"/>
+                    <filter string="Severity" name="group_severity" context="{'group_by': 'severity'}"/>
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="IP Address" name="group_ip" context="{'group_by': 'ip_address'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'event_datetime:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tracker_security_log" model="ir.actions.act_window">
+        <field name="name">Security Logs</field>
+        <field name="res_model">activity.tracker.security.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_tracker_security_log_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+
+    <!-- ====================================================================
+         Access Log Views
+         ==================================================================== -->
+    <record id="view_tracker_access_log_tree" model="ir.ui.view">
+        <field name="name">activity.tracker.access.log.tree</field>
+        <field name="model">activity.tracker.access.log</field>
+        <field name="arch" type="xml">
+            <tree string="Access Logs">
+                <field name="access_datetime"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="access_type" widget="badge"/>
+                <field name="menu_name" string="Menu"/>
+                <field name="url_path" string="URL" optional="show"/>
+                <field name="model_name" string="Model" optional="hide"/>
+                <field name="module_name" string="Module"/>
+                <field name="ip_address" optional="hide"/>
+                <field name="duration_ms" string="Duration (ms)" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tracker_access_log" model="ir.actions.act_window">
+        <field name="name">Access Logs</field>
+        <field name="res_model">activity.tracker.access.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+
+</odoo>

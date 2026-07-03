@@ -1,10 +1,10 @@
 {
-    'name': 'Wazirz Parking Management',
+    'name': 'Car Parking Management',
     'version': '17.0.1.0.0',
     'category': 'Sales',
     'summary': 'Complete parking management solution for buildings and facilities',
     'description': """
-Wazirz Parking Management System
+Car Parking Management System
 ================================
 A comprehensive solution for managing parking spaces, vehicle access, and client assignments in residential and commercial buildings.
 
@@ -21,7 +21,7 @@ Key Features:
 - Email notifications and activity tracking
     """,
     'author': 'Wazirz',
-    'website': 'https://www.wazirz.com',
+    'website': '',
     'depends': [
         'base',
         'mail',

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reject Reason Wizard Form -->
+    <record id="view_reject_reason_wizard_form" model="ir.ui.view">
+        <field name="name">reject.reason.wizard.form</field>
+        <field name="model">reject.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Rejection Reason">
+                <group>
+                    <group>
+                        <field name="reason"
+                               placeholder="Enter the reason for rejection..."
+                               nolabel="1"
+                               required="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_confirm"
+                            string="Confirm Rejection"
+                            type="object"
+                            class="btn btn-danger"/>
+                    <button string="Cancel"
+                            special="cancel"
+                            class="btn btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Block Reason Wizard Form -->
+    <record id="view_block_reason_wizard_form" model="ir.ui.view">
+        <field name="name">block.reason.wizard.form</field>
+        <field name="model">block.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Block Reason">
+                <group>
+                    <group>
+                        <field name="reason"
+                               placeholder="Enter the reason for blocking..."
+                               nolabel="1"
+                               required="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_confirm"
+                            string="Confirm Block"
+                            type="object"
+                            class="btn btn-danger"/>
+                    <button string="Cancel"
+                            special="cancel"
+                            class="btn btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Reject Reason Wizard Action -->
+    <record id="action_reject_reason_wizard" model="ir.actions.act_window">
+        <field name="name">Rejection Reason</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">reject.reason.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_access_card"/>
+    </record>
+
+    <!-- Block Reason Wizard Action -->
+    <record id="action_block_reason_wizard" model="ir.actions.act_window">
+        <field name="name">Block Reason</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">block.reason.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_access_card"/>
+    </record>
+</odoo>

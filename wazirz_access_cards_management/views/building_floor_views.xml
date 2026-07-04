@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Building Floor Form View -->
+    <record id="view_building_floor_form" model="ir.ui.view">
+        <field name="name">view.building.floor.form</field>
+        <field name="model">building.floor</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_view_access_cards"
+                            type="object"
+                            string="View Access Cards"
+                            class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="building_name" placeholder="Building Name..."/>
+                        </h1>
+                        <h2>
+                            <field name="floor_number" placeholder="Floor Number..."/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="floor_description" nolabel="1" placeholder="Floor description..."/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="floor_area"/>
+                            <field name="capacity"/>
+                        </group>
+                        <group>
+                            <field name="access_card_limit"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <group string="Statistics" name="statistics">
+                        <group>
+                            <field name="access_card_count"
+                                   widget="statinfo"
+                                   string="Total Cards"/>
+                        </group>
+                        <group>
+                            <field name="active_card_count"
+                                   widget="statinfo"
+                                   string="Active Cards"/>
+                        </group>
+                        <group>
+                            <field name="available_spaces"
+                                   widget="statinfo"
+                                   string="Available Spaces"/>
+                        </group>
+                        <group>
+                            <field name="usage_percentage"
+                                   widget="progressbar"
+                                   string="Usage"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Access Cards">
+                            <field name="access_card_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="emp_name"/>
+                                    <field name="emp_phone"/>
+                                    <field name="emp_email"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="issued_date"/>
+                                    <field name="expiry_date"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name" readonly="1"/>
+                                            <field name="emp_name"/>
+                                            <field name="emp_phone"/>
+                                            <field name="emp_email"/>
+                                        </group>
+                                        <group>
+                                            <field name="state" widget="statusbar"/>
+                                            <field name="issued_date"/>
+                                            <field name="expiry_date"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="Clients">
+                            <field name="client_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="email"/>
+                                        <field name="phone"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="History" groups="base.group_system">
+                            <group>
+                                <field name="create_uid"/>
+                                <field name="create_date"/>
+                                <field name="write_uid"/>
+                                <field name="write_date"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Building Floor Tree View -->
+    <record id="view_building_floor_tree" model="ir.ui.view">
+        <field name="name">view.building.floor.tree</field>
+        <field name="model">building.floor</field>
+        <field name="arch" type="xml">
+            <list decoration-success="usage_percentage &lt;= 50"
+                  decoration-warning="usage_percentage &gt; 50 and usage_percentage &lt;= 80"
+                  decoration-danger="usage_percentage &gt; 80">
+                <field name="building_name"/>
+                <field name="floor_number"/>
+                <field name="floor_area" sum="Total Area"/>
+                <field name="capacity" sum="Total Capacity"/>
+                <field name="access_card_limit" sum="Total Limit"/>
+                <field name="active_card_count" sum="Active Cards"/>
+                <field name="available_spaces" sum="Available"/>
+                <field name="usage_percentage" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Building Floor Search View - FIXED: Removed filters on computed fields -->
+    <record id="view_building_floor_search" model="ir.ui.view">
+        <field name="name">view.building.floor.search</field>
+        <field name="model">building.floor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="building_name" string="Building" placeholder="Search by building..."/>
+                <field name="floor_number" string="Floor" placeholder="Search by floor..."/>
+                <field name="floor_description" string="Description" placeholder="Search in description..."/>
+
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active','=',False)]"/>
+
+                <separator/>
+
+                <group>
+                    <filter string="Building" name="group_building" context="{'group_by':'building_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Building Floor Action -->
+    <record id="action_building_floor" model="ir.actions.act_window">
+        <field name="name">Building Floors</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">building.floor</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{
+            'search_default_active': 1
+        }</field>
+        <field name="search_view_id" ref="view_building_floor_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new building floor
+            </p>
+            <p>
+                A building floor represents a specific floor in a building.
+                You can assign clients and manage access cards for each floor.
+            </p>
+        </field>
+    </record>
+</odoo>

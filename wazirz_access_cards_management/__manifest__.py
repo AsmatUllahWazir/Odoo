@@ -1,8 +1,8 @@
 {
-    'name': 'Wazirz Access Cards Management',
+    'name': 'Access Card Management',
     'version': '18.0.1.0.0',
     'category': 'Sales',
-    'summary': 'Complete parking management solution for buildings and facilities',
+    'summary': 'Complete access card management solution for buildings and facilities',
     'description': """
         Building Management System
         ===========================

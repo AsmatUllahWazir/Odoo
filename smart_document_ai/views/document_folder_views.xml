@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_folder_tree" model="ir.ui.view">
+        <field name="name">document.folder.tree</field>
+        <field name="model">document.folder</field>
+        <field name="arch" type="xml">
+            <tree string="Document Folders">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="document_count"/>
+                <field name="total_size_human"/>
+                <field name="access_level"/>
+                <field name="owner_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_document_folder_form" model="ir.ui.view">
+        <field name="name">document.folder.form</field>
+        <field name="model">document.folder</field>
+        <field name="arch" type="xml">
+            <form string="Document Folder">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Folder Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent_id" options="{'no_create': True}"/>
+                            <field name="icon"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="owner_id" options="{'no_create': True}"/>
+                            <field name="access_level" widget="radio"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group string="Access Control">
+                        <field name="allowed_user_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Subfolders" name="subfolders">
+                            <field name="child_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="document_count"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Documents" name="documents">
+                            <field name="document_count" readonly="1"/>
+                            <field name="total_size_human" readonly="1"/>
+                            <button name="%(action_smart_document)d" type="action" string="View Documents" class="btn-primary" context="{'search_default_folder_id': active_id}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_document_folder_search" model="ir.ui.view">
+        <field name="name">document.folder.search</field>
+        <field name="model">document.folder</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="my_folders" string="My Folders" domain="[('owner_id', '=', uid)]"/>
+                <filter name="public" string="Public" domain="[('access_level', '=', 'public')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_document_folder" model="ir.actions.act_window">
+        <field name="name">Document Folders</field>
+        <field name="res_model">document.folder</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_document_folder_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first document folder!
+            </p>
+            <p>
+                Folders help you organize documents in a hierarchical structure.
+            </p>
+        </field>
+    </record>
+</odoo>

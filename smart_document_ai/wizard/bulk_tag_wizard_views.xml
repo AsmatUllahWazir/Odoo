@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_bulk_tag_wizard_form" model="ir.ui.view">
+        <field name="name">bulk.tag.wizard.form</field>
+        <field name="model">bulk.tag.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Tag Documents">
+                <field name="document_ids" invisible="1"/>
+                <group>
+                    <field name="action" widget="radio"/>
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="remove_existing" invisible="action == 'remove'"/>
+                </group>
+                <footer>
+                    <button name="action_apply" string="Apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

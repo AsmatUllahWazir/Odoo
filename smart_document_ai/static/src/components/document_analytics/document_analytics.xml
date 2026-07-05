@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_document_ai.DocumentAnalytics">
+        <div class="o_document_analytics">
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h2 class="text-primary" t-esc="state.stats.totalDocuments"/>
+                            <p class="text-muted mb-0">Total Documents</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h2 class="text-info" t-esc="state.stats.totalSize"/>
+                            <p class="text-muted mb-0">Total Storage</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h2 class="text-success" t-esc="state.stats.totalDownloads"/>
+                            <p class="text-muted mb-0">Downloads</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h2 class="text-warning" t-esc="state.stats.duplicateCount"/>
+                            <p class="text-muted mb-0">Duplicates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

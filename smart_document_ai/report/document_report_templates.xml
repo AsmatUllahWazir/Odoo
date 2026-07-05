@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_document_summary">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Document Summary Report</h2>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Document Name:</strong></td>
+                                    <td t-esc="doc.name"/>
+                                </tr>
+                                <tr>
+                                    <td><strong>Category:</strong></td>
+                                    <td t-esc="doc.category_id.name or 'Uncategorized'"/>
+                                </tr>
+                                <tr>
+                                    <td><strong>Folder:</strong></td>
+                                    <td t-esc="doc.folder_id.name or 'No Folder'"/>
+                                </tr>
+                                <tr>
+                                    <td><strong>Owner:</strong></td>
+                                    <td t-esc="doc.owner_id.name"/>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>File Type:</strong></td>
+                                    <td t-esc="doc.file_type"/>
+                                </tr>
+                                <tr>
+                                    <td><strong>Size:</strong></td>
+                                    <td t-esc="doc.file_size_human"/>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status:</strong></td>
+                                    <td t-esc="doc.state"/>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created:</strong></td>
+                                    <td t-esc="doc.create_date"/>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">AI Analysis</h4>
+                    <div t-if="doc.document_summary" class="alert alert-info">
+                        <p t-esc="doc.document_summary"/>
+                    </div>
+
+                    <h4 class="mt-4">Tags</h4>
+                    <div class="d-flex gap-2">
+                        <t t-foreach="doc.tag_ids" t-as="tag">
+                            <span class="badge badge-secondary" t-esc="tag.name"/>
+                        </t>
+                    </div>
+
+                    <h4 class="mt-4">Activity Statistics</h4>
+                    <table class="table table-sm">
+                        <tr>
+                            <td>Downloads</td>
+                            <td t-esc="doc.download_count"/>
+                        </tr>
+                        <tr>
+                            <td>Views</td>
+                            <td t-esc="doc.view_count"/>
+                        </tr>
+                        <tr>
+                            <td>Last Accessed</td>
+                            <td t-esc="doc.last_accessed or 'Never'"/>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_document_summary" model="ir.actions.report">
+        <field name="name">Document Summary</field>
+        <field name="model">smart.document</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">smart_document_ai.report_document_summary</field>
+        <field name="report_file">smart_document_ai.report_document_summary</field>
+        <field name="print_report_name">'Document - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_smart_document"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

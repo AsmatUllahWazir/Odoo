@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_document_ai.DocumentDropzone">
+        <div class="o_document_dropzone" t-att-class="{ 'o_dragging': state.isDragging }">
+            <div class="o_dropzone_content">
+                <i class="fa fa-cloud-upload fa-3x mb-3"/>
+                <h4>Drop files here to upload</h4>
+                <p class="text-muted">or click to browse</p>
+                <div t-if="state.isDragging" class="o_dropzone_overlay">
+                    <span class="o_dropzone_text">Release to upload</span>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

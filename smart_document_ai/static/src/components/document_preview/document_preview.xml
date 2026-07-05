@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_document_ai.DocumentPreview">
+        <div class="o_document_preview">
+            <div t-if="isImage" class="o_preview_image">
+                <img t-att-src="previewUrl" t-att-alt="props.fileName" class="img-fluid"/>
+            </div>
+            <div t-elif="isPdf" class="o_preview_pdf">
+                <iframe t-att-src="previewUrl" class="w-100" style="height: 600px;" frameborder="0"/>
+            </div>
+            <div t-else="" class="o_preview_generic">
+                <div class="text-center p-5">
+                    <i class="fa fa-file-o fa-5x text-muted mb-3"/>
+                    <p class="text-muted">Preview not available for this file type</p>
+                    <a t-att-href="previewUrl" class="btn btn-primary" target="_blank">
+                        <i class="fa fa-download mr-2"/>Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

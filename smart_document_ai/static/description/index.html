@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Document AI - AI-Powered Document Management for Odoo 17</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+            color: white;
+            padding: 60px 0 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .header-left {
+            flex: 1 1 60%;
+        }
+
+        .header-left .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .header-left .badge {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .header-left h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .header-left h1 .highlight {
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-left p {
+            font-size: 20px;
+            color: #cbd5e1;
+            max-width: 550px;
+            margin-bottom: 24px;
+        }
+
+        .header-left .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.45);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .header-right {
+            flex: 0 0 auto;
+            text-align: center;
+        }
+
+        .header-right .icon-container {
+            width: 160px;
+            height: 160px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-right .icon-container i {
+            font-size: 72px;
+            color: #818cf8;
+        }
+
+        /* ─── PRICE BANNER ─── */
+        .price-banner {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 20px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .price-banner .content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .price-banner .price {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .price-banner .price small {
+            font-size: 18px;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .price-banner .features {
+            display: flex;
+            gap: 24px;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .price-banner .features i {
+            color: #6366f1;
+            margin-right: 6px;
+        }
+
+        /* ─── SECTIONS ─── */
+        .section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 40px;
+            max-width: 640px;
+        }
+
+        .section-center {
+            text-align: center;
+        }
+
+        .section-center .section-subtitle {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ─── FEATURE GRID ─── */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 24px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            border-color: #c7d2fe;
+        }
+
+        .feature-card .icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card .icon.blue { background: #e0e7ff; color: #4f46e5; }
+        .feature-card .icon.purple { background: #ede9fe; color: #7c3aed; }
+        .feature-card .icon.green { background: #d1fae5; color: #059669; }
+        .feature-card .icon.orange { background: #fef3c7; color: #d97706; }
+        .feature-card .icon.red { background: #fee2e2; color: #dc2626; }
+        .feature-card .icon.teal { background: #ccfbf1; color: #0d9488; }
+        .feature-card .icon.pink { background: #fce7f3; color: #db2777; }
+        .feature-card .icon.indigo { background: #e0e7ff; color: #4f46e5; }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* ─── WORKFLOW ─── */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .workflow-step {
+            text-align: center;
+            padding: 24px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .workflow-step .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 16px auto;
+            font-size: 16px;
+        }
+
+        .workflow-step h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #0f172a;
+        }
+
+        .workflow-step p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .workflow-step .arrow {
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 768px) {
+            .workflow-step .arrow {
+                display: none;
+            }
+        }
+
+        /* ─── SCREENSHOTS ─── */
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .screenshot-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .screenshot-card .img-placeholder {
+            background: #f1f5f9;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .screenshot-card .img-placeholder i {
+            font-size: 40px;
+            margin-right: 12px;
+            color: #818cf8;
+        }
+
+        .screenshot-card .caption {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #475569;
+            background: #fafafa;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* ─── COMPARISON TABLE ─── */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .comparison-table th {
+            background: #f8fafc;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .comparison-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .check {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .comparison-table .cross {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        /* ─── WHAT'S INCLUDED ─── */
+        .included-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .included-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .included-item:hover {
+            border-color: #818cf8;
+            transform: translateY(-2px);
+        }
+
+        .included-item i {
+            font-size: 28px;
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+
+        .included-item h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .included-item p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* ─── FAQ ─── */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .faq-item .question {
+            padding: 18px 24px;
+            font-weight: 600;
+            color: #0f172a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .faq-item .question:hover {
+            background: #f8fafc;
+        }
+
+        .faq-item .question i {
+            color: #6366f1;
+            transition: transform 0.3s;
+        }
+
+        .faq-item .answer {
+            padding: 0 24px 18px 24px;
+            color: #475569;
+            font-size: 14px;
+            display: none;
+        }
+
+        .faq-item.active .answer {
+            display: block;
+        }
+
+        .faq-item.active .question i {
+            transform: rotate(180deg);
+        }
+
+        /* ─── CTA ─── */
+        .cta-section {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            padding: 60px 0;
+            border-radius: 24px;
+            text-align: center;
+            margin: 20px 0 40px 0;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: #cbd5e1;
+            max-width: 560px;
+            margin: 0 auto 24px auto;
+        }
+
+        .cta-section .price-large {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .cta-section .price-small {
+            font-size: 16px;
+            color: #94a3b8;
+        }
+
+        .cta-section .btn-primary {
+            margin-top: 16px;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #818cf8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer .social {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .footer .social a {
+            color: #64748b;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .footer .social a:hover {
+            color: #818cf8;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .header-left h1 {
+                font-size: 32px;
+            }
+            .header-left p {
+                font-size: 16px;
+            }
+            .header-right .icon-container {
+                width: 100px;
+                height: 100px;
+            }
+            .header-right .icon-container i {
+                font-size: 48px;
+            }
+            .price-banner .price {
+                font-size: 32px;
+            }
+            .price-banner .features {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .section-title {
+                font-size: 28px;
+            }
+            .screenshot-grid {
+                grid-template-columns: 1fr;
+            }
+            .comparison-table {
+                font-size: 13px;
+            }
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 12px;
+            }
+            .cta-section h2 {
+                font-size: 28px;
+            }
+            .cta-section .price-large {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- HEADER -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<header class="header">
+    <div class="container header-content">
+        <div class="header-left">
+            <div class="badge-container">
+                <span class="badge"><i class="fas fa-robot" style="margin-right: 6px;"></i> AI-Powered</span>
+                <span class="badge"><i class="fas fa-magic" style="margin-right: 6px;"></i> Auto-Categorization</span>
+                <span class="badge"><i class="fas fa-shield-alt" style="margin-right: 6px;"></i> Secure</span>
+                <span class="badge"><i class="fas fa-cloud-upload-alt" style="margin-right: 6px;"></i> Drag & Drop</span>
+            </div>
+            <h1>Smart Document <span class="highlight">AI</span></h1>
+            <p>AI-Powered Document Management with Intelligent Auto-Categorization, Duplicate Detection &amp; Smart Search for Odoo 17</p>
+            <div class="cta-buttons">
+                <a href="#features" class="btn-primary"><i class="fas fa-rocket" style="margin-right: 8px;"></i> Explore Features</a>
+                <a href="#pricing" class="btn-secondary"><i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Buy Now</a>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="icon-container">
+                <i class="fas fa-file-alt"></i>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- PRICE BANNER -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="price-banner">
+    <div class="container content">
+        <div>
+            <span class="price">$89 <small>USD</small></span>
+            <span style="font-size:14px; color:#64748b; margin-left:12px;">One-time payment</span>
+        </div>
+        <div class="features">
+            <span><i class="fas fa-sync-alt"></i> Lifetime Updates</span>
+            <span><i class="fas fa-headset"></i> 12 Months Support</span>
+            <span><i class="fas fa-check-circle"></i> 30-Day Guarantee</span>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- OVERVIEW -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">What is Smart Document AI?</h2>
+        <p class="section-subtitle">Smart Document AI is a next-generation document management system that leverages artificial intelligence to automatically organize, categorize, and manage your business documents with zero manual effort.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-robot" style="font-size:32px; color:#6366f1; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">AI Auto-Categorization</h4>
+                <p style="font-size:12px; color:#64748b;">Smart document classification</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-search" style="font-size:32px; color:#059669; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Full-Text Search</h4>
+                <p style="font-size:12px; color:#64748b;">Find content inside documents</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-clone" style="font-size:32px; color:#d97706; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Duplicate Detection</h4>
+                <p style="font-size:12px; color:#64748b;">Prevent storage waste</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-chart-bar" style="font-size:32px; color:#7c3aed; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Analytics Dashboard</h4>
+                <p style="font-size:12px; color:#64748b;">Insights and reporting</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-tags" style="font-size:32px; color:#db2777; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Smart Tagging</h4>
+                <p style="font-size:12px; color:#64748b;">Auto-generated tags</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-shield-alt" style="font-size:32px; color:#0d9488; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Advanced Security</h4>
+                <p style="font-size:12px; color:#64748b;">Role-based access control</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- KEY FEATURES -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section" id="features" style="background: #f8fafc;">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">Everything you need to manage documents intelligently</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="icon blue"><i class="fas fa-robot"></i></div>
+                <h3>AI Auto-Categorization</h3>
+                <p>Documents are automatically categorized based on content analysis. The system learns from your patterns and improves over time using machine learning.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon purple"><i class="fas fa-tags"></i></div>
+                <h3>Smart Tagging System</h3>
+                <p>Auto-generated tags based on document content. Create custom tag hierarchies with color coding for quick visual identification.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon green"><i class="fas fa-clone"></i></div>
+                <h3>Duplicate Detection</h3>
+                <p>SHA-256 hash-based and content-similarity detection prevents storage waste. Smart merge suggestions help clean up duplicates.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon orange"><i class="fas fa-search"></i></div>
+                <h3>Intelligent Full-Text Search</h3>
+                <p>OCR-powered text extraction from PDFs and images. Fuzzy search with typo tolerance finds what you need even with misspellings.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon red"><i class="fas fa-gavel"></i></div>
+                <h3>Approval Workflow</h3>
+                <p>Configurable document approval workflows with multi-level validation. Track status from Draft → Review → Approved → Archived.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon teal"><i class="fas fa-chart-pie"></i></div>
+                <h3>Analytics Dashboard</h3>
+                <p>Visual insights into document usage, storage trends, duplicate analysis, and category distribution. Export reports for auditing.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon pink"><i class="fas fa-code-fork"></i></div>
+                <h3>Version Control</h3>
+                <p>Track document versions with full history. Create new versions, compare changes, and rollback when needed.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon indigo"><i class="fas fa-shield-alt"></i></div>
+                <h3>Advanced Security</h3>
+                <p>Role-based access control with document-level permissions. Full audit trail tracks every view, download, and modification.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon blue"><i class="fas fa-cloud-upload-alt"></i></div>
+                <h3>Drag &amp; Drop Upload</h3>
+                <p>Modern drag-and-drop interface for bulk uploads. Supported formats: PDF, DOC/DOCX, XLS/XLSX, PPT/PPTX, JPG, PNG, TIFF, TXT, ZIP.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon purple"><i class="fas fa-folder-open"></i></div>
+                <h3>Folder &amp; Category Management</h3>
+                <p>Organize documents in hierarchical folders and categories. Smart sub-category detection and auto-archiving.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon green"><i class="fas fa-user-friends"></i></div>
+                <h3>Collaboration Features</h3>
+                <p>Share documents with team members, set access levels (Private, Internal, Department, Public), and track activities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon orange"><i class="fas fa-bell"></i></div>
+                <h3>Smart Notifications</h3>
+                <p>Automated notifications for document expiration, duplicate detection, and approval requests. Keep everyone in the loop.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- WORKFLOW -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">Simple workflow from upload to approval</p>
+        </div>
+
+        <div class="workflow-grid">
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <h4>Upload Documents</h4>
+                <p>Drag &amp; drop files or click to browse. All supported formats accepted.</p>
+                <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <h4>AI Auto-Categorize</h4>
+                <p>AI analyzes content, assigns categories, and generates smart tags automatically.</p>
+                <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <h4>Review &amp; Approve</h4>
+                <p>Submit for review, get approvals, and manage document workflow seamlessly.</p>
+                <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <h4>Search &amp; Share</h4>
+                <p>Powerful full-text search, share with teams, and track document activity.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREENSHOTS -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section" style="background: #f8fafc;">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">Screenshots</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">A glimpse of the Smart Document AI experience</p>
+        </div>
+
+        <div class="screenshot-grid">
+            <div class="screenshot-card">
+                <div class="img-placeholder">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Document Kanban View</span>
+                </div>
+                <div class="caption"><i class="fas fa-th" style="color:#6366f1; margin-right:8px;"></i>Modern Kanban view with drag-and-drop, color-coded categories, and quick actions</div>
+            </div>
+
+            <div class="screenshot-card">
+                <div class="img-placeholder">
+                    <i class="fas fa-edit"></i>
+                    <span>Document Form View</span>
+                </div>
+                <div class="caption"><i class="fas fa-file-invoice" style="color:#6366f1; margin-right:8px;"></i>Complete document details with AI analysis, tags, security settings, and version history</div>
+            </div>
+
+            <div class="screenshot-card">
+                <div class="img-placeholder">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Analytics Dashboard</span>
+                </div>
+                <div class="caption"><i class="fas fa-chart-bar" style="color:#6366f1; margin-right:8px;"></i>Visual insights into document metrics, storage usage, categories, and duplicates</div>
+            </div>
+
+            <div class="screenshot-card">
+                <div class="img-placeholder">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Drag &amp; Drop Upload</span>
+                </div>
+                <div class="caption"><i class="fas fa-upload" style="color:#6366f1; margin-right:8px;"></i>Easy drag-and-drop upload with auto-categorization and duplicate detection</div>
+            </div>
+
+            <div class="screenshot-card">
+                <div class="img-placeholder">
+                    <i class="fas fa-tags"></i>
+                    <span>Category Management</span>
+                </div>
+                <div class="caption"><i class="fas fa-folder-open" style="color:#6366f1; margin-right:8px;"></i>Create categories with keywords for AI detection, configure approval workflows</div>
+            </div>
+
+            <div class="screenshot-card">
+                <div class="img-placeholder">
+                    <i class="fas fa-search"></i>
+                    <span>Smart Search</span>
+                </div>
+                <div class="caption"><i class="fas fa-search" style="color:#6366f1; margin-right:8px;"></i>Full-text search across document names, content, tags, and metadata</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TECHNICAL SPECIFICATIONS -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">Technical Specifications</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">Everything you need to know about the module</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-cube" style="color:#6366f1; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">Odoo Version</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">17.0 (Community &amp; Enterprise)</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-puzzle-piece" style="color:#059669; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">Dependencies</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">base, mail, web, portal</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-globe" style="color:#d97706; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">Languages</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">English (default) + Arabic translation included</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-building" style="color:#7c3aed; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">Multi-Company</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">Yes, fully supported</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-money-bill-wave" style="color:#db2777; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">Multi-Currency</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">Yes, fully supported</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-file-pdf" style="color:#dc2626; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">Supported Formats</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">PDF, DOC/DOCX, XLS/XLSX, PPT/PPTX, TXT, JPG, PNG, TIFF, ZIP</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-robot" style="color:#0d9488; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">AI Features</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">Auto-categorization, smart tagging, duplicate detection, OCR text extraction</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0;">
+                <i class="fas fa-shield-alt" style="color:#4f46e5; font-size:20px; margin-bottom:8px; display:block;"></i>
+                <strong style="font-size:14px;">Security</strong>
+                <p style="font-size:13px; color:#64748b; margin-top:4px;">Role-based access, document-level permissions, full audit trail</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- COMPARISON TABLE -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section" style="background: #f8fafc;">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">Why Smart Document AI?</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">See how we compare to traditional document management</p>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width:30%;">Feature</th>
+                        <th style="width:35%;"><i class="fas fa-robot" style="color:#6366f1; margin-right:6px;"></i>Smart Document AI</th>
+                        <th style="width:35%;"><i class="fas fa-folder" style="color:#94a3b8; margin-right:6px;"></i>Traditional DMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>AI Auto-Categorization</td><td class="check">✓ Yes</td><td class="cross">✗ Manual</td></tr>
+                    <tr><td>Smart Tagging</td><td class="check">✓ Auto-generated</td><td class="cross">✗ Manual only</td></tr>
+                    <tr><td>Duplicate Detection</td><td class="check">✓ SHA-256 + Similarity</td><td class="cross">✗ Limited or none</td></tr>
+                    <tr><td>Full-Text Search</td><td class="check">✓ OCR + Fuzzy</td><td class="cross">✗ Basic filename only</td></tr>
+                    <tr><td>Approval Workflow</td><td class="check">✓ Multi-level</td><td class="cross">✗ Manual process</td></tr>
+                    <tr><td>Analytics Dashboard</td><td class="check">✓ Visual insights</td><td class="cross">✗ Basic reporting</td></tr>
+                    <tr><td>Version Control</td><td class="check">✓ Full history</td><td class="cross">✗ Limited or none</td></tr>
+                    <tr><td>Security &amp; Audit</td><td class="check">✓ Granular permissions</td><td class="cross">✗ Basic only</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- WHAT'S INCLUDED -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">What's Included</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">Everything you get with your purchase</p>
+        </div>
+
+        <div class="included-grid">
+            <div class="included-item">
+                <i class="fas fa-box"></i>
+                <h4>Full Module</h4>
+                <p>Complete Odoo 17 module with all models, views, reports, and security rules</p>
+            </div>
+            <div class="included-item">
+                <i class="fas fa-language"></i>
+                <h4>Arabic Translation</h4>
+                <p>Full Arabic translation for all UI elements and reports</p>
+            </div>
+            <div class="included-item">
+                <i class="fas fa-file-pdf"></i>
+                <h4>Report Templates</h4>
+                <p>PDF document summary reports with AI analysis integration</p>
+            </div>
+            <div class="included-item">
+                <i class="fas fa-book"></i>
+                <h4>Installation Guide</h4>
+                <p>Step-by-step documentation with screenshots</p>
+            </div>
+            <div class="included-item">
+                <i class="fas fa-sync-alt"></i>
+                <h4>Lifetime Updates</h4>
+                <p>All future bug fixes, security patches, and feature updates</p>
+            </div>
+            <div class="included-item">
+                <i class="fas fa-headset"></i>
+                <h4>12 Months Support</h4>
+                <p>Priority email support with 24-hour response time</p>
+            </div>
+            <div class="included-item">
+                <i class="fas fa-database"></i>
+                <h4>Demo Data</h4>
+                <p>Sample categories, tags, folders, and documents to get started</p>
+            </div>
+            <div class="included-item">
+                <i class="fas fa-robot"></i>
+                <h4>AI Configuration</h4>
+                <p>Pre-configured AI categories, keywords, and tagging rules</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TARGET AUDIENCE -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section" style="background: #f8fafc;">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">Who Is This For?</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">Perfect for organizations of all sizes</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-building" style="font-size:28px; color:#6366f1; margin-bottom:10px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Enterprises</h4>
+                <p style="font-size:12px; color:#64748b;">Manage thousands of documents across departments with AI-powered organization</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-user-tie" style="font-size:28px; color:#059669; margin-bottom:10px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Legal &amp; Compliance</h4>
+                <p style="font-size:12px; color:#64748b;">Manage contracts, agreements, and legal documents with approval workflows</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-chart-line" style="font-size:28px; color:#d97706; margin-bottom:10px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Finance &amp; Accounting</h4>
+                <p style="font-size:12px; color:#64748b;">Automatically categorize invoices, receipts, and financial reports</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-users" style="font-size:28px; color:#7c3aed; margin-bottom:10px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">HR Teams</h4>
+                <p style="font-size:12px; color:#64748b;">Manage employee documents, contracts, and HR records with smart search</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-code" style="font-size:28px; color:#db2777; margin-bottom:10px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Odoo Partners</h4>
+                <p style="font-size:12px; color:#64748b;">Add AI-powered document management to your client implementations</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; text-align:center;">
+                <i class="fas fa-school" style="font-size:28px; color:#0d9488; margin-bottom:10px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Educational &amp; Non-Profit</h4>
+                <p style="font-size:12px; color:#64748b;">Organize research, grants, and organizational documents efficiently</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- FAQ -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section">
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">Common questions about Smart Document AI</p>
+        </div>
+
+        <div class="faq-item active">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-robot" style="color:#6366f1; margin-right:12px;"></i>How does AI auto-categorization work?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">The AI analyzes document content, file name, and metadata to match against predefined category keywords. It learns from your manual corrections and improves over time. Categories can be configured with custom keywords and allowed file extensions.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-clone" style="color:#d97706; margin-right:12px;"></i>How does duplicate detection work?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Documents are compared using SHA-256 hash for exact duplicates and content-similarity algorithms for near-duplicates. When a duplicate is detected, you can merge documents, keep only the primary version, or archive duplicates.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-search" style="color:#059669; margin-right:12px;"></i>What does full-text search include?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Full-text search indexes document names, file names, extracted text (OCR from PDFs and images), document summaries, and keywords. The search supports fuzzy matching for typo tolerance and relevance ranking.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-file-alt" style="color:#7c3aed; margin-right:12px;"></i>What file formats are supported?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Supported formats include: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT, JPG, JPEG, PNG, TIFF, and ZIP. OCR extraction works for PDFs and image files.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-shield-alt" style="color:#0d9488; margin-right:12px;"></i>How is document security handled?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Documents support four access levels: Private, Internal, Department, and Public. Granular user permissions and record rules control access. Full audit trail tracks views, downloads, and modifications.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-code-fork" style="color:#db2777; margin-right:12px;"></i>Is version control supported?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Yes, documents support full version history. You can create new versions, track changes, and view previous versions. Each version is linked to its parent for complete traceability.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-cloud-upload-alt" style="color:#4f46e5; margin-right:12px;"></i>Does it work with Odoo Community Edition?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Yes! Smart Document AI works perfectly on both Odoo Community and Enterprise editions. All features are fully functional on Community Edition.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-paint-brush" style="color:#dc2626; margin-right:12px;"></i>Can I customize the module?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Absolutely. The module is built with standard Odoo patterns and is fully customizable. You can modify views, add fields, extend models, and integrate with other modules.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question" onclick="this.parentElement.classList.toggle('active')">
+                <span><i class="fas fa-headset" style="color:#f59e0b; margin-right:12px;"></i>What support is included?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="answer">Your purchase includes 12 months of priority email support with a 24-hour response time on business days. We also provide 12 months of free updates including bug fixes and security patches.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- CTA / PRICING -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section" id="pricing" style="background: #f8fafc;">
+    <div class="container">
+        <div class="cta-section">
+            <h2><i class="fas fa-rocket" style="margin-right:12px;"></i>Ready to Transform Your Document Management?</h2>
+            <p>Unlock the power of AI-driven document management. Automate categorization, detect duplicates, and find any document instantly.</p>
+            <div class="price-large">$89 USD</div>
+            <div class="price-small">One-time payment · Lifetime access · 12 months support</div>
+            <div style="margin: 16px 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; font-size: 14px; color: #cbd5e1;">
+                <span><i class="fas fa-check-circle" style="color:#059669; margin-right:6px;"></i>Full Module</span>
+                <span><i class="fas fa-check-circle" style="color:#059669; margin-right:6px;"></i>Arabic Translation</span>
+                <span><i class="fas fa-check-circle" style="color:#059669; margin-right:6px;"></i>12 Months Updates</span>
+                <span><i class="fas fa-check-circle" style="color:#059669; margin-right:6px;"></i>Priority Support</span>
+                <span><i class="fas fa-check-circle" style="color:#059669; margin-right:6px;"></i>30-Day Guarantee</span>
+            </div>
+            <a href="#" class="btn-primary" style="display:inline-block; padding:14px 48px; font-size:18px;">
+                <i class="fas fa-shopping-cart" style="margin-right:10px;"></i>Buy Now on Odoo App Store
+            </a>
+            <p style="font-size:13px; color:#94a3b8; margin-top:16px;">After purchase, you'll receive an instant download link and installation guide.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SUPPORT -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section class="section">
+    <div class="container" style="text-align: center;">
+        <h2 class="section-title">Need Help?</h2>
+        <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">We're here to help you get the most out of Smart Document AI</p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 24px;">
+            <div style="background: white; border-radius:12px; padding:24px; border:1px solid #e2e8f0; min-width:200px;">
+                <i class="fas fa-envelope" style="font-size:28px; color:#6366f1; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Email Support</h4>
+                <p style="font-size:13px; color:#64748b;"><a href="mailto:wazirfreelancer@gmail.com" style="color:#6366f1; text-decoration:none;">wazirfreelancer@gmail.com</a></p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:24px; border:1px solid #e2e8f0; min-width:200px;">
+                <i class="fas fa-clock" style="font-size:28px; color:#059669; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Response Time</h4>
+                <p style="font-size:13px; color:#64748b;">12-24 hours (Sunday-Thursday)</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:24px; border:1px solid #e2e8f0; min-width:200px;">
+                <i class="fas fa-ticket-alt" style="font-size:28px; color:#d97706; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Ticket System</h4>
+                <p style="font-size:13px; color:#64748b;">Use Odoo App Store ticket system</p>
+            </div>
+            <div style="background: white; border-radius:12px; padding:24px; border:1px solid #e2e8f0; min-width:200px;">
+                <i class="fas fa-book" style="font-size:28px; color:#7c3aed; margin-bottom:8px;"></i>
+                <h4 style="font-size:14px; font-weight:600;">Documentation</h4>
+                <p style="font-size:13px; color:#64748b;">Detailed installation guide included</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+    <div class="container">
+        <div class="social">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-x-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p>Smart Document AI — Developed by Wazirz | Odoo 17 Ready | Made for Modern Document Management</p>
+        <p style="margin-top:8px;">© 2026 Smart Document AI. All rights reserved. | <a href="#">Terms</a> | <a href="#">Privacy</a></p>
+    </div>
+</footer>
+
+<!-- ─── FAQ Accordion Script ─── -->
+<script>
+    document.querySelectorAll('.faq-item .question').forEach(function(q) {
+        q.addEventListener('click', function() {
+            var parent = this.parentElement;
+            parent.classList.toggle('active');
+            var icon = this.querySelector('i:last-child');
+            if (parent.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

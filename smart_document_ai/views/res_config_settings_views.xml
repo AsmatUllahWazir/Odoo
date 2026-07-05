@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.smart.document</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Smart Document AI" string="Smart Document AI" name="smart_document_ai" logo="/smart_document_ai/static/description/icon.png">
+                    <block title="AI &amp; Automation" name="ai_automation">
+                        <setting id="auto_categorize" string="Auto-Categorization" help="Automatically categorize documents when uploaded">
+                            <field name="document_auto_categorize"/>
+                        </setting>
+                        <setting id="auto_tag" string="Auto-Tagging" help="Automatically generate tags from document content">
+                            <field name="document_auto_tag"/>
+                        </setting>
+                        <setting id="duplicate_check" string="Duplicate Detection" help="Warn users when uploading duplicate documents">
+                            <field name="document_duplicate_check"/>
+                        </setting>
+                    </block>
+                    <block title="Storage Settings" name="storage_settings">
+                        <setting id="max_size" string="Maximum File Size" help="Maximum allowed file size in megabytes">
+                            <field name="document_max_size"/>
+                        </setting>
+                        <setting id="allowed_extensions" string="Allowed Extensions" help="Comma-separated list of allowed file extensions">
+                            <field name="document_allowed_extensions"/>
+                        </setting>
+                    </block>
+                    <block title="Retention &amp; Archival" name="retention">
+                        <setting id="retention_days" string="Default Retention Period" help="Default days to retain documents before archival">
+                            <field name="document_retention_days"/>
+                        </setting>
+                        <setting id="auto_archive" string="Auto-Archive" help="Automatically archive expired documents">
+                            <field name="document_auto_archive"/>
+                        </setting>
+                    </block>
+                    <block title="Notifications" name="notifications">
+                        <setting id="notify_expiration" string="Expiration Warnings" help="Send notifications before documents expire">
+                            <field name="document_notify_expiration"/>
+                        </setting>
+                        <setting id="notify_days" string="Days Before" help="How many days before expiration to notify">
+                            <field name="document_notify_days_before"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

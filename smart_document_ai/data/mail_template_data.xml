@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Document Expiration Notification -->
+        <record id="mail_template_document_expiration" model="mail.template">
+            <field name="name">Smart Document: Expiration Warning</field>
+            <field name="model_id" ref="model_smart_document"/>
+            <field name="subject">Document Expiring Soon: {{ object.name }}</field>
+            <field name="email_from">{{ (object.owner_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.owner_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear {{ object.owner_id.name }},<br/><br/>
+                        This is a reminder that the following document is expiring soon:<br/><br/>
+                        <strong>Document:</strong> {{ object.name }}<br/>
+                        <strong>Category:</strong> {{ object.category_id.name or 'Uncategorized' }}<br/>
+                        <strong>Expiration Date:</strong> {{ object.expiration_date }}<br/>
+                        <strong>Days Remaining:</strong> {{ (object.expiration_date - context_today()).days }}<br/><br/>
+                        Please review and take appropriate action.<br/><br/>
+                        Best regards,<br/>
+                        Smart Document AI System
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.owner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Duplicate Detection Notification -->
+        <record id="mail_template_duplicate_detected" model="mail.template">
+            <field name="name">Smart Document: Duplicate Detected</field>
+            <field name="model_id" ref="model_smart_document"/>
+            <field name="subject">Duplicate Document Detected: {{ object.name }}</field>
+            <field name="email_from">{{ (user.email_formatted) }}</field>
+            <field name="email_to">{{ object.owner_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear {{ object.owner_id.name }},<br/><br/>
+                        A duplicate document has been detected:<br/><br/>
+                        <strong>Document:</strong> {{ object.name }}<br/>
+                        <strong>Duplicate Count:</strong> {{ object.duplicate_count }}<br/><br/>
+                        You can review and merge duplicates from the document view.<br/><br/>
+                        Best regards,<br/>
+                        Smart Document AI System
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.owner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

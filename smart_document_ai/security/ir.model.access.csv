@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_smart_document_user,smart.document.user,model_smart_document,group_smart_document_user,1,0,1,0
+access_smart_document_manager,smart.document.manager,model_smart_document,group_smart_document_manager,1,1,1,0
+access_smart_document_admin,smart.document.admin,model_smart_document,group_smart_document_admin,1,1,1,1
+access_document_category_user,document.category.user,model_document_category,group_smart_document_user,1,0,0,0
+access_document_category_manager,document.category.manager,model_document_category,group_smart_document_manager,1,1,1,0
+access_document_category_admin,document.category.admin,model_document_category,group_smart_document_admin,1,1,1,1
+access_document_tag_user,document.tag.user,model_document_tag,group_smart_document_user,1,0,0,0
+access_document_tag_manager,document.tag.manager,model_document_tag,group_smart_document_manager,1,1,1,0
+access_document_tag_admin,document.tag.admin,model_document_tag,group_smart_document_admin,1,1,1,1
+access_document_folder_user,document.folder.user,model_document_folder,group_smart_document_user,1,0,0,0
+access_document_folder_manager,document.folder.manager,model_document_folder,group_smart_document_manager,1,1,1,0
+access_document_folder_admin,document.folder.admin,model_document_folder,group_smart_document_admin,1,1,1,1
+access_document_analytics_user,document.analytics.user,model_document_analytics,group_smart_document_user,1,0,0,0
+access_document_analytics_manager,document.analytics.manager,model_document_analytics,group_smart_document_manager,1,0,0,0
+access_document_storage_analytics_user,document.storage.analytics.user,model_document_storage_analytics,group_smart_document_user,1,0,0,0
+access_document_storage_analytics_manager,document.storage.analytics.manager,model_document_storage_analytics,group_smart_document_manager,1,0,0,0

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ─── Search View ─── -->
+    <record id="view_smart_document_search" model="ir.ui.view">
+        <field name="name">smart.document.search</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Document Name" filter_domain="['|', '|', '|', ('name', 'ilike', self), ('file_name', 'ilike', self), ('extracted_text', 'ilike', self), ('keywords', 'ilike', self)]"/>
+                <field name="category_id"/>
+                <field name="folder_id"/>
+                <field name="tag_ids"/>
+                <field name="owner_id"/>
+                <field name="partner_id"/>
+                <field name="is_duplicate" invisible="1"/>
+                <field name="extracted_text" string="Content" filter_domain="[('extracted_text', 'ilike', self)]"/>
+
+                <filter name="my_documents" string="My Documents" domain="[('owner_id', '=', uid)]"/>
+                <filter name="favorites" string="Favorites" domain="[('is_favorite', '=', True)]"/>
+                <filter name="duplicates" string="Duplicates" domain="[('is_duplicate', '=', True)]"/>
+                <filter name="expired" string="Expired" domain="[('is_expired', '=', True)]"/>
+                <filter name="expiring_soon" string="Expiring Soon" domain="[('expiration_date', '&lt;=', context_today() + relativedelta(days=7)), ('expiration_date', '&gt;=', context_today())]"/>
+
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="review" string="Under Review" domain="[('state', '=', 'review')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="archived" string="Archived" domain="[('state', '=', 'archived')]"/>
+
+                <separator/>
+                <filter name="today" string="Today" domain="[('create_date', '&gt;=', context_today())]"/>
+                <filter name="this_week" string="This Week" domain="[('create_date', '&gt;=', context_today() + relativedelta(days=-7))]"/>
+                <filter name="this_month" string="This Month" domain="[('create_date', '&gt;=', context_today() + relativedelta(months=-1))]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Category" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_folder" string="Folder" context="{'group_by': 'folder_id'}"/>
+                    <filter name="group_owner" string="Owner" context="{'group_by': 'owner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_type" string="File Type" context="{'group_by': 'file_type'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'create_date:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ─── Kanban View ─── -->
+    <record id="view_smart_document_kanban" model="ir.ui.view">
+        <field name="name">smart.document.kanban</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="category_id" records_draggable="0">
+                <field name="name"/>
+                <field name="file_name"/>
+                <field name="file_type"/>
+                <field name="file_size_human"/>
+                <field name="category_id"/>
+                <field name="folder_id"/>
+                <field name="tag_ids"/>
+                <field name="state"/>
+                <field name="is_favorite"/>
+                <field name="is_duplicate"/>
+                <field name="owner_id"/>
+                <field name="create_date"/>
+                <field name="file_extension"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click" t-attf-style="border-left: 4px solid {{ record.category_id.raw_value ? '#875A7B' : '#CCCCCC' }};">
+                            <div class="o_kanban_content">
+                                <div class="o_kanban_record_top mb-2">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <span t-esc="record.name.value" class="text-truncate d-block" style="max-width: 200px;"/>
+                                        </strong>
+                                    </div>
+                                    <div class="o_kanban_record_buttons">
+                                        <a type="object" name="action_toggle_favorite" class="oe_kanban_action oe_kanban_action_a">
+                                            <i t-att-class="record.is_favorite.raw_value ? 'fa fa-star text-warning' : 'fa fa-star-o text-muted'"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <i t-att-class="'fa fa-file-' + (record.file_extension.raw_value == 'pdf' ? 'pdf-o text-danger' : record.file_extension.raw_value == 'doc' || record.file_extension.raw_value == 'docx' ? 'word-o text-primary' : record.file_extension.raw_value == 'xls' || record.file_extension.raw_value == 'xlsx' ? 'excel-o text-success' : 'o text-muted')" class="fa fa-lg mr-2"/>
+                                        <span class="text-muted small" t-esc="record.file_name.value"/>
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-1 mb-1">
+                                        <span t-if="record.category_id.raw_value" class="badge badge-pill" t-attf-style="background-color: {{ record.category_id.raw_value ? '#875A7B' : '#CCCCCC' }}; color: white; font-size: 0.75rem;">
+                                            <t t-esc="record.category_id.value"/>
+                                        </span>
+                                        <span t-if="record.is_duplicate.raw_value" class="badge badge-pill badge-warning" style="font-size: 0.75rem;">
+                                            <i class="fa fa-clone mr-1"/>Duplicate
+                                        </span>
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <t t-foreach="record.tag_ids.raw_value" t-as="tag">
+                                            <span class="badge badge-light" style="font-size: 0.7rem;">
+                                                <t t-esc="tag"/>
+                                            </span>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom mt-2">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span class="text-muted small">
+                                            <i class="fa fa-hdd-o mr-1"/><t t-esc="record.file_size_human.value"/>
+                                        </span>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <span t-attf-class="badge {{ record.state.raw_value == 'approved' ? 'badge-success' : record.state.raw_value == 'review' ? 'badge-warning' : record.state.raw_value == 'rejected' ? 'badge-danger' : record.state.raw_value == 'archived' ? 'badge-secondary' : 'badge-info' }}" style="font-size: 0.7rem;">
+                                            <t t-esc="record.state.value"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ─── Tree View ─── -->
+    <record id="view_smart_document_tree" model="ir.ui.view">
+        <field name="name">smart.document.tree</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <tree string="Documents" decoration-muted="state == 'archived'" decoration-danger="is_expired == True" decoration-warning="is_duplicate == True">
+                <field name="name"/>
+                <field name="file_name"/>
+                <field name="file_type"/>
+                <field name="file_size_human"/>
+                <field name="category_id" optional="show"/>
+                <field name="folder_id" optional="show"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                <field name="owner_id" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-warning="state == 'review'" decoration-danger="state == 'rejected'" decoration-muted="state == 'archived'" optional="show"/>
+                <field name="is_favorite" widget="boolean_toggle" optional="show"/>
+                <field name="is_duplicate" optional="hide"/>
+                <field name="is_expired" optional="hide"/>
+                <field name="expiration_date" optional="hide"/>
+                <field name="download_count" optional="hide"/>
+                <field name="view_count" optional="hide"/>
+                <field name="create_date" optional="show"/>
+                <button name="action_download" type="object" icon="fa-download" string="Download" title="Download" class="btn-link"/>
+                <button name="action_preview" type="object" icon="fa-eye" string="Preview" title="Preview" class="btn-link"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ─── Form View ─── -->
+    <record id="view_smart_document_form" model="ir.ui.view">
+        <field name="name">smart.document.form</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <form string="Smart Document">
+                <header>
+                    <field name="is_duplicate" invisible="1"/>
+                    <button name="action_submit_for_review" string="Submit for Review" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="state != 'review'" groups="smart_document_ai.group_smart_document_manager"/>
+                    <button name="action_reject" string="Reject" type="object"  invisible="state != 'review'" groups="smart_document_ai.group_smart_document_manager"/>
+                    <button name="action_archive" string="Archive" type="object" invisible="state not in ['draft', 'review', 'approved']"/>
+                    <button name="action_restore" string="Restore" type="object" invisible="state not in ['archived', 'archived']"/>
+                    <button name="action_create_new_version" string="New Version" type="object" icon="fa-code-fork" invisible="state != 'approved'"/>
+                    <button name="action_auto_categorize" string="Auto-Categorize" type="object" icon="fa-magic"/>
+                    <button name="action_merge_duplicates" string="Merge Duplicates" type="object" icon="fa-compress" invisible="not is_duplicate"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,review,approved,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_toggle_favorite" type="object" class="oe_stat_button" icon="fa-star">
+                            <field name="is_favorite" widget="boolean_button" options="{'terminology': 'favorite'}"/>
+                        </button>
+                        <button name="action_find_duplicates" type="object" class="oe_stat_button" icon="fa-clone" invisible="not is_duplicate">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="duplicate_count"/></span>
+                                <span class="o_stat_text">Duplicates</span>
+                            </div>
+                        </button>
+                        <button name="action_download" type="object" class="oe_stat_button" icon="fa-download">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="download_count"/></span>
+                                <span class="o_stat_text">Downloads</span>
+                            </div>
+                        </button>
+                        <button name="action_preview" type="object" class="oe_stat_button" icon="fa-eye">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="view_count"/></span>
+                                <span class="o_stat_text">Views</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Document Name..."/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="file" filename="file_name" widget="binary"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="file_type"/>
+                            <field name="file_size_human"/>
+                            <field name="file_hash" readonly="1" groups="smart_document_ai.group_smart_document_admin"/>
+                        </group>
+                        <group>
+                            <field name="category_id" options="{'no_create': True}"/>
+                            <field name="category_confidence" readonly="1" widget="progressbar" invisible="category_confidence == 0"/>
+                            <field name="folder_id" options="{'no_create': True}"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" widget="html" options="{'style-inline': true}"/>
+                        </page>
+                        <page string="AI Analysis" name="ai_analysis" groups="smart_document_ai.group_smart_document_manager">
+                            <group>
+                                <field name="extracted_text" readonly="1" widget="text" placeholder="OCR-extracted text will appear here..."/>
+                                <field name="document_summary" readonly="1" placeholder="AI-generated summary..."/>
+                                <field name="keywords" readonly="1"/>
+                                <field name="detected_language" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Security &amp; Access" name="security">
+                            <group>
+                                <group string="Ownership">
+                                    <field name="owner_id" options="{'no_create': True}"/>
+                                    <field name="access_level" widget="radio"/>
+                                </group>
+                                <group string="Access Control">
+                                    <field name="allowed_user_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Related Records" name="related">
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="related_record_ref"/>
+                                <field name="expiration_date" invisible="not expiration_date"/>
+                                <field name="is_expired" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Version History" name="versions">
+                            <group>
+                                <field name="version" readonly="1"/>
+                                <field name="parent_document_id" readonly="1"/>
+                            </group>
+                            <field name="child_document_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="version"/>
+                                    <field name="create_date"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Statistics" name="stats">
+                            <group>
+                                <field name="download_count" readonly="1"/>
+                                <field name="view_count" readonly="1"/>
+                                <field name="last_accessed" readonly="1"/>
+                                <field name="last_accessed_by" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ─── Activity View ─── -->
+    <record id="view_smart_document_activity" model="ir.ui.view">
+        <field name="name">smart.document.activity</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <activity string="Document Activities">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="state"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="name" display="full"/>
+                            <field name="category_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <!-- ─── Pivot View ─── -->
+    <record id="view_smart_document_pivot" model="ir.ui.view">
+        <field name="name">smart.document.pivot</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <pivot string="Document Analysis">
+                <field name="category_id" type="row"/>
+                <field name="file_type" type="col"/>
+                <field name="file_size" type="measure"/>
+                <field name="download_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ─── Graph View ─── -->
+    <record id="view_smart_document_graph" model="ir.ui.view">
+        <field name="name">smart.document.graph</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <graph string="Documents by Category" type="pie">
+                <field name="category_id"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ─── Calendar View ─── -->
+    <record id="view_smart_document_calendar" model="ir.ui.view">
+        <field name="name">smart.document.calendar</field>
+        <field name="model">smart.document</field>
+        <field name="arch" type="xml">
+            <calendar string="Document Calendar" date_start="create_date" color="category_id">
+                <field name="name"/>
+                <field name="file_type"/>
+                <field name="owner_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ─── Action ─── -->
+    <record id="action_smart_document" model="ir.actions.act_window">
+        <field name="name">Smart Documents</field>
+        <field name="res_model">smart.document</field>
+        <field name="view_mode">kanban,tree,form,activity,pivot,graph,calendar</field>
+        <field name="search_view_id" ref="view_smart_document_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Upload your first smart document!
+            </p>
+            <p>
+                Smart Document AI will automatically categorize, tag, and organize your documents.
+                Use the upload button or drag and drop files to get started.
+            </p>
+        </field>
+    </record>
+
+    <!-- ─── Action: My Documents ─── -->
+    <record id="action_my_documents" model="ir.actions.act_window">
+        <field name="name">My Documents</field>
+        <field name="res_model">smart.document</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('owner_id', '=', uid)]</field>
+        <field name="search_view_id" ref="view_smart_document_search"/>
+    </record>
+
+    <!-- ─── Action: Favorites ─── -->
+    <record id="action_favorite_documents" model="ir.actions.act_window">
+        <field name="name">Favorites</field>
+        <field name="res_model">smart.document</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('is_favorite', '=', True)]</field>
+        <field name="search_view_id" ref="view_smart_document_search"/>
+    </record>
+
+    <!-- ─── Action: Duplicates ─── -->
+    <record id="action_duplicate_documents" model="ir.actions.act_window">
+        <field name="name">Duplicate Documents</field>
+        <field name="res_model">smart.document</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('is_duplicate', '=', True)]</field>
+        <field name="search_view_id" ref="view_smart_document_search"/>
+    </record>
+
+    <!-- ─── Action: Expiring Soon ─── -->
+    <record id="action_expiring_documents" model="ir.actions.act_window">
+        <field name="name">Expiring Soon</field>
+        <field name="res_model">smart.document</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('expiration_date', '&lt;=', context_today() + relativedelta(days=7)), ('expiration_date', '&gt;=', context_today())]</field>
+        <field name="search_view_id" ref="view_smart_document_search"/>
+    </record>
+</odoo>

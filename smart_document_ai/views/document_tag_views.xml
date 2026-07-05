@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_tag_tree" model="ir.ui.view">
+        <field name="name">document.tag.tree</field>
+        <field name="model">document.tag</field>
+        <field name="arch" type="xml">
+            <tree string="Document Tags" editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+                <field name="document_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_document_tag_form" model="ir.ui.view">
+        <field name="name">document.tag.form</field>
+        <field name="model">document.tag</field>
+        <field name="arch" type="xml">
+            <form string="Document Tag">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="color" widget="color_picker"/>
+                        <field name="description"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                    <group>
+                        <field name="document_count" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_document_tag_search" model="ir.ui.view">
+        <field name="name">document.tag.search</field>
+        <field name="model">document.tag</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_document_tag" model="ir.actions.act_window">
+        <field name="name">Document Tags</field>
+        <field name="res_model">document.tag</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_document_tag_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first document tag!
+            </p>
+            <p>
+                Tags help you quickly find and organize related documents.
+            </p>
+        </field>
+    </record>
+</odoo>

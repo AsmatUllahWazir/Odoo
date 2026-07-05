@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_analytics_pivot" model="ir.ui.view">
+        <field name="name">document.analytics.pivot</field>
+        <field name="model">document.analytics</field>
+        <field name="arch" type="xml">
+            <pivot string="Document Analytics">
+                <field name="date" type="row" interval="week"/>
+                <field name="category_id" type="col"/>
+                <field name="upload_count" type="measure"/>
+                <field name="download_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_document_analytics_graph" model="ir.ui.view">
+        <field name="name">document.analytics.graph</field>
+        <field name="model">document.analytics</field>
+        <field name="arch" type="xml">
+            <graph string="Document Upload Trends" type="line">
+                <field name="date" interval="week"/>
+                <field name="upload_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_document_storage_analytics_tree" model="ir.ui.view">
+        <field name="name">document.storage.analytics.tree</field>
+        <field name="model">document.storage.analytics</field>
+        <field name="arch" type="xml">
+            <tree string="Storage Analytics">
+                <field name="category_id"/>
+                <field name="folder_id"/>
+                <field name="file_type"/>
+                <field name="document_count"/>
+                <field name="total_size"/>
+                <field name="avg_size"/>
+                <field name="duplicate_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_document_analytics" model="ir.actions.act_window">
+        <field name="name">Document Analytics</field>
+        <field name="res_model">document.analytics</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+
+    <record id="action_document_storage_analytics" model="ir.actions.act_window">
+        <field name="name">Storage Analytics</field>
+        <field name="res_model">document.storage.analytics</field>
+        <field name="view_mode">tree,pivot,graph</field>
+    </record>
+</odoo>

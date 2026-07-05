@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Folders -->
+        <record id="demo_folder_finance" model="document.folder">
+            <field name="name">Finance</field>
+            <field name="description">Financial documents and reports</field>
+            <field name="icon">fa-money</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="demo_folder_hr" model="document.folder">
+            <field name="name">Human Resources</field>
+            <field name="description">Employee documents and HR records</field>
+            <field name="icon">fa-users</field>
+            <field name="color">4</field>
+        </record>
+
+        <!-- Demo Documents -->
+        <record id="demo_doc_invoice" model="smart.document">
+            <field name="name">Sample Invoice #001</field>
+            <field name="file_name">sample_invoice.pdf</field>
+            <field name="category_id" ref="category_invoice"/>
+            <field name="folder_id" ref="demo_folder_finance"/>
+            <field name="tag_ids" eval="[(6,0,[ref('tag_urgent'), ref('tag_pending')])]"/>
+            <field name="description"><![CDATA[<p>Sample invoice for demonstration purposes.</p>]]></field>
+            <field name="state">approved</field>
+            <field name="access_level">internal</field>
+        </record>
+
+        <record id="demo_doc_contract" model="smart.document">
+            <field name="name">Employment Contract Template</field>
+            <field name="file_name">employment_contract.docx</field>
+            <field name="category_id" ref="category_contract"/>
+            <field name="folder_id" ref="demo_folder_hr"/>
+            <field name="tag_ids" eval="[(6,0,[ref('tag_confidential')])]"/>
+            <field name="description"><![CDATA[<p>Standard employment contract template.</p>]]></field>
+            <field name="state">approved</field>
+            <field name="access_level">department</field>
+        </record>
+    </data>
+</odoo>

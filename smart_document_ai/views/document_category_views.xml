@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_category_tree" model="ir.ui.view">
+        <field name="name">document.category.tree</field>
+        <field name="model">document.category</field>
+        <field name="arch" type="xml">
+            <tree string="Document Categories">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="icon" widget="icon_selection"/>
+                <field name="document_count"/>
+                <field name="requires_approval"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_document_category_form" model="ir.ui.view">
+        <field name="name">document.category.form</field>
+        <field name="model">document.category</field>
+        <field name="arch" type="xml">
+            <form string="Document Category">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Category Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="icon"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="requires_approval"/>
+                            <field name="retention_days"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="AI Configuration" name="ai_config">
+                            <group>
+                                <field name="keywords" placeholder="invoice, bill, payment, receipt..."/>
+                                <field name="allowed_extensions" placeholder="pdf, docx, xlsx..."/>
+                                <field name="auto_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <i class="fa fa-info-circle mr-2"/>
+                                <strong>Tip:</strong> Add relevant keywords separated by commas. The AI will use these to auto-categorize documents.
+                            </div>
+                        </page>
+                        <page string="Approvers" name="approvers" invisible="not requires_approval">
+                            <field name="approver_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        </page>
+                        <page string="Subcategories" name="subcategories">
+                            <field name="child_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="sequence" widget="handle"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Documents" name="documents">
+                            <field name="document_count" readonly="1"/>
+                            <button name="%(action_smart_document)d" type="action" string="View Documents" class="btn-primary" context="{'search_default_group_category': 1, 'search_default_category_id': active_id}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_document_category_search" model="ir.ui.view">
+        <field name="name">document.category.search</field>
+        <field name="model">document.category</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_document_category" model="ir.actions.act_window">
+        <field name="name">Document Categories</field>
+        <field name="res_model">document.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_document_category_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first document category!
+            </p>
+            <p>
+                Categories help organize documents and power the AI auto-categorization engine.
+            </p>
+        </field>
+    </record>
+</odoo>

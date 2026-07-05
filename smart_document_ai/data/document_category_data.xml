@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default Document Categories -->
+        <record id="category_invoice" model="document.category">
+            <field name="name">Invoice</field>
+            <field name="code">INVOICE</field>
+            <field name="description">Invoices, bills, and payment documents</field>
+            <field name="keywords">invoice, bill, payment, receipt, billing, charge, due, amount, total, tax, vat</field>
+            <field name="allowed_extensions">pdf,doc,docx,xls,xlsx</field>
+            <field name="color">1</field>
+            <field name="icon">fa-file-text-o</field>
+            <field name="retention_days">2555</field>
+            <field name="requires_approval">True</field>
+        </record>
+
+        <record id="category_contract" model="document.category">
+            <field name="name">Contract</field>
+            <field name="code">CONTRACT</field>
+            <field name="description">Contracts, agreements, and legal documents</field>
+            <field name="keywords">contract, agreement, terms, conditions, legal, clause, party, signature, bind, obligation</field>
+            <field name="allowed_extensions">pdf,doc,docx</field>
+            <field name="color">2</field>
+            <field name="icon">fa-file-text-o</field>
+            <field name="retention_days">3650</field>
+            <field name="requires_approval">True</field>
+        </record>
+
+        <record id="category_report" model="document.category">
+            <field name="name">Report</field>
+            <field name="code">REPORT</field>
+            <field name="description">Business reports, analytics, and summaries</field>
+            <field name="keywords">report, analysis, summary, metrics, kpi, performance, review, quarterly, annual, dashboard</field>
+            <field name="allowed_extensions">pdf,doc,docx,xls,xlsx,ppt,pptx</field>
+            <field name="color">3</field>
+            <field name="icon">fa-bar-chart</field>
+            <field name="retention_days">1825</field>
+        </record>
+
+        <record id="category_hr" model="document.category">
+            <field name="name">HR Document</field>
+            <field name="code">HR_DOC</field>
+            <field name="description">HR-related documents, resumes, and employee files</field>
+            <field name="keywords">resume, cv, employee, hr, personnel, hiring, interview, salary, payroll, benefits, leave, vacation</field>
+            <field name="allowed_extensions">pdf,doc,docx</field>
+            <field name="color">4</field>
+            <field name="icon">fa-user</field>
+            <field name="retention_days">2555</field>
+            <field name="requires_approval">True</field>
+        </record>
+
+        <record id="category_receipt" model="document.category">
+            <field name="name">Receipt</field>
+            <field name="code">RECEIPT</field>
+            <field name="description">Purchase receipts and expense proofs</field>
+            <field name="keywords">receipt, purchase, expense, proof, transaction, paid, store, shop, item, bought</field>
+            <field name="allowed_extensions">pdf,jpg,jpeg,png</field>
+            <field name="color">5</field>
+            <field name="icon">fa-shopping-cart</field>
+            <field name="retention_days">1095</field>
+        </record>
+
+        <record id="category_legal" model="document.category">
+            <field name="name">Legal</field>
+            <field name="code">LEGAL</field>
+            <field name="description">Legal documents, licenses, and compliance</field>
+            <field name="keywords">legal, license, permit, compliance, regulation, law, policy, procedure, guideline, certification</field>
+            <field name="allowed_extensions">pdf,doc,docx</field>
+            <field name="color">6</field>
+            <field name="icon">fa-gavel</field>
+            <field name="retention_days">3650</field>
+            <field name="requires_approval">True</field>
+        </record>
+
+        <record id="category_marketing" model="document.category">
+            <field name="name">Marketing</field>
+            <field name="code">MARKETING</field>
+            <field name="description">Marketing materials, brochures, and campaigns</field>
+            <field name="keywords">marketing, brochure, campaign, advertisement, promo, flyer, poster, social, media, brand</field>
+            <field name="allowed_extensions">pdf,ppt,pptx,jpg,jpeg,png</field>
+            <field name="color">7</field>
+            <field name="icon">fa-bullhorn</field>
+            <field name="retention_days">730</field>
+        </record>
+
+        <record id="category_technical" model="document.category">
+            <field name="name">Technical</field>
+            <field name="code">TECHNICAL</field>
+            <field name="description">Technical specifications, manuals, and documentation</field>
+            <field name="keywords">technical, specification, manual, documentation, api, code, schema, architecture, design, blueprint</field>
+            <field name="allowed_extensions">pdf,doc,docx,txt</field>
+            <field name="color">8</field>
+            <field name="icon">fa-cogs</field>
+            <field name="retention_days">1825</field>
+        </record>
+
+        <record id="category_misc" model="document.category">
+            <field name="name">Miscellaneous</field>
+            <field name="code">MISC</field>
+            <field name="description">Uncategorized and general documents</field>
+            <field name="color">9</field>
+            <field name="icon">fa-file-o</field>
+            <field name="retention_days">365</field>
+        </record>
+    </data>
+</odoo>

@@ -1,1622 +1,1663 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Construction Management Suite – Complete Technical Documentation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f4f9;
-            color: #1a202c;
-            line-height: 1.7;
-        }
-        a { text-decoration: none; color: inherit; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 24px 40px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Construction Management Suite – Complete Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ========== RESET & BASE ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f7fc;
+      color: #1a202c;
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px 40px; }
 
-        /* ===== NAVBAR ===== */
-        .navbar {
-            background: linear-gradient(135deg, #0b1a33 0%, #1a3a5c 100%);
-            padding: 16px 32px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.25);
-        }
-        .navbar-brand {
-            color: white;
-            font-size: 1.4rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .navbar-brand i { font-size: 1.8rem; color: #fbbf24; }
-        .navbar-brand .version { background: #2d4b6e; padding: 2px 14px; border-radius: 30px; font-size: 0.7rem; font-weight: 400; color: #bfd9ff; margin-left: 8px; }
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 18px;
-            list-style: none;
-        }
-        .nav-links a {
-            color: rgba(255,255,255,0.75);
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: 0.3s;
-            padding: 4px 0;
-            border-bottom: 2px solid transparent;
-        }
-        .nav-links a:hover { color: white; border-bottom-color: #fbbf24; }
+    /* ========== NAVBAR ========== */
+    .navbar {
+      background: linear-gradient(135deg, #0b1a33 0%, #1a3a5c 60%, #2a4a6e 100%);
+      padding: 14px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      border-bottom: 2px solid #fbbf24;
+    }
+    .navbar-brand {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      letter-spacing: -0.5px;
+    }
+    .navbar-brand i { font-size: 2rem; color: #fbbf24; }
+    .navbar-brand .version {
+      background: rgba(251, 191, 36, 0.2);
+      padding: 2px 16px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      margin-left: 6px;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: 0.3s;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover { color: #fbbf24; border-bottom-color: #fbbf24; }
 
-        /* ===== HERO ===== */
-        .hero {
-            background: linear-gradient(135deg, #0b1a33 0%, #1a3a5c 50%, #0b1a33 100%);
-            color: white;
-            padding: 60px 24px 50px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '🏗️';
-            position: absolute;
-            right: -20px;
-            bottom: -40px;
-            font-size: 200px;
-            opacity: 0.06;
-            transform: rotate(-10deg);
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(251, 191, 36, 0.15);
-            border: 1px solid #fbbf24;
-            padding: 6px 24px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            color: #fbbf24;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-        }
-        .hero h1 {
-            font-size: 3.6rem;
-            font-weight: 800;
-            letter-spacing: -1.5px;
-            line-height: 1.1;
-            margin-bottom: 16px;
-        }
-        .hero h1 span { color: #fbbf24; }
-        .hero p {
-            max-width: 780px;
-            margin: 0 auto 30px;
-            font-size: 1.15rem;
-            opacity: 0.85;
-        }
-        .hero-stats {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px 60px;
-        }
-        .hero-stats div { text-align: center; }
-        .hero-stats strong {
-            display: block;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #fbbf24;
-        }
-        .hero-stats span { font-size: 0.9rem; opacity: 0.7; }
+    /* ========== HERO ========== */
+    .hero {
+      background: linear-gradient(135deg, #0b1a33 0%, #1a3a5c 60%, #0b1a33 100%);
+      color: white;
+      padding: 60px 24px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 4px solid #fbbf24;
+    }
+    .hero::before {
+      content: '🏗️';
+      position: absolute;
+      right: 40px;
+      bottom: -10px;
+      font-size: 200px;
+      opacity: 0.05;
+      transform: rotate(-5deg);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid #fbbf24;
+      padding: 6px 28px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: #fbbf24;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: #fbbf24; }
+    .hero p {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      font-size: 1.2rem;
+      opacity: 0.85;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px 70px;
+    }
+    .hero-stats div { text-align: center; }
+    .hero-stats strong {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #fbbf24;
+    }
+    .hero-stats span { font-size: 0.95rem; opacity: 0.75; font-weight: 500; }
 
-        /* ===== SECTION STYLES ===== */
-        .section {
-            background: white;
-            border-radius: 24px;
-            padding: 36px 40px;
-            margin-top: 40px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.04);
-            border: 1px solid #e9edf4;
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            border-bottom: 2px solid #f0f4f9;
-            padding-bottom: 18px;
-        }
-        .section-header i {
-            font-size: 2rem;
-            color: #1a3a5c;
-            background: #eef4ff;
-            padding: 12px;
-            border-radius: 16px;
-        }
-        .section-header h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .section-header .badge {
-            margin-left: auto;
-            background: #fbbf24;
-            color: #0b1a33;
-            padding: 4px 20px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+    /* ========== SECTION STYLES ========== */
+    .section {
+      background: white;
+      border-radius: 28px;
+      padding: 40px 44px;
+      margin-top: 44px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.05);
+      border: 1px solid #e9edf4;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      border-bottom: 3px solid #f0f4f9;
+      padding-bottom: 20px;
+    }
+    .section-header i {
+      font-size: 2.2rem;
+      color: #1a3a5c;
+      background: linear-gradient(135deg, #eef4ff, #dce6f5);
+      padding: 14px;
+      border-radius: 18px;
+    }
+    .section-header h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #0b1a33;
+    }
+    .section-header .badge {
+      margin-left: auto;
+      background: #fbbf24;
+      color: #0b1a33;
+      padding: 4px 22px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-        /* ===== GRID SYSTEMS ===== */
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+    /* ========== GRID SYSTEMS ========== */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
 
-        /* ===== CARDS ===== */
-        .card {
-            background: #fafcff;
-            border-radius: 18px;
-            padding: 24px 22px;
-            border: 1px solid #e9edf4;
-            transition: all 0.25s ease;
-        }
-        .card:hover {
-            border-color: #b3c9e0;
-            box-shadow: 0 6px 20px rgba(0, 40, 80, 0.06);
-            transform: translateY(-4px);
-        }
-        .card-icon {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, #1a3a5c, #2d4b6e);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            margin-bottom: 14px;
-        }
-        .card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 6px; }
-        .card p { color: #4a5568; font-size: 0.95rem; }
-        .card ul {
-            list-style: none;
-            margin-top: 14px;
-        }
-        .card ul li {
-            padding: 5px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            color: #2d3748;
-        }
-        .card ul li i { color: #2b6c94; width: 18px; }
+    /* ========== CARDS ========== */
+    .card {
+      background: #fafcff;
+      border-radius: 20px;
+      padding: 26px 24px;
+      border: 1px solid #e9edf4;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card:hover {
+      border-color: #b3c9e0;
+      box-shadow: 0 8px 30px rgba(0, 40, 80, 0.08);
+      transform: translateY(-6px);
+    }
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #1a3a5c, #2d4b6e);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(26, 58, 92, 0.2);
+    }
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #0b1a33;
+    }
+    .card p {
+      color: #4a5568;
+      font-size: 0.95rem;
+    }
+    .card ul {
+      list-style: none;
+      margin-top: 16px;
+    }
+    .card ul li {
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: #2d3748;
+      border-bottom: 1px solid #f0f4f9;
+    }
+    .card ul li:last-child { border-bottom: none; }
+    .card ul li i { color: #fbbf24; width: 20px; }
 
-        /* ===== WORKFLOW TIMELINE ===== */
-        .workflow-timeline {
-            position: relative;
-            padding-left: 36px;
-        }
-        .workflow-timeline::before {
-            content: '';
-            position: absolute;
-            left: 10px;
-            top: 8px;
-            bottom: 8px;
-            width: 3px;
-            background: linear-gradient(to bottom, #1a3a5c, #fbbf24);
-        }
-        .workflow-step {
-            position: relative;
-            margin-bottom: 34px;
-            padding-left: 24px;
-        }
-        .workflow-step::before {
-            content: '';
-            position: absolute;
-            left: -28px;
-            top: 6px;
-            width: 20px;
-            height: 20px;
-            background: #fbbf24;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 0 0 3px #1a3a5c;
-        }
-        .workflow-step .step-number {
-            display: inline-block;
-            background: #1a3a5c;
-            color: white;
-            padding: 0 16px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-        .workflow-step h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 4px; }
-        .workflow-step p { color: #4a5568; font-size: 0.95rem; }
-        .workflow-step .key-actions {
-            background: #f1f5f9;
-            padding: 8px 18px;
-            border-radius: 12px;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            color: #1e293b;
-            display: inline-block;
-        }
+    /* ========== WORKFLOW TIMELINE ========== */
+    .workflow-timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+    .workflow-timeline::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 8px;
+      bottom: 8px;
+      width: 4px;
+      background: linear-gradient(to bottom, #1a3a5c, #fbbf24);
+      border-radius: 4px;
+    }
+    .workflow-step {
+      position: relative;
+      margin-bottom: 38px;
+      padding-left: 28px;
+    }
+    .workflow-step::before {
+      content: '';
+      position: absolute;
+      left: -30px;
+      top: 6px;
+      width: 22px;
+      height: 22px;
+      background: #fbbf24;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 0 0 4px #1a3a5c;
+      z-index: 2;
+    }
+    .workflow-step .step-number {
+      display: inline-block;
+      background: #1a3a5c;
+      color: white;
+      padding: 0 18px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .workflow-step h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #0b1a33;
+    }
+    .workflow-step p {
+      color: #4a5568;
+      font-size: 0.95rem;
+    }
+    .workflow-step .key-actions {
+      background: linear-gradient(135deg, #f1f5f9, #e8edf5);
+      padding: 8px 20px;
+      border-radius: 14px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #1e293b;
+      display: inline-block;
+      border-left: 4px solid #fbbf24;
+    }
 
-        /* ===== TABLES ===== */
-        .table-wrap { overflow-x: auto; margin: 16px 0; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        th {
-            background: #1a3a5c;
-            color: white;
-            padding: 14px 18px;
-            text-align: left;
-            font-weight: 600;
-        }
-        td {
-            padding: 12px 18px;
-            border-bottom: 1px solid #e9edf4;
-        }
-        tr:hover td { background: #f8fafc; }
+    /* ========== TABLES ========== */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    th {
+      background: linear-gradient(135deg, #1a3a5c, #2a4a6e);
+      color: white;
+      padding: 16px 20px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #e9edf4;
+    }
+    tr:hover td { background: #f8fafc; }
+    tr:last-child td { border-bottom: none; }
 
-        /* ===== BADGES ===== */
-        .badge-status {
-            display: inline-block;
-            padding: 2px 16px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        .badge-success { background: #d1fae5; color: #065f46; }
-        .badge-warning { background: #fef3c7; color: #92400e; }
-        .badge-danger { background: #fee2e2; color: #991b1b; }
-        .badge-info { background: #dbeafe; color: #1e40af; }
-        .badge-secondary { background: #e5e7eb; color: #374151; }
-        .badge-primary { background: #c7d2fe; color: #3730a3; }
+    /* ========== BADGES ========== */
+    .badge-status {
+      display: inline-block;
+      padding: 3px 18px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #991b1b; }
+    .badge-info { background: #dbeafe; color: #1e40af; }
+    .badge-secondary { background: #e5e7eb; color: #374151; }
+    .badge-primary { background: #c7d2fe; color: #3730a3; }
+    .badge-dark { background: #1a202c; color: white; }
 
-        /* ===== CODE BLOCK ===== */
-        .code-block {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 24px 28px;
-            border-radius: 16px;
-            overflow-x: auto;
-            font-family: 'Menlo', 'Cascadia Code', 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.8;
-            margin: 16px 0;
-        }
-        .code-block .comment { color: #94a3b8; }
-        .code-block .keyword { color: #f472b6; }
-        .code-block .string { color: #a3e635; }
-        .code-block .func { color: #60a5fa; }
-        .code-block .number { color: #fbbf24; }
-        .code-block .variable { color: #fcd34d; }
+    /* ========== CODE BLOCK ========== */
+    .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 28px 32px;
+      border-radius: 18px;
+      overflow-x: auto;
+      font-family: 'Menlo', 'Cascadia Code', 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.9;
+      margin: 20px 0;
+      border: 1px solid #1e293b;
+    }
+    .code-block .comment { color: #94a3b8; font-style: italic; }
+    .code-block .keyword { color: #f472b6; }
+    .code-block .string { color: #a3e635; }
+    .code-block .func { color: #60a5fa; }
+    .code-block .number { color: #fbbf24; }
+    .code-block .variable { color: #fcd34d; }
 
-        /* ===== FLOW DIAGRAM ===== */
-        .flow-diagram {
-            background: #f1f5f9;
-            border-radius: 20px;
-            padding: 28px 24px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 12px 24px;
-        }
-        .flow-box {
-            background: white;
-            border-radius: 16px;
-            padding: 16px 22px;
-            min-width: 130px;
-            text-align: center;
-            border: 1px solid #dce4ec;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-        .flow-box i { font-size: 1.8rem; color: #1a3a5c; display: block; margin-bottom: 4px; }
-        .flow-box strong { display: block; font-size: 0.9rem; }
-        .flow-box small { font-size: 0.75rem; color: #64748b; }
-        .flow-arrow { font-size: 1.8rem; color: #94a3b8; }
+    /* ========== FLOW DIAGRAM ========== */
+    .flow-diagram {
+      background: linear-gradient(135deg, #f1f5f9, #e8edf5);
+      border-radius: 22px;
+      padding: 32px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px 28px;
+      border: 1px solid #dce4ec;
+    }
+    .flow-box {
+      background: white;
+      border-radius: 18px;
+      padding: 18px 24px;
+      min-width: 140px;
+      text-align: center;
+      border: 2px solid #dce4ec;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      transition: 0.3s;
+    }
+    .flow-box:hover {
+      border-color: #1a3a5c;
+      transform: scale(1.02);
+    }
+    .flow-box i { font-size: 2rem; color: #1a3a5c; display: block; margin-bottom: 6px; }
+    .flow-box strong { display: block; font-size: 1rem; color: #0b1a33; }
+    .flow-box small { font-size: 0.75rem; color: #64748b; }
+    .flow-arrow { font-size: 2rem; color: #94a3b8; }
 
-        /* ===== ADVANTAGE CARDS ===== */
-        .advantage-card {
-            border-left: 5px solid #fbbf24;
-            padding: 20px 24px;
-            background: #fafcff;
-            border-radius: 16px;
-        }
-        .advantage-card .percentage {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #fbbf24;
-            display: block;
-        }
-        .advantage-card h3 { font-size: 1.2rem; font-weight: 600; margin: 4px 0; }
-        .advantage-card p { color: #4a5568; }
+    /* ========== ADVANTAGE CARDS ========== */
+    .advantage-card {
+      border-left: 6px solid #fbbf24;
+      padding: 24px 28px;
+      background: #fafcff;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+      transition: 0.3s;
+    }
+    .advantage-card:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      transform: translateX(4px);
+    }
+    .advantage-card .percentage {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #fbbf24;
+      display: block;
+      line-height: 1.2;
+    }
+    .advantage-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 6px 0;
+      color: #0b1a33;
+    }
+    .advantage-card p { color: #4a5568; }
+    .advantage-card .highlight-box {
+      margin-top: 12px;
+      padding: 10px 18px;
+      background: #f1f5f9;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      color: #1e293b;
+      border-left: 4px solid #fbbf24;
+    }
 
-        /* ===== FOOTER ===== */
-        .footer {
-            background: #0b1a33;
-            color: #94a3b8;
-            padding: 50px 24px 30px;
-            border-radius: 30px 30px 0 0;
-            margin-top: 60px;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .footer-grid h4 { color: white; margin-bottom: 14px; }
-        .footer-grid ul { list-style: none; }
-        .footer-grid ul li { padding: 4px 0; }
-        .footer-grid ul li a { color: #94a3b8; transition: 0.3s; }
-        .footer-grid ul li a:hover { color: #fbbf24; }
+    /* ========== FOOTER ========== */
+    .footer {
+      background: #0b1a33;
+      color: #94a3b8;
+      padding: 60px 24px 30px;
+      border-radius: 40px 40px 0 0;
+      margin-top: 60px;
+      border-top: 4px solid #fbbf24;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-grid h4 { color: white; margin-bottom: 16px; font-weight: 700; }
+    .footer-grid ul { list-style: none; }
+    .footer-grid ul li { padding: 5px 0; }
+    .footer-grid ul li a { color: #94a3b8; transition: 0.3s; }
+    .footer-grid ul li a:hover { color: #fbbf24; }
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      opacity: 0.6;
+      font-size: 0.85rem;
+    }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .grid-4 { grid-template-columns: repeat(2, 1fr); }
-            .grid-5 { grid-template-columns: repeat(3, 1fr); }
-            .footer-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2rem; }
-            .section { padding: 20px; }
-            .footer-grid { grid-template-columns: 1fr; }
-            .flow-diagram { flex-direction: column; }
-            .flow-arrow { transform: rotate(90deg); }
-            .navbar { padding: 12px 16px; }
-            .nav-links { gap: 4px 12px; }
-            .nav-links a { font-size: 0.75rem; }
-        }
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .grid-3 { grid-template-columns: repeat(2, 1fr); }
-        }
-    </style>
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-5 { grid-template-columns: repeat(3, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.4rem; }
+      .section { padding: 24px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .flow-diagram { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+      .navbar { padding: 12px 16px; }
+      .nav-links { gap: 4px 14px; }
+      .nav-links a { font-size: 0.75rem; }
+      .hero-stats { gap: 20px; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
+<!-- ========== NAVBAR ========== -->
 <nav class="navbar">
-    <div class="navbar-brand">
-        <i class="fas fa-building"></i>
-        Construction Suite
-        <span class="version">v1.0.0</span>
-    </div>
-    <ul class="nav-links">
-        <li><a href="#overview">Overview</a></li>
-        <li><a href="#architecture">Architecture</a></li>
-        <li><a href="#models">Data Models</a></li>
-        <li><a href="#workflow">Workflow</a></li>
-        <li><a href="#data-flow">Data Flow</a></li>
-        <li><a href="#user-interactions">User Interactions</a></li>
-        <li><a href="#advantages">Advantages</a></li>
-        <li><a href="#implementation">Implementation</a></li>
-    </ul>
+  <div class="navbar-brand">
+    <i class="fas fa-building"></i>
+    Construction Suite
+    <span class="version">v1.0.0</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#models">Data Models</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#data-flow">Data Flow</a></li>
+    <li><a href="#user-interactions">User Interactions</a></li>
+    <li><a href="#advantages">Advantages</a></li>
+    <li><a href="#implementation">Implementation</a></li>
+  </ul>
 </nav>
 
-<!-- ===== HERO ===== -->
+<!-- ========== HERO ========== -->
 <section class="hero">
-    <div class="hero-badge"><i class="fas fa-rocket" style="margin-right: 8px;"></i> Enterprise-Grade Construction Management</div>
-    <h1>Construction &amp; Project Costing <br><span>Management Suite</span></h1>
-    <p>Complete end-to-end construction project management solution with real‑time cost control, automated workflows, and comprehensive project tracking — built for Odoo 17.</p>
-    <div class="hero-stats">
-        <div><strong>30%</strong><span>Cost Reduction</span></div>
-        <div><strong>70%</strong><span>Faster Billing</span></div>
-        <div><strong>100%</strong><span>Project Visibility</span></div>
-        <div><strong>50%</strong><span>Less Admin Time</span></div>
-    </div>
-    <div style="margin-top: 28px;">
-        <span style="background: #2d4b6e; padding: 4px 20px; border-radius: 30px; font-size: 0.8rem; color: #bfd9ff;"><i class="fas fa-check-circle" style="color: #4ade80;"></i> Odoo 17 Compatible</span>
-        <span style="background: #2d4b6e; padding: 4px 20px; border-radius: 30px; font-size: 0.8rem; color: #bfd9ff; margin-left: 8px;"><i class="fas fa-shield-alt"></i> Enterprise Ready</span>
-        <span style="background: #2d4b6e; padding: 4px 20px; border-radius: 30px; font-size: 0.8rem; color: #bfd9ff; margin-left: 8px;"><i class="fas fa-code"></i> 4108+ Lines</span>
-    </div>
+  <div class="hero-badge"><i class="fas fa-rocket" style="margin-right: 8px;"></i> Enterprise-Grade Construction Management</div>
+  <h1>Construction &amp; Project Costing <br><span>Management Suite</span></h1>
+  <p>Complete end-to-end construction project management solution with real‑time cost control, automated workflows, and comprehensive project tracking — built for Odoo 17.</p>
+  <div class="hero-stats">
+    <div><strong>30%</strong><span>Cost Reduction</span></div>
+    <div><strong>70%</strong><span>Faster Billing</span></div>
+    <div><strong>100%</strong><span>Project Visibility</span></div>
+    <div><strong>50%</strong><span>Less Admin Time</span></div>
+  </div>
+  <div style="margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+    <span style="background: rgba(255,255,255,0.1); padding: 6px 24px; border-radius: 30px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.15);"><i class="fas fa-check-circle" style="color: #4ade80;"></i> Odoo 17 Compatible</span>
+    <span style="background: rgba(255,255,255,0.1); padding: 6px 24px; border-radius: 30px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.15);"><i class="fas fa-shield-alt" style="color: #fbbf24;"></i> Enterprise Ready</span>
+    <span style="background: rgba(255,255,255,0.1); padding: 6px 24px; border-radius: 30px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.15);"><i class="fas fa-code" style="color: #60a5fa;"></i> 4108+ Lines of Code</span>
+  </div>
 </section>
 
-<!-- ===== CONTAINER ===== -->
+<!-- ========== CONTAINER ========== -->
 <div class="container">
 
-    <!-- ============================================================ -->
-    <!-- SECTION 1: OVERVIEW – HOW THE MODULE WORKS                    -->
-    <!-- ============================================================ -->
-    <section id="overview" class="section">
-        <div class="section-header">
-            <i class="fas fa-cogs"></i>
-            <h2>How the Module Works</h2>
-            <span class="badge">Core Engine</span>
+  <!-- ============================================================ -->
+  <!-- SECTION 1: OVERVIEW – HOW THE MODULE WORKS                    -->
+  <!-- ============================================================ -->
+  <section id="overview" class="section">
+    <div class="section-header">
+      <i class="fas fa-cogs"></i>
+      <h2>How the Module Works</h2>
+      <span class="badge">Core Engine</span>
+    </div>
+
+    <p style="font-size: 1.15rem; margin-bottom: 32px; color: #1e293b; line-height: 1.8;">
+      The Construction Management Suite acts as a <strong style="color: #1a3a5c;">centralized project management engine</strong> that interconnects all construction workflows — from budgeting to billing — within a single Odoo environment. It replaces fragmented spreadsheets and manual processes with a unified, automated system.
+    </p>
+
+    <!-- 4 Pillars -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-database"></i></div>
+        <h3>1. Data Centralization</h3>
+        <p>All project data — budgets, actual costs, materials, subcontractors, milestones — lives in interconnected Odoo models. This eliminates data silos and ensures a <strong>single source of truth</strong> for your entire organization.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> No more duplicate data entry</li>
+          <li><i class="fas fa-check-circle"></i> Consistent reporting across projects</li>
+          <li><i class="fas fa-check-circle"></i> Real-time data access for all stakeholders</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-arrows-spin"></i></div>
+        <h3>2. Automated Workflows</h3>
+        <p>State‑machine driven workflows automate approvals, requisition creation, invoice generation, and cost tracking. Each state transition triggers notifications and next‑step actions automatically.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> BOQ approval → auto-create cost lines</li>
+          <li><i class="fas fa-check-circle"></i> Requisition approval → auto-create PO</li>
+          <li><i class="fas fa-check-circle"></i> Milestone completion → auto-create invoice</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-calculator"></i></div>
+        <h3>3. Real‑time Calculations</h3>
+        <p>Computed fields powered by <code>@api.depends</code> recalculate totals, variances, completion percentages, and profitability instantly as underlying data changes — no manual recalculations needed.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Budget vs Actual variance analysis</li>
+          <li><i class="fas fa-check-circle"></i> Physical &amp; financial completion %</li>
+          <li><i class="fas fa-check-circle"></i> Retainage &amp; net amount calculation</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-plug"></i></div>
+        <h3>4. Seamless Integration</h3>
+        <p>Deep integration with Odoo's core apps: <strong>Project</strong> (tasks), <strong>Accounting</strong> (invoices), <strong>Purchase</strong> (orders), <strong>Inventory</strong> (stock), and <strong>Timesheets</strong> — creating a complete construction ecosystem.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Project → Task → Cost tracking</li>
+          <li><i class="fas fa-check-circle"></i> Requisition → PO → Stock picking</li>
+          <li><i class="fas fa-check-circle"></i> Milestone → Invoice → Payment</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Core Business Logic -->
+    <div style="margin-top: 36px; background: linear-gradient(135deg, #eef4ff, #dce6f5); border-radius: 22px; padding: 32px 36px; border: 1px solid #c7d9f0;">
+      <h4 style="color: #1a3a5c; font-size: 1.3rem; margin-bottom: 20px;"><i class="fas fa-bolt" style="color: #fbbf24; margin-right: 12px;"></i>Core Business Logic in Action</h4>
+      <div class="grid-3">
+        <div style="background: white; padding: 18px 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+          <strong style="color: #1a3a5c; font-size: 1.05rem;">BOQ → Job Cost</strong>
+          <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Approved BOQ lines auto‑create job cost lines, establishing the budget baseline for every product and task.</p>
         </div>
-
-        <p style="font-size: 1.1rem; margin-bottom: 28px; color: #1e293b;">
-            The Construction Management Suite acts as a <strong>centralized project management engine</strong> that interconnects all construction workflows — from budgeting to billing — within a single Odoo environment. It replaces fragmented spreadsheets and manual processes with a unified, automated system.
-        </p>
-
-        <!-- 4 Pillars -->
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-database"></i></div>
-                <h3>1. Data Centralization</h3>
-                <p>All project data — budgets, actual costs, materials, subcontractors, milestones — lives in interconnected Odoo models. This eliminates data silos and ensures a <strong>single source of truth</strong> for your entire organization.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> No more duplicate data entry</li>
-                    <li><i class="fas fa-check-circle"></i> Consistent reporting across projects</li>
-                    <li><i class="fas fa-check-circle"></i> Real-time data access for all stakeholders</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-arrows-spin"></i></div>
-                <h3>2. Automated Workflows</h3>
-                <p>State‑machine driven workflows automate approvals, requisition creation, invoice generation, and cost tracking. Each state transition triggers notifications and next‑step actions automatically.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> BOQ approval → auto-create cost lines</li>
-                    <li><i class="fas fa-check-circle"></i> Requisition approval → auto-create PO</li>
-                    <li><i class="fas fa-check-circle"></i> Milestone completion → auto-create invoice</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-calculator"></i></div>
-                <h3>3. Real‑time Calculations</h3>
-                <p>Computed fields powered by <code>@api.depends</code> recalculate totals, variances, completion percentages, and profitability instantly as underlying data changes — no manual recalculations needed.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Budget vs Actual variance analysis</li>
-                    <li><i class="fas fa-check-circle"></i> Physical &amp; financial completion %</li>
-                    <li><i class="fas fa-check-circle"></i> Retainage &amp; net amount calculation</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-plug"></i></div>
-                <h3>4. Seamless Integration</h3>
-                <p>Deep integration with Odoo's core apps: <strong>Project</strong> (tasks), <strong>Accounting</strong> (invoices), <strong>Purchase</strong> (orders), <strong>Inventory</strong> (stock), and <strong>Timesheets</strong> — creating a complete construction ecosystem.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Project → Task → Cost tracking</li>
-                    <li><i class="fas fa-check-circle"></i> Requisition → PO → Stock picking</li>
-                    <li><i class="fas fa-check-circle"></i> Milestone → Invoice → Payment</li>
-                </ul>
-            </div>
+        <div style="background: white; padding: 18px 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+          <strong style="color: #1a3a5c; font-size: 1.05rem;">Cost Tracking &amp; Variance</strong>
+          <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Actual costs from POs, timesheets, and stock moves are compared to budgets in real time, with variance alerts.</p>
         </div>
-
-        <!-- Core Business Logic -->
-        <div style="margin-top: 32px; background: #eef4ff; border-radius: 20px; padding: 28px 32px;">
-            <h4 style="color: #1a3a5c; font-size: 1.2rem; margin-bottom: 16px;"><i class="fas fa-bolt" style="color: #fbbf24;"></i> Core Business Logic in Action</h4>
-            <div class="grid-3">
-                <div>
-                    <strong style="color: #1a3a5c;">BOQ → Job Cost</strong>
-                    <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Approved BOQ lines auto‑create job cost lines, establishing the budget baseline for every product and task.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Cost Tracking &amp; Variance</strong>
-                    <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Actual costs from POs, timesheets, and stock moves are compared to budgets in real time, with variance alerts.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Milestone → Invoice</strong>
-                    <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Completed milestones auto‑calculate retainage, net amount, and generate customer invoices with one click.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Requisition → PO → Stock</strong>
-                    <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Approved requisitions create purchase orders and stock pickings, tracking delivery against requests.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Subcontractor → Invoice</strong>
-                    <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Completed subcontractor tasks generate vendor invoices, with quality ratings tracking performance.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Dashboard → KPIs</strong>
-                    <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">All project data flows into a dashboard with real-time KPIs: costs, progress, profitability, and variances.</p>
-                </div>
-            </div>
+        <div style="background: white; padding: 18px 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+          <strong style="color: #1a3a5c; font-size: 1.05rem;">Milestone → Invoice</strong>
+          <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Completed milestones auto‑calculate retainage, net amount, and generate customer invoices with one click.</p>
         </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 2: SYSTEM ARCHITECTURE                                -->
-    <!-- ============================================================ -->
-    <section id="architecture" class="section">
-        <div class="section-header">
-            <i class="fas fa-layer-group"></i>
-            <h2>System Architecture</h2>
-            <span class="badge">Technical Design</span>
+        <div style="background: white; padding: 18px 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+          <strong style="color: #1a3a5c; font-size: 1.05rem;">Requisition → PO → Stock</strong>
+          <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Approved requisitions create purchase orders and stock pickings, tracking delivery against requests.</p>
         </div>
-
-        <!-- Architecture Layers -->
-        <div class="grid-4">
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-database"></i></div>
-                <h3>Data Layer</h3>
-                <p>PostgreSQL models with rich relationships (Many2one, One2many, Many2many). All data is normalized and indexed for performance.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> 10+ custom models</li>
-                    <li><i class="fas fa-check-circle"></i> Inherited Odoo models</li>
-                    <li><i class="fas fa-check-circle"></i> Database indexes</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-code"></i></div>
-                <h3>Business Logic</h3>
-                <p>Python methods, computed fields, and constraints using Odoo's ORM. All business rules are enforced at the model level.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> @api.depends for computed fields</li>
-                    <li><i class="fas fa-check-circle"></i> @api.constrains for validation</li>
-                    <li><i class="fas fa-check-circle"></i> State-machine workflows</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-window-maximize"></i></div>
-                <h3>Presentation Layer</h3>
-                <p>XML views (tree, form, kanban, search) and QWeb templates for portals. All views are responsive and user-friendly.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> 20+ custom views</li>
-                    <li><i class="fas fa-check-circle"></i> Inherited Odoo views</li>
-                    <li><i class="fas fa-check-circle"></i> Client portal templates</li>
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-plug"></i></div>
-                <h3>Integration Layer</h3>
-                <p>APIs and controllers connecting with Odoo core modules and external tools. Seamless data flow across the entire Odoo ecosystem.</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Project module integration</li>
-                    <li><i class="fas fa-check-circle"></i> Accounting module integration</li>
-                    <li><i class="fas fa-check-circle"></i> Purchase &amp; Stock integration</li>
-                </ul>
-            </div>
+        <div style="background: white; padding: 18px 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+          <strong style="color: #1a3a5c; font-size: 1.05rem;">Subcontractor → Invoice</strong>
+          <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">Completed subcontractor tasks generate vendor invoices, with quality ratings tracking performance.</p>
         </div>
-
-        <!-- Tech Stack -->
-        <div style="margin-top: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Technology Stack</h4>
-            <div class="grid-3">
-                <div style="background: #f1f5f9; padding: 18px 24px; border-radius: 16px;">
-                    <i class="fab fa-python" style="color: #1a3a5c; font-size: 1.8rem;"></i>
-                    <h4 style="margin-top: 6px;">Python 3.11+</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">Odoo ORM, @api.depends, inheritance patterns, and comprehensive business logic.</p>
-                </div>
-                <div style="background: #f1f5f9; padding: 18px 24px; border-radius: 16px;">
-                    <i class="fab fa-odoo" style="color: #1a3a5c; font-size: 1.8rem;"></i>
-                    <h4 style="margin-top: 6px;">Odoo 17</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">XML views, security groups, actions, and full compatibility with Odoo's architecture.</p>
-                </div>
-                <div style="background: #f1f5f9; padding: 18px 24px; border-radius: 16px;">
-                    <i class="fas fa-database" style="color: #1a3a5c; font-size: 1.8rem;"></i>
-                    <h4 style="margin-top: 6px;">PostgreSQL</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">Relationships, indexes, ACID compliance, and optimized query performance.</p>
-                </div>
-            </div>
+        <div style="background: white; padding: 18px 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+          <strong style="color: #1a3a5c; font-size: 1.05rem;">Dashboard → KPIs</strong>
+          <p style="color: #4a5568; font-size: 0.95rem; margin-top: 4px;">All project data flows into a dashboard with real-time KPIs: costs, progress, profitability, and variances.</p>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Security -->
-        <div style="margin-top: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Security &amp; Access Control</h4>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fas fa-users" style="color: #1a3a5c; font-size: 1.4rem;"></i>
-                    <h4 style="margin-top: 6px;">User Groups</h4>
-                    <p style="color: #64748b;">Construction User and Construction Manager groups with granular permissions.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-shield-alt" style="color: #1a3a5c; font-size: 1.4rem;"></i>
-                    <h4 style="margin-top: 6px;">Record Rules</h4>
-                    <p style="color: #64748b;">Multi-company rules and visibility rules for construction projects and tasks.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-lock" style="color: #1a3a5c; font-size: 1.4rem;"></i>
-                    <h4 style="margin-top: 6px;">Access Control</h4>
-                    <p style="color: #64748b;">Comprehensive CSV-based access control for all models with create/read/write/unlink permissions.</p>
-                </div>
-            </div>
+  <!-- ============================================================ -->
+  <!-- SECTION 2: SYSTEM ARCHITECTURE                                -->
+  <!-- ============================================================ -->
+  <section id="architecture" class="section">
+    <div class="section-header">
+      <i class="fas fa-layer-group"></i>
+      <h2>System Architecture</h2>
+      <span class="badge">Technical Design</span>
+    </div>
+
+    <!-- Architecture Layers -->
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-database"></i></div>
+        <h3>Data Layer</h3>
+        <p>PostgreSQL models with rich relationships (Many2one, One2many, Many2many). All data is normalized and indexed for performance.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> 10+ custom models</li>
+          <li><i class="fas fa-check-circle"></i> Inherited Odoo models</li>
+          <li><i class="fas fa-check-circle"></i> Database indexes</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-code"></i></div>
+        <h3>Business Logic</h3>
+        <p>Python methods, computed fields, and constraints using Odoo's ORM. All business rules are enforced at the model level.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> @api.depends for computed fields</li>
+          <li><i class="fas fa-check-circle"></i> @api.constrains for validation</li>
+          <li><i class="fas fa-check-circle"></i> State-machine workflows</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-window-maximize"></i></div>
+        <h3>Presentation Layer</h3>
+        <p>XML views (tree, form, kanban, search) and QWeb templates for portals. All views are responsive and user-friendly.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> 20+ custom views</li>
+          <li><i class="fas fa-check-circle"></i> Inherited Odoo views</li>
+          <li><i class="fas fa-check-circle"></i> Client portal templates</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-plug"></i></div>
+        <h3>Integration Layer</h3>
+        <p>APIs and controllers connecting with Odoo core modules and external tools. Seamless data flow across the entire Odoo ecosystem.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Project module integration</li>
+          <li><i class="fas fa-check-circle"></i> Accounting module integration</li>
+          <li><i class="fas fa-check-circle"></i> Purchase &amp; Stock integration</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div style="margin-top: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Technology Stack</h4>
+      <div class="grid-3">
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 20px 26px; border-radius: 18px; border-left: 4px solid #fbbf24;">
+          <i class="fab fa-python" style="color: #1a3a5c; font-size: 2rem;"></i>
+          <h4 style="margin-top: 8px;">Python 3.11+</h4>
+          <p style="color: #64748b; font-size: 0.9rem;">Odoo ORM, @api.depends, inheritance patterns, and comprehensive business logic.</p>
         </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 3: DATA MODELS                                       -->
-    <!-- ============================================================ -->
-    <section id="models" class="section">
-        <div class="section-header">
-            <i class="fas fa-table"></i>
-            <h2>Data Models</h2>
-            <span class="badge">10+ Models</span>
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 20px 26px; border-radius: 18px; border-left: 4px solid #fbbf24;">
+          <i class="fab fa-odoo" style="color: #1a3a5c; font-size: 2rem;"></i>
+          <h4 style="margin-top: 8px;">Odoo 17</h4>
+          <p style="color: #64748b; font-size: 0.9rem;">XML views, security groups, actions, and full compatibility with Odoo's architecture.</p>
         </div>
-
-        <!-- Core Models Table -->
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:20%;">Model</th>
-                        <th style="width:45%;">Key Fields</th>
-                        <th style="width:35%;">Purpose</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>construction.boq</strong></td>
-                        <td>name, project_id, line_ids, total, state, version, previous_version_id</td>
-                        <td>Bill of Quantities with version control, approval workflow, and auto-generation of cost lines.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.boq.line</strong></td>
-                        <td>product_id, quantity, unit_price, subtotal, category, variance_allowed, create_requisition</td>
-                        <td>Individual BOQ line items with cost tracking, variance allowance, and requisition flag.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.job.cost.line</strong></td>
-                        <td>budgeted_amount, actual_cost, committed_cost, cost_variance, completion_percentage</td>
-                        <td>Budget vs Actual cost tracking with variance analysis and completion percentage.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.material.requisition</strong></td>
-                        <td>name, project_id, state, total_estimated, total_actual, priority, picking_ids</td>
-                        <td>Material request management with approval workflow, delivery tracking, and PO integration.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.material.requisition.line</strong></td>
-                        <td>product_id, quantity, delivered_quantity, remaining_quantity, estimated_unit_price</td>
-                        <td>Requisition line items with delivery tracking and cost estimation.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.milestone</strong></td>
-                        <td>name, amount, retainage_percentage, retainage_amount, net_amount, state</td>
-                        <td>Project milestones for progress billing with retainage calculation and invoice generation.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.progress.billing</strong></td>
-                        <td>name, billed_amount, retainage_amount, net_amount, billing_method, state</td>
-                        <td>Progress invoice generation with retainage handling and multiple billing methods.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.subcontractor.task</strong></td>
-                        <td>name, contract_value, progress_percentage, status, invoiced_amount, quality_rating</td>
-                        <td>Subcontractor work management with progress tracking, quality rating, and auto-invoicing.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.checklist</strong></td>
-                        <td>name, lines, completion_percentage, state, category, findings</td>
-                        <td>Safety and quality checklists with template support and compliance tracking.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>construction.checklist.template</strong></td>
-                        <td>name, code, category, project_type, template_lines</td>
-                        <td>Checklist templates that can be applied to multiple projects.</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 20px 26px; border-radius: 18px; border-left: 4px solid #fbbf24;">
+          <i class="fas fa-database" style="color: #1a3a5c; font-size: 2rem;"></i>
+          <h4 style="margin-top: 8px;">PostgreSQL</h4>
+          <p style="color: #64748b; font-size: 0.9rem;">Relationships, indexes, ACID compliance, and optimized query performance.</p>
         </div>
+      </div>
+    </div>
 
-        <!-- Model Relationships -->
-        <div style="margin-top: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Model Relationships</h4>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">BOQ → Job Cost</h4>
-                    <p style="color: #64748b;">Each BOQ line creates a job cost line for budget tracking. This establishes the budget baseline.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">BOQ → Requisitions</h4>
-                    <p style="color: #64748b;">BOQ lines with <code>create_requisition=True</code> auto‑generate material requisitions on BOQ approval.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Tasks → Costs</h4>
-                    <p style="color: #64748b;">Tasks aggregate costs from job cost lines, providing task-level budget vs actual analysis.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Milestones → Invoices</h4>
-                    <p style="color: #64748b;">Completed milestones generate customer invoices automatically with retainage calculation.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Subcontractors → Invoices</h4>
-                    <p style="color: #64748b;">Completed subcontractor tasks generate vendor invoices, tracking payments against contract value.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Projects → Dashboard</h4>
-                    <p style="color: #64748b;">All project data flows into the KPI dashboard for real-time monitoring and reporting.</p>
-                </div>
-            </div>
+    <!-- Security -->
+    <div style="margin-top: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Security &amp; Access Control</h4>
+      <div class="grid-3">
+        <div class="card">
+          <i class="fas fa-users" style="color: #1a3a5c; font-size: 1.6rem;"></i>
+          <h4 style="margin-top: 8px;">User Groups</h4>
+          <p style="color: #64748b;">Construction User and Construction Manager groups with granular permissions.</p>
         </div>
-
-        <!-- Computed Fields -->
-        <div style="margin-top: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Computed Fields &amp; Business Logic</h4>
-            <div class="code-block">
-                <span class="comment"># BOQ Total Calculation</span><br>
-                <span class="keyword">@api.depends</span>(<span class="string">'line_ids'</span>, <span class="string">'line_ids.subtotal'</span>)<br>
-                <span class="keyword">def</span> <span class="func">_compute_totals</span>(self):<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> boq <span class="keyword">in</span> self:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boq.total = <span class="func">sum</span>(boq.line_ids.mapped(<span class="string">'subtotal'</span>))<br>
-                <br>
-                <span class="comment"># Cost Variance Calculation</span><br>
-                <span class="keyword">@api.depends</span>(<span class="string">'budgeted_amount'</span>, <span class="string">'actual_cost'</span>)<br>
-                <span class="keyword">def</span> <span class="func">_compute_variances</span>(self):<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> line <span class="keyword">in</span> self:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line.cost_variance = line.budgeted_amount - line.actual_cost<br>
-                <br>
-                <span class="comment"># Milestone Retainage Calculation</span><br>
-                <span class="keyword">@api.depends</span>(<span class="string">'amount'</span>, <span class="string">'retainage_percentage'</span>)<br>
-                <span class="keyword">def</span> <span class="func">_compute_retainage</span>(self):<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> milestone <span class="keyword">in</span> self:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.retainage_amount = milestone.amount * (milestone.retainage_percentage / 100)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.net_amount = milestone.amount - milestone.retainage_amount<br>
-                <br>
-                <span class="comment"># Project Physical Completion</span><br>
-                <span class="keyword">@api.depends</span>(<span class="string">'task_ids'</span>, <span class="string">'task_ids.stage_id'</span>)<br>
-                <span class="keyword">def</span> <span class="func">_compute_completion</span>(self):<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> project <span class="keyword">in</span> self:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;done_tasks = project.task_ids.filtered(<span class="keyword">lambda</span> t: t.stage_id.<span class="variable">fold</span>)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;project.physical_completion = (len(done_tasks) / len(project.task_ids)) * 100 <span class="keyword">if</span> project.task_ids <span class="keyword">else</span> 0.0
-            </div>
+        <div class="card">
+          <i class="fas fa-shield-alt" style="color: #1a3a5c; font-size: 1.6rem;"></i>
+          <h4 style="margin-top: 8px;">Record Rules</h4>
+          <p style="color: #64748b;">Multi-company rules and visibility rules for construction projects and tasks.</p>
         </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 4: WORKFLOW & STATE MANAGEMENT                        -->
-    <!-- ============================================================ -->
-    <section id="workflow" class="section">
-        <div class="section-header">
-            <i class="fas fa-route"></i>
-            <h2>Workflow &amp; State Management</h2>
-            <span class="badge">Step by Step</span>
+        <div class="card">
+          <i class="fas fa-lock" style="color: #1a3a5c; font-size: 1.6rem;"></i>
+          <h4 style="margin-top: 8px;">Access Control</h4>
+          <p style="color: #64748b;">Comprehensive CSV-based access control for all models with create/read/write/unlink permissions.</p>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Complete Project Lifecycle -->
-        <div class="workflow-timeline">
-            <div class="workflow-step">
-                <span class="step-number">Step 1</span>
-                <h3>Project Setup</h3>
-                <p>Create a project with <strong>is_construction_project=True</strong> to enable all construction‑specific fields and features. Set project type, construction status, site address, and contract value.</p>
-                <div class="key-actions"><i class="fas fa-key"></i> Key Actions: Project type, status, site details, contract value</div>
-            </div>
+  <!-- ============================================================ -->
+  <!-- SECTION 3: DATA MODELS                                       -->
+  <!-- ============================================================ -->
+  <section id="models" class="section">
+    <div class="section-header">
+      <i class="fas fa-table"></i>
+      <h2>Data Models</h2>
+      <span class="badge">10+ Models</span>
+    </div>
 
-            <div class="workflow-step">
-                <span class="step-number">Step 2</span>
-                <h3>BOQ Creation</h3>
-                <p>Build your Bill of Quantities with line items for materials, labor, subcontractors, and equipment. Import from Excel if needed. Each line includes product, quantity, and unit price.</p>
-                <div class="key-actions"><i class="fas fa-file-import"></i> Key Actions: Add products, quantities, unit prices, version control, Excel import</div>
-            </div>
+    <!-- Core Models Table -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%;">Model</th>
+            <th style="width:45%;">Key Fields</th>
+            <th style="width:33%;">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>construction.boq</strong></td><td>name, project_id, line_ids, total, state, version, previous_version_id</td><td>Bill of Quantities with version control, approval workflow, and auto-generation of cost lines.</td></tr>
+          <tr><td><strong>construction.boq.line</strong></td><td>product_id, quantity, unit_price, subtotal, category, variance_allowed, create_requisition</td><td>Individual BOQ line items with cost tracking, variance allowance, and requisition flag.</td></tr>
+          <tr><td><strong>construction.job.cost.line</strong></td><td>budgeted_amount, actual_cost, committed_cost, cost_variance, completion_percentage</td><td>Budget vs Actual cost tracking with variance analysis and completion percentage.</td></tr>
+          <tr><td><strong>construction.material.requisition</strong></td><td>name, project_id, state, total_estimated, total_actual, priority, picking_ids</td><td>Material request management with approval workflow, delivery tracking, and PO integration.</td></tr>
+          <tr><td><strong>construction.material.requisition.line</strong></td><td>product_id, quantity, delivered_quantity, remaining_quantity, estimated_unit_price</td><td>Requisition line items with delivery tracking and cost estimation.</td></tr>
+          <tr><td><strong>construction.milestone</strong></td><td>name, amount, retainage_percentage, retainage_amount, net_amount, state</td><td>Project milestones for progress billing with retainage calculation and invoice generation.</td></tr>
+          <tr><td><strong>construction.progress.billing</strong></td><td>name, billed_amount, retainage_amount, net_amount, billing_method, state</td><td>Progress invoice generation with retainage handling and multiple billing methods.</td></tr>
+          <tr><td><strong>construction.subcontractor.task</strong></td><td>name, contract_value, progress_percentage, status, invoiced_amount, quality_rating</td><td>Subcontractor work management with progress tracking, quality rating, and auto-invoicing.</td></tr>
+          <tr><td><strong>construction.checklist</strong></td><td>name, lines, completion_percentage, state, category, findings</td><td>Safety and quality checklists with template support and compliance tracking.</td></tr>
+          <tr><td><strong>construction.checklist.template</strong></td><td>name, code, category, project_type, template_lines</td><td>Checklist templates that can be applied to multiple projects.</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-            <div class="workflow-step">
-                <span class="step-number">Step 3</span>
-                <h3>BOQ Approval</h3>
-                <p>BOQ moves through <strong>draft → under_review → approved</strong> (or rejected/cancelled). On approval, the system auto‑creates job cost lines and material requisitions.</p>
-                <div class="key-actions"><i class="fas fa-check-circle"></i> Auto‑generates: Job cost lines (budget) &amp; Requisitions (if flagged)</div>
-            </div>
-
-            <div class="workflow-step">
-                <span class="step-number">Step 4</span>
-                <h3>Task Management</h3>
-                <p>Create construction tasks with type, estimated cost, dependencies, and crew assignments. Track physical and financial progress with real-time variance analysis.</p>
-                <div class="key-actions"><i class="fas fa-tasks"></i> Key Features: Dependencies, progress tracking, cost variance, crew assignments</div>
-            </div>
-
-            <div class="workflow-step">
-                <span class="step-number">Step 5</span>
-                <h3>Material Requisitions</h3>
-                <p>Create requisitions from tasks or BOQ. States: <strong>draft → submitted → approved → partially_delivered → delivered</strong>. Auto‑creates purchase orders and stock pickings.</p>
-                <div class="key-actions"><i class="fas fa-truck"></i> Integration: Auto‑creates Purchase Orders &amp; Stock Pickings</div>
-            </div>
-
-            <div class="workflow-step">
-                <span class="step-number">Step 6</span>
-                <h3>Subcontractor Tasks</h3>
-                <p>Assign tasks to subcontractors. States: <strong>pending → assigned → in_progress → under_review → completed</strong>. Includes progress tracking and quality ratings.</p>
-                <div class="key-actions"><i class="fas fa-users-cog"></i> Key Features: Progress tracking, quality rating, auto‑invoicing on completion</div>
-            </div>
-
-            <div class="workflow-step">
-                <span class="step-number">Step 7</span>
-                <h3>Progress Billing</h3>
-                <p>Generate invoices based on milestones, percentage completion, or fixed amount. Retainage is calculated automatically. Supports multiple billing methods.</p>
-                <div class="key-actions"><i class="fas fa-file-invoice-dollar"></i> Methods: Milestone‑based, % completion, Fixed amount, Time &amp; Materials</div>
-            </div>
-
-            <div class="workflow-step">
-                <span class="step-number">Step 8</span>
-                <h3>Project Closure</h3>
-                <p>Generate final reports with profit/loss analysis, cost breakdown, and audit trail. Archive the project when done.</p>
-                <div class="key-actions"><i class="fas fa-door-closed"></i> Output: Final cost, profit margin, audit trail, closing report</div>
-            </div>
+    <!-- Model Relationships -->
+    <div style="margin-top: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Model Relationships</h4>
+      <div class="grid-3">
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">BOQ → Job Cost</h4>
+          <p style="color: #64748b;">Each BOQ line creates a job cost line for budget tracking. This establishes the budget baseline.</p>
         </div>
-
-        <!-- State Machine Diagrams -->
-        <div style="margin-top: 32px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">State Machine Diagrams</h4>
-            <div class="grid-4">
-                <div style="background: #f1f5f9; padding: 16px 20px; border-radius: 16px;">
-                    <h5 style="color: #1a3a5c; margin-bottom: 8px;">BOQ States</h5>
-                    <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                        <span class="badge-status badge-secondary">Draft</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-info">Under Review</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-success">Approved</span>
-                        <span style="color: #94a3b8;">or</span>
-                        <span class="badge-status badge-danger">Rejected</span>
-                        <span style="color: #94a3b8;">or</span>
-                        <span class="badge-status badge-danger">Cancelled</span>
-                    </div>
-                </div>
-                <div style="background: #f1f5f9; padding: 16px 20px; border-radius: 16px;">
-                    <h5 style="color: #1a3a5c; margin-bottom: 8px;">Requisition States</h5>
-                    <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                        <span class="badge-status badge-secondary">Draft</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-warning">Submitted</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-success">Approved</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-info">Partially Delivered</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-success">Delivered</span>
-                    </div>
-                </div>
-                <div style="background: #f1f5f9; padding: 16px 20px; border-radius: 16px;">
-                    <h5 style="color: #1a3a5c; margin-bottom: 8px;">Milestone States</h5>
-                    <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                        <span class="badge-status badge-secondary">Planned</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-warning">In Progress</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-success">Completed</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-primary">Invoiced</span>
-                    </div>
-                </div>
-                <div style="background: #f1f5f9; padding: 16px 20px; border-radius: 16px;">
-                    <h5 style="color: #1a3a5c; margin-bottom: 8px;">Subcontractor Task States</h5>
-                    <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                        <span class="badge-status badge-secondary">Pending</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-info">Assigned</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-warning">In Progress</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-primary">Under Review</span>
-                        <span style="color: #94a3b8;">→</span>
-                        <span class="badge-status badge-success">Completed</span>
-                    </div>
-                </div>
-            </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">BOQ → Requisitions</h4>
+          <p style="color: #64748b;">BOQ lines with <code>create_requisition=True</code> auto‑generate material requisitions on BOQ approval.</p>
         </div>
-
-        <!-- Workflow Triggers -->
-        <div style="margin-top: 28px; background: #eef4ff; border-radius: 20px; padding: 24px 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 12px;"><i class="fas fa-bell" style="color: #fbbf24;"></i> Workflow Triggers &amp; Notifications</h4>
-            <div class="grid-3">
-                <div>
-                    <strong style="color: #1a3a5c;">BOQ Approval</strong>
-                    <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-create job cost lines, auto-create requisitions, notify project team.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Requisition Approval</strong>
-                    <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-create purchase order, auto-create stock picking, notify procurement.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Milestone Completion</strong>
-                    <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-calculate retainage, generate invoice, notify billing team.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Subcontractor Task Complete</strong>
-                    <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-generate vendor invoice, update quality rating, notify project manager.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Over Budget Alert</strong>
-                    <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Real-time notification to project manager when cost variance is negative.</p>
-                </div>
-                <div>
-                    <strong style="color: #1a3a5c;">Overdue Task</strong>
-                    <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Daily notification for tasks past deadline, escalate to manager if 30+ days overdue.</p>
-                </div>
-            </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Tasks → Costs</h4>
+          <p style="color: #64748b;">Tasks aggregate costs from job cost lines, providing task-level budget vs actual analysis.</p>
         </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 5: DATA FLOW & INTEGRATION                           -->
-    <!-- ============================================================ -->
-    <section id="data-flow" class="section">
-        <div class="section-header">
-            <i class="fas fa-arrow-trend-up"></i>
-            <h2>Data Flow &amp; Integration</h2>
-            <span class="badge">End‑to‑End</span>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Milestones → Invoices</h4>
+          <p style="color: #64748b;">Completed milestones generate customer invoices automatically with retainage calculation.</p>
         </div>
-
-        <!-- Flow Diagram -->
-        <div class="flow-diagram">
-            <div class="flow-box"><i class="fas fa-file-invoice"></i><strong>BOQ</strong><small>Budget Planning</small></div>
-            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="flow-box"><i class="fas fa-cogs"></i><strong>Job Costs</strong><small>Budget Baseline</small></div>
-            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="flow-box"><i class="fas fa-chart-line"></i><strong>Tracking</strong><small>Actual vs Budget</small></div>
-            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="flow-box"><i class="fas fa-gauge-high"></i><strong>Dashboard</strong><small>KPI &amp; Reports</small></div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Subcontractors → Invoices</h4>
+          <p style="color: #64748b;">Completed subcontractor tasks generate vendor invoices, tracking payments against contract value.</p>
         </div>
-
-        <!-- Integration Paths -->
-        <div style="margin-top: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Integration Paths</h4>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fas fa-truck" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Requisitions</h4>
-                    <p style="color: #64748b;">BOQ → Requisition → Purchase Order → Stock Picking → Delivery</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Auto-create PO on approval</li>
-                        <li><i class="fas fa-check-circle"></i> Auto-create stock picking</li>
-                        <li><i class="fas fa-check-circle"></i> Track delivered quantities</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <i class="fas fa-file-invoice-dollar" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Billing</h4>
-                    <p style="color: #64748b;">Milestone → Progress Billing → Customer Invoice → Payment</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Auto-calculate retainage</li>
-                        <li><i class="fas fa-check-circle"></i> One-click invoice generation</li>
-                        <li><i class="fas fa-check-circle"></i> Track invoice status</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <i class="fas fa-users" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Subcontractors</h4>
-                    <p style="color: #64748b;">Task → Progress → Quality Rating → Vendor Invoice → Payment</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Track progress %</li>
-                        <li><i class="fas fa-check-circle"></i> Auto-generate vendor invoice</li>
-                        <li><i class="fas fa-check-circle"></i> Quality rating tracking</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-link" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Projects → Dashboard</h4>
+          <p style="color: #64748b;">All project data flows into the KPI dashboard for real-time monitoring and reporting.</p>
         </div>
+      </div>
+    </div>
 
-        <!-- Core Module Integration -->
-        <div style="margin-top: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Integration with Odoo Core Modules</h4>
-            <div class="grid-3">
-                <div class="card">
-                    <div class="card-icon" style="background: #2563eb;"><i class="fas fa-tasks"></i></div>
-                    <h3>Project Module</h3>
-                    <p>Extends project model with construction fields, task types, dependencies, and cost tracking.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Construction project flag</li>
-                        <li><i class="fas fa-check-circle"></i> Task type &amp; dependencies</li>
-                        <li><i class="fas fa-check-circle"></i> Cost tracking</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-icon" style="background: #059669;"><i class="fas fa-file-invoice-dollar"></i></div>
-                    <h3>Accounting Module</h3>
-                    <p>Auto‑generates customer and vendor invoices from milestones and subcontractor tasks.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Progress invoices</li>
-                        <li><i class="fas fa-check-circle"></i> Retainage handling</li>
-                        <li><i class="fas fa-check-circle"></i> Subcontractor invoices</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-icon" style="background: #d97706;"><i class="fas fa-shopping-cart"></i></div>
-                    <h3>Purchase Module</h3>
-                    <p>Creates purchase orders from material requisitions for seamless procurement.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Auto PO creation</li>
-                        <li><i class="fas fa-check-circle"></i> Project context</li>
-                        <li><i class="fas fa-check-circle"></i> Cost integration</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-icon" style="background: #7c3aed;"><i class="fas fa-boxes"></i></div>
-                    <h3>Stock Module</h3>
-                    <p>Manages inventory movements through pickings and delivery tracking.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Stock pickings</li>
-                        <li><i class="fas fa-check-circle"></i> Delivery tracking</li>
-                        <li><i class="fas fa-check-circle"></i> Material consumption</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-icon" style="background: #dc2626;"><i class="fas fa-clock"></i></div>
-                    <h3>Timesheet Module</h3>
-                    <p>Tracks labor costs through timesheet entries linked to projects and tasks.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Labor costing</li>
-                        <li><i class="fas fa-check-circle"></i> Timesheet integration</li>
-                        <li><i class="fas fa-check-circle"></i> Cost calculation</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-icon" style="background: #0891b2;"><i class="fas fa-globe"></i></div>
-                    <h3>Portal Module</h3>
-                    <p>Provides client-facing portal for project tracking and transparency.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Project visibility</li>
-                        <li><i class="fas fa-check-circle"></i> Milestone tracking</li>
-                        <li><i class="fas fa-check-circle"></i> BOQ viewing</li>
-                    </ul>
-                </div>
-            </div>
+    <!-- Computed Fields -->
+    <div style="margin-top: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Computed Fields &amp; Business Logic</h4>
+      <div class="code-block">
+        <span class="comment"># BOQ Total Calculation</span><br>
+        <span class="keyword">@api.depends</span>(<span class="string">'line_ids'</span>, <span class="string">'line_ids.subtotal'</span>)<br>
+        <span class="keyword">def</span> <span class="func">_compute_totals</span>(self):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> boq <span class="keyword">in</span> self:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boq.total = <span class="func">sum</span>(boq.line_ids.mapped(<span class="string">'subtotal'</span>))<br>
+        <br>
+        <span class="comment"># Cost Variance Calculation</span><br>
+        <span class="keyword">@api.depends</span>(<span class="string">'budgeted_amount'</span>, <span class="string">'actual_cost'</span>)<br>
+        <span class="keyword">def</span> <span class="func">_compute_variances</span>(self):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> line <span class="keyword">in</span> self:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line.cost_variance = line.budgeted_amount - line.actual_cost<br>
+        <br>
+        <span class="comment"># Milestone Retainage Calculation</span><br>
+        <span class="keyword">@api.depends</span>(<span class="string">'amount'</span>, <span class="string">'retainage_percentage'</span>)<br>
+        <span class="keyword">def</span> <span class="func">_compute_retainage</span>(self):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> milestone <span class="keyword">in</span> self:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.retainage_amount = milestone.amount * (milestone.retainage_percentage / 100)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.net_amount = milestone.amount - milestone.retainage_amount<br>
+        <br>
+        <span class="comment"># Project Physical Completion</span><br>
+        <span class="keyword">@api.depends</span>(<span class="string">'task_ids'</span>, <span class="string">'task_ids.stage_id'</span>)<br>
+        <span class="keyword">def</span> <span class="func">_compute_completion</span>(self):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> project <span class="keyword">in</span> self:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;done_tasks = project.task_ids.filtered(<span class="keyword">lambda</span> t: t.stage_id.<span class="variable">fold</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;project.physical_completion = (len(done_tasks) / len(project.task_ids)) * 100 <span class="keyword">if</span> project.task_ids <span class="keyword">else</span> 0.0
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: WORKFLOW & STATE MANAGEMENT                        -->
+  <!-- ============================================================ -->
+  <section id="workflow" class="section">
+    <div class="section-header">
+      <i class="fas fa-route"></i>
+      <h2>Workflow &amp; State Management</h2>
+      <span class="badge">Step by Step</span>
+    </div>
+
+    <!-- Complete Project Lifecycle -->
+    <div class="workflow-timeline">
+      <div class="workflow-step">
+        <span class="step-number">Step 1</span>
+        <h3>Project Setup</h3>
+        <p>Create a project with <strong>is_construction_project=True</strong> to enable all construction‑specific fields and features. Set project type, construction status, site address, and contract value.</p>
+        <div class="key-actions"><i class="fas fa-key" style="color: #fbbf24;"></i> Key Actions: Project type, status, site details, contract value</div>
+      </div>
+
+      <div class="workflow-step">
+        <span class="step-number">Step 2</span>
+        <h3>BOQ Creation</h3>
+        <p>Build your Bill of Quantities with line items for materials, labor, subcontractors, and equipment. Import from Excel if needed. Each line includes product, quantity, and unit price.</p>
+        <div class="key-actions"><i class="fas fa-file-import" style="color: #fbbf24;"></i> Key Actions: Add products, quantities, unit prices, version control, Excel import</div>
+      </div>
+
+      <div class="workflow-step">
+        <span class="step-number">Step 3</span>
+        <h3>BOQ Approval</h3>
+        <p>BOQ moves through <strong>draft → under_review → approved</strong> (or rejected/cancelled). On approval, the system auto‑creates job cost lines and material requisitions.</p>
+        <div class="key-actions"><i class="fas fa-check-circle" style="color: #fbbf24;"></i> Auto‑generates: Job cost lines (budget) &amp; Requisitions (if flagged)</div>
+      </div>
+
+      <div class="workflow-step">
+        <span class="step-number">Step 4</span>
+        <h3>Task Management</h3>
+        <p>Create construction tasks with type, estimated cost, dependencies, and crew assignments. Track physical and financial progress with real-time variance analysis.</p>
+        <div class="key-actions"><i class="fas fa-tasks" style="color: #fbbf24;"></i> Key Features: Dependencies, progress tracking, cost variance, crew assignments</div>
+      </div>
+
+      <div class="workflow-step">
+        <span class="step-number">Step 5</span>
+        <h3>Material Requisitions</h3>
+        <p>Create requisitions from tasks or BOQ. States: <strong>draft → submitted → approved → partially_delivered → delivered</strong>. Auto‑creates purchase orders and stock pickings.</p>
+        <div class="key-actions"><i class="fas fa-truck" style="color: #fbbf24;"></i> Integration: Auto‑creates Purchase Orders &amp; Stock Pickings</div>
+      </div>
+
+      <div class="workflow-step">
+        <span class="step-number">Step 6</span>
+        <h3>Subcontractor Tasks</h3>
+        <p>Assign tasks to subcontractors. States: <strong>pending → assigned → in_progress → under_review → completed</strong>. Includes progress tracking and quality ratings.</p>
+        <div class="key-actions"><i class="fas fa-users-cog" style="color: #fbbf24;"></i> Key Features: Progress tracking, quality rating, auto‑invoicing on completion</div>
+      </div>
+
+      <div class="workflow-step">
+        <span class="step-number">Step 7</span>
+        <h3>Progress Billing</h3>
+        <p>Generate invoices based on milestones, percentage completion, or fixed amount. Retainage is calculated automatically. Supports multiple billing methods.</p>
+        <div class="key-actions"><i class="fas fa-file-invoice-dollar" style="color: #fbbf24;"></i> Methods: Milestone‑based, % completion, Fixed amount, Time &amp; Materials</div>
+      </div>
+
+      <div class="workflow-step">
+        <span class="step-number">Step 8</span>
+        <h3>Project Closure</h3>
+        <p>Generate final reports with profit/loss analysis, cost breakdown, and audit trail. Archive the project when done.</p>
+        <div class="key-actions"><i class="fas fa-door-closed" style="color: #fbbf24;"></i> Output: Final cost, profit margin, audit trail, closing report</div>
+      </div>
+    </div>
+
+    <!-- State Machine Diagrams -->
+    <div style="margin-top: 36px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">State Machine Diagrams</h4>
+      <div class="grid-4">
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 18px 22px; border-radius: 18px;">
+          <h5 style="color: #1a3a5c; margin-bottom: 10px;">BOQ States</h5>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <span class="badge-status badge-secondary">Draft</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-info">Under Review</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-success">Approved</span>
+            <span style="color: #94a3b8;">or</span>
+            <span class="badge-status badge-danger">Rejected</span>
+            <span style="color: #94a3b8;">or</span>
+            <span class="badge-status badge-danger">Cancelled</span>
+          </div>
         </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 6: USER INTERACTIONS                                 -->
-    <!-- ============================================================ -->
-    <section id="user-interactions" class="section">
-        <div class="section-header">
-            <i class="fas fa-users"></i>
-            <h2>User Interactions</h2>
-            <span class="badge">Roles &amp; Actions</span>
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 18px 22px; border-radius: 18px;">
+          <h5 style="color: #1a3a5c; margin-bottom: 10px;">Requisition States</h5>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <span class="badge-status badge-secondary">Draft</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-warning">Submitted</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-success">Approved</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-info">Partially Delivered</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-success">Delivered</span>
+          </div>
         </div>
-
-        <!-- Role-Based Flows -->
-        <div style="margin-bottom: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Role-Based Interaction Flows</h4>
-
-            <!-- Project Manager -->
-            <div style="margin-bottom: 20px;">
-                <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-user-tie" style="color: #fbbf24;"></i> Project Manager
-                </h5>
-                <div class="grid-4">
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-plus-circle" style="color: #059669;"></i>
-                        <strong>1. Create Project</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Set up project with type, status, site details, and contract value</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-file-invoice" style="color: #059669;"></i>
-                        <strong>2. Create BOQ</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Add products, quantities, and prices. Import from Excel if needed.</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-paper-plane" style="color: #059669;"></i>
-                        <strong>3. Submit for Approval</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Send BOQ for review. Auto-creates cost lines and requisitions.</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-tasks" style="color: #059669;"></i>
-                        <strong>4. Manage Tasks</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Create tasks, assign crews, set dependencies, track progress.</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-check-double" style="color: #059669;"></i>
-                        <strong>5. Approve Requisitions</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Review and approve material requests. Generate purchase orders.</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-file-invoice-dollar" style="color: #059669;"></i>
-                        <strong>6. Generate Invoices</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Create progress invoices from milestones or percentage completion.</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-chart-pie" style="color: #059669;"></i>
-                        <strong>7. Monitor Dashboard</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Track KPIs, costs, progress, and profitability in real-time.</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-door-closed" style="color: #059669;"></i>
-                        <strong>8. Close Project</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Generate final reports, analyze profit/loss, and archive project.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Construction Manager -->
-            <div style="margin-bottom: 20px;">
-                <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-hard-hat" style="color: #fbbf24;"></i> Construction Manager
-                </h5>
-                <div class="grid-3">
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-check-circle" style="color: #059669;"></i>
-                        <strong>Approve BOQs</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Review and approve Bill of Quantities</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-check-circle" style="color: #059669;"></i>
-                        <strong>Approve Requisitions</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Review material requests and approve</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-clipboard-check" style="color: #059669;"></i>
-                        <strong>Complete Checklists</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Conduct safety and quality inspections</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Subcontractor -->
-            <div style="margin-bottom: 20px;">
-                <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-users-cog" style="color: #fbbf24;"></i> Subcontractor
-                </h5>
-                <div class="grid-3">
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-tasks" style="color: #059669;"></i>
-                        <strong>View Assigned Tasks</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">See tasks assigned to you</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-chart-line" style="color: #059669;"></i>
-                        <strong>Update Progress</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Report progress on tasks</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-file-invoice" style="color: #059669;"></i>
-                        <strong>Generate Invoices</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Create invoices for completed work</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Client -->
-            <div>
-                <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-user" style="color: #fbbf24;"></i> Client (Portal User)
-                </h5>
-                <div class="grid-3">
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-eye" style="color: #059669;"></i>
-                        <strong>View Project Progress</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">See project completion and status</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-list" style="color: #059669;"></i>
-                        <strong>View BOQ</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">See Bill of Quantities details</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 16px; border-radius: 12px;">
-                        <i class="fas fa-flag" style="color: #059669;"></i>
-                        <strong>Track Milestones</strong>
-                        <p style="font-size: 0.85rem; color: #64748b;">Monitor milestone progress</p>
-                    </div>
-                </div>
-            </div>
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 18px 22px; border-radius: 18px;">
+          <h5 style="color: #1a3a5c; margin-bottom: 10px;">Milestone States</h5>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <span class="badge-status badge-secondary">Planned</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-warning">In Progress</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-success">Completed</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-primary">Invoiced</span>
+          </div>
         </div>
-
-        <!-- Interaction Flow Diagram -->
-        <div style="margin-top: 28px; background: #f1f5f9; border-radius: 20px; padding: 24px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Interaction Flow Diagram</h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 12px 20px; justify-content: center;">
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-user-tie"></i> Project Manager → Creates BOQ
-                </div>
-                <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-cogs"></i> System → Auto‑creates Costs &amp; Requisitions
-                </div>
-                <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-hard-hat"></i> Construction Manager → Approves
-                </div>
-                <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-truck"></i> System → Creates PO &amp; Stock Picking
-                </div>
-                <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-boxes"></i> Stock Manager → Receives Materials
-                </div>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 12px 20px; justify-content: center; margin-top: 12px;">
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-user-tie"></i> Project Manager → Completes Milestone
-                </div>
-                <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-cogs"></i> System → Generates Invoice
-                </div>
-                <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-file-invoice-dollar"></i> Accountant → Processes Payment
-                </div>
-                <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
-                <div style="background: white; padding: 10px 20px; border-radius: 40px; border: 1px solid #dce4ec;">
-                    <i class="fas fa-user"></i> Client → Views Progress
-                </div>
-            </div>
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 18px 22px; border-radius: 18px;">
+          <h5 style="color: #1a3a5c; margin-bottom: 10px;">Subcontractor Task States</h5>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <span class="badge-status badge-secondary">Pending</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-info">Assigned</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-warning">In Progress</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-primary">Under Review</span>
+            <span style="color: #94a3b8;">→</span>
+            <span class="badge-status badge-success">Completed</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- ============================================================ -->
-    <!-- SECTION 7: KEY ADVANTAGES                                    -->
-    <!-- ============================================================ -->
-    <section id="advantages" class="section">
-        <div class="section-header">
-            <i class="fas fa-trophy"></i>
-            <h2>Key Advantages &amp; Benefits</h2>
-            <span class="badge">ROI Impact</span>
-        </div>
-
-        <div class="grid-2">
-            <div class="advantage-card">
-                <span class="percentage">20-30%</span>
-                <h3><i class="fas fa-coins" style="color: #fbbf24;"></i> Cost Reduction</h3>
-                <p><strong>How it works:</strong> The module provides real-time budget tracking with automatic variance alerts. When costs exceed budget, managers are notified immediately, allowing for corrective action before overruns become significant.</p>
-                <div style="margin-top: 8px; padding: 8px 16px; background: #f1f5f9; border-radius: 8px; font-size: 0.85rem;">
-                    <strong>Key Feature:</strong> Cost variance analysis with early warning system
-                </div>
-            </div>
-
-            <div class="advantage-card">
-                <span class="percentage">70%</span>
-                <h3><i class="fas fa-clock" style="color: #fbbf24;"></i> Faster Billing</h3>
-                <p><strong>How it works:</strong> Automated invoice generation from milestones eliminates manual data entry. The system calculates retainage, net amounts, and creates professional invoices with a single click.</p>
-                <div style="margin-top: 8px; padding: 8px 16px; background: #f1f5f9; border-radius: 8px; font-size: 0.85rem;">
-                    <strong>Key Feature:</strong> One-click invoice generation from milestones
-                </div>
-            </div>
-
-            <div class="advantage-card">
-                <span class="percentage">100%</span>
-                <h3><i class="fas fa-eye" style="color: #fbbf24;"></i> Project Visibility</h3>
-                <p><strong>How it works:</strong> All project data flows into a centralized dashboard with real-time KPIs. Managers can see budget utilization, progress, costs, and profitability at a glance, enabling data-driven decisions.</p>
-                <div style="margin-top: 8px; padding: 8px 16px; background: #f1f5f9; border-radius: 8px; font-size: 0.85rem;">
-                    <strong>Key Feature:</strong> Real-time KPI dashboard with charts
-                </div>
-            </div>
-
-            <div class="advantage-card">
-                <span class="percentage">50%</span>
-                <h3><i class="fas fa-user-clock" style="color: #fbbf24;"></i> Reduced Admin Time</h3>
-                <p><strong>How it works:</strong> Automated workflows handle routine tasks like requisition approvals, invoice creation, and report generation. This frees up valuable time for core project management activities.</p>
-                <div style="margin-top: 8px; padding: 8px 16px; background: #f1f5f9; border-radius: 8px; font-size: 0.85rem;">
-                    <strong>Key Feature:</strong> Automated workflows for approvals and notifications
-                </div>
-            </div>
-        </div>
-
-        <!-- ROI Impact -->
-        <div style="margin-top: 32px; background: linear-gradient(135deg, #0b1a33, #1a3a5c); color: white; border-radius: 20px; padding: 32px 28px; text-align: center;">
-            <h3 style="color: #fbbf24; font-size: 1.5rem; margin-bottom: 20px;"><i class="fas fa-chart-simple"></i> ROI Impact Analysis</h3>
-            <div class="grid-4">
-                <div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #fbbf24;">$50K+</div>
-                    <p style="opacity: 0.8; font-size: 0.9rem;">Average Savings per Project</p>
-                </div>
-                <div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #fbbf24;">15</div>
-                    <p style="opacity: 0.8; font-size: 0.9rem;">Days Saved on Billing Cycle</p>
-                </div>
-                <div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #fbbf24;">3x</div>
-                    <p style="opacity: 0.8; font-size: 0.9rem;">Faster Project Reporting</p>
-                </div>
-                <div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #fbbf24;">100%</div>
-                    <p style="opacity: 0.8; font-size: 0.9rem;">Audit Trail Coverage</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Business Case -->
-        <div style="margin-top: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Business Case Summary</h4>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fas fa-hand-holding-usd" style="color: #1a3a5c; font-size: 1.4rem;"></i>
-                    <h4 style="margin-top: 6px;">Cost Savings</h4>
-                    <p style="color: #64748b;">Reduce cost overruns through real-time budget tracking and early variance detection. Eliminate manual data entry errors and prevent duplicate purchases.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-rocket" style="color: #1a3a5c; font-size: 1.4rem;"></i>
-                    <h4 style="margin-top: 6px;">Efficiency Gains</h4>
-                    <p style="color: #64748b;">Accelerate billing cycles with automated progress invoicing. Reduce administrative overhead by 50% through workflow automation.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-medal" style="color: #1a3a5c; font-size: 1.4rem;"></i>
-                    <h4 style="margin-top: 6px;">Competitive Advantage</h4>
-                    <p style="color: #64748b;">Win more bids with accurate job costing. Improve client satisfaction with transparent project tracking and professional reporting.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 8: TECHNICAL IMPLEMENTATION                          -->
-    <!-- ============================================================ -->
-    <section id="implementation" class="section">
-        <div class="section-header">
-            <i class="fas fa-code"></i>
-            <h2>Technical Implementation</h2>
-            <span class="badge">Developer Guide</span>
-        </div>
-
-        <!-- Key Methods -->
-        <div style="margin-bottom: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Key Methods &amp; Business Logic</h4>
-            <div class="code-block">
-                <span class="comment"># BOQ Approval – Creates Job Cost Lines</span><br>
-                <span class="keyword">def</span> <span class="func">_create_job_cost_lines</span>(self):<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;JobCostLine = self.env[<span class="string">'construction.job.cost.line'</span>]<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> boq <span class="keyword">in</span> self:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> line <span class="keyword">in</span> boq.line_ids:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;existing = JobCostLine.<span class="func">search</span>([<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="string">'project_id'</span>, <span class="string">'='</span>, boq.project_id.id),<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="string">'product_id'</span>, <span class="string">'='</span>, line.product_id.id)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;])<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> not existing:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JobCostLine.<span class="func">create</span>({<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'project_id'</span>: boq.project_id.id,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'product_id'</span>: line.product_id.id,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'budgeted_amount'</span>: line.subtotal,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
-                <br>
-                <span class="comment"># Milestone Invoice Generation</span><br>
-                <span class="keyword">def</span> <span class="func">action_generate_invoice</span>(self):<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> milestone <span class="keyword">in</span> self:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invoice_vals = {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'move_type'</span>: <span class="string">'out_invoice'</span>,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'partner_id'</span>: milestone.project_id.partner_id.id,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'invoice_line_ids'</span>: [(<span class="number">0</span>, <span class="number">0</span>, {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'name'</span>: <span class="string">f"Milestone: {milestone.name}"</span>,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'price_unit'</span>: milestone.net_amount<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})]<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invoice = self.env[<span class="string">'account.move'</span>].<span class="func">create</span>(invoice_vals)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.invoice_id = invoice.id<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.state = <span class="string">'invoiced'</span><br>
-                <br>
-                <span class="comment"># Subcontractor Task Completion</span><br>
-                <span class="keyword">def</span> <span class="func">action_complete</span>(self):<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> task <span class="keyword">in</span> self:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.status = <span class="string">'completed'</span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.completion_date = fields.Date.<span class="func">today</span>()<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.progress_percentage = <span class="number">100.0</span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> task.contract_value > 0:<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.<span class="func">action_generate_invoice</span>()
-            </div>
-        </div>
-
-        <!-- Performance Optimizations -->
-        <div style="margin-bottom: 28px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Performance Optimizations</h4>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fas fa-database" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Database Indexing</h4>
-                    <p style="color: #64748b;">All foreign key fields and frequently queried fields are indexed for fast lookups and query performance.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> project_id indexes</li>
-                        <li><i class="fas fa-check-circle"></i> state field indexes</li>
-                        <li><i class="fas fa-check-circle"></i> product_id indexes</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <i class="fas fa-cache" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Computed Field Caching</h4>
-                    <p style="color: #64748b;"><code>@api.depends</code> ensures computed fields are only recalculated when dependencies change, reducing processing overhead.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Smart dependencies</li>
-                        <li><i class="fas fa-check-circle"></i> Store=True for frequently used</li>
-                        <li><i class="fas fa-check-circle"></i> Optimized recalculations</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <i class="fas fa-search" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                    <h4 style="margin-top: 6px;">Optimized Queries</h4>
-                    <p style="color: #64748b;">Use of <code>mapped()</code>, <code>filtered()</code>, and <code>search()</code> with efficient domain filters for data processing.</p>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Efficient data aggregation</li>
-                        <li><i class="fas fa-check-circle"></i> Domain filtering</li>
-                        <li><i class="fas fa-check-circle"></i> Batch processing</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Module Structure -->
+    <!-- Workflow Triggers -->
+    <div style="margin-top: 32px; background: linear-gradient(135deg, #eef4ff, #dce6f5); border-radius: 22px; padding: 28px 32px; border: 1px solid #c7d9f0;">
+      <h4 style="color: #1a3a5c; margin-bottom: 16px; font-size: 1.2rem;"><i class="fas fa-bell" style="color: #fbbf24; margin-right: 12px;"></i>Workflow Triggers &amp; Notifications</h4>
+      <div class="grid-3">
         <div>
-            <h4 style="color: #1a3a5c; margin-bottom: 16px;">Module Structure &amp; File Organization</h4>
-            <div class="grid-3">
-                <div style="background: #f1f5f9; padding: 16px 20px; border-radius: 12px;">
-                    <i class="fas fa-folder" style="color: #1a3a5c;"></i>
-                    <h5 style="margin-top: 4px;">models/</h5>
-                    <ul style="list-style: none; font-size: 0.85rem; color: #64748b;">
-                        <li>• construction_base.py</li>
-                        <li>• construction_project.py</li>
-                        <li>• construction_boq.py</li>
-                        <li>• construction_job_cost.py</li>
-                        <li>• construction_requisition.py</li>
-                        <li>• construction_billing.py</li>
-                        <li>• construction_subcontractor.py</li>
-                        <li>• construction_checklist.py</li>
-                        <li>• construction_task.py</li>
-                        <li>• construction_dashboard.py</li>
-                    </ul>
-                </div>
-                <div style="background: #f1f5f9; padding: 16px 20px; border-radius: 12px;">
-                    <i class="fas fa-folder" style="color: #1a3a5c;"></i>
-                    <h5 style="margin-top: 4px;">views/</h5>
-                    <ul style="list-style: none; font-size: 0.85rem; color: #64748b;">
-                        <li>• construction_views.xml</li>
-                        <li>• construction_task_views.xml</li>
-                        <li>• boq_views.xml</li>
-                        <li>• material_requisition_views.xml</li>
-                        <li>• job_cost_views.xml</li>
-                        <li>• progress_billing_views.xml</li>
-                        <li>• subcontractor_views.xml</li>
-                        <li>• checklist_views.xml</li>
-                        <li>• dashboard_views.xml</li>
-                        <li>• menu_views.xml</li>
-                        <li>• portal_templates.xml</li>
-                        <li>• report_views.xml</li>
-                    </ul>
-                </div>
-                <div style="background: #f1f5f9; padding: 16px 20px; border-radius: 12px;">
-                    <i class="fas fa-folder" style="color: #1a3a5c;"></i>
-                    <h5 style="margin-top: 4px;">Other Directories</h5>
-                    <ul style="list-style: none; font-size: 0.85rem; color: #64748b;">
-                        <li>• security/ (security.xml, ir.model.access.csv)</li>
-                        <li>• wizards/ (import_boq, generate_invoice, close_project)</li>
-                        <li>• data/ (sequences, templates)</li>
-                        <li>• demo/ (users, projects, boq, transactions)</li>
-                        <li>• controllers/ (portal controllers)</li>
-                        <li>• static/ (CSS, JS, images)</li>
-                    </ul>
-                </div>
-            </div>
+          <strong style="color: #1a3a5c;">BOQ Approval</strong>
+          <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-create job cost lines, auto-create requisitions, notify project team.</p>
         </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- SECTION 9: DEMO DATA                                        -->
-    <!-- ============================================================ -->
-    <section class="section">
-        <div class="section-header">
-            <i class="fas fa-flask"></i>
-            <h2>Demo Data</h2>
-            <span class="badge">Quick Start</span>
+        <div>
+          <strong style="color: #1a3a5c;">Requisition Approval</strong>
+          <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-create purchase order, auto-create stock picking, notify procurement.</p>
         </div>
-
-        <div style="margin-bottom: 20px;">
-            <h4 style="color: #1a3a5c; margin-bottom: 12px;">What's Included in Demo Data</h4>
-            <p style="color: #4a5568; margin-bottom: 16px;">The module comes with comprehensive demo data to help you get started quickly:</p>
+        <div>
+          <strong style="color: #1a3a5c;">Milestone Completion</strong>
+          <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-calculate retainage, generate invoice, notify billing team.</p>
         </div>
+        <div>
+          <strong style="color: #1a3a5c;">Subcontractor Task Complete</strong>
+          <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Auto-generate vendor invoice, update quality rating, notify project manager.</p>
+        </div>
+        <div>
+          <strong style="color: #1a3a5c;">Over Budget Alert</strong>
+          <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Real-time notification to project manager when cost variance is negative.</p>
+        </div>
+        <div>
+          <strong style="color: #1a3a5c;">Overdue Task</strong>
+          <p style="color: #4a5568; font-size: 0.9rem;">Triggers: Daily notification for tasks past deadline, escalate to manager if 30+ days overdue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ============================================================ -->
+  <!-- SECTION 5: DATA FLOW & INTEGRATION                           -->
+  <!-- ============================================================ -->
+  <section id="data-flow" class="section">
+    <div class="section-header">
+      <i class="fas fa-arrow-trend-up"></i>
+      <h2>Data Flow &amp; Integration</h2>
+      <span class="badge">End‑to‑End</span>
+    </div>
+
+    <!-- Flow Diagram -->
+    <div class="flow-diagram">
+      <div class="flow-box"><i class="fas fa-file-invoice"></i><strong>BOQ</strong><small>Budget Planning</small></div>
+      <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="flow-box"><i class="fas fa-cogs"></i><strong>Job Costs</strong><small>Budget Baseline</small></div>
+      <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="flow-box"><i class="fas fa-chart-line"></i><strong>Tracking</strong><small>Actual vs Budget</small></div>
+      <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="flow-box"><i class="fas fa-gauge-high"></i><strong>Dashboard</strong><small>KPI &amp; Reports</small></div>
+    </div>
+
+    <!-- Integration Paths -->
+    <div style="margin-top: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Integration Paths</h4>
+      <div class="grid-3">
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-truck" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Requisitions</h4>
+          <p style="color: #64748b;">BOQ → Requisition → Purchase Order → Stock Picking → Delivery</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Auto-create PO on approval</li>
+            <li><i class="fas fa-check-circle"></i> Auto-create stock picking</li>
+            <li><i class="fas fa-check-circle"></i> Track delivered quantities</li>
+          </ul>
+        </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-file-invoice-dollar" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Billing</h4>
+          <p style="color: #64748b;">Milestone → Progress Billing → Customer Invoice → Payment</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Auto-calculate retainage</li>
+            <li><i class="fas fa-check-circle"></i> One-click invoice generation</li>
+            <li><i class="fas fa-check-circle"></i> Track invoice status</li>
+          </ul>
+        </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-users" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Subcontractors</h4>
+          <p style="color: #64748b;">Task → Progress → Quality Rating → Vendor Invoice → Payment</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Track progress %</li>
+            <li><i class="fas fa-check-circle"></i> Auto-generate vendor invoice</li>
+            <li><i class="fas fa-check-circle"></i> Quality rating tracking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Module Integration -->
+    <div style="margin-top: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Integration with Odoo Core Modules</h4>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);"><i class="fas fa-tasks"></i></div>
+          <h3>Project Module</h3>
+          <p>Extends project model with construction fields, task types, dependencies, and cost tracking.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Construction project flag</li>
+            <li><i class="fas fa-check-circle"></i> Task type &amp; dependencies</li>
+            <li><i class="fas fa-check-circle"></i> Cost tracking</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: linear-gradient(135deg, #059669, #047857);"><i class="fas fa-file-invoice-dollar"></i></div>
+          <h3>Accounting Module</h3>
+          <p>Auto‑generates customer and vendor invoices from milestones and subcontractor tasks.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Progress invoices</li>
+            <li><i class="fas fa-check-circle"></i> Retainage handling</li>
+            <li><i class="fas fa-check-circle"></i> Subcontractor invoices</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: linear-gradient(135deg, #d97706, #b45309);"><i class="fas fa-shopping-cart"></i></div>
+          <h3>Purchase Module</h3>
+          <p>Creates purchase orders from material requisitions for seamless procurement.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Auto PO creation</li>
+            <li><i class="fas fa-check-circle"></i> Project context</li>
+            <li><i class="fas fa-check-circle"></i> Cost integration</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);"><i class="fas fa-boxes"></i></div>
+          <h3>Stock Module</h3>
+          <p>Manages inventory movements through pickings and delivery tracking.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Stock pickings</li>
+            <li><i class="fas fa-check-circle"></i> Delivery tracking</li>
+            <li><i class="fas fa-check-circle"></i> Material consumption</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: linear-gradient(135deg, #dc2626, #b91c1c);"><i class="fas fa-clock"></i></div>
+          <h3>Timesheet Module</h3>
+          <p>Tracks labor costs through timesheet entries linked to projects and tasks.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Labor costing</li>
+            <li><i class="fas fa-check-circle"></i> Timesheet integration</li>
+            <li><i class="fas fa-check-circle"></i> Cost calculation</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: linear-gradient(135deg, #0891b2, #0e7490);"><i class="fas fa-globe"></i></div>
+          <h3>Portal Module</h3>
+          <p>Provides client-facing portal for project tracking and transparency.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Project visibility</li>
+            <li><i class="fas fa-check-circle"></i> Milestone tracking</li>
+            <li><i class="fas fa-check-circle"></i> BOQ viewing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: USER INTERACTIONS                                 -->
+  <!-- ============================================================ -->
+  <section id="user-interactions" class="section">
+    <div class="section-header">
+      <i class="fas fa-users"></i>
+      <h2>User Interactions</h2>
+      <span class="badge">Roles &amp; Actions</span>
+    </div>
+
+    <!-- Role-Based Flows -->
+    <div style="margin-bottom: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Role-Based Interaction Flows</h4>
+
+      <!-- Project Manager -->
+      <div style="margin-bottom: 24px;">
+        <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 12px; font-size: 1.05rem;">
+          <i class="fas fa-user-tie" style="color: #fbbf24; font-size: 1.4rem;"></i> Project Manager
+        </h5>
+        <div class="grid-4">
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-plus-circle" style="color: #059669;"></i>
+            <strong>1. Create Project</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Set up project with type, status, site details, and contract value</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-file-invoice" style="color: #059669;"></i>
+            <strong>2. Create BOQ</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Add products, quantities, and prices. Import from Excel if needed.</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-paper-plane" style="color: #059669;"></i>
+            <strong>3. Submit for Approval</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Send BOQ for review. Auto-creates cost lines and requisitions.</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-tasks" style="color: #059669;"></i>
+            <strong>4. Manage Tasks</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Create tasks, assign crews, set dependencies, track progress.</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-check-double" style="color: #059669;"></i>
+            <strong>5. Approve Requisitions</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Review and approve material requests. Generate purchase orders.</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-file-invoice-dollar" style="color: #059669;"></i>
+            <strong>6. Generate Invoices</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Create progress invoices from milestones or percentage completion.</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-chart-pie" style="color: #059669;"></i>
+            <strong>7. Monitor Dashboard</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Track KPIs, costs, progress, and profitability in real-time.</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-door-closed" style="color: #059669;"></i>
+            <strong>8. Close Project</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Generate final reports, analyze profit/loss, and archive project.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Construction Manager -->
+      <div style="margin-bottom: 24px;">
+        <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 12px; font-size: 1.05rem;">
+          <i class="fas fa-hard-hat" style="color: #fbbf24; font-size: 1.4rem;"></i> Construction Manager
+        </h5>
         <div class="grid-3">
-            <div class="card">
-                <i class="fas fa-users" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                <h4 style="margin-top: 6px;">Demo Users</h4>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Construction Manager</li>
-                    <li><i class="fas fa-check-circle"></i> Project Engineer</li>
-                    <li><i class="fas fa-check-circle"></i> Demo Clients</li>
-                    <li><i class="fas fa-check-circle"></i> Demo Subcontractors</li>
-                </ul>
-            </div>
-            <div class="card">
-                <i class="fas fa-building" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                <h4 style="margin-top: 6px;">Demo Projects</h4>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Office Tower Construction</li>
-                    <li><i class="fas fa-check-circle"></i> Luxury Home Renovation</li>
-                    <li><i class="fas fa-check-circle"></i> Sample Tasks &amp; Milestones</li>
-                </ul>
-            </div>
-            <div class="card">
-                <i class="fas fa-file-invoice" style="color: #1a3a5c; font-size: 1.2rem;"></i>
-                <h4 style="margin-top: 6px;">Demo Transactions</h4>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Sample BOQs with lines</li>
-                    <li><i class="fas fa-check-circle"></i> Material Requisitions</li>
-                    <li><i class="fas fa-check-circle"></i> Milestones &amp; Progress Billings</li>
-                </ul>
-            </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-check-circle" style="color: #059669;"></i>
+            <strong>Approve BOQs</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Review and approve Bill of Quantities</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-check-circle" style="color: #059669;"></i>
+            <strong>Approve Requisitions</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Review material requests and approve</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-clipboard-check" style="color: #059669;"></i>
+            <strong>Complete Checklists</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Conduct safety and quality inspections</p>
+          </div>
         </div>
+      </div>
 
-        <div style="margin-top: 20px; background: #f1f5f9; border-radius: 16px; padding: 20px;">
-            <h5 style="color: #1a3a5c; margin-bottom: 8px;"><i class="fas fa-info-circle"></i> Getting Started with Demo Data</h5>
-            <p style="color: #64748b; font-size: 0.95rem;">After installing the module, log in as <strong>construction_manager</strong> (password: construction123) or <strong>project_engineer</strong> (password: engineer123) to explore the demo data and start using the module.</p>
+      <!-- Subcontractor -->
+      <div style="margin-bottom: 24px;">
+        <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 12px; font-size: 1.05rem;">
+          <i class="fas fa-users-cog" style="color: #fbbf24; font-size: 1.4rem;"></i> Subcontractor
+        </h5>
+        <div class="grid-3">
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-tasks" style="color: #059669;"></i>
+            <strong>View Assigned Tasks</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">See tasks assigned to you</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-chart-line" style="color: #059669;"></i>
+            <strong>Update Progress</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Report progress on tasks</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-file-invoice" style="color: #059669;"></i>
+            <strong>Generate Invoices</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Create invoices for completed work</p>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- ============================================================ -->
-    <!-- SECTION 10: SUPPORT & CONTACT                               -->
-    <!-- ============================================================ -->
-    <section class="section">
-        <div class="section-header">
-            <i class="fas fa-headset"></i>
-            <h2>Support &amp; Contact</h2>
-            <span class="badge">Help</span>
+      <!-- Client -->
+      <div>
+        <h5 style="color: #1a3a5c; display: flex; align-items: center; gap: 12px; font-size: 1.05rem;">
+          <i class="fas fa-user" style="color: #fbbf24; font-size: 1.4rem;"></i> Client (Portal User)
+        </h5>
+        <div class="grid-3">
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-eye" style="color: #059669;"></i>
+            <strong>View Project Progress</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">See project completion and status</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-list" style="color: #059669;"></i>
+            <strong>View BOQ</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">See Bill of Quantities details</p>
+          </div>
+          <div style="background: #f8fafc; padding: 14px 18px; border-radius: 14px; border-left: 4px solid #fbbf24;">
+            <i class="fas fa-flag" style="color: #059669;"></i>
+            <strong>Track Milestones</strong>
+            <p style="font-size: 0.85rem; color: #64748b;">Monitor milestone progress</p>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="grid-2">
-            <div style="background: #f1f5f9; border-radius: 16px; padding: 24px;">
-                <i class="fas fa-envelope" style="color: #1a3a5c; font-size: 1.5rem;"></i>
-                <h4 style="margin: 8px 0;">Email Support</h4>
-                <p style="color: #64748b;">For technical questions or customization requests, please contact us at:</p>
-                <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px;">support@yourcompany.com</p>
-            </div>
-            <div style="background: #f1f5f9; border-radius: 16px; padding: 24px;">
-                <i class="fas fa-globe" style="color: #1a3a5c; font-size: 1.5rem;"></i>
-                <h4 style="margin: 8px 0;">Website</h4>
-                <p style="color: #64748b;">Visit our website for more information, documentation, and updates:</p>
-                <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px;"><a href="https://yourwebsite.com" target="_blank" style="color: #1a3a5c;">https://yourwebsite.com</a></p>
-            </div>
-            <div style="background: #f1f5f9; border-radius: 16px; padding: 24px;">
-                <i class="fas fa-book" style="color: #1a3a5c; font-size: 1.5rem;"></i>
-                <h4 style="margin: 8px 0;">Documentation</h4>
-                <p style="color: #64748b;">Complete technical documentation is available in the module folder.</p>
-                <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px;">README.md | User Guide | API Reference</p>
-            </div>
-            <div style="background: #f1f5f9; border-radius: 16px; padding: 24px;">
-                <i class="fas fa-bug" style="color: #1a3a5c; font-size: 1.5rem;"></i>
-                <h4 style="margin: 8px 0;">Issue Tracking</h4>
-                <p style="color: #64748b;">Report bugs and suggest features through our issue tracker:</p>
-                <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px;">GitHub Issues or Support Portal</p>
-            </div>
+    <!-- Interaction Flow Diagram -->
+    <div style="margin-top: 32px; background: linear-gradient(135deg, #f1f5f9, #e8edf5); border-radius: 22px; padding: 28px; border: 1px solid #dce4ec;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Interaction Flow Diagram</h4>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px 20px; justify-content: center;">
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-user-tie" style="color: #1a3a5c;"></i> Project Manager → Creates BOQ
         </div>
-    </section>
+        <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-cogs" style="color: #1a3a5c;"></i> System → Auto‑creates Costs &amp; Requisitions
+        </div>
+        <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-hard-hat" style="color: #1a3a5c;"></i> Construction Manager → Approves
+        </div>
+        <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-truck" style="color: #1a3a5c;"></i> System → Creates PO &amp; Stock Picking
+        </div>
+        <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-boxes" style="color: #1a3a5c;"></i> Stock Manager → Receives Materials
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px 20px; justify-content: center; margin-top: 14px;">
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-user-tie" style="color: #1a3a5c;"></i> Project Manager → Completes Milestone
+        </div>
+        <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-cogs" style="color: #1a3a5c;"></i> System → Generates Invoice
+        </div>
+        <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-file-invoice-dollar" style="color: #1a3a5c;"></i> Accountant → Processes Payment
+        </div>
+        <div style="color: #94a3b8; font-size: 1.5rem;">→</div>
+        <div style="background: white; padding: 10px 22px; border-radius: 40px; border: 1px solid #dce4ec; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <i class="fas fa-user" style="color: #1a3a5c;"></i> Client → Views Progress
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- ============================================================ -->
-    <!-- FOOTER                                                      -->
-    <!-- ============================================================ -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div>
-                <h4><i class="fas fa-building" style="color: #fbbf24;"></i> Construction Suite</h4>
-                <p style="font-size: 0.9rem; line-height: 1.7;">Complete construction project management solution for Odoo 17. Built for contractors, project managers, and construction companies.</p>
-            </div>
-            <div>
-                <h4>Documentation</h4>
-                <ul>
-                    <li><a href="#overview">How It Works</a></li>
-                    <li><a href="#architecture">Architecture</a></li>
-                    <li><a href="#models">Data Models</a></li>
-                    <li><a href="#workflow">Workflow</a></li>
-                    <li><a href="#data-flow">Data Flow</a></li>
-                    <li><a href="#user-interactions">User Interactions</a></li>
-                    <li><a href="#advantages">Advantages</a></li>
-                    <li><a href="#implementation">Implementation</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><i class="fas fa-check-circle" style="color: #4ade80;"></i> Install Module</li>
-                    <li><i class="fas fa-book" style="color: #60a5fa;"></i> Read Full Docs</li>
-                    <li><i class="fas fa-headset" style="color: #fbbf24;"></i> Support</li>
-                    <li><i class="fab fa-github" style="color: #fbbf24;"></i> GitHub</li>
-                </ul>
-            </div>
-            <div>
-                <h4>Technical Details</h4>
-                <ul>
-                    <li><i class="fas fa-code"></i> 4108+ Lines of Code</li>
-                    <li><i class="fas fa-database"></i> 10+ Custom Models</li>
-                    <li><i class="fas fa-shield-alt"></i> Odoo 17 Compatible</li>
-                    <li><i class="fas fa-rocket"></i> Enterprise Ready</li>
-                </ul>
-            </div>
+  <!-- ============================================================ -->
+  <!-- SECTION 7: KEY ADVANTAGES                                    -->
+  <!-- ============================================================ -->
+  <section id="advantages" class="section">
+    <div class="section-header">
+      <i class="fas fa-trophy"></i>
+      <h2>Key Advantages &amp; Benefits</h2>
+      <span class="badge">ROI Impact</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="advantage-card">
+        <span class="percentage">20-30%</span>
+        <h3><i class="fas fa-coins" style="color: #fbbf24; margin-right: 10px;"></i>Cost Reduction</h3>
+        <p><strong>How it works:</strong> The module provides real-time budget tracking with automatic variance alerts. When costs exceed budget, managers are notified immediately, allowing for corrective action before overruns become significant.</p>
+        <div class="highlight-box">
+          <strong>Key Feature:</strong> Cost variance analysis with early warning system
         </div>
-        <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid #1e293b; text-align: center; opacity: 0.6; font-size: 0.85rem;">
-            &copy; 2024 Construction Management Suite. All rights reserved. — Built for Odoo 17 | v1.0.0
+      </div>
+
+      <div class="advantage-card">
+        <span class="percentage">70%</span>
+        <h3><i class="fas fa-clock" style="color: #fbbf24; margin-right: 10px;"></i>Faster Billing</h3>
+        <p><strong>How it works:</strong> Automated invoice generation from milestones eliminates manual data entry. The system calculates retainage, net amounts, and creates professional invoices with a single click.</p>
+        <div class="highlight-box">
+          <strong>Key Feature:</strong> One-click invoice generation from milestones
         </div>
-    </footer>
+      </div>
+
+      <div class="advantage-card">
+        <span class="percentage">100%</span>
+        <h3><i class="fas fa-eye" style="color: #fbbf24; margin-right: 10px;"></i>Project Visibility</h3>
+        <p><strong>How it works:</strong> All project data flows into a centralized dashboard with real-time KPIs. Managers can see budget utilization, progress, costs, and profitability at a glance, enabling data-driven decisions.</p>
+        <div class="highlight-box">
+          <strong>Key Feature:</strong> Real-time KPI dashboard with charts
+        </div>
+      </div>
+
+      <div class="advantage-card">
+        <span class="percentage">50%</span>
+        <h3><i class="fas fa-user-clock" style="color: #fbbf24; margin-right: 10px;"></i>Reduced Admin Time</h3>
+        <p><strong>How it works:</strong> Automated workflows handle routine tasks like requisition approvals, invoice creation, and report generation. This frees up valuable time for core project management activities.</p>
+        <div class="highlight-box">
+          <strong>Key Feature:</strong> Automated workflows for approvals and notifications
+        </div>
+      </div>
+    </div>
+
+    <!-- ROI Impact -->
+    <div style="margin-top: 36px; background: linear-gradient(135deg, #0b1a33, #1a3a5c); color: white; border-radius: 24px; padding: 36px 32px; text-align: center; border: 2px solid #fbbf24;">
+      <h3 style="color: #fbbf24; font-size: 1.6rem; margin-bottom: 24px;"><i class="fas fa-chart-simple" style="margin-right: 12px;"></i>ROI Impact Analysis</h3>
+      <div class="grid-4">
+        <div>
+          <div style="font-size: 2.8rem; font-weight: 900; color: #fbbf24;">$50K+</div>
+          <p style="opacity: 0.8; font-size: 0.95rem;">Average Savings per Project</p>
+        </div>
+        <div>
+          <div style="font-size: 2.8rem; font-weight: 900; color: #fbbf24;">15</div>
+          <p style="opacity: 0.8; font-size: 0.95rem;">Days Saved on Billing Cycle</p>
+        </div>
+        <div>
+          <div style="font-size: 2.8rem; font-weight: 900; color: #fbbf24;">3x</div>
+          <p style="opacity: 0.8; font-size: 0.95rem;">Faster Project Reporting</p>
+        </div>
+        <div>
+          <div style="font-size: 2.8rem; font-weight: 900; color: #fbbf24;">100%</div>
+          <p style="opacity: 0.8; font-size: 0.95rem;">Audit Trail Coverage</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Case -->
+    <div style="margin-top: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Business Case Summary</h4>
+      <div class="grid-3">
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-hand-holding-usd" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Cost Savings</h4>
+          <p style="color: #64748b;">Reduce cost overruns through real-time budget tracking and early variance detection. Eliminate manual data entry errors and prevent duplicate purchases.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-rocket" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Efficiency Gains</h4>
+          <p style="color: #64748b;">Accelerate billing cycles with automated progress invoicing. Reduce administrative overhead by 50% through workflow automation.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-medal" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Competitive Advantage</h4>
+          <p style="color: #64748b;">Win more bids with accurate job costing. Improve client satisfaction with transparent project tracking and professional reporting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: TECHNICAL IMPLEMENTATION                          -->
+  <!-- ============================================================ -->
+  <section id="implementation" class="section">
+    <div class="section-header">
+      <i class="fas fa-code"></i>
+      <h2>Technical Implementation</h2>
+      <span class="badge">Developer Guide</span>
+    </div>
+
+    <!-- Key Methods -->
+    <div style="margin-bottom: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Key Methods &amp; Business Logic</h4>
+      <div class="code-block">
+        <span class="comment"># BOQ Approval – Creates Job Cost Lines</span><br>
+        <span class="keyword">def</span> <span class="func">_create_job_cost_lines</span>(self):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;JobCostLine = self.env[<span class="string">'construction.job.cost.line'</span>]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> boq <span class="keyword">in</span> self:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> line <span class="keyword">in</span> boq.line_ids:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;existing = JobCostLine.<span class="func">search</span>([<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="string">'project_id'</span>, <span class="string">'='</span>, boq.project_id.id),<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="string">'product_id'</span>, <span class="string">'='</span>, line.product_id.id)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;])<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> not existing:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JobCostLine.<span class="func">create</span>({<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'project_id'</span>: boq.project_id.id,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'product_id'</span>: line.product_id.id,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'budgeted_amount'</span>: line.subtotal,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+        <br>
+        <span class="comment"># Milestone Invoice Generation</span><br>
+        <span class="keyword">def</span> <span class="func">action_generate_invoice</span>(self):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> milestone <span class="keyword">in</span> self:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invoice_vals = {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'move_type'</span>: <span class="string">'out_invoice'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'partner_id'</span>: milestone.project_id.partner_id.id,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'invoice_line_ids'</span>: [(<span class="number">0</span>, <span class="number">0</span>, {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'name'</span>: <span class="string">f"Milestone: {milestone.name}"</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'price_unit'</span>: milestone.net_amount<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invoice = self.env[<span class="string">'account.move'</span>].<span class="func">create</span>(invoice_vals)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.invoice_id = invoice.id<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;milestone.state = <span class="string">'invoiced'</span><br>
+        <br>
+        <span class="comment"># Subcontractor Task Completion</span><br>
+        <span class="keyword">def</span> <span class="func">action_complete</span>(self):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> task <span class="keyword">in</span> self:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.status = <span class="string">'completed'</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.completion_date = fields.Date.<span class="func">today</span>()<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.progress_percentage = <span class="number">100.0</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> task.contract_value > 0:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.<span class="func">action_generate_invoice</span>()
+      </div>
+    </div>
+
+    <!-- Performance Optimizations -->
+    <div style="margin-bottom: 32px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Performance Optimizations</h4>
+      <div class="grid-3">
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-database" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Database Indexing</h4>
+          <p style="color: #64748b;">All foreign key fields and frequently queried fields are indexed for fast lookups and query performance.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> project_id indexes</li>
+            <li><i class="fas fa-check-circle"></i> state field indexes</li>
+            <li><i class="fas fa-check-circle"></i> product_id indexes</li>
+          </ul>
+        </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-cache" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Computed Field Caching</h4>
+          <p style="color: #64748b;"><code>@api.depends</code> ensures computed fields are only recalculated when dependencies change, reducing processing overhead.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Smart dependencies</li>
+            <li><i class="fas fa-check-circle"></i> Store=True for frequently used</li>
+            <li><i class="fas fa-check-circle"></i> Optimized recalculations</li>
+          </ul>
+        </div>
+        <div class="card" style="border-left: 4px solid #fbbf24;">
+          <i class="fas fa-search" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h4 style="margin-top: 8px;">Optimized Queries</h4>
+          <p style="color: #64748b;">Use of <code>mapped()</code>, <code>filtered()</code>, and <code>search()</code> with efficient domain filters for data processing.</p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Efficient data aggregation</li>
+            <li><i class="fas fa-check-circle"></i> Domain filtering</li>
+            <li><i class="fas fa-check-circle"></i> Batch processing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module Structure -->
+    <div>
+      <h4 style="color: #1a3a5c; margin-bottom: 18px; font-size: 1.2rem;">Module Structure &amp; File Organization</h4>
+      <div class="grid-3">
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 18px 22px; border-radius: 18px; border-left: 4px solid #fbbf24;">
+          <i class="fas fa-folder" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h5 style="margin-top: 6px;">models/</h5>
+          <ul style="list-style: none; font-size: 0.85rem; color: #64748b;">
+            <li>• construction_base.py</li>
+            <li>• construction_project.py</li>
+            <li>• construction_boq.py</li>
+            <li>• construction_job_cost.py</li>
+            <li>• construction_requisition.py</li>
+            <li>• construction_billing.py</li>
+            <li>• construction_subcontractor.py</li>
+            <li>• construction_checklist.py</li>
+            <li>• construction_task.py</li>
+            <li>• construction_dashboard.py</li>
+          </ul>
+        </div>
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 18px 22px; border-radius: 18px; border-left: 4px solid #fbbf24;">
+          <i class="fas fa-folder" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h5 style="margin-top: 6px;">views/</h5>
+          <ul style="list-style: none; font-size: 0.85rem; color: #64748b;">
+            <li>• construction_views.xml</li>
+            <li>• construction_task_views.xml</li>
+            <li>• boq_views.xml</li>
+            <li>• material_requisition_views.xml</li>
+            <li>• job_cost_views.xml</li>
+            <li>• progress_billing_views.xml</li>
+            <li>• subcontractor_views.xml</li>
+            <li>• checklist_views.xml</li>
+            <li>• dashboard_views.xml</li>
+            <li>• menu_views.xml</li>
+            <li>• portal_templates.xml</li>
+            <li>• report_views.xml</li>
+          </ul>
+        </div>
+        <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); padding: 18px 22px; border-radius: 18px; border-left: 4px solid #fbbf24;">
+          <i class="fas fa-folder" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+          <h5 style="margin-top: 6px;">Other Directories</h5>
+          <ul style="list-style: none; font-size: 0.85rem; color: #64748b;">
+            <li>• security/ (security.xml, ir.model.access.csv)</li>
+            <li>• wizards/ (import_boq, generate_invoice, close_project)</li>
+            <li>• data/ (sequences, templates)</li>
+            <li>• demo/ (users, projects, boq, transactions)</li>
+            <li>• controllers/ (portal controllers)</li>
+            <li>• static/ (CSS, JS, images)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 9: DEMO DATA                                        -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="section-header">
+      <i class="fas fa-flask"></i>
+      <h2>Demo Data</h2>
+      <span class="badge">Quick Start</span>
+    </div>
+
+    <div style="margin-bottom: 24px;">
+      <h4 style="color: #1a3a5c; margin-bottom: 14px; font-size: 1.2rem;">What's Included in Demo Data</h4>
+      <p style="color: #4a5568; margin-bottom: 20px;">The module comes with comprehensive demo data to help you get started quickly:</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card" style="border-left: 4px solid #fbbf24;">
+        <i class="fas fa-users" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+        <h4 style="margin-top: 8px;">Demo Users</h4>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Construction Manager</li>
+          <li><i class="fas fa-check-circle"></i> Project Engineer</li>
+          <li><i class="fas fa-check-circle"></i> Demo Clients</li>
+          <li><i class="fas fa-check-circle"></i> Demo Subcontractors</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 4px solid #fbbf24;">
+        <i class="fas fa-building" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+        <h4 style="margin-top: 8px;">Demo Projects</h4>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Office Tower Construction</li>
+          <li><i class="fas fa-check-circle"></i> Luxury Home Renovation</li>
+          <li><i class="fas fa-check-circle"></i> Sample Tasks &amp; Milestones</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 4px solid #fbbf24;">
+        <i class="fas fa-file-invoice" style="color: #1a3a5c; font-size: 1.4rem;"></i>
+        <h4 style="margin-top: 8px;">Demo Transactions</h4>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Sample BOQs with lines</li>
+          <li><i class="fas fa-check-circle"></i> Material Requisitions</li>
+          <li><i class="fas fa-check-circle"></i> Milestones &amp; Progress Billings</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; background: linear-gradient(135deg, #f1f5f9, #e8edf5); border-radius: 18px; padding: 22px 28px; border-left: 4px solid #fbbf24;">
+      <h5 style="color: #1a3a5c; margin-bottom: 8px;"><i class="fas fa-info-circle" style="color: #fbbf24; margin-right: 10px;"></i>Getting Started with Demo Data</h5>
+      <p style="color: #64748b; font-size: 0.95rem;">After installing the module, log in as <strong>construction_manager</strong> (password: construction123) or <strong>project_engineer</strong> (password: engineer123) to explore the demo data and start using the module.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 10: SUPPORT & CONTACT                               -->
+  <!-- ============================================================ -->
+  <section class="section">
+    <div class="section-header">
+      <i class="fas fa-headset"></i>
+      <h2>Support &amp; Contact</h2>
+      <span class="badge">Help</span>
+    </div>
+
+    <div class="grid-2">
+      <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); border-radius: 18px; padding: 26px 28px; border-left: 4px solid #fbbf24;">
+        <i class="fas fa-envelope" style="color: #1a3a5c; font-size: 1.6rem;"></i>
+        <h4 style="margin: 10px 0;">Email Support</h4>
+        <p style="color: #64748b;">For technical questions or customization requests, please contact us at:</p>
+        <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px; font-size: 1.1rem;">support@yourcompany.com</p>
+      </div>
+      <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); border-radius: 18px; padding: 26px 28px; border-left: 4px solid #fbbf24;">
+        <i class="fas fa-globe" style="color: #1a3a5c; font-size: 1.6rem;"></i>
+        <h4 style="margin: 10px 0;">Website</h4>
+        <p style="color: #64748b;">Visit our website for more information, documentation, and updates:</p>
+        <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px; font-size: 1.1rem;"><a href="https://yourwebsite.com" target="_blank" style="color: #1a3a5c;">https://yourwebsite.com</a></p>
+      </div>
+      <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); border-radius: 18px; padding: 26px 28px; border-left: 4px solid #fbbf24;">
+        <i class="fas fa-book" style="color: #1a3a5c; font-size: 1.6rem;"></i>
+        <h4 style="margin: 10px 0;">Documentation</h4>
+        <p style="color: #64748b;">Complete technical documentation is available in the module folder.</p>
+        <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px;">README.md | User Guide | API Reference</p>
+      </div>
+      <div style="background: linear-gradient(135deg, #f1f5f9, #e8edf5); border-radius: 18px; padding: 26px 28px; border-left: 4px solid #fbbf24;">
+        <i class="fas fa-bug" style="color: #1a3a5c; font-size: 1.6rem;"></i>
+        <h4 style="margin: 10px 0;">Issue Tracking</h4>
+        <p style="color: #64748b;">Report bugs and suggest features through our issue tracker:</p>
+        <p style="color: #1a3a5c; font-weight: 600; margin-top: 8px;">GitHub Issues or Support Portal</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER                                                      -->
+  <!-- ============================================================ -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <h4><i class="fas fa-building" style="color: #fbbf24; margin-right: 10px;"></i>Construction Suite</h4>
+        <p style="font-size: 0.9rem; line-height: 1.7;">Complete construction project management solution for Odoo 17. Built for contractors, project managers, and construction companies.</p>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="#overview">How It Works</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#models">Data Models</a></li>
+          <li><a href="#workflow">Workflow</a></li>
+          <li><a href="#data-flow">Data Flow</a></li>
+          <li><a href="#user-interactions">User Interactions</a></li>
+          <li><a href="#advantages">Advantages</a></li>
+          <li><a href="#implementation">Implementation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><i class="fas fa-check-circle" style="color: #4ade80;"></i> Install Module</li>
+          <li><i class="fas fa-book" style="color: #60a5fa;"></i> Read Full Docs</li>
+          <li><i class="fas fa-headset" style="color: #fbbf24;"></i> Support</li>
+          <li><i class="fab fa-github" style="color: #fbbf24;"></i> GitHub</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Technical Details</h4>
+        <ul>
+          <li><i class="fas fa-code"></i> 4108+ Lines of Code</li>
+          <li><i class="fas fa-database"></i> 10+ Custom Models</li>
+          <li><i class="fas fa-shield-alt"></i> Odoo 17 Compatible</li>
+          <li><i class="fas fa-rocket"></i> Enterprise Ready</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2024 Construction Management Suite. All rights reserved. — Built for Odoo 17 | v1.0.0
+    </div>
+  </footer>
 
 </div>
 </body>

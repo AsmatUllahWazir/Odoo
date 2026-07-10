@@ -22,8 +22,8 @@
         • Client Portal for project tracking
         • Comprehensive Reporting Suite
     """,
-    'author': 'Your Company',
-    'website': 'https://yourwebsite.com',
+    'author': 'Wazirz',
+    'website': '',
     'depends': [
         'base',
         'project',

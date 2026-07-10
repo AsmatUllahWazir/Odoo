@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- BOQ Tree View -->
+    <record id="view_boq_tree" model="ir.ui.view">
+        <field name="name">construction.boq.tree</field>
+        <field name="model">construction.boq</field>
+        <field name="arch" type="xml">
+            <tree string="Bill of Quantities"
+                  decoration-success="state=='approved'"
+                  decoration-warning="state=='under_review'"
+                  decoration-danger="state in ('rejected','cancelled')"
+                  decoration-muted="state=='draft'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="total" sum="Total"/>
+                <field name="total_quantity"/>
+                <field name="state" widget="badge"/>
+                <field name="version"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- BOQ Form View -->
+    <record id="view_boq_form" model="ir.ui.view">
+        <field name="name">construction.boq.form</field>
+        <field name="model">construction.boq</field>
+        <field name="arch" type="xml">
+            <form string="Bill of Quantities">
+                <header>
+                    <button name="action_review" type="object" string="Send for Review"
+                            class="btn-primary" invisible="line_ids == [] or state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-success" invisible="state != 'under_review'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            class="btn-danger" invisible="state != 'under_review'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            class="btn-danger" invisible="state not in ['draft', 'under_review']"/>
+                    <button name="action_set_draft" type="object" string="Set to Draft"
+                            class="btn-secondary" invisible="state != 'rejected'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,under_review,approved"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="BOQ Reference"/>
+                        <h1><field name="name" placeholder="BOQ Reference"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" required="1"/>
+                            <field name="date"/>
+                            <field name="validity_date"/>
+                            <field name="version"/>
+                            <field name="previous_version_id"/>
+                        </group>
+                        <group>
+                            <field name="total" widget="monetary"/>
+                            <field name="total_quantity"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+
+                    <group string="Approval Information" groups="base.group_system">
+                        <group>
+                            <field name="approved_by"/>
+                            <field name="approval_date"/>
+                        </group>
+                        <group>
+                            <field name="rejected_reason" placeholder="Reason for rejection"/>
+                        </group>
+                    </group>
+
+                    <field name="description" placeholder="Description"/>
+
+                    <notebook>
+                        <page string="BOQ Lines">
+                            <field name="line_ids">
+                                <tree string="BOQ Lines" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="category"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id" groups="uom.group_uom"/>
+                                    <field name="unit_price" sum="Unit Price"/>
+                                    <field name="subtotal" sum="Subtotal"/>
+                                    <field name="variance_allowed"/>
+                                    <field name="create_requisition"/>
+                                    <field name="assigned_task_id"/>
+                                </tree>
+                                <form string="BOQ Line">
+                                    <group>
+                                        <group>
+                                            <field name="product_id"/>
+                                            <field name="category"/>
+                                            <field name="description"/>
+                                            <field name="assigned_task_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="quantity"/>
+                                            <field name="uom_id" groups="uom.group_uom"/>
+                                            <field name="unit_price"/>
+                                            <field name="subtotal" widget="monetary"/>
+                                            <field name="variance_allowed"/>
+                                            <field name="create_requisition"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Notes &amp; Attachments">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- BOQ Search View -->
+    <record id="view_boq_search" model="ir.ui.view">
+        <field name="name">construction.boq.search</field>
+        <field name="model">construction.boq</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="description"/>
+                <filter name="state_draft" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state','=','approved')]"/>
+                <filter name="state_review" string="Under Review" domain="[('state','=','under_review')]"/>
+                <separator/>
+                <filter name="my_boqs" string="My BOQs" domain="[('create_uid','=',uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- BOQ Action -->
+    <record id="action_boq" model="ir.actions.act_window">
+        <field name="name">Bill of Quantities</field>
+        <field name="res_model">construction.boq</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage Bill of Quantities for your construction projects.
+            </p>
+        </field>
+    </record>
+</odoo>

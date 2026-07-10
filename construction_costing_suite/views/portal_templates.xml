@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_construction_project_detail" name="Construction Project Detail">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/my">My Account</a>
+                                </li>
+                                <li class="breadcrumb-item active" t-esc="project.name"/>
+                            </ol>
+                        </nav>
+
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="mb-0"><i class="fa fa-building-o"/> <t t-esc="project.name"/></h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h5>Project Details</h5>
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Type:</strong></td>
+                                                <td><t t-esc="project.project_type or 'Not Specified'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Status:</strong></td>
+                                                <td><span class="badge badge-primary" t-esc="project.construction_status or 'Draft'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Start Date:</strong></td>
+                                                <td><t t-esc="project.date_start or 'Not Set'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Contract Value:</strong></td>
+                                                <td><t t-esc="format_amount(project.total_contract_value, project.currency_id)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Progress:</strong></td>
+                                                <td>
+                                                    <div class="progress" style="height: 25px;">
+                                                        <div class="progress-bar" role="progressbar"
+                                                             t-att-style="'width: %s%%' % (project.physical_completion or 0)"
+                                                             t-att-aria-valuenow="project.physical_completion or 0"
+                                                             aria-valuemin="0" aria-valuemax="100">
+                                                            <t t-esc="'%s%%' % (project.physical_completion or 0)"/>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Financial Summary</h5>
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Total Budget:</strong></td>
+                                                <td class="text-success"><t t-esc="format_amount(project.total_budget, project.currency_id)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Actual Cost:</strong></td>
+                                                <td class="text-danger"><t t-esc="format_amount(project.total_actual_cost, project.currency_id)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total Billed:</strong></td>
+                                                <td class="text-info"><t t-esc="format_amount(project.total_billed, project.currency_id)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Cost Variance:</strong></td>
+                                                <td t-attf-class="#{project.cost_variance >= 0 and 'text-success' or 'text-danger'}">
+                                                    <t t-esc="format_amount(project.cost_variance, project.currency_id)"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <ul class="nav nav-tabs" id="projectTabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab">
+                                            <i class="fa fa-dashboard"/> Overview
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="boq-tab" data-toggle="tab" href="#boq" role="tab">
+                                            <i class="fa fa-list"/> BOQ
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="milestones-tab" data-toggle="tab" href="#milestones" role="tab">
+                                            <i class="fa fa-flag"/> Milestones
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab">
+                                            <i class="fa fa-tasks"/> Tasks
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content" id="projectTabContent">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <p><strong>Site Address:</strong> <t t-esc="project.site_address or 'Not specified'"/></p>
+                                                <p><strong>Site Contact:</strong> <t t-esc="project.site_contact or 'Not specified'"/></p>
+                                                <p><strong>Site Phone:</strong> <t t-esc="project.site_phone or 'Not specified'"/></p>
+                                                <p><strong>Description:</strong> <t t-esc="project.description or 'No description provided.'"/></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="boq" role="tabpanel">
+                                        <div class="mt-3">
+                                            <t t-if="not boqs">
+                                                <div class="alert alert-info">No BOQ found for this project.</div>
+                                            </t>
+                                            <t t-else="">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>BOQ Reference</th>
+                                                                <th>Date</th>
+                                                                <th>Total Amount</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <t t-foreach="boqs" t-as="boq">
+                                                                <tr>
+                                                                    <td><t t-esc="boq.name"/></td>
+                                                                    <td><t t-esc="boq.date"/></td>
+                                                                    <td><t t-esc="format_amount(boq.total, boq.currency_id)"/></td>
+                                                                    <td><span class="badge" t-attf-class="boq.state == 'approved' and 'badge-success' or boq.state == 'draft' and 'badge-secondary' or 'badge-warning'">
+                                                                        <t t-esc="boq.state"/>
+                                                                    </span></td>
+                                                                </tr>
+                                                            </t>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="milestones" role="tabpanel">
+                                        <div class="mt-3">
+                                            <t t-if="not milestones">
+                                                <div class="alert alert-info">No milestones defined for this project.</div>
+                                            </t>
+                                            <t t-else="">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Milestone</th>
+                                                                <th>Planned Date</th>
+                                                                <th>Amount</th>
+                                                                <th>Progress</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <t t-foreach="milestones" t-as="milestone">
+                                                                <tr>
+                                                                    <td><t t-esc="milestone.name"/></td>
+                                                                    <td><t t-esc="milestone.planned_date"/></td>
+                                                                    <td><t t-esc="format_amount(milestone.net_amount, milestone.currency_id)"/></td>
+                                                                    <td>
+                                                                        <div class="progress" style="height: 20px; width: 100px;">
+                                                                            <div class="progress-bar" role="progressbar"
+                                                                                 t-att-style="'width: %s%%' % (milestone.progress_percentage or 0)"
+                                                                                 t-att-aria-valuenow="milestone.progress_percentage or 0"
+                                                                                 aria-valuemin="0" aria-valuemax="100">
+                                                                                <t t-esc="'%s%%' % (milestone.progress_percentage or 0)"/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="badge" t-attf-class="milestone.state == 'completed' and 'badge-success' or milestone.state == 'invoiced' and 'badge-info' or 'badge-secondary'">
+                                                                            <t t-esc="milestone.state"/>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="tasks" role="tabpanel">
+                                        <div class="mt-3">
+                                            <t t-if="not tasks">
+                                                <div class="alert alert-info">No tasks assigned to this project.</div>
+                                            </t>
+                                            <t t-else="">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Task</th>
+                                                                <th>Assigned To</th>
+                                                                <th>Deadline</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <t t-foreach="tasks" t-as="task">
+                                                                <tr>
+                                                                    <td><t t-esc="task.name"/></td>
+                                                                    <td><t t-esc="task.user_id.name or 'Unassigned'"/></td>
+                                                                    <td><t t-esc="task.date_deadline or 'Not Set'"/></td>
+                                                                    <td>
+                                                                        <span class="badge" t-attf-class="task.stage_id and task.stage_id.fold and 'badge-success' or 'badge-warning'">
+                                                                            <t t-esc="task.stage_id.name or 'Draft'"/>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

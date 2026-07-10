@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Job Cost Report -->
+    <report id="report_job_cost"
+            string="Job Cost Report"
+            model="construction.job.cost.line"
+            report_type="qweb-pdf"
+            name="construction_costing_suite.job_cost_report"
+            file="construction_costing_suite.job_cost_report"
+            attachment_use="False"
+            print_report_name="'Job Cost Report - %s' % (time.strftime('%Y-%m-%d'))"/>
+
+    <!-- BOQ Analysis Report -->
+    <report id="report_boq_analysis"
+            string="BOQ Analysis Report"
+            model="construction.boq"
+            report_type="qweb-pdf"
+            name="construction_costing_suite.boq_analysis_report"
+            file="construction_costing_suite.boq_analysis_report"
+            attachment_use="False"
+            print_report_name="'BOQ Analysis - %s' % (object.name)"/>
+
+    <!-- Progress Billing Report -->
+    <report id="report_progress_billing"
+            string="Progress Billing Report"
+            model="construction.progress.billing"
+            report_type="qweb-pdf"
+            name="construction_costing_suite.progress_billing_report"
+            file="construction_costing_suite.progress_billing_report"
+            attachment_use="False"
+            print_report_name="'Progress Billing Report - %s' % (object.name)"/>
+
+    <!-- Closing Report -->
+    <report id="report_closing"
+            string="Project Closing Report"
+            model="close.project.wizard"
+            report_type="qweb-pdf"
+            name="construction_costing_suite.closing_report"
+            file="construction_costing_suite.closing_report"
+            attachment_use="False"
+            print_report_name="'Closing Report - %s' % (object.project_id.name)"/>
+
+    <!-- Excel Reports -->
+    <report id="report_job_cost_xlsx"
+            string="Job Cost Report (Excel)"
+            model="construction.job.cost.line"
+            report_type="xlsx"
+            name="construction_costing_suite.job_cost_report"
+            file="construction_costing_suite.job_cost_report"
+            attachment_use="False"
+            print_report_name="'Job Cost Report - %s.xlsx' % (time.strftime('%Y-%m-%d'))"/>
+
+    <report id="report_boq_analysis_xlsx"
+            string="BOQ Analysis (Excel)"
+            model="construction.boq"
+            report_type="xlsx"
+            name="construction_costing_suite.boq_analysis_report"
+            file="construction_costing_suite.boq_analysis_report"
+            attachment_use="False"
+            print_report_name="'BOQ Analysis - %s.xlsx' % (object.name)"/>
+
+    <report id="report_progress_billing_xlsx"
+            string="Progress Billing (Excel)"
+            model="construction.progress.billing"
+            report_type="xlsx"
+            name="construction_costing_suite.progress_billing_report"
+            file="construction_costing_suite.progress_billing_report"
+            attachment_use="False"
+            print_report_name="'Progress Billing - %s.xlsx' % (object.name)"/>
+
+</odoo>

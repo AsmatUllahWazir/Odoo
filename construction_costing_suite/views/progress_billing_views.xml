@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_milestone_tree" model="ir.ui.view">
+        <field name="name">construction.milestone.tree</field>
+        <field name="model">construction.milestone</field>
+        <field name="arch" type="xml">
+            <tree string="Milestones"
+                  decoration-success="state in ('completed','invoiced')"
+                  decoration-warning="state=='in_progress'"
+                  decoration-danger="state=='cancelled'">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="planned_date"/>
+                <field name="amount" sum="Total"/>
+                <field name="progress_percentage" widget="progressbar"/>
+                <field name="state" widget="badge"/>
+                <field name="is_invoiced"/>
+                <field name="invoice_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_milestone_form" model="ir.ui.view">
+        <field name="name">construction.milestone.form</field>
+        <field name="model">construction.milestone</field>
+        <field name="arch" type="xml">
+            <form string="Milestone">
+                <header>
+                    <button name="action_complete" type="object" string="Complete"
+                            class="btn-success" invisible="state not in ['planned', 'in_progress']"/>
+                    <button name="action_generate_invoice" type="object" string="Generate Invoice"
+                            class="btn-primary" invisible="is_invoiced or state == 'completed'"/>
+                    <button name="action_view_invoice" type="object" string="View Invoice"
+                            class="btn-secondary" invisible="not is_invoiced or state != 'invoiced'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="planned,completed,invoiced"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Milestone Name"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="project_id" required="1"/>
+                            <field name="task_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="planned_date"/>
+                            <field name="actual_date"/>
+                            <field name="amount" widget="monetary"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+
+                    <group string="Retainage &amp; Billing">
+                        <group>
+                            <field name="retainage_percentage"/>
+                            <field name="retainage_amount" widget="monetary"/>
+                            <field name="net_amount" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="progress_percentage" widget="float"/>
+                            <field name="is_completed"/>
+                            <field name="is_invoiced"/>
+                            <field name="invoice_id"/>
+                            <field name="invoice_date"/>
+                        </group>
+                    </group>
+
+                    <field name="description"/>
+                    <field name="notes"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_milestone" model="ir.actions.act_window">
+        <field name="name">Milestones</field>
+        <field name="res_model">construction.milestone</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage project milestones and progress billing.
+            </p>
+        </field>
+    </record>
+
+    <record id="view_progress_billing_tree" model="ir.ui.view">
+        <field name="name">construction.progress.billing.tree</field>
+        <field name="model">construction.progress.billing</field>
+        <field name="arch" type="xml">
+            <tree string="Progress Billings"
+                  decoration-success="state=='invoiced'"
+                  decoration-warning="state=='approved'"
+                  decoration-danger="state=='cancelled'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="billing_date"/>
+                <field name="billing_method"/>
+                <field name="billed_amount" sum="Total"/>
+                <field name="retainage_amount" sum="Retainage"/>
+                <field name="net_amount" sum="Net"/>
+                <field name="state" widget="badge"/>
+                <field name="invoice_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_progress_billing_form" model="ir.ui.view">
+        <field name="name">construction.progress.billing.form</field>
+        <field name="model">construction.progress.billing</field>
+        <field name="arch" type="xml">
+            <form string="Progress Billing">
+                <header>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-primary" invisible="state not in ['draft']"/>
+                    <button name="action_generate_invoice" type="object" string="Generate Invoice"
+                            class="btn-success" invisible="state not in ['approved']"/>
+                    <button name="action_view_invoices" type="object" string="View Invoices"
+                            class="btn-secondary" invisible="state not in ['invoiced']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,invoiced"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Billing Number"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" required="1"/>
+                            <field name="billing_method"/>
+                            <field name="billing_date"/>
+                        </group>
+                        <group>
+                            <field name="billed_amount" widget="monetary"/>
+                            <field name="retainage_percentage"/>
+                            <field name="retainage_amount" widget="monetary"/>
+                            <field name="net_amount" widget="monetary"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+
+                    <field name="notes"/>
+                    <field name="invoice_ids" widget="many2many_tags"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

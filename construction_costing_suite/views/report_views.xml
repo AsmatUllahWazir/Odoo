@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_job_cost_report" model="ir.actions.act_window">
+        <field name="name">Job Cost Report</field>
+        <field name="res_model">construction.job.cost.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Generate job cost reports to analyze project profitability and cost performance.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_boq_analysis_report" model="ir.actions.act_window">
+        <field name="name">BOQ Analysis Report</field>
+        <field name="res_model">construction.boq</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Analyze BOQ against actual costs to identify variances and trends.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_progress_billing_report" model="ir.actions.act_window">
+        <field name="name">Progress Billing Report</field>
+        <field name="res_model">construction.progress.billing</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Track progress billings, retainage, and invoicing status across projects.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_project_analytics" model="ir.actions.act_window">
+        <field name="name">Project Analytics</field>
+        <field name="res_model">construction.project.analytics</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Analyze project performance across multiple projects with aggregated KPIs.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dashboard_form" model="ir.ui.view">
+        <field name="name">construction.dashboard.form</field>
+        <field name="model">construction.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Project Dashboard">
+                <header>
+                    <button name="action_refresh_dashboard" type="object"
+                            string="Refresh" class="btn-primary"/>
+                    <button name="action_view_project" type="object"
+                            string="Open Project" class="btn-secondary"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Project Dashboard: <field name="project_id"/></h1>
+                    </div>
+
+                    <group string="Key Performance Indicators" colspan="4">
+                        <div class="o_row">
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Total Budget</span>
+                                <span class="o_kpi_value"><field name="total_budget" widget="monetary"/></span>
+                            </div>
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Actual Cost</span>
+                                <span class="o_kpi_value"><field name="total_actual_cost" widget="monetary"/></span>
+                            </div>
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Billed</span>
+                                <span class="o_kpi_value"><field name="total_billed" widget="monetary"/></span>
+                            </div>
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Committed</span>
+                                <span class="o_kpi_value"><field name="total_committed" widget="monetary"/></span>
+                            </div>
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Profit Margin</span>
+                                <span class="o_kpi_value"><field name="profit_margin"/>%</span>
+                            </div>
+                        </div>
+                    </group>
+
+                    <group string="Progress" colspan="4">
+                        <div class="o_row">
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Physical Completion</span>
+                                <span class="o_kpi_value"><field name="physical_completion" widget="progressbar"/></span>
+                            </div>
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Financial Completion</span>
+                                <span class="o_kpi_value"><field name="financial_completion" widget="progressbar"/></span>
+                            </div>
+                            <div class="o_kpi_card">
+                                <span class="o_kpi_title">Cost Variance</span>
+                                <span class="o_kpi_value"><field name="cost_variance" widget="monetary"/></span>
+                            </div>
+                        </div>
+                    </group>
+
+                    <group string="Cost Analysis" colspan="4">
+                        <field name="category_cost_data" invisible="1"/>
+                        <field name="monthly_cost_data" invisible="1"/>
+
+                        <div class="o_graph_widget">
+                            <div class="o_graph_title">Cost by Category</div>
+                            <div class="o_graph_content">
+                                <!-- Chart will be rendered by JS -->
+                            </div>
+                        </div>
+
+                        <div class="o_graph_widget">
+                            <div class="o_graph_title">Monthly Cost Trend</div>
+                            <div class="o_graph_content">
+                                <!-- Chart will be rendered by JS -->
+                            </div>
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dashboard" model="ir.actions.act_window">
+        <field name="name">Construction Dashboard</field>
+        <field name="res_model">construction.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View real-time project performance metrics.
+            </p>
+        </field>
+    </record>
+</odoo>

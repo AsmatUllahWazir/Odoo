@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_generate_invoice_wizard_form" model="ir.ui.view">
+        <field name="name">generate.invoice.wizard.form</field>
+        <field name="model">generate.invoice.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Progress Invoice">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <i class="fa fa-file-invoice" style="color: #2b6cb0; margin-right: 10px;"/>
+                            Generate Progress Invoice
+                        </h1>
+                        <p class="text-muted">
+                            Create an invoice based on milestones, percentage completion, or fixed amount.
+                        </p>
+                    </div>
+
+                    <group string="Project Selection">
+                        <field name="project_id" required="1"/>
+                    </group>
+
+                    <group string="Billing Details" colspan="2">
+                        <group>
+                            <field name="billing_method" widget="radio"/>
+                        </group>
+                    </group>
+
+                    <group string="Milestone Selection" invisible="billing_method != 'milestone'">
+                        <field name="milestone_ids" nolabel="1" options="{'no_create_edit': True}">
+                            <tree string="Available Milestones">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="planned_date"/>
+                                <field name="net_amount" sum="Total" widget="monetary"/>
+                                <field name="progress_percentage" widget="progressbar"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <group string="Percentage Completion" invisible="billing_method != 'percentage'">
+                        <group>
+                            <field name="completion_percentage"/>
+                            <field name="retainage_percentage"/>
+                        </group>
+                        <group>
+<!--                            <label for="contract_value" string="Contract Value"/>-->
+                            <div>
+                                <span class="text-muted">
+                                    <field name="project_id" invisible="1"/>
+<!--                                    <t t-esc="format_amount(project_id.total_contract_value, project_id.currency_id)"/>-->
+                                </span>
+                            </div>
+                        </group>
+                    </group>
+
+                    <group string="Fixed Amount" invisible="billing_method != 'fixed'">
+                        <field name="amount" required="1" widget="monetary"/>
+                        <field name="retainage_percentage"/>
+                    </group>
+
+                    <group string="Invoice Settings">
+                        <group>
+                            <field name="invoice_date" required="1"/>
+                            <field name="due_date" required="1"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button name="action_generate_invoice" type="object" string="Generate Invoice" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_generate_invoice_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Progress Invoice</field>
+        <field name="res_model">generate.invoice.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_subcontractor" model="ir.ui.view">
+        <field name="name">res.partner.form.subcontractor</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="subcontractor_details" string="Subcontractor" invisible="not is_subcontractor">
+                    <group string="Subcontractor Details">
+                        <group>
+                            <field name="subcontractor_rating" widget="selection"/>
+                            <field name="trade_classification"/>
+                            <field name="license_number"/>
+                            <field name="license_expiry"/>
+                            <field name="is_subcontractor" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="insurance_expiry"/>
+                            <field name="bond_limit" widget="monetary"/>
+                            <field name="worker_compensation_rate"/>
+                            <field name="subcontractor_task_count"/>
+                        </group>
+                    </group>
+                    <button name="action_view_subcontractor_tasks" type="object"
+                            string="View Tasks" class="btn-primary"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_subcontractor_task_tree" model="ir.ui.view">
+        <field name="name">construction.subcontractor.task.tree</field>
+        <field name="model">construction.subcontractor.task</field>
+        <field name="arch" type="xml">
+            <tree string="Subcontractor Tasks"
+                  decoration-success="status=='completed'"
+                  decoration-warning="status in ('assigned','in_progress')"
+                  decoration-danger="status=='cancelled'"
+                  decoration-info="status == 'under_review'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="subcontractor_id"/>
+                <field name="assignment_date"/>
+                <field name="deadline"/>
+                <field name="contract_value" sum="Total"/>
+                <field name="invoiced_amount" sum="Invoiced"/>
+                <field name="remaining_amount" sum="Remaining"/>
+                <field name="progress_percentage" widget="progressbar"/>
+                <field name="status" widget="badge"/>
+                <field name="quality_rating" widget="selection"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_subcontractor_task_form" model="ir.ui.view">
+        <field name="name">construction.subcontractor.task.form</field>
+        <field name="model">construction.subcontractor.task</field>
+        <field name="arch" type="xml">
+            <form string="Subcontractor Task">
+                <header>
+                    <button name="action_assign" type="object" string="Assign"
+                            class="btn-primary" invisible="status != 'pending'"/>
+                    <button name="action_start_work" type="object" string="Start Work"
+                            class="btn-success" invisible="status != 'assigned'"/>
+                    <button name="action_complete" type="object" string="Complete"
+                            class="btn-success" invisible="status != 'under_review'"/>
+                    <button name="action_generate_invoice" type="object" string="Generate Invoice"
+                            class="btn-primary" invisible="remaining_amount &lt;= 0 or status != 'completed'"/>
+                    <button name="action_view_invoices" type="object" string="View Invoices"
+                            class="btn-secondary"/>
+                    <field name="status" widget="statusbar" statusbar_visible="pending,assigned,in_progress,under_review,completed"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Task Name"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="project_id" required="1"/>
+                            <field name="main_task_id"/>
+                            <field name="subcontractor_id" required="1"/>
+                            <field name="subcontractor_contact"/>
+                            <field name="subcontractor_phone"/>
+                            <field name="subcontractor_email"/>
+                        </group>
+                        <group>
+                            <field name="assignment_date"/>
+                            <field name="deadline"/>
+                            <field name="completion_date"/>
+                            <field name="contract_value" widget="monetary"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="invoiced_amount" widget="monetary"/>
+                            <field name="remaining_amount" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <group string="Performance">
+                        <group>
+                            <field name="progress_percentage" widget="float"/>
+                            <field name="quality_rating" widget="selection"/>
+                        </group>
+                        <group>
+                            <field name="quality_notes"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Scope &amp; Description">
+                            <field name="description"/>
+                            <field name="scope_of_work"/>
+                        </page>
+                        <page string="Invoices">
+                            <field name="invoice_ids">
+                                <tree string="Invoices">
+                                    <field name="name"/>
+                                    <field name="invoice_date"/>
+                                    <field name="amount_total" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_subcontractor_task" model="ir.actions.act_window">
+        <field name="name">Subcontractor Tasks</field>
+        <field name="res_model">construction.subcontractor.task</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage tasks assigned to subcontractors.
+            </p>
+        </field>
+    </record>
+</odoo>

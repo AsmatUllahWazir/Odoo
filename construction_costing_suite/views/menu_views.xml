@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_construction_main" name="Construction"
+              sequence="10" groups="group_construction_user"/>
+
+    <!-- Construction Projects Submenu -->
+    <menuitem id="menu_construction_projects" name="Projects"
+              parent="menu_construction_main" sequence="10"/>
+
+    <menuitem id="menu_construction_project_list" name="Construction Projects"
+              parent="menu_construction_projects" sequence="10"
+              action="project.open_view_project_all"/>
+
+    <menuitem id="menu_construction_dashboard" name="Dashboards"
+              parent="menu_construction_projects" sequence="20"
+              action="action_dashboard"/>
+
+    <!-- BOQ Submenu -->
+    <menuitem id="menu_construction_boq" name="Bill of Quantities"
+              parent="menu_construction_main" sequence="20"/>
+
+    <menuitem id="menu_construction_boq_list" name="BOQs"
+              parent="menu_construction_boq" sequence="10"
+              action="action_boq"/>
+
+    <menuitem id="menu_construction_boq_import" name="Import BOQ"
+              parent="menu_construction_boq" sequence="20"
+              action="action_import_boq_wizard"/>
+
+    <!-- Materials Submenu -->
+    <menuitem id="menu_construction_materials" name="Materials"
+              parent="menu_construction_main" sequence="30"/>
+
+    <menuitem id="menu_construction_requisitions" name="Material Requisitions"
+              parent="menu_construction_materials" sequence="10"
+              action="action_material_requisition"/>
+
+    <!-- Billing Submenu -->
+    <menuitem id="menu_construction_billing" name="Billing"
+              parent="menu_construction_main" sequence="40"/>
+
+    <menuitem id="menu_construction_milestones" name="Milestones"
+              parent="menu_construction_billing" sequence="10"
+              action="action_milestone"/>
+
+    <menuitem id="menu_construction_progress_billing" name="Progress Billing"
+              parent="menu_construction_billing" sequence="20"
+              action="action_progress_billing_report"/>
+
+    <!-- Subcontractors Submenu -->
+    <menuitem id="menu_construction_subcontractors" name="Subcontractors"
+              parent="menu_construction_main" sequence="50"/>
+
+    <menuitem id="menu_construction_subcontractor_tasks" name="Subcontractor Tasks"
+              parent="menu_construction_subcontractors" sequence="10"
+              action="action_subcontractor_task"/>
+
+    <menuitem id="menu_construction_subcontractor_partners" name="Subcontractors"
+              parent="menu_construction_subcontractors" sequence="20"
+              action="base.action_partner_form"/>
+<!--              context="{'default_is_subcontractor': True, 'search_default_is_subcontractor': 1}"/>-->
+
+    <!-- Safety Submenu -->
+    <menuitem id="menu_construction_safety" name="Safety &amp; Compliance"
+              parent="menu_construction_main" sequence="60"/>
+
+    <menuitem id="menu_construction_checklists" name="Checklists"
+              parent="menu_construction_safety" sequence="10"
+              action="action_checklist"/>
+
+    <menuitem id="menu_construction_checklist_templates" name="Checklist Templates"
+              parent="menu_construction_safety" sequence="20"
+              action="action_checklist_template"/>
+
+    <!-- Reports Submenu -->
+    <menuitem id="menu_construction_reports" name="Reports"
+              parent="menu_construction_main" sequence="70"/>
+
+    <menuitem id="menu_construction_report_job_cost" name="Job Cost Report"
+              parent="menu_construction_reports" sequence="10"
+              action="action_job_cost_report"/>
+
+    <menuitem id="menu_construction_report_boq_analysis" name="BOQ Analysis"
+              parent="menu_construction_reports" sequence="20"
+              action="action_boq_analysis_report"/>
+
+    <menuitem id="menu_construction_report_progress_billing" name="Progress Billing"
+              parent="menu_construction_reports" sequence="30"
+              action="action_progress_billing_report"/>
+
+    <menuitem id="menu_construction_project_analytics" name="Project Analytics"
+              parent="menu_construction_reports" sequence="40"
+              action="action_project_analytics"/>
+
+    <!-- Configuration Submenu -->
+    <menuitem id="menu_construction_config" name="Configuration"
+              parent="menu_construction_main" sequence="99"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_construction_wizards" name="Wizards"
+              parent="menu_construction_config" sequence="10"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_import_boq_wizard" name="Import BOQ from Excel"
+              parent="menu_construction_wizards" sequence="10"
+              action="action_import_boq_wizard"/>
+
+    <menuitem id="menu_generate_invoice_wizard" name="Generate Progress Invoice"
+              parent="menu_construction_wizards" sequence="20"
+              action="action_generate_invoice_wizard"/>
+
+    <menuitem id="menu_close_project_wizard" name="Close Project"
+              parent="menu_construction_wizards" sequence="30"
+              action="action_close_project_wizard"/>
+
+    <!-- Add Construction Tasks Submenu under Projects -->
+    <menuitem id="menu_construction_tasks" name="Tasks"
+              parent="menu_construction_projects" sequence="15"
+              action="project.act_project_project_2_project_task_all"/>
+</odoo>

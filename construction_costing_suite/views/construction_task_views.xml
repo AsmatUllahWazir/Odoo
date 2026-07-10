@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Task Form View Extension -->
+    <record id="view_task_form_construction" model="ir.ui.view">
+        <field name="name">project.task.form.construction</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="before">
+                <field name="is_construction_task" invisible="1"/>
+                <group string="Construction Details" invisible="not is_construction_task">
+                    <group>
+                        <field name="task_type"/>
+                        <field name="location"/>
+                        <field name="team_lead"/>
+                        <field name="crew_members" widget="many2many_tags"/>
+                        <field name="estimated_cost"/>
+                        <field name="actual_cost"/>
+                        <field name="cost_variance"/>
+                    </group>
+                    <group>
+                        <field name="estimated_start_date"/>
+                        <field name="estimated_end_date"/>
+                        <field name="actual_start_date"/>
+                        <field name="actual_end_date"/>
+                        <field name="physical_progress" widget="progressbar"/>
+                        <field name="financial_progress" widget="progressbar"/>
+                    </group>
+                </group>
+                <group string="Quality" invisible="not is_construction_task">
+                    <group>
+                        <field name="quality_score"/>
+                        <field name="quality_notes"/>
+                        <field name="inspection_date"/>
+                        <field name="inspection_passed"/>
+                    </group>
+                </group>
+                <group string="Dependencies" invisible="not is_construction_task">
+                    <field name="dependency_ids" widget="many2many_tags" context="{'default_project_id': project_id}"/>
+                    <field name="dependent_ids" widget="many2many_tags" readonly="1"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <button name="action_start_task" type="object" string="Start Task"
+                        class="btn-primary" invisible="not is_construction_task or actual_start_date"/>
+                <button name="action_complete_task" type="object" string="Complete Task"
+                        class="btn-success" invisible="not is_construction_task or stage_id.is_closed"/>
+                <button name="action_create_material_requisition" type="object" string="Create Requisition"
+                        class="btn-secondary" invisible="not is_construction_task"/>
+                <button name="action_create_subtask" type="object" string="Create Subtask"
+                        class="btn-secondary" invisible="not is_construction_task"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Construction" invisible="not is_construction_task">
+                    <group string="BOQ Lines">
+                        <field name="boq_line_ids">
+                            <tree string="BOQ Lines">
+                                <field name="boq_id"/>
+                                <field name="product_id"/>
+                                <field name="category"/>
+                                <field name="quantity"/>
+                                <field name="unit_price"/>
+                                <field name="subtotal" sum="Subtotal"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Material Requisitions">
+                        <field name="requisition_ids">
+                            <tree string="Requisitions">
+                                <field name="name"/>
+                                <field name="requisition_date"/>
+                                <field name="required_date"/>
+                                <field name="state" widget="badge"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Subcontractor Tasks">
+                        <field name="subcontractor_task_ids">
+                            <tree string="Subcontractor Tasks">
+                                <field name="name"/>
+                                <field name="subcontractor_id"/>
+                                <field name="deadline"/>
+                                <field name="contract_value" sum="Total"/>
+                                <field name="status" widget="badge"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_tree_construction" model="ir.ui.view">
+        <field name="name">project.task.tree.construction</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.open_view_my_tasks_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="is_construction_task" invisible="1"/>
+                <field name="task_type" column_invisible="not is_construction_task"/>
+                <field name="estimated_cost" column_invisible="not is_construction_task"/>
+                <field name="actual_cost" column_invisible="not is_construction_task"/>
+                <field name="physical_progress" widget="progressbar" column_invisible="not is_construction_task"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_search_construction" model="ir.ui.view">
+        <field name="name">project.task.search.construction</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="construction" string="Construction Tasks"
+                        domain="[('is_construction_task', '=', True)]"/>
+                <filter name="task_type" string="Task Type"
+                        domain="[]" context="{'group_by': 'task_type'}"/>
+<!--                <filter name="overdue" string="Overdue" domain="[('date_deadline', '&lt;', fields.Date.today()), ('stage_id.is_closed', '=', False)]"/>-->
+                <filter name="overdue" string="Overdue"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

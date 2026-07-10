@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_requisition_tree" model="ir.ui.view">
+        <field name="name">construction.material.requisition.tree</field>
+        <field name="model">construction.material.requisition</field>
+        <field name="arch" type="xml">
+            <tree string="Material Requisitions"
+                  decoration-success="state=='delivered'"
+                  decoration-warning="state=='submitted'"
+                  decoration-danger="state in ('cancelled','rejected')"
+                  decoration-info="state=='approved'"
+                  decoration-muted="state=='draft'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="requisition_date"/>
+                <field name="required_date"/>
+                <field name="total_estimated" sum="Total Estimated"/>
+                <field name="total_actual" sum="Total Actual"/>
+                <field name="priority" widget="badge"/>
+                <field name="state" widget="badge"/>
+                <field name="picking_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_requisition_form" model="ir.ui.view">
+        <field name="name">construction.material.requisition.form</field>
+        <field name="model">construction.material.requisition</field>
+        <field name="arch" type="xml">
+            <form string="Material Requisition">
+                <header>
+                    <button name="action_submit" type="object" string="Submit for Approval"
+                            class="btn-primary" invisible="line_ids == [] or state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-success" invisible="state != 'submitted'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            class="btn-danger" invisible="state != 'submitted'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            class="btn-danger" invisible="state not in ['draft', 'submitted', 'approved']"/>
+                    <button name="action_set_draft" type="object" string="Set to Draft"
+                            class="btn-secondary" invisible="state != 'rejected'"/>
+                    <button name="action_create_purchase_order" type="object"
+                            string="Create Purchase Order" class="btn-primary" invisible="state != 'approved'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,delivered"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Requisition Number"/>
+                        <h1><field name="name" placeholder="Requisition Number"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" required="1"/>
+                            <field name="task_id"/>
+                            <field name="requisition_date"/>
+                            <field name="required_date"/>
+                            <field name="priority"/>
+                        </group>
+                        <group>
+                            <field name="total_estimated" widget="monetary"/>
+                            <field name="total_actual" widget="monetary"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="approved_by"/>
+                            <field name="approval_date"/>
+                        </group>
+                    </group>
+
+                    <group string="Locations">
+                        <field name="source_location_id"/>
+                        <field name="destination_location_id"/>
+                    </group>
+
+                    <field name="notes" placeholder="Notes"/>
+
+                    <notebook>
+                        <page string="Requisition Lines">
+                            <field name="line_ids">
+                                <tree string="Requisition Lines" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id" groups="uom.group_uom"/>
+                                    <field name="estimated_unit_price"/>
+                                    <field name="estimated_subtotal" sum="Estimated"/>
+                                    <field name="delivered_quantity"/>
+                                    <field name="remaining_quantity"/>
+                                    <field name="actual_subtotal" sum="Actual"/>
+                                </tree>
+                                <form string="Requisition Line">
+                                    <group>
+                                        <group>
+                                            <field name="product_id"/>
+                                            <field name="description"/>
+                                            <field name="boq_line_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="quantity"/>
+                                            <field name="uom_id" groups="uom.group_uom"/>
+                                            <field name="estimated_unit_price"/>
+                                            <field name="estimated_subtotal" widget="monetary"/>
+                                        </group>
+                                    </group>
+                                    <group string="Delivery Tracking">
+                                        <field name="delivered_quantity"/>
+                                        <field name="remaining_quantity"/>
+                                        <field name="picking_move_ids" widget="many2many_tags"/>
+                                        <field name="actual_unit_price"/>
+                                        <field name="actual_subtotal" widget="monetary"/>
+                                    </group>
+                                    <field name="notes"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Related Pickings">
+                            <field name="picking_ids">
+                                <tree string="Pickings">
+                                    <field name="name"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="scheduled_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_material_requisition" model="ir.actions.act_window">
+        <field name="name">Material Requisitions</field>
+        <field name="res_model">construction.material.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage material requisitions for your construction projects.
+            </p>
+        </field>
+    </record>
+</odoo>

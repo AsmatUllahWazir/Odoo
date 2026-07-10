@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_boq_wizard_form" model="ir.ui.view">
+        <field name="name">import.boq.wizard.form</field>
+        <field name="model">import.boq.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Bill of Quantities">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <i class="fa fa-upload" style="color: #2b6cb0; margin-right: 10px;"/>
+                            Import BOQ from Excel/CSV
+                        </h1>
+                    </div>
+
+                    <group string="Import Settings">
+                        <group>
+                            <field name="project_id" required="1"/>
+                            <field name="boq_name" required="1"/>
+                            <field name="import_mode"/>
+                            <field name="existing_boq_id" invisible="import_mode != 'update_existing'" required="import_mode == 'update_existing'"/>
+                        </group>
+                        <group>
+                            <field name="file_data" required="1" widget="binary" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="skip_headers"/>
+                            <span class="fa fa-info-circle text-muted" style="font-size: 12px; margin-top: 5px; display: block;">
+                                Supported formats: .xlsx, .xls, .csv
+                            </span>
+                        </group>
+                    </group>
+
+                    <group string="Column Mapping" groups="base.group_system">
+                        <p class="text-muted">
+                            <i class="fa fa-info-circle"/>
+                            Configure which columns correspond to each field.
+                            Columns are 0-indexed (0 = first column).
+                        </p>
+                        <group>
+                            <field name="product_column"/>
+                            <field name="quantity_column"/>
+                            <field name="price_column"/>
+                        </group>
+                        <group>
+                            <field name="description_column"/>
+                            <field name="category_column"/>
+                        </group>
+                    </group>
+
+                    <group string="Expected File Format">
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; border: 1px solid #e2e8f0;">
+                            <p class="text-muted" style="margin-bottom: 5px;">
+                                <strong>Required columns:</strong>
+                            </p>
+                            <ul class="text-muted" style="margin-bottom: 0; padding-left: 20px;">
+                                <li><strong>Product</strong> - Product name or description</li>
+                                <li><strong>Quantity</strong> - Quantity of items</li>
+                                <li><strong>Unit Price</strong> - Price per unit</li>
+                                <li><strong>Description</strong> - Optional description</li>
+                                <li><strong>Category</strong> - Optional category (materials, labor, subcontractor, equipment, overhead, other)</li>
+                            </ul>
+                        </div>
+                    </group>
+
+                    <footer>
+                        <button name="action_import" type="object" string="Import BOQ" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_boq_wizard" model="ir.actions.act_window">
+        <field name="name">Import BOQ from Excel</field>
+        <field name="res_model">import.boq.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="user_construction_manager" model="res.users">
+            <field name="name">Construction Manager</field>
+            <field name="login">construction_manager</field>
+            <field name="password">construction123</field>
+            <field name="email">manager@construction.com</field>
+            <field name="groups_id" eval="[(4, ref('construction_costing_suite.group_construction_manager'))]"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+        </record>
+
+        <record id="user_project_engineer" model="res.users">
+            <field name="name">Project Engineer</field>
+            <field name="login">project_engineer</field>
+            <field name="password">engineer123</field>
+            <field name="email">engineer@construction.com</field>
+            <field name="groups_id" eval="[(4, ref('construction_costing_suite.group_construction_user'))]"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+        </record>
+
+        <record id="demo_client_partner" model="res.partner">
+            <field name="name">ABC Construction Client</field>
+            <field name="email">client@abcconstruction.com</field>
+            <field name="phone">+1-555-0123</field>
+            <field name="company_type">company</field>
+            <field name="country_id" ref="base.us"/>
+            <field name="street">123 Main Street</field>
+            <field name="city">New York</field>
+            <field name="zip">10001</field>
+            <field name="state_id" ref="base.state_us_ny"/>
+        </record>
+
+        <record id="demo_subcontractor_partner" model="res.partner">
+            <field name="name">Elite Electrical Services</field>
+            <field name="email">info@eliteelectrical.com</field>
+            <field name="phone">+1-555-0124</field>
+            <field name="company_type">company</field>
+            <field name="is_subcontractor">True</field>
+            <field name="subcontractor_rating">4</field>
+            <field name="trade_classification">electrical</field>
+            <field name="license_number">EL-2024-001</field>
+            <field name="license_expiry">2025-12-31</field>
+            <field name="insurance_expiry">2025-06-30</field>
+            <field name="country_id" ref="base.us"/>
+            <field name="street">456 Electric Ave</field>
+            <field name="city">Los Angeles</field>
+            <field name="zip">90001</field>
+            <field name="state_id" ref="base.state_us_ca"/>
+        </record>
+
+        <record id="demo_subcontractor_partner_2" model="res.partner">
+            <field name="name">Precision Plumbing Inc</field>
+            <field name="email">info@precisionplumbing.com</field>
+            <field name="phone">+1-555-0125</field>
+            <field name="company_type">company</field>
+            <field name="is_subcontractor">True</field>
+            <field name="subcontractor_rating">5</field>
+            <field name="trade_classification">plumbing</field>
+            <field name="license_number">PL-2024-002</field>
+            <field name="license_expiry">2025-12-31</field>
+            <field name="insurance_expiry">2025-09-30</field>
+            <field name="country_id" ref="base.us"/>
+            <field name="street">789 Water Lane</field>
+            <field name="city">Chicago</field>
+            <field name="zip">60601</field>
+            <field name="state_id" ref="base.state_us_il"/>
+        </record>
+    </data>
+</odoo>

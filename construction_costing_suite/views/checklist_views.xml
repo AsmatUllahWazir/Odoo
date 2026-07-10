@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_checklist_template_tree" model="ir.ui.view">
+        <field name="name">construction.checklist.template.tree</field>
+        <field name="model">construction.checklist.template</field>
+        <field name="arch" type="xml">
+            <tree string="Checklist Templates">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category" widget="badge"/>
+                <field name="project_type"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_checklist_template_form" model="ir.ui.view">
+        <field name="name">construction.checklist.template.form</field>
+        <field name="model">construction.checklist.template</field>
+        <field name="arch" type="xml">
+            <form string="Checklist Template">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Template Name"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category"/>
+                            <field name="project_type"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Checklist Items">
+                            <field name="template_lines">
+                                <tree string="Checklist Items" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="description"/>
+                                    <field name="required_before_start"/>
+                                    <field name="notes"/>
+                                </tree>
+                                <form string="Checklist Item">
+                                    <group>
+                                        <field name="description"/>
+                                        <field name="required_before_start"/>
+                                        <field name="notes"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_apply_to_project" type="object"
+                                class="btn btn-primary" string="Apply to Project"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_checklist_tree" model="ir.ui.view">
+        <field name="name">construction.checklist.tree</field>
+        <field name="model">construction.checklist</field>
+        <field name="arch" type="xml">
+            <tree string="Checklists"
+                  decoration-success="state=='completed'"
+                  decoration-warning="state=='in_progress'"
+                  decoration-danger="state=='cancelled'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="category" widget="badge"/>
+                <field name="date"/>
+                <field name="conducted_by"/>
+                <field name="completion_percentage" widget="progressbar"/>
+                <field name="state" widget="badge"/>
+                <field name="is_complete"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_checklist_form" model="ir.ui.view">
+        <field name="name">construction.checklist.form</field>
+        <field name="model">construction.checklist</field>
+        <field name="arch" type="xml">
+            <form string="Checklist">
+                <header>
+                    <button name="action_start" type="object" string="Start"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_complete" type="object" string="Complete"
+                            class="btn-success" invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            class="btn-danger" invisible="state not in ['draft', 'in_progress']"/>
+                    <button name="action_generate_report" type="object" string="Generate Report"
+                            class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Checklist Name"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" required="1"/>
+                            <field name="template_id"/>
+                            <field name="category"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="conducted_by"/>
+                            <field name="completion_percentage" widget="progressbar"/>
+                            <field name="total_items"/>
+                            <field name="checked_items"/>
+                            <field name="is_complete"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Checklist Items">
+                            <field name="lines">
+                                <tree string="Checklist Items" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="description"/>
+                                    <field name="is_checked"/>
+                                    <field name="checked_by"/>
+                                    <field name="checked_date"/>
+                                    <field name="required_before_start" widget="boolean"/>
+                                    <field name="notes"/>
+                                </tree>
+                                <form string="Checklist Item">
+                                    <group>
+                                        <group>
+                                            <field name="description"/>
+                                            <field name="required_before_start"/>
+                                            <field name="is_checked"/>
+                                        </group>
+                                        <group>
+                                            <field name="checked_by"/>
+                                            <field name="checked_date"/>
+                                            <field name="notes"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Findings">
+                            <field name="findings"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_checklist" model="ir.actions.act_window">
+        <field name="name">Checklists</field>
+        <field name="res_model">construction.checklist</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage safety and quality checklists for construction projects.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_checklist_template" model="ir.actions.act_window">
+        <field name="name">Checklist Templates</field>
+        <field name="res_model">construction.checklist.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage checklist templates for safety, quality, and compliance.
+            </p>
+        </field>
+    </record>
+</odoo>

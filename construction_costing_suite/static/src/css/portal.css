@@ -1,0 +1,56 @@
+/* Portal Styles */
+.portal-project-card {
+    transition: transform 0.2s;
+}
+
+.portal-project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.construction-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.construction-badge-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.construction-badge-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.construction-badge-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.construction-badge-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.construction-progress-bar {
+    height: 20px;
+    border-radius: 10px;
+    background-color: #e9ecef;
+    overflow: hidden;
+}
+
+.construction-progress-bar-fill {
+    height: 100%;
+    background-color: #007bff;
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_document_expiry_type_tree" model="ir.ui.view">
+        <field name="name">document.expiry.type.tree</field>
+        <field name="model">document.expiry.type</field>
+        <field name="arch" type="xml">
+            <tree string="Document Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="default_warning_days"/>
+                <field name="default_reminder_schedule"/>
+                <field name="document_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_document_expiry_type_form" model="ir.ui.view">
+        <field name="name">document.expiry.type.form</field>
+        <field name="model">document.expiry.type</field>
+        <field name="arch" type="xml">
+            <form string="Document Type">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="document_count" widget="statinfo" string="Documents"/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="sequence"/>
+                        <field name="default_warning_days"/>
+                        <field name="default_reminder_schedule"/>
+                        <field name="active"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_document_expiry_type" model="ir.actions.act_window">
+        <field name="name">Document Types</field>
+        <field name="res_model">document.expiry.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

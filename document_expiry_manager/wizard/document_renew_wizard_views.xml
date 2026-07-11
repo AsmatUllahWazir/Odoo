@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_renew_wizard_form" model="ir.ui.view">
+        <field name="name">document.renew.wizard.form</field>
+        <field name="model">document.renew.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Renew Document">
+                <field name="document_id" invisible="1"/>
+                <group>
+                    <field name="old_expiry_date"/>
+                    <field name="new_issue_date"/>
+                    <field name="new_expiry_date"/>
+                </group>
+                <group>
+                    <field name="note" placeholder="Optional note about this renewal..."/>
+                </group>
+                <footer>
+                    <button name="action_renew" type="object" string="Renew" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_document_expiry_1" model="document.expiry">
+        <field name="name">General Liability Insurance</field>
+        <field name="document_type_id" ref="document_expiry_type_insurance"/>
+        <field name="related_model_id" ref="base.model_res_partner"/>
+        <field name="related_record_id" ref="base.main_partner"/>
+        <field name="issue_date" eval="(datetime.datetime.now() - relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+        <field name="expiry_date" eval="(datetime.datetime.now() + relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+        <field name="warning_days">30</field>
+    </record>
+    <record id="demo_document_expiry_2" model="document.expiry">
+        <field name="name">Office Lease Agreement</field>
+        <field name="document_type_id" ref="document_expiry_type_contract"/>
+        <field name="related_model_id" ref="base.model_res_partner"/>
+        <field name="related_record_id" ref="base.main_partner"/>
+        <field name="issue_date" eval="(datetime.datetime.now() - relativedelta(years=2)).strftime('%Y-%m-%d')"/>
+        <field name="expiry_date" eval="(datetime.datetime.now() + relativedelta(days=180)).strftime('%Y-%m-%d')"/>
+        <field name="warning_days">45</field>
+    </record>
+    <record id="demo_document_expiry_3" model="document.expiry">
+        <field name="name">Fire Safety Certification</field>
+        <field name="document_type_id" ref="document_expiry_type_certification"/>
+        <field name="related_model_id" ref="base.model_res_company"/>
+        <field name="related_record_id" ref="base.main_company"/>
+        <field name="issue_date" eval="(datetime.datetime.now() - relativedelta(days=400)).strftime('%Y-%m-%d')"/>
+        <field name="expiry_date" eval="(datetime.datetime.now() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+        <field name="warning_days">30</field>
+    </record>
+</odoo>

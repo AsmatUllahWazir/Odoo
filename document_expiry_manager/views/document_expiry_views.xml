@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record id="view_document_expiry_tree" model="ir.ui.view">
+        <field name="name">document.expiry.tree</field>
+        <field name="model">document.expiry</field>
+        <field name="arch" type="xml">
+            <tree string="Tracked Documents"
+                  decoration-danger="state == 'expired'"
+                  decoration-warning="state == 'expiring'"
+                  decoration-success="state == 'valid'"
+                  decoration-muted="state in ('cancelled', 'renewed')">
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="related_model_name" optional="hide"/>
+                <field name="related_record_name"/>
+                <field name="issue_date" optional="hide"/>
+                <field name="expiry_date"/>
+                <field name="days_remaining"/>
+                <field name="responsible_id"/>
+                <field name="state" widget="badge"
+                       decoration-danger="state == 'expired'"
+                       decoration-warning="state == 'expiring'"
+                       decoration-success="state == 'valid'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_document_expiry_form" model="ir.ui.view">
+        <field name="name">document.expiry.form</field>
+        <field name="model">document.expiry</field>
+        <field name="arch" type="xml">
+            <form string="Tracked Document">
+                <header>
+                    <button name="action_open_renew_wizard" type="object" string="Renew"
+                            class="oe_highlight" invisible="state in ('cancelled',)"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('cancelled', 'expired')"/>
+                    <button name="action_reset_to_valid" type="object" string="Reset to Valid"
+                            invisible="state not in ('cancelled', 'expired', 'expiring')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="valid,expiring,expired,renewed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_related_record" type="object" class="oe_stat_button" icon="fa-external-link">
+                            <span>Open Related Record</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. John Doe - Driving License"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="document_type_id"/>
+                            <field name="reference"/>
+                            <field name="related_model_id"/>
+                            <field name="related_record_id"/>
+                            <field name="related_record_name"/>
+                        </group>
+                        <group>
+                            <field name="issue_date"/>
+                            <field name="expiry_date"/>
+                            <field name="days_remaining"/>
+                            <field name="responsible_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Reminders">
+                        <group>
+                            <field name="warning_days"/>
+                            <field name="reminder_schedule"/>
+                        </group>
+                        <group>
+                            <field name="reminders_sent" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- KANBAN VIEW -->
+    <record id="view_document_expiry_kanban" model="ir.ui.view">
+        <field name="name">document.expiry.kanban</field>
+        <field name="model">document.expiry</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="expiry_date"/>
+                <field name="days_remaining"/>
+                <field name="state"/>
+                <field name="document_type_id"/>
+                <field name="responsible_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <strong><field name="name"/></strong>
+                                <div>
+                                    <field name="document_type_id"/>
+                                </div>
+                                <div>
+                                    Expiry: <field name="expiry_date"/>
+                                    (<field name="days_remaining"/> d)
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="state" widget="label_selection"
+                                               options="{'classes': {'valid': 'success', 'expiring': 'warning', 'expired': 'danger', 'cancelled': 'default', 'renewed': 'default'}}"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="responsible_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- CALENDAR VIEW -->
+    <record id="view_document_expiry_calendar" model="ir.ui.view">
+        <field name="name">document.expiry.calendar</field>
+        <field name="model">document.expiry</field>
+        <field name="arch" type="xml">
+            <calendar string="Expiry Calendar" date_start="expiry_date" color="document_type_id" quick_add="False">
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- PIVOT / GRAPH -->
+    <record id="view_document_expiry_pivot" model="ir.ui.view">
+        <field name="name">document.expiry.pivot</field>
+        <field name="model">document.expiry</field>
+        <field name="arch" type="xml">
+            <pivot string="Documents Analysis">
+                <field name="document_type_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_document_expiry_graph" model="ir.ui.view">
+        <field name="name">document.expiry.graph</field>
+        <field name="model">document.expiry</field>
+        <field name="arch" type="xml">
+            <graph string="Documents Analysis" type="bar">
+                <field name="document_type_id"/>
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_document_expiry_search" model="ir.ui.view">
+        <field name="name">document.expiry.search</field>
+        <field name="model">document.expiry</field>
+        <field name="arch" type="xml">
+            <search string="Search Documents">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="document_type_id"/>
+                <field name="related_record_name"/>
+                <field name="responsible_id"/>
+                <filter string="My Documents" name="my_documents" domain="[('responsible_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Valid" name="filter_valid" domain="[('state', '=', 'valid')]"/>
+                <filter string="Expiring Soon" name="filter_expiring" domain="[('state', '=', 'expiring')]"/>
+                <filter string="Expired" name="filter_expired" domain="[('state', '=', 'expired')]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Document Type" name="group_type" context="{'group_by': 'document_type_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Responsible" name="group_responsible" context="{'group_by': 'responsible_id'}"/>
+                    <filter string="Related Model" name="group_model" context="{'group_by': 'related_model_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_document_expiry" model="ir.actions.act_window">
+        <field name="name">Tracked Documents</field>
+        <field name="res_model">document.expiry</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="view_document_expiry_search"/>
+        <field name="context">{'search_default_filter_expiring': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Track your first document expiry!
+            </p>
+            <p>
+                Attach an expiry date to any record — contacts, employees, vehicles,
+                equipment, contracts — and let the system remind you before it lapses.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_document_expiry_expiring" model="ir.actions.act_window">
+        <field name="name">Expiring Soon</field>
+        <field name="res_model">document.expiry</field>
+        <field name="view_mode">kanban,tree,form,calendar</field>
+        <field name="domain">[('state', '=', 'expiring')]</field>
+        <field name="search_view_id" ref="view_document_expiry_search"/>
+    </record>
+
+    <record id="action_document_expiry_expired" model="ir.actions.act_window">
+        <field name="name">Expired</field>
+        <field name="res_model">document.expiry</field>
+        <field name="view_mode">kanban,tree,form,calendar</field>
+        <field name="domain">[('state', '=', 'expired')]</field>
+        <field name="search_view_id" ref="view_document_expiry_search"/>
+    </record>
+
+</odoo>

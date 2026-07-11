@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_expiry_user,document.expiry.user,model_document_expiry,group_document_expiry_user,1,1,1,0
+access_document_expiry_manager,document.expiry.manager,model_document_expiry,group_document_expiry_manager,1,1,1,1
+access_document_expiry_type_user,document.expiry.type.user,model_document_expiry_type,group_document_expiry_user,1,0,0,0
+access_document_expiry_type_manager,document.expiry.type.manager,model_document_expiry_type,group_document_expiry_manager,1,1,1,1
+access_document_renew_wizard_user,document.renew.wizard.user,model_document_renew_wizard,group_document_expiry_user,1,1,1,1

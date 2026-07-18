@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hospital LIMS - Laboratory Information Management System for Odoo 17</title>
+    <title>Salon & Spa Management Suite for Odoo 19</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com">
@@ -32,6 +32,7 @@
             --gradient-main: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
             --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
             --gradient-hero: linear-gradient(135deg, #0f766e 0%, #0d9488 40%, #06b6d4 100%);
+            --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
             --gray-50: #f8fafc;
             --gray-100: #f1f5f9;
             --gray-200: #e2e8f0;
@@ -363,52 +364,6 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* Workflow */
-        .workflow-node {
-            background: white;
-            border: 2px solid var(--gray-200);
-            border-radius: var(--radius);
-            padding: 1rem 1.5rem;
-            transition: var(--transition);
-            cursor: pointer;
-            text-align: center;
-            min-width: 120px;
-            box-shadow: var(--shadow-sm);
-            position: relative;
-        }
-        .dark .workflow-node {
-            background: var(--gray-100);
-        }
-        .workflow-node:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-        }
-        .workflow-node.active {
-            border-color: var(--primary);
-            background: var(--primary-bg);
-            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
-        }
-        .workflow-arrow {
-            color: var(--gray-400);
-            font-size: 1.5rem;
-        }
-        .workflow-detail {
-            display: none;
-            background: var(--gray-50);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--gray-200);
-            margin-top: 1rem;
-            animation: fadeIn 0.3s ease;
-        }
-        .dark .workflow-detail {
-            background: var(--gray-100);
-        }
-        .workflow-detail.open {
-            display: block;
-        }
-
         /* Tables */
         .doc-table {
             width: 100%;
@@ -590,14 +545,6 @@
             .hero-text h1 {
                 font-size: 2rem !important;
             }
-            .workflow-node {
-                min-width: 80px;
-                padding: 0.6rem 0.8rem;
-                font-size: 0.8rem;
-            }
-            .workflow-arrow {
-                font-size: 1rem;
-            }
             #search-input {
                 max-width: 100%;
             }
@@ -658,10 +605,10 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/25">
-                        <i class="fas fa-flask text-lg"></i>
+                        <i class="fas fa-spa text-lg"></i>
                     </div>
                     <span class="text-xl font-bold text-gray-800 dark:text-white tracking-tight">
-                        Hospital <span class="gradient-text">LIMS</span>
+                        Salon <span class="gradient-text">Spa</span>
                     </span>
                     <span class="hidden sm:inline text-xs bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-full font-medium border border-teal-200 dark:border-teal-700">
                         <i class="fas fa-check-circle mr-1"></i> v1.0
@@ -700,10 +647,9 @@
                 <a href="#hero" class="toc-link active"><i class="fas fa-home mr-2 w-4"></i> Overview</a>
                 <a href="#features" class="toc-link"><i class="fas fa-star mr-2 w-4"></i> Features</a>
                 <a href="#installation" class="toc-link"><i class="fas fa-download mr-2 w-4"></i> Installation</a>
-                <a href="#models" class="toc-link"><i class="fas fa-database mr-2 w-4"></i> Core Models</a>
+                <a href="#screenshots" class="toc-link"><i class="fas fa-images mr-2 w-4"></i> Screenshots</a>
                 <a href="#workflow" class="toc-link"><i class="fas fa-project-diagram mr-2 w-4"></i> Workflow</a>
                 <a href="#roles" class="toc-link"><i class="fas fa-users mr-2 w-4"></i> User Roles</a>
-                <a href="#screenshots" class="toc-link"><i class="fas fa-images mr-2 w-4"></i> Screenshots</a>
                 <a href="#use-cases" class="toc-link"><i class="fas fa-briefcase mr-2 w-4"></i> Use Cases</a>
                 <a href="#best-practices" class="toc-link"><i class="fas fa-lightbulb mr-2 w-4"></i> Best Practices</a>
                 <a href="#troubleshooting" class="toc-link"><i class="fas fa-tools mr-2 w-4"></i> Troubleshooting</a>
@@ -712,10 +658,10 @@
                 <a href="#cta" class="toc-link"><i class="fas fa-rocket mr-2 w-4"></i> Get Started</a>
             </div>
             <div class="mt-4 glass-card p-4 text-center">
-                <div class="text-2xl font-bold gradient-text">10,514</div>
-                <div class="text-xs text-gray-500">Lines of Code</div>
+                <div class="text-2xl font-bold gradient-text">$75.00</div>
+                <div class="text-xs text-gray-500">One-time Purchase</div>
                 <div class="mt-2 flex justify-center gap-3 text-xs">
-                    <span class="badge-teal"><i class="fas fa-check mr-1"></i> Odoo 17</span>
+                    <span class="badge-teal"><i class="fas fa-check mr-1"></i> Odoo 19</span>
                     <span class="badge-teal"><i class="fas fa-shield-alt mr-1"></i> LGPL-3</span>
                 </div>
             </div>
@@ -737,28 +683,24 @@
                 <div class="hero-content relative">
                     <div class="flex flex-wrap gap-3 mb-6">
                         <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-white/10">
-                            <i class="fas fa-flask mr-1.5"></i> Odoo 17
+                            <i class="fas fa-spa mr-1.5"></i> Odoo 19
                         </span>
                         <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-white/10">
                             <i class="fas fa-check-circle mr-1.5"></i> Production Ready
                         </span>
                         <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-white/10">
-                            <i class="fas fa-rocket mr-1.5"></i> 10,514 Lines
+                            <i class="fas fa-rocket mr-1.5"></i> 15+ Screens
                         </span>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-10 items-center">
                         <div>
                             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-                                Hospital <span class="text-teal-200">LIMS</span>
-                                <span class="block text-2xl md:text-3xl font-light text-teal-100 mt-1">
-                                    Laboratory Information Management System
-                                </span>
+                                Salon &amp; Spa<br>
+                                <span class="text-teal-200">Management Suite</span>
                             </h1>
                             <p class="text-teal-50/90 text-lg mt-4 leading-relaxed max-w-lg">
-                                Complete, end-to-end laboratory management for Odoo 17.
-                                From patient registration and test ordering to result entry,
-                                quality control, and invoicing — all in one seamless workflow.
+                                Complete Odoo 19 solution for Hair Salons, Wellness Spas, Beauty Clinics, and Multi-Branch Operations. Timeline Scheduler, POS Checkout, Staff Tips, Memberships &amp; Online Booking.
                             </p>
                             <div class="flex flex-wrap gap-4 mt-6">
                                 <a href="#features" class="btn-primary">
@@ -772,20 +714,20 @@
 
                         <div class="grid grid-cols-2 gap-4">
                             <div class="glass-card p-5 text-center text-white border-white/10">
-                                <div class="text-3xl font-bold">14+</div>
+                                <div class="text-3xl font-bold">10+</div>
                                 <div class="text-sm text-teal-100">Core Models</div>
                             </div>
                             <div class="glass-card p-5 text-center text-white border-white/10">
-                                <div class="text-3xl font-bold">50+</div>
-                                <div class="text-sm text-teal-100">Views &amp; Reports</div>
+                                <div class="text-3xl font-bold">15+</div>
+                                <div class="text-sm text-teal-100">Views &amp; Screens</div>
                             </div>
                             <div class="glass-card p-5 text-center text-white border-white/10">
-                                <div class="text-3xl font-bold">10+</div>
+                                <div class="text-3xl font-bold">5+</div>
                                 <div class="text-sm text-teal-100">User Roles</div>
                             </div>
                             <div class="glass-card p-5 text-center text-white border-white/10">
                                 <div class="text-3xl font-bold">100%</div>
-                                <div class="text-sm text-teal-100">Odoo 17 Native</div>
+                                <div class="text-sm text-teal-100">Odoo 19 Native</div>
                             </div>
                         </div>
                     </div>
@@ -803,24 +745,24 @@
 
                 <div class="grid md:grid-cols-3 gap-6">
                     <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-users"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Patient-Centric</h3>
+                        <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Real-Time Scheduler</h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            Manage patient demographics, medical history, and all lab interactions in one place.
+                            Interactive timeline grid with specialist columns, drag-and-drop slot control, and automatic customer history.
                         </p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-flask"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Test Catalog</h3>
+                        <div class="feature-icon"><i class="fas fa-cash-register"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">POS Integration</h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            Extensive test catalog with pricing, normal ranges, and departmental categorization.
+                            Seamless checkout with tip capture, staff commission tracking, and direct order reference linking.
                         </p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Analytics &amp; QC</h3>
+                        <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Online Booking</h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            Built-in quality control, dashboards, and real-time analytics for lab performance.
+                            24/7 customer self-booking portal with branch, service, and specialist selection.
                         </p>
                     </div>
                 </div>
@@ -830,12 +772,12 @@
                         <i class="fas fa-bullseye text-teal-500"></i> Key Benefits
                     </h4>
                     <ul class="grid sm:grid-cols-2 gap-2 mt-3 text-gray-600 dark:text-gray-300 text-sm">
-                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> End-to-end lab workflow automation</li>
-                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Barcode &amp; sample tracking</li>
-                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Automated result validation with normal ranges</li>
-                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Integrated invoicing &amp; accounting</li>
-                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Real-time dashboards &amp; KPIs</li>
-                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Multi-department &amp; multi-location support</li>
+                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> End-to-end salon workflow automation</li>
+                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Multi-branch &amp; multi-location support</li>
+                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Automated 30-minute reminders</li>
+                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Staff tips &amp; commission tracking</li>
+                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> VIP memberships &amp; loyalty rewards</li>
+                        <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Executive BI analytics dashboard</li>
                     </ul>
                 </div>
             </section>
@@ -856,10 +798,10 @@
                             Prerequisites
                         </h3>
                         <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1 text-sm">
-                            <li>Odoo 17 (Community or Enterprise)</li>
+                            <li>Odoo 19 (Community or Enterprise)</li>
                             <li>Python 3.10+ with required packages</li>
                             <li>PostgreSQL 13+</li>
-                            <li>Dependencies: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">base, contacts, account, product, stock, sale, purchase, mail, hr</code></li>
+                            <li>Dependencies: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">base, contacts, account, product, stock, sale, purchase, mail, hr, pos</code></li>
                         </ul>
                     </div>
                     <div>
@@ -868,11 +810,11 @@
                             Installation Steps
                         </h3>
                         <ol class="list-decimal list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1 text-sm">
-                            <li>Place the <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">hospital_lims</code> module in your Odoo addons directory.</li>
+                            <li>Place the <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">salon_spa_management</code> module in your Odoo addons directory.</li>
                             <li>Update the apps list: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">Apps → Update Apps List</code></li>
-                            <li>Search for "Hospital LIMS" and click <strong class="text-teal-600">Install</strong>.</li>
-                            <li>Configure the lab settings: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">LIMS → Configuration → Settings</code></li>
-                            <li>Set up your test catalog, departments, and normal ranges.</li>
+                            <li>Search for "Salon & Spa" and click <strong class="text-teal-600">Install</strong>.</li>
+                            <li>Configure the salon settings: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">Salon → Configuration → Settings</code></li>
+                            <li>Set up your branches, services, and staff profiles.</li>
                         </ol>
                     </div>
                     <div>
@@ -881,143 +823,61 @@
                             Configuration
                         </h3>
                         <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1 text-sm">
-                            <li>Set up <strong>Departments</strong> (e.g., Hematology, Biochemistry, Microbiology).</li>
-                            <li>Define <strong>Test Catalog</strong> with name, code, price, and normal ranges.</li>
-                            <li>Configure <strong>Sample Types</strong> (Blood, Urine, CSF, etc.).</li>
-                            <li>Set <strong>Barcode Prefixes</strong> for sample tracking.</li>
-                            <li>Configure <strong>Accounting</strong> integration (income accounts, tax rules).</li>
+                            <li>Set up <strong>Branches</strong> (Downtown, Suburban, etc.).</li>
+                            <li>Define <strong>Services</strong> with pricing, duration, and commission rules.</li>
+                            <li>Configure <strong>Specialists</strong> with HR records and service assignments.</li>
+                            <li>Set <strong>Working Hours</strong> and time slot intervals.</li>
+                            <li>Configure <strong>POS</strong> integration and payment methods.</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <!-- ========================================================== -->
-            <!-- CORE MODELS -->
+            <!-- SCREENSHOTS -->
             <!-- ========================================================== -->
-            <section id="models">
+            <section id="screenshots">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-database text-3xl gradient-text"></i>
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Core Models &amp; Data Structure</h2>
-                </div>
-                <p class="text-gray-600 dark:text-gray-300 mb-6">
-                    The module is built around these key models with relationships as shown below.
-                </p>
-
-                <!-- Tabs -->
-                <div class="flex flex-wrap gap-1 border-b border-gray-200 dark:border-gray-700 mb-6">
-                    <button class="tab-btn active" data-tab="tab-patient"><i class="fas fa-user-injured mr-1"></i> Patient</button>
-                    <button class="tab-btn" data-tab="tab-test"><i class="fas fa-flask mr-1"></i> Test Catalog</button>
-                    <button class="tab-btn" data-tab="tab-order"><i class="fas fa-clipboard-list mr-1"></i> Test Order</button>
-                    <button class="tab-btn" data-tab="tab-result"><i class="fas fa-check-double mr-1"></i> Result &amp; QC</button>
-                    <button class="tab-btn" data-tab="tab-invoice"><i class="fas fa-file-invoice-dollar mr-1"></i> Invoicing</button>
+                    <i class="fas fa-images text-3xl gradient-text"></i>
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Screenshots &amp; UI Gallery</h2>
                 </div>
 
-                <!-- Tab Panes -->
-                <div id="tab-patient" class="tab-pane active">
-                    <div class="glass-card p-6">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-user-injured text-teal-500"></i> lims.patient
-                        </h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Patient demographics and medical history.</p>
-                        <table class="doc-table mt-4">
-                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-                            <tbody>
-                                <tr><td>name</td><td>Char</td><td>Full name of the patient</td></tr>
-                                <tr><td>patient_id</td><td>Char</td><td>Unique patient identifier (MRN)</td></tr>
-                                <tr><td>date_of_birth</td><td>Date</td><td>Date of birth</td></tr>
-                                <tr><td>gender</td><td>Selection</td><td>Male / Female / Other</td></tr>
-                                <tr><td>phone</td><td>Char</td><td>Contact number</td></tr>
-                                <tr><td>email</td><td>Char</td><td>Email address</td></tr>
-                                <tr><td>address</td><td>Text</td><td>Residential address</td></tr>
-                                <tr><td>medical_history</td><td>Text</td><td>Relevant medical history</td></tr>
-                                <tr><td>test_order_ids</td><td>One2many</td><td>All test orders for this patient</td></tr>
-                            </tbody>
-                        </table>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-calendar-check"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Timeline Scheduler</p>
+                        <p class="text-sm">Interactive specialist column grid</p>
+                        <span class="badge-teal">Form View</span>
                     </div>
-                </div>
-
-                <div id="tab-test" class="tab-pane">
-                    <div class="glass-card p-6">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-flask text-teal-500"></i> lims.test
-                        </h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Catalog of available laboratory tests.</p>
-                        <table class="doc-table mt-4">
-                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-                            <tbody>
-                                <tr><td>name</td><td>Char</td><td>Test name</td></tr>
-                                <tr><td>code</td><td>Char</td><td>Unique test code</td></tr>
-                                <tr><td>department_id</td><td>Many2one</td><td>Lab department</td></tr>
-                                <tr><td>sample_type</td><td>Selection</td><td>Blood, Urine, CSF, etc.</td></tr>
-                                <tr><td>price</td><td>Monetary</td><td>Standard price</td></tr>
-                                <tr><td>normal_range_min</td><td>Float</td><td>Minimum normal value</td></tr>
-                                <tr><td>normal_range_max</td><td>Float</td><td>Maximum normal value</td></tr>
-                                <tr><td>unit</td><td>Char</td><td>Unit of measurement</td></tr>
-                                <tr><td>turnaround_time</td><td>Integer</td><td>Expected hours to result</td></tr>
-                            </tbody>
-                        </table>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-cash-register"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">POS Checkout</p>
+                        <p class="text-sm">Payment processing with tip capture</p>
+                        <span class="badge-teal">Form View</span>
                     </div>
-                </div>
-
-                <div id="tab-order" class="tab-pane">
-                    <div class="glass-card p-6">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-clipboard-list text-teal-500"></i> lims.test.order
-                        </h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Test orders placed by doctors or clinicians.</p>
-                        <table class="doc-table mt-4">
-                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-                            <tbody>
-                                <tr><td>name</td><td>Char</td><td>Order reference number</td></tr>
-                                <tr><td>patient_id</td><td>Many2one</td><td>Patient</td></tr>
-                                <tr><td>doctor_id</td><td>Many2one</td><td>Referring doctor</td></tr>
-                                <tr><td>test_ids</td><td>Many2many</td><td>Tests requested</td></tr>
-                                <tr><td>priority</td><td>Selection</td><td>Routine / Urgent / Emergency</td></tr>
-                                <tr><td>state</td><td>Selection</td><td>Draft → Confirmed → Sample Collected → In Progress → Completed → Approved</td></tr>
-                                <tr><td>sample_barcode</td><td>Char</td><td>Generated barcode for sample</td></tr>
-                                <tr><td>collection_date</td><td>Datetime</td><td>Sample collection timestamp</td></tr>
-                                <tr><td>result_ids</td><td>One2many</td><td>Test results</td></tr>
-                            </tbody>
-                        </table>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-globe"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Online Booking</p>
+                        <p class="text-sm">Customer self-booking portal</p>
+                        <span class="badge-teal">Website</span>
                     </div>
-                </div>
-
-                <div id="tab-result" class="tab-pane">
-                    <div class="glass-card p-6">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-check-double text-teal-500"></i> lims.test.result &amp; lims.qc
-                        </h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Test results and quality control records.</p>
-                        <table class="doc-table mt-4">
-                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-                            <tbody>
-                                <tr><td>test_order_id</td><td>Many2one</td><td>Related test order</td></tr>
-                                <tr><td>test_id</td><td>Many2one</td><td>Test definition</td></tr>
-                                <tr><td>value</td><td>Float</td><td>Result value</td></tr>
-                                <tr><td>normal_range_min</td><td>Float</td><td>Minimum normal range</td></tr>
-                                <tr><td>normal_range_max</td><td>Float</td><td>Maximum normal range</td></tr>
-                                <tr><td>is_abnormal</td><td>Boolean</td><td>Auto-flagged based on range</td></tr>
-                                <tr><td>qc_pass</td><td>Boolean</td><td>Quality control passed</td></tr>
-                                <tr><td>technician_id</td><td>Many2one</td><td>Technician who entered result</td></tr>
-                                <tr><td>validated_by</td><td>Many2one</td><td>Validator / pathologist</td></tr>
-                            </tbody>
-                        </table>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-user-tie"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Specialist Profile</p>
+                        <p class="text-sm">Staff with service assignments</p>
+                        <span class="badge-teal">Form View</span>
                     </div>
-                </div>
-
-                <div id="tab-invoice" class="tab-pane">
-                    <div class="glass-card p-6">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-file-invoice-dollar text-teal-500"></i> Accounting Integration
-                        </h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Seamless integration with Odoo Accounting.</p>
-                        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mt-4 space-y-1 text-sm">
-                            <li><strong>Invoice Generation:</strong> Automatic invoice creation on test order completion.</li>
-                            <li><strong>Income Accounts:</strong> Per-test income account configuration.</li>
-                            <li><strong>Tax Rules:</strong> Configurable tax applied per test or department.</li>
-                            <li><strong>Payment Tracking:</strong> Full reconciliation with customer payments.</li>
-                            <li><strong>Insurance Support:</strong> Link to insurance partners for third-party billing.</li>
-                        </ul>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-chart-bar"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Analytics Dashboard</p>
+                        <p class="text-sm">KPI cards and performance metrics</p>
+                        <span class="badge-teal">Dashboard</span>
+                    </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-file-pdf"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Commission Report</p>
+                        <p class="text-sm">Staff performance and tips PDF</p>
+                        <span class="badge-teal">Report</span>
                     </div>
                 </div>
             </section>
@@ -1038,122 +898,89 @@
                     <!-- Workflow Nodes -->
                     <div class="flex flex-wrap items-center justify-center gap-3 md:gap-5">
                         <div class="workflow-node active" data-step="1">
-                            <i class="fas fa-user-plus text-teal-500 text-xl block mb-1"></i>
-                            <span class="font-semibold text-sm">Patient</span>
-                            <span class="block text-xs text-gray-400">Registration</span>
+                            <i class="fas fa-calendar-plus text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Booking</span>
+                            <span class="block text-xs text-gray-400">Appointment</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="2">
-                            <i class="fas fa-clipboard-list text-teal-500 text-xl block mb-1"></i>
-                            <span class="font-semibold text-sm">Test Order</span>
-                            <span class="block text-xs text-gray-400">Creation</span>
+                            <i class="fas fa-user-check text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Check-In</span>
+                            <span class="block text-xs text-gray-400">Customer Arrival</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="3">
-                            <i class="fas fa-vial text-teal-500 text-xl block mb-1"></i>
-                            <span class="font-semibold text-sm">Sample</span>
-                            <span class="block text-xs text-gray-400">Collection</span>
+                            <i class="fas fa-spa text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Service</span>
+                            <span class="block text-xs text-gray-400">In Progress</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="4">
-                            <i class="fas fa-microscope text-teal-500 text-xl block mb-1"></i>
-                            <span class="font-semibold text-sm">Result</span>
-                            <span class="block text-xs text-gray-400">Entry</span>
+                            <i class="fas fa-cash-register text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Checkout</span>
+                            <span class="block text-xs text-gray-400">POS Payment</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="5">
-                            <i class="fas fa-check-double text-teal-500 text-xl block mb-1"></i>
-                            <span class="font-semibold text-sm">Approval</span>
-                            <span class="block text-xs text-gray-400">Validation</span>
-                        </div>
-                        <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
-                        <div class="workflow-node" data-step="6">
-                            <i class="fas fa-file-pdf text-teal-500 text-xl block mb-1"></i>
-                            <span class="font-semibold text-sm">Report</span>
-                            <span class="block text-xs text-gray-400">Generation</span>
-                        </div>
-                        <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
-                        <div class="workflow-node" data-step="7">
                             <i class="fas fa-file-invoice-dollar text-teal-500 text-xl block mb-1"></i>
-                            <span class="font-semibold text-sm">Invoicing</span>
-                            <span class="block text-xs text-gray-400">Billing</span>
+                            <span class="font-semibold text-sm">Complete</span>
+                            <span class="block text-xs text-gray-400">Done &amp; Paid</span>
                         </div>
                     </div>
 
                     <!-- Detail Panels -->
                     <div id="workflow-detail-1" class="workflow-detail open">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-user-plus text-teal-500 mr-2"></i>Patient Registration</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm">Patient is registered with demographics, contact details, and medical history.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-calendar-plus text-teal-500 mr-2"></i>Appointment Booking</h4>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Customer books appointment via phone, walk-in, or online portal.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            <li>Unique MRN (Medical Record Number) generated automatically.</li>
-                            <li>Searchable by name, ID, or phone.</li>
-                            <li>Complete history of all past test orders.</li>
+                            <li>Select branch, service, and specialist.</li>
+                            <li>Choose available time slot from timeline.</li>
+                            <li>Customer details captured (name, phone, email).</li>
+                            <li>Status: Draft → Confirmed.</li>
                         </ul>
                     </div>
                     <div id="workflow-detail-2" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-clipboard-list text-teal-500 mr-2"></i>Test Order Creation</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm">Doctor or clinician selects tests from catalog, sets priority, and submits.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-user-check text-teal-500 mr-2"></i>Customer Check-In</h4>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Customer arrives at the salon and checks in at the front desk.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            <li>Select patient and referring doctor.</li>
-                            <li>Choose tests from catalog with pricing.</li>
-                            <li>Set priority: Routine, Urgent, or Emergency.</li>
-                            <li>Automatic state: Draft → Confirmed.</li>
+                            <li>Search customer by name or phone number.</li>
+                            <li>View appointment details and service history.</li>
+                            <li>Mark as arrived / in-progress.</li>
+                            <li>Status: Confirmed → In Progress.</li>
                         </ul>
                     </div>
                     <div id="workflow-detail-3" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-vial text-teal-500 mr-2"></i>Sample Collection</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm">Sample is collected, labeled with barcode, and sent to lab.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-spa text-teal-500 mr-2"></i>Service Delivery</h4>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Specialist performs the service with real-time status updates.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            <li>Barcode generated for each sample.</li>
-                            <li>Collection date/time recorded.</li>
-                            <li>Sample type validation against test requirements.</li>
-                            <li>State transition: Confirmed → Sample Collected.</li>
+                            <li>Multi-step chemical waiting workflows.</li>
+                            <li>Add-on services and product upsells.</li>
+                            <li>Timer tracking for service duration.</li>
+                            <li>Status: In Progress.</li>
                         </ul>
                     </div>
                     <div id="workflow-detail-4" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-microscope text-teal-500 mr-2"></i>Result Entry</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm">Lab technician enters results for each test, with automatic validation.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-cash-register text-teal-500 mr-2"></i>POS Checkout</h4>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Service completed and customer proceeds to checkout.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            <li>Results entered per test with normal range validation.</li>
-                            <li>Abnormal results auto-flagged.</li>
-                            <li>Quality control checks.</li>
-                            <li>State transition: Sample Collected → In Progress.</li>
+                            <li>Transfer to POS with all service items.</li>
+                            <li>Process payment (cash, card, wallet).</li>
+                            <li>Capture staff tips.</li>
+                            <li>Status: In Progress → Paid.</li>
                         </ul>
                     </div>
                     <div id="workflow-detail-5" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-check-double text-teal-500 mr-2"></i>Approval &amp; Validation</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm">Pathologist or lab manager reviews and validates results.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-file-invoice-dollar text-teal-500 mr-2"></i>Complete &amp; Done</h4>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Appointment fully completed and closed.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            <li>Review all results for accuracy.</li>
-                            <li>Add clinical notes or comments.</li>
-                            <li>Approve or request re-test.</li>
-                            <li>State transition: In Progress → Completed → Approved.</li>
-                        </ul>
-                    </div>
-                    <div id="workflow-detail-6" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-file-pdf text-teal-500 mr-2"></i>Report Generation</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm">Final PDF report is generated with all test results and interpretations.</p>
-                        <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            <li>Professional PDF report with letterhead.</li>
-                            <li>Includes patient info, test results, normal ranges.</li>
-                            <li>Abnormal results highlighted.</li>
-                            <li>Auto-email to doctor and patient (optional).</li>
-                        </ul>
-                    </div>
-                    <div id="workflow-detail-7" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-file-invoice-dollar text-teal-500 mr-2"></i>Invoicing</h4>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm">Invoice is generated and sent to patient or insurance provider.</p>
-                        <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
-                            <li>Automatic invoice generation on approval.</li>
-                            <li>Itemized list of tests with prices.</li>
-                            <li>Tax and discount support.</li>
-                            <li>Integration with Odoo Accounting.</li>
+                            <li>Invoice generated and sent to customer.</li>
+                            <li>Commission and tips attributed to staff.</li>
+                            <li>Customer history updated.</li>
+                            <li>Status: Paid → Done.</li>
                         </ul>
                     </div>
                 </div>
@@ -1172,114 +999,61 @@
                     <div class="glass-card p-5 border-t-4 border-teal-500">
                         <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600">
-                                <i class="fas fa-user-md text-lg"></i>
+                                <i class="fas fa-eye text-lg"></i>
                             </div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Doctor</h3>
+                            <h3 class="font-bold text-gray-800 dark:text-white">View Only</h3>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Create test orders</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View patient history</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Review results</li>
-                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Enter results</li>
-                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Approve tests</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Read-only schedules</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View customer history</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Create appointments</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Process payments</li>
                         </ul>
                     </div>
 
                     <div class="glass-card p-5 border-t-4 border-teal-400">
                         <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600">
-                                <i class="fas fa-microscope text-lg"></i>
+                                <i class="fas fa-user-plus text-lg"></i>
                             </div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Technician</h3>
+                            <h3 class="font-bold text-gray-800 dark:text-white">Receptionist</h3>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View orders</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Enter results</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> QC checks</li>
-                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Approve orders</li>
-                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Modify catalog</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Create appointments</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Manage schedule</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Customer check-in</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Process payments</li>
                         </ul>
                     </div>
 
                     <div class="glass-card p-5 border-t-4 border-teal-600">
                         <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600">
+                                <i class="fas fa-cash-register text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 dark:text-white">Cashier</h3>
+                        </div>
+                        <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> POS checkout</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Tip capture</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Payment processing</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Modify schedule</li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card p-5 border-t-4 border-teal-700">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600">
                                 <i class="fas fa-user-tie text-lg"></i>
                             </div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Lab Manager</h3>
+                            <h3 class="font-bold text-gray-800 dark:text-white">Manager</h3>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Approve results</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Manage catalog</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> QC oversight</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Dashboard</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> User management</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Full access</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Branch settings</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Commission rules</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Executive reports</li>
                         </ul>
-                    </div>
-
-                    <div class="glass-card p-5 border-t-4 border-gray-400">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500">
-                                <i class="fas fa-user text-lg"></i>
-                            </div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Patient (Portal)</h3>
-                        </div>
-                        <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View reports</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Request tests</li>
-                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View invoices</li>
-                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Enter results</li>
-                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Manage tests</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ========================================================== -->
-            <!-- SCREENSHOTS -->
-            <!-- ========================================================== -->
-            <section id="screenshots">
-                <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-images text-3xl gradient-text"></i>
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Screenshots &amp; UI Gallery</h2>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-user-injured"></i>
-                        <p class="font-semibold text-gray-700 dark:text-gray-300">Patient Form View</p>
-                        <p class="text-sm">Patient demographics and medical history</p>
-                        <span class="badge-teal">Form View</span>
-                    </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-clipboard-list"></i>
-                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Order Form</p>
-                        <p class="text-sm">Multi-test selection with priority</p>
-                        <span class="badge-teal">Form View</span>
-                    </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-table"></i>
-                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Order Tree</p>
-                        <p class="text-sm">List view with status and priority</p>
-                        <span class="badge-teal">Tree View</span>
-                    </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-th"></i>
-                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Order Kanban</p>
-                        <p class="text-sm">Visual kanban grouped by status</p>
-                        <span class="badge-teal">Kanban View</span>
-                    </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-flask"></i>
-                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Catalog</p>
-                        <p class="text-sm">Complete catalog with normal ranges</p>
-                        <span class="badge-teal">Tree View</span>
-                    </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-file-pdf"></i>
-                        <p class="font-semibold text-gray-700 dark:text-gray-300">Lab Report PDF</p>
-                        <p class="text-sm">Professional PDF with results</p>
-                        <span class="badge-teal">Report</span>
                     </div>
                 </div>
             </section>
@@ -1296,105 +1070,109 @@
                 <div class="grid md:grid-cols-3 gap-6">
                     <div class="glass-card p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 px-3 py-1 rounded-full text-xs font-bold">EMERGENCY</span>
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 px-3 py-1 rounded-full text-xs font-bold">WALK-IN</span>
                         </div>
-                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Emergency Panel</h3>
+                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Walk-in Customer</h3>
                         <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Patient Arrives</span>
+                                <span>Customer Arrives</span>
                                 <span class="text-teal-600 font-medium">T+0</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Order Created</span>
+                                <span>Service Selection</span>
+                                <span class="text-teal-600 font-medium">T+2min</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Appointment Created</span>
+                                <span class="text-teal-600 font-medium">T+3min</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Service In Progress</span>
                                 <span class="text-teal-600 font-medium">T+5min</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Sample Collection</span>
-                                <span class="text-teal-600 font-medium">T+15min</span>
+                                <span>POS Checkout</span>
+                                <span class="text-teal-600 font-medium">T+45min</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Complete &amp; Done</span>
+                                <span class="text-teal-600 font-medium">T+50min</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 p-2 bg-teal-50 dark:bg-teal-900/20 rounded text-xs text-gray-600 dark:text-gray-300">
+                            <i class="fas fa-clock text-teal-500 mr-1"></i> Total turnaround: ~50 minutes
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold">ONLINE</span>
+                        </div>
+                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Online Booking</h3>
+                        <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Customer Books Online</span>
+                                <span class="text-teal-600 font-medium">Day 1</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Result Entry</span>
+                                <span>Confirmation Email Sent</span>
+                                <span class="text-teal-600 font-medium">Day 1</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>30-min Reminder</span>
+                                <span class="text-teal-600 font-medium">Day 2</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Customer Arrives</span>
+                                <span class="text-teal-600 font-medium">Day 2</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Service &amp; Checkout</span>
+                                <span class="text-teal-600 font-medium">Day 2</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Review &amp; Feedback</span>
+                                <span class="text-teal-600 font-medium">Day 2</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 p-2 bg-teal-50 dark:bg-teal-900/20 rounded text-xs text-gray-600 dark:text-gray-300">
+                            <i class="fas fa-globe text-teal-500 mr-1"></i> Fully automated booking flow
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-xs font-bold">MEMBERSHIP</span>
+                        </div>
+                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">VIP Membership</h3>
+                        <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>VIP Customer Books</span>
+                                <span class="text-teal-600 font-medium">T+0</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Membership Discount Applied</span>
+                                <span class="text-teal-600 font-medium">T+0</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Loyalty Points Earned</span>
+                                <span class="text-teal-600 font-medium">T+0</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
+                                <span>Service Completed</span>
                                 <span class="text-teal-600 font-medium">T+45min</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Approval</span>
-                                <span class="text-teal-600 font-medium">T+60min</span>
+                                <span>Points Added to Account</span>
+                                <span class="text-teal-600 font-medium">T+50min</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Report &amp; Invoice</span>
-                                <span class="text-teal-600 font-medium">T+75min</span>
+                                <span>Next Appointment Scheduled</span>
+                                <span class="text-teal-600 font-medium">T+55min</span>
                             </div>
                         </div>
                         <div class="mt-3 p-2 bg-teal-50 dark:bg-teal-900/20 rounded text-xs text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-clock text-teal-500 mr-1"></i> Total turnaround: ~75 minutes
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold">ROUTINE</span>
-                        </div>
-                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Routine Blood Test</h3>
-                        <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Patient Visit</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Order Created</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Sample Collection</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Result Entry</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Approval</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Report &amp; Invoice</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                        </div>
-                        <div class="mt-3 p-2 bg-teal-50 dark:bg-teal-900/20 rounded text-xs text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-clock text-teal-500 mr-1"></i> Total turnaround: ~24 hours
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-xs font-bold">BATCH</span>
-                        </div>
-                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Batch Processing</h3>
-                        <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Multiple Orders</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Batch Collection</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Batch Result Entry</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Bulk Approval</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Batch Reports</span>
-                                <span class="text-teal-600 font-medium">Day 3</span>
-                            </div>
-                        </div>
-                        <div class="mt-3 p-2 bg-teal-50 dark:bg-teal-900/20 rounded text-xs text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-layer-group text-teal-500 mr-1"></i> 50+ orders processed in batch
+                            <i class="fas fa-crown text-teal-500 mr-1"></i> VIP loyalty program active
                         </div>
                     </div>
                 </div>
@@ -1413,15 +1191,15 @@
                     <div class="glass-card p-5">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-database text-teal-500 mr-2"></i>Data Entry</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use barcode scanning for sample tracking.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Validate patient data before order creation.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use default normal ranges from test catalog.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use phone number lookup for quick customer search.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Validate customer details before booking.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use service templates for common packages.</li>
                         </ul>
                     </div>
                     <div class="glass-card p-5">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-tachometer-alt text-teal-500 mr-2"></i>Performance</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Archive old test orders periodically.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Archive old appointments periodically.</li>
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use indexed fields for faster search.</li>
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Configure automated cleanup for old records.</li>
                         </ul>
@@ -1430,15 +1208,15 @@
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-cogs text-teal-500 mr-2"></i>Customization</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Extend models via inheritance.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Add custom fields for lab-specific data.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Add custom fields for salon-specific data.</li>
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use automated actions for state transitions.</li>
                         </ul>
                     </div>
                     <div class="glass-card p-5">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-users text-teal-500 mr-2"></i>User Training</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Train technicians on result entry workflow.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Train doctors on order creation and report review.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Train receptionists on timeline scheduler.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Train cashiers on POS and tip capture.</li>
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use the built-in tooltips and help messages.</li>
                         </ul>
                     </div>
@@ -1456,16 +1234,16 @@
 
                 <div class="glass-card p-6 space-y-4">
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Sample Barcode Not Printing</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Ensure the barcode printer is configured in Odoo settings. Check <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">Settings → Technical → Barcode</code>.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Appointments Not Showing in Timeline</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Check that the appointment status is not 'Draft' and the date/time is within the current view. Ensure the branch filter is correct.</p>
                     </div>
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Results Not Auto-Flagging Abnormal</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Verify that normal ranges are configured in the test catalog. Check <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">LIMS → Configuration → Tests</code>.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>POS Not Receiving Appointments</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Verify that the appointment status is 'In Progress' or 'Confirmed' before transferring to POS. Check that the POS session is active.</p>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Invoices Not Generating</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Check accounting configuration. Ensure income accounts are mapped to tests. Verify <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">Settings → Accounting</code>.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Tips Not Appearing in Reports</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Ensure tips are captured during POS checkout. Check that the staff member is correctly assigned to the appointment.</p>
                     </div>
                 </div>
             </section>
@@ -1485,14 +1263,14 @@
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Model Inheritance:</span>
                             <code class="block bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded text-xs mt-1 font-mono">
-                                class CustomTestOrder(models.Model):<br>
-                                &nbsp;&nbsp;_inherit = 'lims.test.order'<br>
+                                class CustomAppointment(models.Model):<br>
+                                &nbsp;&nbsp;_inherit = 'salon.appointment'<br>
                                 &nbsp;&nbsp;custom_field = fields.Char(string='Custom Field')
                             </code>
                         </li>
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Automated Actions:</span>
-                            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Create automated actions for state transitions, email notifications, and QC triggers.</p>
+                            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Create automated actions for state transitions, email notifications, and SMS triggers.</p>
                         </li>
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Report Templates:</span>
@@ -1500,7 +1278,7 @@
                         </li>
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">API Endpoints:</span>
-                            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">REST API endpoints for third-party integrations (LIS integration).</p>
+                            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">REST API endpoints for third-party integrations (online booking, payment gateways).</p>
                         </li>
                     </ul>
                 </div>
@@ -1523,14 +1301,14 @@
                             <span class="badge-teal">Latest</span>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 mt-2 list-disc list-inside">
-                            <li>Initial release of Hospital LIMS module.</li>
-                            <li>Complete patient management.</li>
-                            <li>Test catalog with normal ranges.</li>
-                            <li>Full test order workflow.</li>
-                            <li>Result entry with validation.</li>
-                            <li>PDF report generation.</li>
-                            <li>Accounting integration.</li>
-                            <li>Dashboard and analytics.</li>
+                            <li>Initial release of Salon & Spa Management Suite.</li>
+                            <li>Real-time timeline scheduler with specialist columns.</li>
+                            <li>POS integration with tip capture.</li>
+                            <li>Online website booking engine.</li>
+                            <li>Staff commission and tip reconciliation.</li>
+                            <li>Executive BI analytics dashboard.</li>
+                            <li>Multi-branch support.</li>
+                            <li>VIP memberships and loyalty rewards.</li>
                         </ul>
                     </div>
                     <div class="border-l-4 border-gray-300 dark:border-gray-600 pl-4">
@@ -1554,10 +1332,10 @@
                 <div class="particle"></div>
                 <div class="particle"></div>
                 <div class="relative z-10">
-                    <h2 class="text-3xl md:text-4xl font-bold">Ready to Transform Your Lab?</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold">Ready to Transform Your Salon?</h2>
                     <p class="text-teal-100 text-lg mt-3 max-w-2xl mx-auto">
-                        Get the complete Hospital LIMS module for your Odoo 17 instance.
-                        Streamline your laboratory workflow and improve patient care.
+                        Get the complete Salon & Spa Management Suite for your Odoo 19 instance.
+                        Streamline your salon operations and delight your customers.
                     </p>
                     <div class="flex flex-wrap justify-center gap-4 mt-6">
                         <a href="#" class="btn-primary bg-white text-teal-700 hover:bg-teal-50 shadow-lg">
@@ -1571,9 +1349,9 @@
                         </a>
                     </div>
                     <div class="mt-6 flex flex-wrap justify-center gap-6 text-sm text-teal-100/80">
-                        <span><i class="fas fa-check-circle mr-1"></i> Odoo 17</span>
-                        <span><i class="fas fa-check-circle mr-1"></i> 10,514 Lines</span>
-                        <span><i class="fas fa-check-circle mr-1"></i> LGPL-3</span>
+                        <span><i class="fas fa-check-circle mr-1"></i> Odoo 19</span>
+                        <span><i class="fas fa-check-circle mr-1"></i> 15+ Screens</span>
+                        <span><i class="fas fa-check-circle mr-1"></i> $75.00</span>
                     </div>
                 </div>
             </section>
@@ -1588,11 +1366,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-2">
-                    <i class="fas fa-flask text-teal-400"></i>
-                    <span class="font-bold text-white">Hospital LIMS</span>
+                    <i class="fas fa-spa text-teal-400"></i>
+                    <span class="font-bold text-white">Salon &amp; Spa</span>
                     <span class="text-xs text-gray-500">v1.0.0</span>
-                    <span class="text-xs text-gray-500 ml-2">|</span>
-                    <span class="text-xs text-gray-500">10,514 lines of code</span>
                 </div>
                 <div class="flex flex-wrap gap-6 text-sm">
                     <a href="#" class="hover:text-white transition">Documentation</a>
@@ -1601,7 +1377,7 @@
                     <a href="#" class="hover:text-white transition">Contact</a>
                 </div>
                 <div class="text-sm text-gray-500">
-                    &copy; 2025 Hospital LIMS. Built for Odoo 17.
+                    &copy; 2025 Salon &amp; Spa Suite. Built for Odoo 19.
                 </div>
             </div>
         </div>
@@ -1680,49 +1456,6 @@
                 });
             });
 
-            // ---- Tabs ----
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabPanes = {
-                'tab-patient': document.getElementById('tab-patient'),
-                'tab-test': document.getElementById('tab-test'),
-                'tab-order': document.getElementById('tab-order'),
-                'tab-result': document.getElementById('tab-result'),
-                'tab-invoice': document.getElementById('tab-invoice'),
-            };
-
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-
-                    Object.values(tabPanes).forEach(pane => {
-                        if (pane) pane.classList.remove('active');
-                    });
-
-                    const tabId = this.dataset.tab;
-                    if (tabPanes[tabId]) {
-                        tabPanes[tabId].classList.add('active');
-                    }
-                });
-            });
-
-            // ---- Accordion ----
-            const accordionHeaders = document.querySelectorAll('.accordion-header');
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    const targetId = this.dataset.target;
-                    const body = document.getElementById(targetId);
-                    if (body) {
-                        body.classList.toggle('open');
-                        const icon = this.querySelector('.fa-chevron-down');
-                        if (icon) {
-                            icon.style.transform = body.classList.contains('open') ? 'rotate(180deg)' :
-                                'rotate(0)';
-                        }
-                    }
-                });
-            });
-
             // ---- Search ----
             const searchInput = document.getElementById('search-input');
             if (searchInput) {
@@ -1766,8 +1499,8 @@
 
             progressBars.forEach(bar => observer.observe(bar));
 
-            console.log('🏥 Hospital LIMS Documentation Loaded Successfully.');
-            console.log('📊 10,514 lines of code documented.');
+            console.log('💅 Salon & Spa Management Suite Documentation Loaded Successfully.');
+            console.log('📊 15+ screens documented.');
         });
     </script>
 

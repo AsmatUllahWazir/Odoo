@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hospital Laboratory Information Management System for Odoo 17</title>
+    <meta name="description" content="Complete Odoo 17 LIMS for hospital and clinical laboratories. Manage patients, test orders, results, invoicing &amp; more." />
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com">
@@ -17,7 +18,7 @@
 
     <style>
         /* ============================================================
-           CSS Variables - Medical Teal Theme
+           CSS Variables - Teal/Cyan Medical Theme
            ============================================================ */
         :root {
             --primary: #0d9488;
@@ -27,12 +28,8 @@
             --primary-bg: #f0fdfa;
             --secondary: #06b6d4;
             --secondary-light: #22d3ee;
-            --accent: #8b5cf6;
-            --accent-light: #a78bfa;
             --gradient-main: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
-            --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
             --gradient-hero: linear-gradient(135deg, #0f766e 0%, #0d9488 40%, #06b6d4 100%);
-            --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
             --gray-50: #f8fafc;
             --gray-100: #f1f5f9;
             --gray-200: #e2e8f0;
@@ -47,8 +44,7 @@
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            --radius: 1rem;
+            --radius: 0.75rem;
             --radius-sm: 0.5rem;
             --radius-lg: 1.5rem;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -69,7 +65,7 @@
             line-height: 1.6;
         }
 
-        /* Glassmorphism */
+        /* ---------- Glassmorphism & Cards ---------- */
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -90,15 +86,40 @@
             box-shadow: var(--shadow-xl);
         }
 
-        /* Gradient Text */
-        .gradient-text {
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
-        /* Hero */
+        /* ---------- Buttons ---------- */
+        .btn-primary {
+            background: var(--gradient-main);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(13, 148, 136, 0.4);
+        }
+
+        /* ---------- Hero ---------- */
         .hero-gradient {
             background: var(--gradient-hero);
             position: relative;
@@ -128,7 +149,6 @@
             border-radius: 50%;
             pointer-events: none;
         }
-
         .hero-content {
             position: relative;
             z-index: 2;
@@ -142,235 +162,24 @@
             pointer-events: none;
             animation: float-particle 8s infinite ease-in-out;
         }
-        .particle:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 10%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-        .particle:nth-child(2) {
-            width: 120px;
-            height: 120px;
-            bottom: 15%;
-            right: 8%;
-            animation-delay: 2s;
-        }
-        .particle:nth-child(3) {
-            width: 60px;
-            height: 60px;
-            top: 50%;
-            left: 50%;
-            animation-delay: 4s;
-        }
+        .particle:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 120px; height: 120px; bottom: 15%; right: 8%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 60px; height: 60px; top: 50%; left: 50%; animation-delay: 4s; }
 
         @keyframes float-particle {
-            0%,
-            100% {
-                transform: translateY(0) scale(1);
-            }
-            50% {
-                transform: translateY(-20px) scale(1.1);
-            }
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
         }
 
-        /* Buttons */
-        .btn-primary {
+        /* ---------- Gradient Text ---------- */
+        .gradient-text {
             background: var(--gradient-main);
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(13, 148, 136, 0.4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: var(--transition);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            backdrop-filter: blur(8px);
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-
-        /* Cards */
-        .feature-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            border: 1px solid var(--gray-200);
-            position: relative;
-            overflow: hidden;
-        }
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-main);
-            opacity: 0;
-            transition: var(--transition);
-        }
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-        }
-        .feature-card:hover::before {
-            opacity: 1;
-        }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            background: var(--primary-bg);
-            color: var(--primary);
-        }
-
-        /* Tabs */
-        .tab-btn {
-            padding: 0.6rem 1.2rem;
-            border-bottom: 3px solid transparent;
-            font-weight: 600;
-            color: var(--gray-500);
-            transition: var(--transition);
-            cursor: pointer;
-            background: transparent;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            font-size: 0.9rem;
-        }
-        .tab-btn:hover {
-            color: var(--gray-700);
-        }
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-        .tab-pane {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-        .tab-pane.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Accordion */
-        .accordion-header {
-            cursor: pointer;
-            padding: 1rem 1.2rem;
-            background: var(--gray-50);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--gray-200);
-            transition: var(--transition);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-        }
-        .accordion-header:hover {
-            background: var(--gray-100);
-        }
-        .accordion-body {
-            display: none;
-            padding: 1.2rem;
-            border: 1px solid var(--gray-200);
-            border-top: none;
-            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-        }
-        .accordion-body.open {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* Tables */
-        .doc-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-        .doc-table th {
-            background: var(--gradient-main);
-            color: white;
-            padding: 0.7rem 1rem;
-            text-align: left;
-            font-weight: 600;
-        }
-        .doc-table td {
-            padding: 0.6rem 1rem;
-            border-bottom: 1px solid var(--gray-200);
-        }
-        .doc-table tr:hover td {
-            background: var(--gray-50);
-        }
-
-        /* Screenshot placeholders */
-        .screenshot-placeholder {
-            background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
-            border-radius: var(--radius);
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            color: var(--gray-500);
-            border: 2px dashed var(--gray-300);
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: var(--transition);
-        }
-        .screenshot-placeholder:hover {
-            border-color: var(--primary);
-            background: var(--primary-bg);
-        }
-        .screenshot-placeholder i {
-            font-size: 3rem;
-            color: var(--gray-400);
-        }
-
-        /* Badges */
+        /* ---------- Badges ---------- */
         .badge-teal {
             background: var(--primary-bg);
             color: var(--primary);
@@ -381,7 +190,7 @@
             border: 1px solid rgba(13, 148, 136, 0.2);
         }
 
-        /* Sidebar */
+        /* ---------- Sidebar TOC ---------- */
         #sidebar {
             position: sticky;
             top: 80px;
@@ -389,13 +198,8 @@
             overflow-y: auto;
             scrollbar-width: thin;
         }
-        #sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        #sidebar::-webkit-scrollbar-thumb {
-            background: var(--gray-300);
-            border-radius: 8px;
-        }
+        #sidebar::-webkit-scrollbar { width: 4px; }
+        #sidebar::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 8px; }
 
         .toc-link {
             display: block;
@@ -419,23 +223,7 @@
             font-weight: 600;
         }
 
-        /* Search */
-        #search-input {
-            transition: var(--transition);
-            border: 2px solid var(--gray-200);
-            border-radius: 9999px;
-            padding: 0.6rem 1.2rem 0.6rem 2.8rem;
-            width: 100%;
-            max-width: 280px;
-            background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") no-repeat 0.8rem center / 1.2rem;
-        }
-        #search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
-        }
-
-        /* Workflow */
+        /* ---------- Workflow ---------- */
         .workflow-node {
             background: white;
             border: 2px solid var(--gray-200);
@@ -471,33 +259,78 @@
             margin-top: 1rem;
             animation: fadeIn 0.3s ease;
         }
-        .workflow-detail.open {
-            display: block;
+        .workflow-detail.open { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            #sidebar {
-                display: none;
-            }
-            .hero-text h1 {
-                font-size: 2rem !important;
-            }
-            #search-input {
-                max-width: 100%;
-            }
-            .feature-card {
-                padding: 1.5rem;
-            }
-            .workflow-node {
-                min-width: 80px;
-                padding: 0.6rem 0.8rem;
-                font-size: 0.8rem;
-            }
-            .workflow-arrow {
-                font-size: 1rem;
-            }
+        /* ---------- Search ---------- */
+        #search-input {
+            transition: var(--transition);
+            border: 2px solid var(--gray-200);
+            border-radius: 9999px;
+            padding: 0.6rem 1.2rem 0.6rem 2.8rem;
+            width: 100%;
+            max-width: 280px;
+            background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") no-repeat 0.8rem center / 1.2rem;
         }
+        #search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 768px) {
+            #sidebar { display: none; }
+            .hero-text h1 { font-size: 2rem !important; }
+            #search-input { max-width: 100%; }
+            .workflow-node { min-width: 80px; padding: 0.6rem 0.8rem; font-size: 0.8rem; }
+            .workflow-arrow { font-size: 1rem; }
+        }
+
+        /* ---------- Screenshot Placeholders ---------- */
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+            border-radius: var(--radius);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: var(--gray-500);
+            border: 2px dashed var(--gray-300);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        .screenshot-placeholder:hover {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+        }
+        .screenshot-placeholder i { font-size: 3rem; color: var(--gray-400); }
+
+        /* ---------- Tables ---------- */
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .doc-table th {
+            background: var(--gradient-main);
+            color: white;
+            padding: 0.7rem 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .doc-table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .doc-table tr:hover td { background: var(--gray-50); }
     </style>
 </head>
 <body>
@@ -519,7 +352,6 @@
                         <i class="fas fa-check-circle mr-1"></i> v1.0
                     </span>
                 </div>
-
                 <div class="flex items-center space-x-3">
                     <div class="relative hidden md:block">
                         <input id="search-input" type="text" placeholder="Search documentation..." class="text-sm" />
@@ -536,19 +368,19 @@
     </nav>
 
     <!-- ============================================================ -->
-    <!-- MAIN LAYOUT -->
+    <!-- MAIN LAYOUT: Sidebar + Content -->
     <!-- ============================================================ -->
     <div class="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 gap-8">
 
         <!-- ========================================================== -->
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR / TABLE OF CONTENTS -->
         <!-- ========================================================== -->
         <aside id="sidebar" class="w-64 flex-shrink-0 no-print">
             <div class="glass-card p-4 space-y-0.5">
                 <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2 pb-2 border-b border-gray-200">
                     <i class="fas fa-bars mr-1"></i> Contents
                 </div>
-                <a href="#hero" class="toc-link active"><i class="fas fa-home mr-2 w-4"></i> Overview</a>
+                <a href="#overview" class="toc-link active"><i class="fas fa-home mr-2 w-4"></i> Overview</a>
                 <a href="#features" class="toc-link"><i class="fas fa-star mr-2 w-4"></i> Features</a>
                 <a href="#installation" class="toc-link"><i class="fas fa-download mr-2 w-4"></i> Installation</a>
                 <a href="#screenshots" class="toc-link"><i class="fas fa-images mr-2 w-4"></i> Screenshots</a>
@@ -577,13 +409,12 @@
         <main class="flex-1 min-w-0 space-y-12">
 
             <!-- ========================================================== -->
-            <!-- HERO -->
+            <!-- HERO SECTION -->
             <!-- ========================================================== -->
             <section id="hero" class="hero-gradient rounded-2xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
                 <div class="particle"></div>
                 <div class="particle"></div>
                 <div class="particle"></div>
-
                 <div class="hero-content relative">
                     <div class="flex flex-wrap gap-3 mb-6">
                         <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-white/10">
@@ -596,7 +427,6 @@
                             <i class="fas fa-rocket mr-1.5"></i> 15+ Screens
                         </span>
                     </div>
-
                     <div class="grid md:grid-cols-2 gap-10 items-center">
                         <div>
                             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
@@ -609,15 +439,10 @@
                                 Complete Odoo 17 solution for hospital and clinical laboratories. From patient registration and test ordering to result entry, quality control, and invoicing — all in one seamless workflow.
                             </p>
                             <div class="flex flex-wrap gap-4 mt-6">
-                                <a href="#features" class="btn-primary">
-                                    <i class="fas fa-rocket"></i> Explore Features
-                                </a>
-                                <a href="#installation" class="btn-secondary">
-                                    <i class="fas fa-download"></i> Install Guide
-                                </a>
+                                <a href="#features" class="btn-primary"><i class="fas fa-rocket"></i> Explore Features</a>
+                                <a href="#installation" class="btn-secondary bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white/30"><i class="fas fa-download"></i> Install Guide</a>
                             </div>
                         </div>
-
                         <div class="grid grid-cols-2 gap-4">
                             <div class="glass-card p-5 text-center text-white border-white/10">
                                 <div class="text-3xl font-bold">14+</div>
@@ -641,43 +466,47 @@
             </section>
 
             <!-- ========================================================== -->
-            <!-- FEATURES OVERVIEW -->
+            <!-- MODULE OVERVIEW -->
             <!-- ========================================================== -->
-            <section id="features">
+            <section id="overview">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-star text-3xl text-teal-600"></i>
+                    <i class="fas fa-book-open text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">Module Overview</h2>
                 </div>
-
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-users"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800">Patient-Centric</h3>
-                        <p class="text-gray-500 text-sm mt-2">
-                            Manage patient demographics, medical history, and all lab interactions in one place.
-                        </p>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    The <strong class="text-teal-700">Hospital LIMS</strong> (Laboratory Information Management System)
+                    is a comprehensive Odoo 17 module designed for hospital and clinical laboratories.
+                    It streamlines the entire lab workflow — from test ordering and sample collection
+                    to result entry, validation, reporting, and billing.
+                </p>
+                <div class="grid md:grid-cols-3 gap-6 mt-8">
+                    <div class="card p-6">
+                        <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 text-xl mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg">Patient-Centric</h3>
+                        <p class="text-gray-500 text-sm mt-1">Manage patient demographics, medical history, and all lab interactions in one place.</p>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-flask"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800">Test Catalog</h3>
-                        <p class="text-gray-500 text-sm mt-2">
-                            Extensive test catalog with pricing, normal ranges, and departmental categorization.
-                        </p>
+                    <div class="card p-6">
+                        <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 text-xl mb-4">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg">Test Catalog</h3>
+                        <p class="text-gray-500 text-sm mt-1">Extensive test catalog with pricing, normal ranges, and departmental categorization.</p>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800">Analytics &amp; QC</h3>
-                        <p class="text-gray-500 text-sm mt-2">
-                            Built-in quality control, dashboards, and real-time analytics for lab performance.
-                        </p>
+                    <div class="card p-6">
+                        <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 text-xl mb-4">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg">Analytics &amp; QC</h3>
+                        <p class="text-gray-500 text-sm mt-1">Built-in quality control, dashboards, and real-time analytics for lab performance.</p>
                     </div>
                 </div>
-
-                <div class="glass-card p-6 mt-6 border-l-4 border-teal-500">
+                <div class="card p-6 mt-6 border-l-4 border-teal-500 bg-teal-50/50">
                     <h4 class="font-semibold text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-bullseye text-teal-500"></i> Key Benefits
+                        <i class="fas fa-bullseye text-teal-600"></i> Key Benefits
                     </h4>
-                    <ul class="grid sm:grid-cols-2 gap-2 mt-3 text-gray-600 text-sm">
+                    <ul class="grid sm:grid-cols-2 gap-2 mt-2 text-gray-600 text-sm">
                         <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> End-to-end lab workflow automation</li>
                         <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Barcode &amp; sample tracking</li>
                         <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Automated result validation with normal ranges</li>
@@ -689,6 +518,58 @@
             </section>
 
             <!-- ========================================================== -->
+            <!-- FEATURES -->
+            <!-- ========================================================== -->
+            <section id="features">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class="fas fa-star text-3xl text-teal-600"></i>
+                    <h2 class="text-3xl font-bold text-gray-800">Features</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h4 class="font-bold text-gray-800"><i class="fas fa-user-injured text-teal-500 mr-2"></i>Patient Management</h4>
+                        <ul class="text-sm text-gray-600 space-y-1 mt-2 list-disc list-inside">
+                            <li>Unique MRN (Medical Record Number) auto-generation.</li>
+                            <li>Patient search by name, ID, phone, or email.</li>
+                            <li>Comprehensive medical history tracking.</li>
+                            <li>List of all test orders with status.</li>
+                            <li>Patient portal access for reports.</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-gray-800"><i class="fas fa-flask text-teal-500 mr-2"></i>Test Catalog &amp; Pricing</h4>
+                        <ul class="text-sm text-gray-600 space-y-1 mt-2 list-disc list-inside">
+                            <li>Test name, code, and description.</li>
+                            <li>Normal range (min/max) with unit of measurement.</li>
+                            <li>Department association (Hematology, Biochemistry, etc.).</li>
+                            <li>Sample type validation (Blood, Urine, CSF, etc.).</li>
+                            <li>Price configuration with currency support.</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-gray-800"><i class="fas fa-clipboard-list text-teal-500 mr-2"></i>Test Order Management</h4>
+                        <ul class="text-sm text-gray-600 space-y-1 mt-2 list-disc list-inside">
+                            <li>Order creation with patient and doctor selection.</li>
+                            <li>Multi-test selection from catalog.</li>
+                            <li>Priority levels: Routine, Urgent, Emergency.</li>
+                            <li>State machine: Draft → Confirmed → Sample Collected → In Progress → Completed → Approved.</li>
+                            <li>Barcode generation for sample tracking.</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-gray-800"><i class="fas fa-check-double text-teal-500 mr-2"></i>Result Entry &amp; Validation</h4>
+                        <ul class="text-sm text-gray-600 space-y-1 mt-2 list-disc list-inside">
+                            <li>Result entry per test with unit validation.</li>
+                            <li>Auto-flagging of abnormal results.</li>
+                            <li>Normal range check (min/max).</li>
+                            <li>Quality control pass/fail.</li>
+                            <li>Technician and validator tracking.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================== -->
             <!-- INSTALLATION -->
             <!-- ========================================================== -->
             <section id="installation">
@@ -696,8 +577,7 @@
                     <i class="fas fa-cogs text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">Installation &amp; Setup</h2>
                 </div>
-
-                <div class="glass-card p-6 space-y-6">
+                <div class="card p-6 space-y-6">
                     <div>
                         <h3 class="font-semibold text-gray-800 text-lg flex items-center gap-2">
                             <span class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">1</span>
@@ -723,19 +603,6 @@
                             <li>Set up your test catalog, departments, and normal ranges.</li>
                         </ol>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800 text-lg flex items-center gap-2">
-                            <span class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
-                            Configuration
-                        </h3>
-                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-2 space-y-1 text-sm">
-                            <li>Set up <strong>Departments</strong> (e.g., Hematology, Biochemistry, Microbiology).</li>
-                            <li>Define <strong>Test Catalog</strong> with name, code, price, and normal ranges.</li>
-                            <li>Configure <strong>Sample Types</strong> (Blood, Urine, CSF, etc.).</li>
-                            <li>Set <strong>Barcode Prefixes</strong> for sample tracking.</li>
-                            <li>Configure <strong>Accounting</strong> integration (income accounts, tax rules).</li>
-                        </ul>
-                    </div>
                 </div>
             </section>
 
@@ -747,7 +614,6 @@
                     <i class="fas fa-images text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">Screenshots &amp; UI Gallery</h2>
                 </div>
-
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div class="screenshot-placeholder">
                         <i class="fas fa-user-injured"></i>
@@ -796,11 +662,8 @@
                     <i class="fas fa-project-diagram text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">Complete Workflow</h2>
                 </div>
-                <p class="text-gray-600 mb-6">
-                    Click on any step below to see detailed information about that stage.
-                </p>
-
-                <div class="glass-card p-6">
+                <p class="text-gray-600 mb-6">Click on any step below to see detailed information about that stage.</p>
+                <div class="card p-6">
                     <div class="flex flex-wrap items-center justify-center gap-3 md:gap-5">
                         <div class="workflow-node active" data-step="1">
                             <i class="fas fa-user-plus text-teal-500 text-xl block mb-1"></i>
@@ -808,42 +671,36 @@
                             <span class="block text-xs text-gray-400">Registration</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
                         <div class="workflow-node" data-step="2">
                             <i class="fas fa-clipboard-list text-teal-500 text-xl block mb-1"></i>
                             <span class="font-semibold text-sm">Test Order</span>
                             <span class="block text-xs text-gray-400">Creation</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
                         <div class="workflow-node" data-step="3">
                             <i class="fas fa-vial text-teal-500 text-xl block mb-1"></i>
                             <span class="font-semibold text-sm">Sample</span>
                             <span class="block text-xs text-gray-400">Collection</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
                         <div class="workflow-node" data-step="4">
                             <i class="fas fa-microscope text-teal-500 text-xl block mb-1"></i>
                             <span class="font-semibold text-sm">Result</span>
                             <span class="block text-xs text-gray-400">Entry</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
                         <div class="workflow-node" data-step="5">
                             <i class="fas fa-check-double text-teal-500 text-xl block mb-1"></i>
                             <span class="font-semibold text-sm">Approval</span>
                             <span class="block text-xs text-gray-400">Validation</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
                         <div class="workflow-node" data-step="6">
                             <i class="fas fa-file-pdf text-teal-500 text-xl block mb-1"></i>
                             <span class="font-semibold text-sm">Report</span>
                             <span class="block text-xs text-gray-400">Generation</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
-
                         <div class="workflow-node" data-step="7">
                             <i class="fas fa-file-invoice-dollar text-teal-500 text-xl block mb-1"></i>
                             <span class="font-semibold text-sm">Invoicing</span>
@@ -851,6 +708,7 @@
                         </div>
                     </div>
 
+                    <!-- Detail Panels -->
                     <div id="workflow-detail-1" class="workflow-detail open">
                         <h4 class="font-bold text-gray-800"><i class="fas fa-user-plus text-teal-500 mr-2"></i>Patient Registration</h4>
                         <p class="text-gray-600 text-sm">Patient is registered with demographics, contact details, and medical history.</p>
@@ -931,10 +789,9 @@
                     <i class="fas fa-user-shield text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">User Roles &amp; Permissions</h2>
                 </div>
-
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="glass-card p-5 border-t-4 border-teal-500">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="card p-5 border-t-4 border-teal-500">
+                        <div class="flex items-center gap-3 mb-2">
                             <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600">
                                 <i class="fas fa-user-md text-lg"></i>
                             </div>
@@ -948,9 +805,8 @@
                             <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Approve tests</li>
                         </ul>
                     </div>
-
-                    <div class="glass-card p-5 border-t-4 border-teal-400">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="card p-5 border-t-4 border-teal-400">
+                        <div class="flex items-center gap-3 mb-2">
                             <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600">
                                 <i class="fas fa-microscope text-lg"></i>
                             </div>
@@ -964,9 +820,8 @@
                             <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Modify catalog</li>
                         </ul>
                     </div>
-
-                    <div class="glass-card p-5 border-t-4 border-teal-600">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="card p-5 border-t-4 border-teal-600">
+                        <div class="flex items-center gap-3 mb-2">
                             <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600">
                                 <i class="fas fa-user-tie text-lg"></i>
                             </div>
@@ -980,9 +835,8 @@
                             <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> User management</li>
                         </ul>
                     </div>
-
-                    <div class="glass-card p-5 border-t-4 border-gray-400">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="card p-5 border-t-4 border-gray-400">
+                        <div class="flex items-center gap-3 mb-2">
                             <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
                                 <i class="fas fa-user text-lg"></i>
                             </div>
@@ -1005,112 +859,52 @@
             <section id="use-cases">
                 <div class="flex items-center gap-3 mb-6">
                     <i class="fas fa-briefcase text-3xl text-teal-600"></i>
-                    <h2 class="text-3xl font-bold text-gray-800">Workflow Examples &amp; Use Cases</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">Use Cases</h2>
                 </div>
-
                 <div class="grid md:grid-cols-3 gap-6">
-                    <div class="glass-card p-6">
+                    <div class="card p-6">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">EMERGENCY</span>
                         </div>
                         <h3 class="font-bold text-gray-800 text-lg">Emergency Panel</h3>
                         <div class="space-y-1.5 text-sm text-gray-600 mt-3">
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Patient Arrives</span>
-                                <span class="text-teal-600 font-medium">T+0</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Order Created</span>
-                                <span class="text-teal-600 font-medium">T+5min</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Sample Collection</span>
-                                <span class="text-teal-600 font-medium">T+15min</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Result Entry</span>
-                                <span class="text-teal-600 font-medium">T+45min</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Approval</span>
-                                <span class="text-teal-600 font-medium">T+60min</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Report &amp; Invoice</span>
-                                <span class="text-teal-600 font-medium">T+75min</span>
-                            </div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Patient Arrives</span><span class="text-teal-600 font-medium">T+0</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Order Created</span><span class="text-teal-600 font-medium">T+5min</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Sample Collection</span><span class="text-teal-600 font-medium">T+15min</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Result Entry</span><span class="text-teal-600 font-medium">T+45min</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Approval</span><span class="text-teal-600 font-medium">T+60min</span></div>
+                            <div class="flex justify-between"><span>Report &amp; Invoice</span><span class="text-teal-600 font-medium">T+75min</span></div>
                         </div>
-                        <div class="mt-3 p-2 bg-teal-50 rounded text-xs text-gray-600">
-                            <i class="fas fa-clock text-teal-500 mr-1"></i> Total turnaround: ~75 minutes
-                        </div>
+                        <div class="mt-3 p-2 bg-teal-50 rounded text-xs text-gray-600"><i class="fas fa-clock text-teal-500 mr-1"></i> Total turnaround: ~75 minutes</div>
                     </div>
-
-                    <div class="glass-card p-6">
+                    <div class="card p-6">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">ROUTINE</span>
                         </div>
                         <h3 class="font-bold text-gray-800 text-lg">Routine Blood Test</h3>
                         <div class="space-y-1.5 text-sm text-gray-600 mt-3">
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Patient Visit</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Order Created</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Sample Collection</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Result Entry</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Approval</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Report &amp; Invoice</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Patient Visit</span><span class="text-teal-600 font-medium">Day 1</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Order Created</span><span class="text-teal-600 font-medium">Day 1</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Sample Collection</span><span class="text-teal-600 font-medium">Day 1</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Result Entry</span><span class="text-teal-600 font-medium">Day 2</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Approval</span><span class="text-teal-600 font-medium">Day 2</span></div>
+                            <div class="flex justify-between"><span>Report &amp; Invoice</span><span class="text-teal-600 font-medium">Day 2</span></div>
                         </div>
-                        <div class="mt-3 p-2 bg-teal-50 rounded text-xs text-gray-600">
-                            <i class="fas fa-clock text-teal-500 mr-1"></i> Total turnaround: ~24 hours
-                        </div>
+                        <div class="mt-3 p-2 bg-teal-50 rounded text-xs text-gray-600"><i class="fas fa-clock text-teal-500 mr-1"></i> Total turnaround: ~24 hours</div>
                     </div>
-
-                    <div class="glass-card p-6">
+                    <div class="card p-6">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">BATCH</span>
                         </div>
                         <h3 class="font-bold text-gray-800 text-lg">Batch Processing</h3>
                         <div class="space-y-1.5 text-sm text-gray-600 mt-3">
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Multiple Orders</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Batch Collection</span>
-                                <span class="text-teal-600 font-medium">Day 1</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Batch Result Entry</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-100 pb-1">
-                                <span>Bulk Approval</span>
-                                <span class="text-teal-600 font-medium">Day 2</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Batch Reports</span>
-                                <span class="text-teal-600 font-medium">Day 3</span>
-                            </div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Multiple Orders</span><span class="text-teal-600 font-medium">Day 1</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Batch Collection</span><span class="text-teal-600 font-medium">Day 1</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Batch Result Entry</span><span class="text-teal-600 font-medium">Day 2</span></div>
+                            <div class="flex justify-between border-b border-gray-100 pb-1"><span>Bulk Approval</span><span class="text-teal-600 font-medium">Day 2</span></div>
+                            <div class="flex justify-between"><span>Batch Reports</span><span class="text-teal-600 font-medium">Day 3</span></div>
                         </div>
-                        <div class="mt-3 p-2 bg-teal-50 rounded text-xs text-gray-600">
-                            <i class="fas fa-layer-group text-teal-500 mr-1"></i> 50+ orders processed in batch
-                        </div>
+                        <div class="mt-3 p-2 bg-teal-50 rounded text-xs text-gray-600"><i class="fas fa-layer-group text-teal-500 mr-1"></i> 50+ orders processed in batch</div>
                     </div>
                 </div>
             </section>
@@ -1121,11 +915,10 @@
             <section id="best-practices">
                 <div class="flex items-center gap-3 mb-6">
                     <i class="fas fa-lightbulb text-3xl text-teal-600"></i>
-                    <h2 class="text-3xl font-bold text-gray-800">Best Practices &amp; Tips</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">Best Practices</h2>
                 </div>
-
                 <div class="grid md:grid-cols-2 gap-4">
-                    <div class="glass-card p-5">
+                    <div class="card p-5">
                         <h4 class="font-bold text-gray-800"><i class="fas fa-database text-teal-500 mr-2"></i>Data Entry</h4>
                         <ul class="text-sm text-gray-600 space-y-1 mt-2">
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use barcode scanning for sample tracking.</li>
@@ -1133,7 +926,7 @@
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use default normal ranges from test catalog.</li>
                         </ul>
                     </div>
-                    <div class="glass-card p-5">
+                    <div class="card p-5">
                         <h4 class="font-bold text-gray-800"><i class="fas fa-tachometer-alt text-teal-500 mr-2"></i>Performance</h4>
                         <ul class="text-sm text-gray-600 space-y-1 mt-2">
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Archive old test orders periodically.</li>
@@ -1141,7 +934,7 @@
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Configure automated cleanup for old records.</li>
                         </ul>
                     </div>
-                    <div class="glass-card p-5">
+                    <div class="card p-5">
                         <h4 class="font-bold text-gray-800"><i class="fas fa-cogs text-teal-500 mr-2"></i>Customization</h4>
                         <ul class="text-sm text-gray-600 space-y-1 mt-2">
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Extend models via inheritance.</li>
@@ -1149,7 +942,7 @@
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use automated actions for state transitions.</li>
                         </ul>
                     </div>
-                    <div class="glass-card p-5">
+                    <div class="card p-5">
                         <h4 class="font-bold text-gray-800"><i class="fas fa-users text-teal-500 mr-2"></i>User Training</h4>
                         <ul class="text-sm text-gray-600 space-y-1 mt-2">
                             <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Train technicians on result entry workflow.</li>
@@ -1168,8 +961,7 @@
                     <i class="fas fa-tools text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">Troubleshooting</h2>
                 </div>
-
-                <div class="glass-card p-6 space-y-4">
+                <div class="card p-6 space-y-4">
                     <div class="border-b border-gray-200 pb-4">
                         <h4 class="font-bold text-gray-800"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Sample Barcode Not Printing</h4>
                         <p class="text-sm text-gray-600 mt-1">Ensure the barcode printer is configured in Odoo settings. Check <code class="bg-gray-100 px-2 py-0.5 rounded text-xs">Settings → Technical → Barcode</code>.</p>
@@ -1193,17 +985,12 @@
                     <i class="fas fa-plug text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">API &amp; Extension Points</h2>
                 </div>
-
-                <div class="glass-card p-6">
+                <div class="card p-6">
                     <p class="text-gray-600 mb-4">The module provides several extension points for customization:</p>
                     <ul class="space-y-3 text-sm">
                         <li class="bg-gray-50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Model Inheritance:</span>
-                            <code class="block bg-gray-100 px-3 py-2 rounded text-xs mt-1 font-mono">
-                                class CustomTestOrder(models.Model):<br>
-                                &nbsp;&nbsp;_inherit = 'lims.test.order'<br>
-                                &nbsp;&nbsp;custom_field = fields.Char(string='Custom Field')
-                            </code>
+                            <code class="block bg-gray-100 px-3 py-2 rounded text-xs mt-1 font-mono">class CustomTestOrder(models.Model):<br>&nbsp;&nbsp;_inherit = 'lims.test.order'<br>&nbsp;&nbsp;custom_field = fields.Char(string='Custom Field')</code>
                         </li>
                         <li class="bg-gray-50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Automated Actions:</span>
@@ -1227,10 +1014,9 @@
             <section id="changelog">
                 <div class="flex items-center gap-3 mb-6">
                     <i class="fas fa-history text-3xl text-teal-600"></i>
-                    <h2 class="text-3xl font-bold text-gray-800">Changelog &amp; Version History</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">Changelog</h2>
                 </div>
-
-                <div class="glass-card p-6 space-y-4">
+                <div class="card p-6 space-y-4">
                     <div class="border-l-4 border-teal-500 pl-4">
                         <div class="flex items-center gap-3">
                             <span class="font-bold text-teal-600">v1.0.0</span>
@@ -1270,19 +1056,11 @@
                 <div class="particle"></div>
                 <div class="relative z-10">
                     <h2 class="text-3xl md:text-4xl font-bold">Ready to Transform Your Lab?</h2>
-                    <p class="text-teal-100 text-lg mt-3 max-w-2xl mx-auto">
-                        Get the complete Hospital LIMS module for your Odoo 17 instance. Streamline your laboratory workflow and improve patient care.
-                    </p>
+                    <p class="text-teal-100 text-lg mt-3 max-w-2xl mx-auto">Get the complete Hospital LIMS module for your Odoo 17 instance. Streamline your laboratory workflow and improve patient care.</p>
                     <div class="flex flex-wrap justify-center gap-4 mt-6">
-                        <a href="#" class="btn-primary bg-white text-teal-700 hover:bg-teal-50 shadow-lg">
-                            <i class="fas fa-download"></i> Download Module
-                        </a>
-                        <a href="#" class="btn-secondary">
-                            <i class="fas fa-book"></i> View Docs
-                        </a>
-                        <a href="#" class="btn-secondary">
-                            <i class="fas fa-github"></i> GitHub
-                        </a>
+                        <a href="#" class="btn-primary bg-white text-teal-700 hover:bg-teal-50 shadow-lg"><i class="fas fa-download"></i> Download Module</a>
+                        <a href="#" class="btn-secondary bg-white/20 text-white border-white/30 hover:bg-white/30"><i class="fas fa-book"></i> View Docs</a>
+                        <a href="#" class="btn-secondary bg-white/20 text-white border-white/30 hover:bg-white/30"><i class="fas fa-github"></i> GitHub</a>
                     </div>
                     <div class="mt-6 flex flex-wrap justify-center gap-6 text-sm text-teal-100/80">
                         <span><i class="fas fa-check-circle mr-1"></i> Odoo 17</span>
@@ -1314,9 +1092,7 @@
                     <a href="#" class="hover:text-white transition">GitHub</a>
                     <a href="#" class="hover:text-white transition">Contact</a>
                 </div>
-                <div class="text-sm text-gray-500">
-                    &copy; 2025 Hospital LIMS. Built for Odoo 17.
-                </div>
+                <div class="text-sm text-gray-500">&copy; 2025 Hospital LIMS. Built for Odoo 17.</div>
             </div>
         </div>
     </footer>
@@ -1326,24 +1102,10 @@
     <!-- ============================================================ -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
-            // ---- Dark Mode ----
-            const darkToggle = document.getElementById('dark-toggle');
-            if (darkToggle) {
-                darkToggle.addEventListener('click', function() {
-                    document.documentElement.classList.toggle('dark');
-                    const icon = this.querySelector('i');
-                    if (document.documentElement.classList.contains('dark')) {
-                        icon.className = 'fas fa-sun text-lg';
-                    } else {
-                        icon.className = 'fas fa-moon text-lg';
-                    }
-                });
-            }
-
             // ---- Sidebar TOC Active ----
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('section[id]');
+            const sidebar = document.getElementById('sidebar');
 
             function updateActiveLink() {
                 let current = '';
@@ -1384,7 +1146,6 @@
                 node.addEventListener('click', function() {
                     workflowNodes.forEach(n => n.classList.remove('active'));
                     this.classList.add('active');
-
                     const step = this.dataset.step;
                     workflowDetails.forEach(d => d.classList.remove('open'));
                     const detail = document.getElementById('workflow-detail-' + step);
@@ -1400,7 +1161,7 @@
                 searchInput.addEventListener('input', function() {
                     const query = this.value.toLowerCase().trim();
                     const allContent = document.querySelector('main');
-                    const textElements = allContent.querySelectorAll('p, li, h1, h2, h3, h4, .code-block');
+                    const textElements = allContent.querySelectorAll('p, li, h1, h2, h3, h4');
 
                     textElements.forEach(el => {
                         el.innerHTML = el.innerHTML.replace(/<span class="search-highlight">/g, '');
@@ -1408,20 +1169,17 @@
                     });
 
                     if (query.length < 2) return;
-
                     textElements.forEach(el => {
                         const text = el.textContent.toLowerCase();
                         if (text.includes(query)) {
                             const regex = new RegExp(`(${query})`, 'gi');
-                            el.innerHTML = el.innerHTML.replace(regex,
-                                '<span class="search-highlight">$1</span>');
+                            el.innerHTML = el.innerHTML.replace(regex, '<span class="search-highlight">$1</span>');
                         }
                     });
                 });
             }
 
             console.log('🏥 Hospital LIMS Documentation Loaded Successfully.');
-            console.log('📊 10,514 lines of code documented.');
         });
     </script>
 

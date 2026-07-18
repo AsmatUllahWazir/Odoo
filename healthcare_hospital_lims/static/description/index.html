@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hospital Laboratory Information Management System for Odoo 17</title>
-    <meta name="description" content="Complete Odoo 17 LIMS for hospital and clinical laboratories. Manage patients, test orders, results, invoicing &amp; more." />
+    <title>Hospital Laboratory Information Management System | Odoo 17</title>
+    <meta name="description" content="Complete Hospital LIMS for Odoo 17. Manage patients, test orders, lab results, quality control, invoicing & analytics." />
+    <meta name="keywords" content="odoo 17 lims, hospital laboratory management, odoo lab software, healthcare lims, odoo hospital management, clinical laboratory odoo, patient management odoo, test catalog odoo" />
+    <meta name="author" content="Hospital LIMS Team" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hospital Laboratory Information Management System for Odoo 17" />
+    <meta property="og:description" content="Complete Odoo 17 LIMS for hospital and clinical laboratories. From patient registration to test results, quality control & invoicing." />
+    <meta property="og:image" content="banner.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hospital LIMS for Odoo 17" />
+    <meta name="twitter:description" content="Complete laboratory management system for Odoo 17. Patient management, test orders, results, QC & invoicing." />
+    <meta name="twitter:image" content="banner.png" />
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com">
@@ -18,7 +33,7 @@
 
     <style>
         /* ============================================================
-           CSS Variables - Teal/Cyan Medical Theme
+           CSS Variables - Medical Teal Theme
            ============================================================ */
         :root {
             --primary: #0d9488;
@@ -28,6 +43,7 @@
             --primary-bg: #f0fdfa;
             --secondary: #06b6d4;
             --secondary-light: #22d3ee;
+            --accent: #8b5cf6;
             --gradient-main: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
             --gradient-hero: linear-gradient(135deg, #0f766e 0%, #0d9488 40%, #06b6d4 100%);
             --gray-50: #f8fafc;
@@ -60,12 +76,11 @@
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: var(--gray-50);
             color: var(--gray-800);
-            transition: background 0.3s, color 0.3s;
             scroll-behavior: smooth;
             line-height: 1.6;
         }
 
-        /* ---------- Glassmorphism & Cards ---------- */
+        /* ---------- Glassmorphism ---------- */
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -86,6 +101,7 @@
             box-shadow: var(--shadow-xl);
         }
 
+        /* ---------- Cards ---------- */
         .card {
             background: white;
             border-radius: var(--radius);
@@ -117,6 +133,25 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(13, 148, 136, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(8px);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 
         /* ---------- Hero ---------- */
@@ -190,37 +225,60 @@
             border: 1px solid rgba(13, 148, 136, 0.2);
         }
 
-        /* ---------- Sidebar TOC ---------- */
-        #sidebar {
-            position: sticky;
-            top: 80px;
-            max-height: calc(100vh - 100px);
-            overflow-y: auto;
-            scrollbar-width: thin;
-        }
-        #sidebar::-webkit-scrollbar { width: 4px; }
-        #sidebar::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 8px; }
-
-        .toc-link {
-            display: block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.375rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--gray-600);
-            transition: var(--transition);
-            border-left: 3px solid transparent;
-        }
-        .toc-link:hover {
-            background: var(--gray-100);
-            color: var(--primary);
-            border-left-color: var(--primary);
-        }
-        .toc-link.active {
-            background: var(--primary-bg);
-            color: var(--primary);
-            border-left-color: var(--primary);
+        /* ---------- Tabs ---------- */
+        .tab-btn {
+            padding: 0.6rem 1.2rem;
+            border-bottom: 3px solid transparent;
             font-weight: 600;
+            color: var(--gray-500);
+            transition: var(--transition);
+            cursor: pointer;
+            background: transparent;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-size: 0.9rem;
+        }
+        .tab-btn:hover { color: var(--gray-700); }
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .tab-pane.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- Accordion ---------- */
+        .accordion-header {
+            cursor: pointer;
+            padding: 1rem 1.2rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .accordion-header:hover { background: var(--gray-100); }
+        .accordion-body {
+            display: none;
+            padding: 1.2rem;
+            border: 1px solid var(--gray-200);
+            border-top: none;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+        }
+        .accordion-body.open {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
         /* ---------- Workflow ---------- */
@@ -261,35 +319,24 @@
         }
         .workflow-detail.open { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ---------- Search ---------- */
-        #search-input {
-            transition: var(--transition);
-            border: 2px solid var(--gray-200);
-            border-radius: 9999px;
-            padding: 0.6rem 1.2rem 0.6rem 2.8rem;
+        /* ---------- Tables ---------- */
+        .doc-table {
             width: 100%;
-            max-width: 280px;
-            background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") no-repeat 0.8rem center / 1.2rem;
+            border-collapse: collapse;
+            font-size: 0.85rem;
         }
-        #search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+        .doc-table th {
+            background: var(--gradient-main);
+            color: white;
+            padding: 0.7rem 1rem;
+            text-align: left;
+            font-weight: 600;
         }
-
-        /* ---------- Responsive ---------- */
-        @media (max-width: 768px) {
-            #sidebar { display: none; }
-            .hero-text h1 { font-size: 2rem !important; }
-            #search-input { max-width: 100%; }
-            .workflow-node { min-width: 80px; padding: 0.6rem 0.8rem; font-size: 0.8rem; }
-            .workflow-arrow { font-size: 1rem; }
+        .doc-table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
         }
+        .doc-table tr:hover td { background: var(--gray-50); }
 
         /* ---------- Screenshot Placeholders ---------- */
         .screenshot-placeholder {
@@ -313,24 +360,92 @@
         }
         .screenshot-placeholder i { font-size: 3rem; color: var(--gray-400); }
 
-        /* ---------- Tables ---------- */
-        .doc-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
+        /* ---------- Sidebar TOC ---------- */
+        #sidebar {
+            position: sticky;
+            top: 80px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+            scrollbar-width: thin;
         }
-        .doc-table th {
-            background: var(--gradient-main);
-            color: white;
-            padding: 0.7rem 1rem;
-            text-align: left;
+        #sidebar::-webkit-scrollbar { width: 4px; }
+        #sidebar::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 8px; }
+
+        .toc-link {
+            display: block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.375rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+        .toc-link:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+        .toc-link.active {
+            background: var(--primary-bg);
+            color: var(--primary);
+            border-left-color: var(--primary);
             font-weight: 600;
         }
-        .doc-table td {
-            padding: 0.6rem 1rem;
-            border-bottom: 1px solid var(--gray-200);
+
+        /* ---------- Search ---------- */
+        #search-input {
+            transition: var(--transition);
+            border: 2px solid var(--gray-200);
+            border-radius: 9999px;
+            padding: 0.6rem 1.2rem 0.6rem 2.8rem;
+            width: 100%;
+            max-width: 280px;
+            background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") no-repeat 0.8rem center / 1.2rem;
         }
-        .doc-table tr:hover td { background: var(--gray-50); }
+        #search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+        }
+
+        .search-highlight {
+            background: #fef08a;
+            padding: 0 0.2rem;
+            border-radius: 2px;
+        }
+
+        /* ---------- Progress Bars ---------- */
+        .progress-bar {
+            height: 8px;
+            border-radius: 9999px;
+            background: var(--gray-200);
+            overflow: hidden;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            border-radius: 9999px;
+            background: var(--gradient-main);
+            transition: width 1.2s ease;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 768px) {
+            #sidebar { display: none; }
+            .hero-text h1 { font-size: 2rem !important; }
+            #search-input { max-width: 100%; }
+            .workflow-node { min-width: 80px; padding: 0.6rem 0.8rem; font-size: 0.8rem; }
+            .workflow-arrow { font-size: 1rem; }
+        }
+
+        /* ---------- Print ---------- */
+        @media print {
+            #sidebar, #dark-toggle, #search-input, .no-print { display: none !important; }
+            .card, .glass-card { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
+            body { font-size: 11pt; background: white !important; color: black !important; }
+            .hero-gradient { background: #0d9488 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .doc-table th { background: #0d9488 !important; }
+        }
     </style>
 </head>
 <body>
@@ -368,7 +483,7 @@
     </nav>
 
     <!-- ============================================================ -->
-    <!-- MAIN LAYOUT: Sidebar + Content -->
+    <!-- MAIN LAYOUT -->
     <!-- ============================================================ -->
     <div class="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 gap-8">
 
@@ -380,12 +495,13 @@
                 <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2 pb-2 border-b border-gray-200">
                     <i class="fas fa-bars mr-1"></i> Contents
                 </div>
-                <a href="#overview" class="toc-link active"><i class="fas fa-home mr-2 w-4"></i> Overview</a>
+                <a href="#hero" class="toc-link active"><i class="fas fa-home mr-2 w-4"></i> Overview</a>
                 <a href="#features" class="toc-link"><i class="fas fa-star mr-2 w-4"></i> Features</a>
                 <a href="#installation" class="toc-link"><i class="fas fa-download mr-2 w-4"></i> Installation</a>
-                <a href="#screenshots" class="toc-link"><i class="fas fa-images mr-2 w-4"></i> Screenshots</a>
+                <a href="#models" class="toc-link"><i class="fas fa-database mr-2 w-4"></i> Core Models</a>
                 <a href="#workflow" class="toc-link"><i class="fas fa-project-diagram mr-2 w-4"></i> Workflow</a>
                 <a href="#roles" class="toc-link"><i class="fas fa-users mr-2 w-4"></i> User Roles</a>
+                <a href="#screenshots" class="toc-link"><i class="fas fa-images mr-2 w-4"></i> Screenshots</a>
                 <a href="#use-cases" class="toc-link"><i class="fas fa-briefcase mr-2 w-4"></i> Use Cases</a>
                 <a href="#best-practices" class="toc-link"><i class="fas fa-lightbulb mr-2 w-4"></i> Best Practices</a>
                 <a href="#troubleshooting" class="toc-link"><i class="fas fa-tools mr-2 w-4"></i> Troubleshooting</a>
@@ -440,7 +556,7 @@
                             </p>
                             <div class="flex flex-wrap gap-4 mt-6">
                                 <a href="#features" class="btn-primary"><i class="fas fa-rocket"></i> Explore Features</a>
-                                <a href="#installation" class="btn-secondary bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white/30"><i class="fas fa-download"></i> Install Guide</a>
+                                <a href="#installation" class="btn-secondary"><i class="fas fa-download"></i> Install Guide</a>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
@@ -544,6 +660,7 @@
                             <li>Department association (Hematology, Biochemistry, etc.).</li>
                             <li>Sample type validation (Blood, Urine, CSF, etc.).</li>
                             <li>Price configuration with currency support.</li>
+                            <li>Turnaround time in hours.</li>
                         </ul>
                     </div>
                     <div class="card p-6">
@@ -554,6 +671,7 @@
                             <li>Priority levels: Routine, Urgent, Emergency.</li>
                             <li>State machine: Draft → Confirmed → Sample Collected → In Progress → Completed → Approved.</li>
                             <li>Barcode generation for sample tracking.</li>
+                            <li>Order history and status tracking.</li>
                         </ul>
                     </div>
                     <div class="card p-6">
@@ -564,6 +682,7 @@
                             <li>Normal range check (min/max).</li>
                             <li>Quality control pass/fail.</li>
                             <li>Technician and validator tracking.</li>
+                            <li>Comment and note fields for clinical interpretation.</li>
                         </ul>
                     </div>
                 </div>
@@ -603,53 +722,149 @@
                             <li>Set up your test catalog, departments, and normal ranges.</li>
                         </ol>
                     </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800 text-lg flex items-center gap-2">
+                            <span class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                            Configuration
+                        </h3>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-2 space-y-1 text-sm">
+                            <li>Set up <strong>Departments</strong> (e.g., Hematology, Biochemistry, Microbiology).</li>
+                            <li>Define <strong>Test Catalog</strong> with name, code, price, and normal ranges.</li>
+                            <li>Configure <strong>Sample Types</strong> (Blood, Urine, CSF, etc.).</li>
+                            <li>Set <strong>Barcode Prefixes</strong> for sample tracking.</li>
+                            <li>Configure <strong>Accounting</strong> integration (income accounts, tax rules).</li>
+                        </ul>
+                    </div>
                 </div>
             </section>
 
             <!-- ========================================================== -->
-            <!-- SCREENSHOTS -->
+            <!-- CORE MODELS -->
             <!-- ========================================================== -->
-            <section id="screenshots">
+            <section id="models">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-images text-3xl text-teal-600"></i>
-                    <h2 class="text-3xl font-bold text-gray-800">Screenshots &amp; UI Gallery</h2>
+                    <i class="fas fa-database text-3xl text-teal-600"></i>
+                    <h2 class="text-3xl font-bold text-gray-800">Core Models &amp; Data Structure</h2>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-user-injured"></i>
-                        <p class="font-semibold text-gray-700">Patient Form View</p>
-                        <p class="text-sm">Patient demographics and medical history</p>
-                        <span class="badge-teal">Form View</span>
+                <p class="text-gray-600 mb-6">
+                    The module is built around these key models with relationships as shown below.
+                </p>
+
+                <!-- Tabs -->
+                <div class="flex flex-wrap gap-1 border-b border-gray-200 mb-6">
+                    <button class="tab-btn active" data-tab="tab-patient"><i class="fas fa-user-injured mr-1"></i> Patient</button>
+                    <button class="tab-btn" data-tab="tab-test"><i class="fas fa-flask mr-1"></i> Test Catalog</button>
+                    <button class="tab-btn" data-tab="tab-order"><i class="fas fa-clipboard-list mr-1"></i> Test Order</button>
+                    <button class="tab-btn" data-tab="tab-result"><i class="fas fa-check-double mr-1"></i> Result &amp; QC</button>
+                    <button class="tab-btn" data-tab="tab-invoice"><i class="fas fa-file-invoice-dollar mr-1"></i> Invoicing</button>
+                </div>
+
+                <!-- Tab Panes -->
+                <div id="tab-patient" class="tab-pane active">
+                    <div class="card p-6">
+                        <h3 class="font-bold text-gray-800 text-xl flex items-center gap-2">
+                            <i class="fas fa-user-injured text-teal-500"></i> lims.patient
+                        </h3>
+                        <p class="text-gray-500 text-sm mt-1">Patient demographics and medical history.</p>
+                        <table class="doc-table mt-4">
+                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td>name</td><td>Char</td><td>Full name of the patient</td></tr>
+                                <tr><td>patient_id</td><td>Char</td><td>Unique patient identifier (MRN)</td></tr>
+                                <tr><td>date_of_birth</td><td>Date</td><td>Date of birth</td></tr>
+                                <tr><td>gender</td><td>Selection</td><td>Male / Female / Other</td></tr>
+                                <tr><td>phone</td><td>Char</td><td>Contact number</td></tr>
+                                <tr><td>email</td><td>Char</td><td>Email address</td></tr>
+                                <tr><td>address</td><td>Text</td><td>Residential address</td></tr>
+                                <tr><td>medical_history</td><td>Text</td><td>Relevant medical history</td></tr>
+                                <tr><td>test_order_ids</td><td>One2many</td><td>All test orders for this patient</td></tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-clipboard-list"></i>
-                        <p class="font-semibold text-gray-700">Test Order Form</p>
-                        <p class="text-sm">Multi-test selection with priority</p>
-                        <span class="badge-teal">Form View</span>
+                </div>
+
+                <div id="tab-test" class="tab-pane">
+                    <div class="card p-6">
+                        <h3 class="font-bold text-gray-800 text-xl flex items-center gap-2">
+                            <i class="fas fa-flask text-teal-500"></i> lims.test
+                        </h3>
+                        <p class="text-gray-500 text-sm mt-1">Catalog of available laboratory tests.</p>
+                        <table class="doc-table mt-4">
+                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td>name</td><td>Char</td><td>Test name</td></tr>
+                                <tr><td>code</td><td>Char</td><td>Unique test code</td></tr>
+                                <tr><td>department_id</td><td>Many2one</td><td>Lab department</td></tr>
+                                <tr><td>sample_type</td><td>Selection</td><td>Blood, Urine, CSF, etc.</td></tr>
+                                <tr><td>price</td><td>Monetary</td><td>Standard price</td></tr>
+                                <tr><td>normal_range_min</td><td>Float</td><td>Minimum normal value</td></tr>
+                                <tr><td>normal_range_max</td><td>Float</td><td>Maximum normal value</td></tr>
+                                <tr><td>unit</td><td>Char</td><td>Unit of measurement</td></tr>
+                                <tr><td>turnaround_time</td><td>Integer</td><td>Expected hours to result</td></tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-table"></i>
-                        <p class="font-semibold text-gray-700">Test Order Tree</p>
-                        <p class="text-sm">List view with status and priority</p>
-                        <span class="badge-teal">Tree View</span>
+                </div>
+
+                <div id="tab-order" class="tab-pane">
+                    <div class="card p-6">
+                        <h3 class="font-bold text-gray-800 text-xl flex items-center gap-2">
+                            <i class="fas fa-clipboard-list text-teal-500"></i> lims.test.order
+                        </h3>
+                        <p class="text-gray-500 text-sm mt-1">Test orders placed by doctors or clinicians.</p>
+                        <table class="doc-table mt-4">
+                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td>name</td><td>Char</td><td>Order reference number</td></tr>
+                                <tr><td>patient_id</td><td>Many2one</td><td>Patient</td></tr>
+                                <tr><td>doctor_id</td><td>Many2one</td><td>Referring doctor</td></tr>
+                                <tr><td>test_ids</td><td>Many2many</td><td>Tests requested</td></tr>
+                                <tr><td>priority</td><td>Selection</td><td>Routine / Urgent / Emergency</td></tr>
+                                <tr><td>state</td><td>Selection</td><td>Draft → Confirmed → Sample Collected → In Progress → Completed → Approved</td></tr>
+                                <tr><td>sample_barcode</td><td>Char</td><td>Generated barcode for sample</td></tr>
+                                <tr><td>collection_date</td><td>Datetime</td><td>Sample collection timestamp</td></tr>
+                                <tr><td>result_ids</td><td>One2many</td><td>Test results</td></tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-th"></i>
-                        <p class="font-semibold text-gray-700">Test Order Kanban</p>
-                        <p class="text-sm">Visual kanban grouped by status</p>
-                        <span class="badge-teal">Kanban View</span>
+                </div>
+
+                <div id="tab-result" class="tab-pane">
+                    <div class="card p-6">
+                        <h3 class="font-bold text-gray-800 text-xl flex items-center gap-2">
+                            <i class="fas fa-check-double text-teal-500"></i> lims.test.result &amp; lims.qc
+                        </h3>
+                        <p class="text-gray-500 text-sm mt-1">Test results and quality control records.</p>
+                        <table class="doc-table mt-4">
+                            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td>test_order_id</td><td>Many2one</td><td>Related test order</td></tr>
+                                <tr><td>test_id</td><td>Many2one</td><td>Test definition</td></tr>
+                                <tr><td>value</td><td>Float</td><td>Result value</td></tr>
+                                <tr><td>normal_range_min</td><td>Float</td><td>Minimum normal range</td></tr>
+                                <tr><td>normal_range_max</td><td>Float</td><td>Maximum normal range</td></tr>
+                                <tr><td>is_abnormal</td><td>Boolean</td><td>Auto-flagged based on range</td></tr>
+                                <tr><td>qc_pass</td><td>Boolean</td><td>Quality control passed</td></tr>
+                                <tr><td>technician_id</td><td>Many2one</td><td>Technician who entered result</td></tr>
+                                <tr><td>validated_by</td><td>Many2one</td><td>Validator / pathologist</td></tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-flask"></i>
-                        <p class="font-semibold text-gray-700">Test Catalog</p>
-                        <p class="text-sm">Complete catalog with normal ranges</p>
-                        <span class="badge-teal">Tree View</span>
-                    </div>
-                    <div class="screenshot-placeholder">
-                        <i class="fas fa-file-pdf"></i>
-                        <p class="font-semibold text-gray-700">Lab Report PDF</p>
-                        <p class="text-sm">Professional PDF with results</p>
-                        <span class="badge-teal">Report</span>
+                </div>
+
+                <div id="tab-invoice" class="tab-pane">
+                    <div class="card p-6">
+                        <h3 class="font-bold text-gray-800 text-xl flex items-center gap-2">
+                            <i class="fas fa-file-invoice-dollar text-teal-500"></i> Accounting Integration
+                        </h3>
+                        <p class="text-gray-500 text-sm mt-1">Seamless integration with Odoo Accounting.</p>
+                        <ul class="list-disc list-inside text-gray-600 mt-4 space-y-1 text-sm">
+                            <li><strong>Invoice Generation:</strong> Automatic invoice creation on test order completion.</li>
+                            <li><strong>Income Accounts:</strong> Per-test income account configuration.</li>
+                            <li><strong>Tax Rules:</strong> Configurable tax applied per test or department.</li>
+                            <li><strong>Payment Tracking:</strong> Full reconciliation with customer payments.</li>
+                            <li><strong>Insurance Support:</strong> Link to insurance partners for third-party billing.</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -662,7 +877,9 @@
                     <i class="fas fa-project-diagram text-3xl text-teal-600"></i>
                     <h2 class="text-3xl font-bold text-gray-800">Complete Workflow</h2>
                 </div>
-                <p class="text-gray-600 mb-6">Click on any step below to see detailed information about that stage.</p>
+                <p class="text-gray-600 mb-6">
+                    Click on any step below to see detailed information about that stage.
+                </p>
                 <div class="card p-6">
                     <div class="flex flex-wrap items-center justify-center gap-3 md:gap-5">
                         <div class="workflow-node active" data-step="1">
@@ -849,6 +1066,54 @@
                             <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Enter results</li>
                             <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Manage tests</li>
                         </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================== -->
+            <!-- SCREENSHOTS -->
+            <!-- ========================================================== -->
+            <section id="screenshots">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class="fas fa-images text-3xl text-teal-600"></i>
+                    <h2 class="text-3xl font-bold text-gray-800">Screenshots &amp; UI Gallery</h2>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-user-injured"></i>
+                        <p class="font-semibold text-gray-700">Patient Form View</p>
+                        <p class="text-sm">Patient demographics and medical history</p>
+                        <span class="badge-teal">Form View</span>
+                    </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p class="font-semibold text-gray-700">Test Order Form</p>
+                        <p class="text-sm">Multi-test selection with priority</p>
+                        <span class="badge-teal">Form View</span>
+                    </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-table"></i>
+                        <p class="font-semibold text-gray-700">Test Order Tree</p>
+                        <p class="text-sm">List view with status and priority</p>
+                        <span class="badge-teal">Tree View</span>
+                    </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-th"></i>
+                        <p class="font-semibold text-gray-700">Test Order Kanban</p>
+                        <p class="text-sm">Visual kanban grouped by status</p>
+                        <span class="badge-teal">Kanban View</span>
+                    </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-flask"></i>
+                        <p class="font-semibold text-gray-700">Test Catalog</p>
+                        <p class="text-sm">Complete catalog with normal ranges</p>
+                        <span class="badge-teal">Tree View</span>
+                    </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-file-pdf"></i>
+                        <p class="font-semibold text-gray-700">Lab Report PDF</p>
+                        <p class="text-sm">Professional PDF with results</p>
+                        <span class="badge-teal">Report</span>
                     </div>
                 </div>
             </section>
@@ -1059,8 +1324,8 @@
                     <p class="text-teal-100 text-lg mt-3 max-w-2xl mx-auto">Get the complete Hospital LIMS module for your Odoo 17 instance. Streamline your laboratory workflow and improve patient care.</p>
                     <div class="flex flex-wrap justify-center gap-4 mt-6">
                         <a href="#" class="btn-primary bg-white text-teal-700 hover:bg-teal-50 shadow-lg"><i class="fas fa-download"></i> Download Module</a>
-                        <a href="#" class="btn-secondary bg-white/20 text-white border-white/30 hover:bg-white/30"><i class="fas fa-book"></i> View Docs</a>
-                        <a href="#" class="btn-secondary bg-white/20 text-white border-white/30 hover:bg-white/30"><i class="fas fa-github"></i> GitHub</a>
+                        <a href="#" class="btn-secondary"><i class="fas fa-book"></i> View Docs</a>
+                        <a href="#" class="btn-secondary"><i class="fas fa-github"></i> GitHub</a>
                     </div>
                     <div class="mt-6 flex flex-wrap justify-center gap-6 text-sm text-teal-100/80">
                         <span><i class="fas fa-check-circle mr-1"></i> Odoo 17</span>
@@ -1102,10 +1367,24 @@
     <!-- ============================================================ -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            // ---- Dark Mode ----
+            const darkToggle = document.getElementById('dark-toggle');
+            if (darkToggle) {
+                darkToggle.addEventListener('click', function() {
+                    document.documentElement.classList.toggle('dark');
+                    const icon = this.querySelector('i');
+                    if (document.documentElement.classList.contains('dark')) {
+                        icon.className = 'fas fa-sun text-lg';
+                    } else {
+                        icon.className = 'fas fa-moon text-lg';
+                    }
+                });
+            }
+
             // ---- Sidebar TOC Active ----
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('section[id]');
-            const sidebar = document.getElementById('sidebar');
 
             function updateActiveLink() {
                 let current = '';
@@ -1155,6 +1434,30 @@
                 });
             });
 
+            // ---- Tabs ----
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanes = {
+                'tab-patient': document.getElementById('tab-patient'),
+                'tab-test': document.getElementById('tab-test'),
+                'tab-order': document.getElementById('tab-order'),
+                'tab-result': document.getElementById('tab-result'),
+                'tab-invoice': document.getElementById('tab-invoice'),
+            };
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    Object.values(tabPanes).forEach(pane => {
+                        if (pane) pane.classList.remove('active');
+                    });
+                    const tabId = this.dataset.tab;
+                    if (tabPanes[tabId]) {
+                        tabPanes[tabId].classList.add('active');
+                    }
+                });
+            });
+
             // ---- Search ----
             const searchInput = document.getElementById('search-input');
             if (searchInput) {
@@ -1180,6 +1483,7 @@
             }
 
             console.log('🏥 Hospital LIMS Documentation Loaded Successfully.');
+            console.log('📊 10,514 lines of code documented.');
         });
     </script>
 

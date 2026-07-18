@@ -22,7 +22,7 @@
         - Patient Portal
         - API Integration
     """,
-    'author': 'Your Company',
+    'author': 'Wazirz',
     'website': 'https://www.yourcompany.com',
     'depends': [
         'base',

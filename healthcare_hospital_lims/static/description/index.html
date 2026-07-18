@@ -3,30 +3,35 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hospital LIMS - Complete Laboratory Information Management System for Odoo 17</title>
+    <title>Hospital LIMS - Laboratory Information Management System for Odoo 17</title>
 
-    <!-- ============================================================ -->
-    <!-- Tailwind CSS via CDN -->
-    <!-- ============================================================ -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com">
     </script>
 
-    <!-- ============================================================ -->
-    <!-- Font Awesome 6 (Free) via CDN -->
-    <!-- ============================================================ -->
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- ============================================================ -->
-    <!-- Custom CSS – Medical / Teal Theme + Dark Mode + Print Styles -->
-    <!-- ============================================================ -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
     <style>
-        /* ---------- CSS Variables ---------- */
+        /* ============================================================
+           CSS Variables - Modern Teal/Cyan Theme
+           ============================================================ */
         :root {
-            --primary: #0f766e;
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
             --primary-light: #14b8a6;
-            --primary-lighter: #22d3ee;
-            --primary-dark: #0d5e58;
+            --primary-lighter: #5eead4;
             --primary-bg: #f0fdfa;
+            --secondary: #06b6d4;
+            --secondary-light: #22d3ee;
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --gradient-main: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
+            --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            --gradient-hero: linear-gradient(135deg, #0f766e 0%, #0d9488 40%, #06b6d4 100%);
             --gray-50: #f8fafc;
             --gray-100: #f1f5f9;
             --gray-200: #e2e8f0;
@@ -41,11 +46,14 @@
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --radius: 0.75rem;
-            --transition: all 0.25s ease-in-out;
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 1rem;
+            --radius-sm: 0.5rem;
+            --radius-lg: 1.5rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Dark mode overrides */
+        /* Dark Mode */
         .dark {
             --primary-bg: #0f172a;
             --gray-50: #0f172a;
@@ -60,61 +68,434 @@
             --gray-900: #f8fafc;
         }
 
-        /* ---------- Base ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: var(--gray-50);
             color: var(--gray-800);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             transition: background 0.3s, color 0.3s;
             scroll-behavior: smooth;
+            line-height: 1.6;
         }
 
-        .dark body {
-            background: var(--gray-50);
-            color: var(--gray-800);
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(255, 255, 255, 0.05);
         }
 
-        a {
-            color: var(--primary);
-            transition: var(--transition);
-        }
-        a:hover {
-            color: var(--primary-dark);
-        }
-
-        /* ---------- Teal accent utilities ---------- */
-        .bg-teal-soft {
-            background: var(--primary-bg);
-        }
-        .border-teal {
-            border-color: var(--primary);
-        }
-        .text-teal {
-            color: var(--primary);
-        }
-        .hover\:bg-teal-soft:hover {
-            background: var(--primary-bg);
-        }
-
-        /* ---------- Cards ---------- */
-        .card {
-            background: white;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
             transition: var(--transition);
-            border: 1px solid var(--gray-200);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-accent {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero */
+        .hero-gradient {
+            background: var(--gradient-hero);
+            position: relative;
             overflow: hidden;
         }
-        .dark .card {
-            background: var(--gray-100);
-            border-color: var(--gray-200);
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.05);
+            transform: rotate(30deg);
+            border-radius: 50%;
+            pointer-events: none;
         }
-        .card:hover {
-            box-shadow: var(--shadow-lg);
+        .hero-gradient::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 40%;
+            height: 150%;
+            background: rgba(255, 255, 255, 0.03);
+            transform: rotate(-20deg);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            animation: float-particle 8s infinite ease-in-out;
+        }
+        .particle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        .particle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            bottom: 15%;
+            right: 8%;
+            animation-delay: 2s;
+        }
+        .particle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 50%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float-particle {
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--gradient-main);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(13, 148, 136, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(8px);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
 
-        /* ---------- Sidebar / TOC ---------- */
+        /* Cards */
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+        .dark .feature-card {
+            background: var(--gray-100);
+            border-color: var(--gray-200);
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-main);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--primary-bg);
+            color: var(--primary);
+        }
+
+        /* Tabs */
+        .tab-btn {
+            padding: 0.6rem 1.2rem;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: var(--gray-500);
+            transition: var(--transition);
+            cursor: pointer;
+            background: transparent;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-size: 0.9rem;
+        }
+        .tab-btn:hover {
+            color: var(--gray-700);
+        }
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Accordion */
+        .accordion-header {
+            cursor: pointer;
+            padding: 1rem 1.2rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .dark .accordion-header {
+            background: var(--gray-100);
+        }
+        .accordion-header:hover {
+            background: var(--gray-100);
+        }
+        .dark .accordion-header:hover {
+            background: var(--gray-200);
+        }
+        .accordion-body {
+            display: none;
+            padding: 1.2rem;
+            border: 1px solid var(--gray-200);
+            border-top: none;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+        }
+        .accordion-body.open {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Workflow */
+        .workflow-node {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+            min-width: 120px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        .dark .workflow-node {
+            background: var(--gray-100);
+        }
+        .workflow-node:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+        .workflow-node.active {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+        }
+        .workflow-arrow {
+            color: var(--gray-400);
+            font-size: 1.5rem;
+        }
+        .workflow-detail {
+            display: none;
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            margin-top: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .dark .workflow-detail {
+            background: var(--gray-100);
+        }
+        .workflow-detail.open {
+            display: block;
+        }
+
+        /* Tables */
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .doc-table th {
+            background: var(--gradient-main);
+            color: white;
+            padding: 0.7rem 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .doc-table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .doc-table tr:hover td {
+            background: var(--gray-50);
+        }
+        .dark .doc-table td {
+            border-bottom-color: var(--gray-200);
+        }
+        .dark .doc-table tr:hover td {
+            background: var(--gray-100);
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: var(--gray-900);
+            color: #e2e8f0;
+            padding: 1.2rem;
+            border-radius: var(--radius-sm);
+            overflow-x: auto;
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.8;
+            margin: 1rem 0;
+        }
+        .dark .code-block {
+            background: var(--gray-800);
+        }
+
+        /* Screenshot placeholders */
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+            border-radius: var(--radius);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: var(--gray-500);
+            border: 2px dashed var(--gray-300);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        .dark .screenshot-placeholder {
+            background: var(--gray-100);
+            border-color: var(--gray-300);
+        }
+        .screenshot-placeholder:hover {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+        }
+        .screenshot-placeholder i {
+            font-size: 3rem;
+            color: var(--gray-400);
+        }
+
+        /* Badges */
+        .badge-teal {
+            background: var(--primary-bg);
+            color: var(--primary);
+            padding: 0.2rem 0.8rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border: 1px solid rgba(13, 148, 136, 0.2);
+        }
+        .dark .badge-teal {
+            background: var(--gray-200);
+        }
+
+        /* Sidebar */
         #sidebar {
             position: sticky;
             top: 80px;
@@ -134,7 +515,7 @@
             display: block;
             padding: 0.4rem 0.8rem;
             border-radius: 0.375rem;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             font-weight: 500;
             color: var(--gray-600);
             transition: var(--transition);
@@ -158,127 +539,14 @@
             background: var(--gray-200);
         }
 
-        /* ---------- Workflow Flowchart ---------- */
-        .workflow-node {
-            background: white;
-            border: 2px solid var(--gray-200);
-            border-radius: var(--radius);
-            padding: 1rem 1.25rem;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            min-width: 140px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-        }
-        .workflow-node:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-        }
-        .workflow-node.active {
-            border-color: var(--primary);
-            background: var(--primary-bg);
-        }
-        .workflow-arrow {
-            color: var(--gray-400);
-            font-size: 1.5rem;
-            font-weight: 300;
-        }
-        .workflow-detail {
-            display: none;
-            background: var(--gray-50);
-            padding: 1rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--gray-200);
-            margin-top: 0.5rem;
-        }
-        .dark .workflow-detail {
-            background: var(--gray-100);
-        }
-        .workflow-detail.open {
-            display: block;
-        }
-
-        /* ---------- Tabs ---------- */
-        .tab-btn {
-            padding: 0.5rem 1rem;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-            color: var(--gray-500);
-            transition: var(--transition);
-            cursor: pointer;
-            background: transparent;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-        }
-        .tab-btn:hover {
-            color: var(--gray-700);
-        }
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-        .tab-pane {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        .tab-pane.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ---------- Accordion ---------- */
-        .accordion-header {
-            cursor: pointer;
-            padding: 0.75rem 1rem;
-            background: var(--gray-50);
-            border-radius: var(--radius);
-            border: 1px solid var(--gray-200);
-            transition: var(--transition);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .dark .accordion-header {
-            background: var(--gray-100);
-        }
-        .accordion-header:hover {
-            background: var(--gray-100);
-        }
-        .dark .accordion-header:hover {
-            background: var(--gray-200);
-        }
-        .accordion-body {
-            display: none;
-            padding: 1rem;
-            border: 1px solid var(--gray-200);
-            border-top: none;
-            border-radius: 0 0 var(--radius) var(--radius);
-        }
-        .accordion-body.open {
-            display: block;
-        }
-
-        /* ---------- Search ---------- */
+        /* Search */
         #search-input {
             transition: var(--transition);
             border: 2px solid var(--gray-200);
             border-radius: 9999px;
             padding: 0.6rem 1.2rem 0.6rem 2.8rem;
             width: 100%;
-            max-width: 320px;
+            max-width: 280px;
             background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E") no-repeat 0.8rem center / 1.2rem;
         }
         .dark #search-input {
@@ -288,8 +556,9 @@
         #search-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
         }
+
         .search-highlight {
             background: #fef08a;
             padding: 0 0.2rem;
@@ -299,79 +568,7 @@
             background: #fbbf24;
         }
 
-        /* ---------- Hero ---------- */
-        .hero-gradient {
-            background: linear-gradient(135deg, #0f766e 0%, #0d5e58 50%, #0a4a45 100%);
-        }
-
-        /* ---------- Code blocks ---------- */
-        .code-block {
-            background: var(--gray-900);
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: var(--radius);
-            overflow-x: auto;
-            font-family: 'Fira Code', 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            margin: 1rem 0;
-        }
-        .dark .code-block {
-            background: var(--gray-800);
-            color: #e2e8f0;
-        }
-
-        /* ---------- Table styling ---------- */
-        .doc-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        .doc-table th {
-            background: var(--primary);
-            color: white;
-            padding: 0.6rem 0.8rem;
-            text-align: left;
-        }
-        .doc-table td {
-            padding: 0.6rem 0.8rem;
-            border-bottom: 1px solid var(--gray-200);
-        }
-        .doc-table tr:hover td {
-            background: var(--gray-50);
-        }
-        .dark .doc-table td {
-            border-bottom-color: var(--gray-200);
-        }
-        .dark .doc-table tr:hover td {
-            background: var(--gray-100);
-        }
-
-        /* ---------- Screenshot placeholders ---------- */
-        .screenshot-placeholder {
-            background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
-            border-radius: var(--radius);
-            padding: 3rem 2rem;
-            text-align: center;
-            color: var(--gray-500);
-            border: 2px dashed var(--gray-300);
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .dark .screenshot-placeholder {
-            background: var(--gray-100);
-            border-color: var(--gray-300);
-        }
-        .screenshot-placeholder i {
-            font-size: 3rem;
-            color: var(--gray-400);
-        }
-
-        /* ---------- Progress bars ---------- */
+        /* Progress */
         .progress-bar {
             height: 8px;
             border-radius: 9999px;
@@ -381,28 +578,42 @@
         .progress-bar .fill {
             height: 100%;
             border-radius: 9999px;
-            background: linear-gradient(90deg, var(--primary-light), var(--primary));
-            transition: width 1s ease;
+            background: var(--gradient-main);
+            transition: width 1.2s ease;
         }
 
-        /* ---------- Misc ---------- */
-        .badge-teal {
-            background: var(--primary-bg);
-            color: var(--primary);
-            padding: 0.2rem 0.7rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .dark .badge-teal {
-            background: var(--gray-200);
+        /* Responsive */
+        @media (max-width: 768px) {
+            #sidebar {
+                display: none;
+            }
+            .hero-text h1 {
+                font-size: 2rem !important;
+            }
+            .workflow-node {
+                min-width: 80px;
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            .workflow-arrow {
+                font-size: 1rem;
+            }
+            #search-input {
+                max-width: 100%;
+            }
+            .feature-card {
+                padding: 1.5rem;
+            }
+            .doc-table {
+                font-size: 0.75rem;
+            }
+            .doc-table th,
+            .doc-table td {
+                padding: 0.4rem 0.6rem;
+            }
         }
 
-        .border-dashed-teal {
-            border: 2px dashed var(--primary-light);
-        }
-
-        /* ---------- Print ---------- */
+        /* Print */
         @media print {
             #sidebar,
             #dark-toggle,
@@ -410,7 +621,9 @@
             .no-print {
                 display: none !important;
             }
-            .card {
+            .card,
+            .feature-card,
+            .glass-card {
                 box-shadow: none !important;
                 border: 1px solid #ddd !important;
                 break-inside: avoid;
@@ -421,45 +634,16 @@
                 color: black !important;
             }
             .hero-gradient {
-                background: #0f766e !important;
+                background: #0d9488 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
             .code-block {
                 background: #f1f5f9 !important;
                 color: #0f172a !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
             }
             .doc-table th {
-                background: #0f766e !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            .screenshot-placeholder {
-                border: 1px solid #ccc !important;
-                background: #f8fafc !important;
-            }
-        }
-
-        /* ---------- Responsive tweaks ---------- */
-        @media (max-width: 768px) {
-            #sidebar {
-                display: none;
-            }
-            .hero-text h1 {
-                font-size: 1.8rem !important;
-            }
-            .workflow-node {
-                min-width: 100px;
-                padding: 0.6rem 0.8rem;
-                font-size: 0.8rem;
-            }
-            .workflow-arrow {
-                font-size: 1rem;
-            }
-            #search-input {
-                max-width: 100%;
+                background: #0d9488 !important;
             }
         }
     </style>
@@ -469,32 +653,30 @@
     <!-- ============================================================ -->
     <!-- TOP NAVBAR -->
     <!-- ============================================================ -->
-    <nav class="bg-white shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-50 transition-colors dark:bg-gray-900 dark:border-gray-700">
+    <nav class="glass fixed top-0 left-0 right-0 z-50 border-b border-gray-200/50 dark:border-gray-700/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo & Brand -->
                 <div class="flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                        <i class="fas fa-flask"></i>
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/25">
+                        <i class="fas fa-flask text-lg"></i>
                     </div>
-                    <span class="text-lg font-bold text-gray-800 dark:text-white tracking-tight">
-                        Hospital <span class="text-teal-600 dark:text-teal-400">LIMS</span>
+                    <span class="text-xl font-bold text-gray-800 dark:text-white tracking-tight">
+                        Hospital <span class="gradient-text">LIMS</span>
                     </span>
-                    <span class="hidden sm:inline text-xs bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 px-2 py-0.5 rounded-full font-medium border border-teal-200 dark:border-teal-700">
-                        v1.0
+                    <span class="hidden sm:inline text-xs bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-full font-medium border border-teal-200 dark:border-teal-700">
+                        <i class="fas fa-check-circle mr-1"></i> v1.0
                     </span>
                 </div>
 
-                <!-- Right side: search + dark toggle -->
                 <div class="flex items-center space-x-3">
                     <div class="relative hidden md:block">
                         <input id="search-input" type="text" placeholder="Search documentation..." class="text-sm" />
                     </div>
-                    <button id="dark-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition text-gray-500 dark:text-gray-400">
+                    <button id="dark-toggle" class="p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition text-gray-500 dark:text-gray-400">
                         <i class="fas fa-moon dark:hidden text-lg"></i>
                         <i class="fas fa-sun hidden dark:inline text-lg"></i>
                     </button>
-                    <a href="#cta" class="hidden sm:inline-block bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium px-4 py-2 rounded-full transition shadow-sm">
+                    <a href="#cta" class="hidden sm:inline-block btn-primary text-sm py-2 px-5">
                         <i class="fas fa-rocket mr-1"></i> Get Started
                     </a>
                 </div>
@@ -503,33 +685,39 @@
     </nav>
 
     <!-- ============================================================ -->
-    <!-- MAIN LAYOUT: Sidebar + Content -->
+    <!-- MAIN LAYOUT -->
     <!-- ============================================================ -->
     <div class="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 gap-8">
 
         <!-- ========================================================== -->
-        <!-- SIDEBAR / TABLE OF CONTENTS -->
+        <!-- SIDEBAR -->
         <!-- ========================================================== -->
         <aside id="sidebar" class="w-64 flex-shrink-0 no-print">
-            <div class="space-y-0.5 text-sm">
-                <a href="#hero" class="toc-link active">🏠 Overview</a>
-                <a href="#overview" class="toc-link">📖 Module Overview</a>
-                <a href="#installation" class="toc-link">⚙️ Installation</a>
-                <a href="#models" class="toc-link">📊 Core Models</a>
-                <a href="#workflow" class="toc-link">🔄 Workflow</a>
-                <a href="#roles" class="toc-link">👥 User Roles</a>
-                <a href="#features" class="toc-link">✨ Features</a>
-                <a href="#screenshots" class="toc-link">🖼️ Screenshots</a>
-                <a href="#use-cases" class="toc-link">📋 Use Cases</a>
-                <a href="#best-practices" class="toc-link">💡 Best Practices</a>
-                <a href="#troubleshooting" class="toc-link">🔧 Troubleshooting</a>
-                <a href="#api" class="toc-link">🔌 API / Extend</a>
-                <a href="#changelog" class="toc-link">📝 Changelog</a>
-                <a href="#cta" class="toc-link">🚀 Get Started</a>
+            <div class="glass-card p-4 space-y-0.5">
+                <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-bars mr-1"></i> Contents
+                </div>
+                <a href="#hero" class="toc-link active"><i class="fas fa-home mr-2 w-4"></i> Overview</a>
+                <a href="#features" class="toc-link"><i class="fas fa-star mr-2 w-4"></i> Features</a>
+                <a href="#installation" class="toc-link"><i class="fas fa-download mr-2 w-4"></i> Installation</a>
+                <a href="#models" class="toc-link"><i class="fas fa-database mr-2 w-4"></i> Core Models</a>
+                <a href="#workflow" class="toc-link"><i class="fas fa-project-diagram mr-2 w-4"></i> Workflow</a>
+                <a href="#roles" class="toc-link"><i class="fas fa-users mr-2 w-4"></i> User Roles</a>
+                <a href="#screenshots" class="toc-link"><i class="fas fa-images mr-2 w-4"></i> Screenshots</a>
+                <a href="#use-cases" class="toc-link"><i class="fas fa-briefcase mr-2 w-4"></i> Use Cases</a>
+                <a href="#best-practices" class="toc-link"><i class="fas fa-lightbulb mr-2 w-4"></i> Best Practices</a>
+                <a href="#troubleshooting" class="toc-link"><i class="fas fa-tools mr-2 w-4"></i> Troubleshooting</a>
+                <a href="#api" class="toc-link"><i class="fas fa-plug mr-2 w-4"></i> API Extend</a>
+                <a href="#changelog" class="toc-link"><i class="fas fa-history mr-2 w-4"></i> Changelog</a>
+                <a href="#cta" class="toc-link"><i class="fas fa-rocket mr-2 w-4"></i> Get Started</a>
             </div>
-            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-400">
-                <p><i class="fas fa-file-alt mr-1"></i> 3500+ lines</p>
-                <p><i class="fas fa-code mr-1"></i> Odoo 17 LIMS</p>
+            <div class="mt-4 glass-card p-4 text-center">
+                <div class="text-2xl font-bold gradient-text">10,514</div>
+                <div class="text-xs text-gray-500">Lines of Code</div>
+                <div class="mt-2 flex justify-center gap-3 text-xs">
+                    <span class="badge-teal"><i class="fas fa-check mr-1"></i> Odoo 17</span>
+                    <span class="badge-teal"><i class="fas fa-shield-alt mr-1"></i> LGPL-3</span>
+                </div>
             </div>
         </aside>
 
@@ -539,108 +727,109 @@
         <main class="flex-1 min-w-0 space-y-12">
 
             <!-- ========================================================== -->
-            <!-- HERO SECTION -->
+            <!-- HERO -->
             <!-- ========================================================== -->
-            <section id="hero" class="hero-gradient rounded-2xl p-8 md:p-12 text-white shadow-xl -mt-4">
-                <div class="max-w-3xl">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
-                            <i class="fas fa-flask mr-1"></i> Odoo 17
+            <section id="hero" class="hero-gradient rounded-2xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+
+                <div class="hero-content relative">
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-white/10">
+                            <i class="fas fa-flask mr-1.5"></i> Odoo 17
                         </span>
-                        <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
-                            <i class="fas fa-check-circle mr-1"></i> Production Ready
+                        <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-white/10">
+                            <i class="fas fa-check-circle mr-1.5"></i> Production Ready
+                        </span>
+                        <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-white/10">
+                            <i class="fas fa-rocket mr-1.5"></i> 10,514 Lines
                         </span>
                     </div>
-                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-                        Hospital <span class="text-teal-200">LIMS</span>
-                        <span class="block text-2xl md:text-3xl font-light text-teal-100 mt-1">
-                            Laboratory Information Management System
-                        </span>
-                    </h1>
-                    <p class="text-teal-50/90 text-lg mt-4 max-w-2xl leading-relaxed">
-                        Complete, end-to-end laboratory management for Odoo 17.
-                        From patient registration and test ordering to result entry,
-                        quality control, and invoicing — all in one seamless workflow.
-                    </p>
-                    <div class="flex flex-wrap gap-4 mt-6">
-                        <a href="#features" class="bg-white text-teal-700 hover:bg-teal-50 font-semibold px-6 py-3 rounded-full shadow-lg transition flex items-center gap-2">
-                            <i class="fas fa-rocket"></i> Explore Features
-                        </a>
-                        <a href="#installation" class="bg-teal-700/40 hover:bg-teal-700/60 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-full transition flex items-center gap-2 border border-white/20">
-                            <i class="fas fa-download"></i> Install Guide
-                        </a>
-                    </div>
-                    <div class="flex flex-wrap gap-8 mt-8 pt-6 border-t border-white/20">
+
+                    <div class="grid md:grid-cols-2 gap-10 items-center">
                         <div>
-                            <span class="text-2xl font-bold">14+</span>
-                            <span class="block text-sm text-teal-100">Core Models</span>
+                            <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+                                Hospital <span class="text-teal-200">LIMS</span>
+                                <span class="block text-2xl md:text-3xl font-light text-teal-100 mt-1">
+                                    Laboratory Information Management System
+                                </span>
+                            </h1>
+                            <p class="text-teal-50/90 text-lg mt-4 leading-relaxed max-w-lg">
+                                Complete, end-to-end laboratory management for Odoo 17.
+                                From patient registration and test ordering to result entry,
+                                quality control, and invoicing — all in one seamless workflow.
+                            </p>
+                            <div class="flex flex-wrap gap-4 mt-6">
+                                <a href="#features" class="btn-primary">
+                                    <i class="fas fa-rocket"></i> Explore Features
+                                </a>
+                                <a href="#installation" class="btn-secondary">
+                                    <i class="fas fa-download"></i> Install Guide
+                                </a>
+                            </div>
                         </div>
-                        <div>
-                            <span class="text-2xl font-bold">50+</span>
-                            <span class="block text-sm text-teal-100">Views &amp; Reports</span>
-                        </div>
-                        <div>
-                            <span class="text-2xl font-bold">10+</span>
-                            <span class="block text-sm text-teal-100">User Roles</span>
-                        </div>
-                        <div>
-                            <span class="text-2xl font-bold">100%</span>
-                            <span class="block text-sm text-teal-100">Odoo 17 Native</span>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="glass-card p-5 text-center text-white border-white/10">
+                                <div class="text-3xl font-bold">14+</div>
+                                <div class="text-sm text-teal-100">Core Models</div>
+                            </div>
+                            <div class="glass-card p-5 text-center text-white border-white/10">
+                                <div class="text-3xl font-bold">50+</div>
+                                <div class="text-sm text-teal-100">Views &amp; Reports</div>
+                            </div>
+                            <div class="glass-card p-5 text-center text-white border-white/10">
+                                <div class="text-3xl font-bold">10+</div>
+                                <div class="text-sm text-teal-100">User Roles</div>
+                            </div>
+                            <div class="glass-card p-5 text-center text-white border-white/10">
+                                <div class="text-3xl font-bold">100%</div>
+                                <div class="text-sm text-teal-100">Odoo 17 Native</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- ========================================================== -->
-            <!-- MODULE OVERVIEW -->
+            <!-- FEATURES OVERVIEW -->
             <!-- ========================================================== -->
-            <section id="overview">
+            <section id="features">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-book-open text-3xl text-teal-600"></i>
+                    <i class="fas fa-star text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Module Overview</h2>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
-                    The <strong class="text-teal-700 dark:text-teal-400">Hospital LIMS</strong> (Laboratory Information Management System)
-                    is a comprehensive Odoo 17 module designed for hospital and clinical laboratories.
-                    It streamlines the entire lab workflow — from test ordering and sample collection
-                    to result entry, validation, reporting, and billing.
-                </p>
 
-                <div class="grid md:grid-cols-3 gap-6 mt-8">
-                    <div class="card p-6">
-                        <div class="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600 dark:text-teal-400 text-xl mb-4">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Patient-Centric</h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-users"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Patient-Centric</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
                             Manage patient demographics, medical history, and all lab interactions in one place.
                         </p>
                     </div>
-                    <div class="card p-6">
-                        <div class="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600 dark:text-teal-400 text-xl mb-4">
-                            <i class="fas fa-vial"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Test Catalog</h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-flask"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Test Catalog</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
                             Extensive test catalog with pricing, normal ranges, and departmental categorization.
                         </p>
                     </div>
-                    <div class="card p-6">
-                        <div class="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600 dark:text-teal-400 text-xl mb-4">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800 dark:text-white text-lg">Analytics &amp; QC</h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Analytics &amp; QC</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
                             Built-in quality control, dashboards, and real-time analytics for lab performance.
                         </p>
                     </div>
                 </div>
 
-                <div class="card p-6 mt-6 border-l-4 border-teal-500 bg-teal-50/50 dark:bg-teal-900/20">
+                <div class="glass-card p-6 mt-6 border-l-4 border-teal-500">
                     <h4 class="font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-bullseye text-teal-600"></i> Key Benefits
+                        <i class="fas fa-bullseye text-teal-500"></i> Key Benefits
                     </h4>
-                    <ul class="grid sm:grid-cols-2 gap-2 mt-2 text-gray-600 dark:text-gray-300 text-sm">
+                    <ul class="grid sm:grid-cols-2 gap-2 mt-3 text-gray-600 dark:text-gray-300 text-sm">
                         <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> End-to-end lab workflow automation</li>
                         <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Barcode &amp; sample tracking</li>
                         <li><i class="fas fa-check-circle text-teal-500 mr-2"></i> Automated result validation with normal ranges</li>
@@ -656,41 +845,42 @@
             <!-- ========================================================== -->
             <section id="installation">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-cogs text-3xl text-teal-600"></i>
+                    <i class="fas fa-cogs text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Installation &amp; Setup</h2>
                 </div>
-                <div class="card p-6 space-y-6">
+
+                <div class="glass-card p-6 space-y-6">
                     <div>
                         <h3 class="font-semibold text-gray-800 dark:text-white text-lg flex items-center gap-2">
-                            <span class="bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                            <span class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">1</span>
                             Prerequisites
                         </h3>
-                        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1">
+                        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1 text-sm">
                             <li>Odoo 17 (Community or Enterprise)</li>
                             <li>Python 3.10+ with required packages</li>
                             <li>PostgreSQL 13+</li>
-                            <li>Dependencies: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-sm">base, contacts, account, product, stock, sale, purchase, mail</code></li>
+                            <li>Dependencies: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">base, contacts, account, product, stock, sale, purchase, mail, hr</code></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="font-semibold text-gray-800 dark:text-white text-lg flex items-center gap-2">
-                            <span class="bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                            <span class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
                             Installation Steps
                         </h3>
-                        <ol class="list-decimal list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1">
-                            <li>Place the <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-sm">hospital_lims</code> module in your Odoo addons directory.</li>
-                            <li>Update the apps list: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-sm">Apps → Update Apps List</code></li>
+                        <ol class="list-decimal list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1 text-sm">
+                            <li>Place the <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">hospital_lims</code> module in your Odoo addons directory.</li>
+                            <li>Update the apps list: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">Apps → Update Apps List</code></li>
                             <li>Search for "Hospital LIMS" and click <strong class="text-teal-600">Install</strong>.</li>
-                            <li>Configure the lab settings: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-sm">LIMS → Configuration → Settings</code></li>
+                            <li>Configure the lab settings: <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">LIMS → Configuration → Settings</code></li>
                             <li>Set up your test catalog, departments, and normal ranges.</li>
                         </ol>
                     </div>
                     <div>
                         <h3 class="font-semibold text-gray-800 dark:text-white text-lg flex items-center gap-2">
-                            <span class="bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                            <span class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
                             Configuration
                         </h3>
-                        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1">
+                        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 ml-6 mt-2 space-y-1 text-sm">
                             <li>Set up <strong>Departments</strong> (e.g., Hematology, Biochemistry, Microbiology).</li>
                             <li>Define <strong>Test Catalog</strong> with name, code, price, and normal ranges.</li>
                             <li>Configure <strong>Sample Types</strong> (Blood, Urine, CSF, etc.).</li>
@@ -706,27 +896,27 @@
             <!-- ========================================================== -->
             <section id="models">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-database text-3xl text-teal-600"></i>
+                    <i class="fas fa-database text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Core Models &amp; Data Structure</h2>
                 </div>
                 <p class="text-gray-600 dark:text-gray-300 mb-6">
                     The module is built around these key models with relationships as shown below.
                 </p>
 
-                <!-- Tabs for model groups -->
+                <!-- Tabs -->
                 <div class="flex flex-wrap gap-1 border-b border-gray-200 dark:border-gray-700 mb-6">
-                    <button class="tab-btn active" data-tab="tab-patient">Patient</button>
-                    <button class="tab-btn" data-tab="tab-test">Test Catalog</button>
-                    <button class="tab-btn" data-tab="tab-order">Test Order</button>
-                    <button class="tab-btn" data-tab="tab-result">Result &amp; QC</button>
-                    <button class="tab-btn" data-tab="tab-invoice">Invoicing</button>
+                    <button class="tab-btn active" data-tab="tab-patient"><i class="fas fa-user-injured mr-1"></i> Patient</button>
+                    <button class="tab-btn" data-tab="tab-test"><i class="fas fa-flask mr-1"></i> Test Catalog</button>
+                    <button class="tab-btn" data-tab="tab-order"><i class="fas fa-clipboard-list mr-1"></i> Test Order</button>
+                    <button class="tab-btn" data-tab="tab-result"><i class="fas fa-check-double mr-1"></i> Result &amp; QC</button>
+                    <button class="tab-btn" data-tab="tab-invoice"><i class="fas fa-file-invoice-dollar mr-1"></i> Invoicing</button>
                 </div>
 
-                <!-- Tab panes -->
+                <!-- Tab Panes -->
                 <div id="tab-patient" class="tab-pane active">
-                    <div class="card p-6">
+                    <div class="glass-card p-6">
                         <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-user-injured text-teal-600"></i> lims.patient
+                            <i class="fas fa-user-injured text-teal-500"></i> lims.patient
                         </h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Patient demographics and medical history.</p>
                         <table class="doc-table mt-4">
@@ -747,9 +937,9 @@
                 </div>
 
                 <div id="tab-test" class="tab-pane">
-                    <div class="card p-6">
+                    <div class="glass-card p-6">
                         <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-flask text-teal-600"></i> lims.test
+                            <i class="fas fa-flask text-teal-500"></i> lims.test
                         </h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Catalog of available laboratory tests.</p>
                         <table class="doc-table mt-4">
@@ -770,9 +960,9 @@
                 </div>
 
                 <div id="tab-order" class="tab-pane">
-                    <div class="card p-6">
+                    <div class="glass-card p-6">
                         <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-clipboard-list text-teal-600"></i> lims.test.order
+                            <i class="fas fa-clipboard-list text-teal-500"></i> lims.test.order
                         </h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Test orders placed by doctors or clinicians.</p>
                         <table class="doc-table mt-4">
@@ -793,9 +983,9 @@
                 </div>
 
                 <div id="tab-result" class="tab-pane">
-                    <div class="card p-6">
+                    <div class="glass-card p-6">
                         <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-check-double text-teal-600"></i> lims.test.result &amp; lims.qc
+                            <i class="fas fa-check-double text-teal-500"></i> lims.test.result &amp; lims.qc
                         </h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Test results and quality control records.</p>
                         <table class="doc-table mt-4">
@@ -816,12 +1006,12 @@
                 </div>
 
                 <div id="tab-invoice" class="tab-pane">
-                    <div class="card p-6">
+                    <div class="glass-card p-6">
                         <h3 class="font-bold text-gray-800 dark:text-white text-xl flex items-center gap-2">
-                            <i class="fas fa-file-invoice-dollar text-teal-600"></i> Accounting Integration
+                            <i class="fas fa-file-invoice-dollar text-teal-500"></i> Accounting Integration
                         </h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Seamless integration with Odoo Accounting.</p>
-                        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mt-4 space-y-1">
+                        <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mt-4 space-y-1 text-sm">
                             <li><strong>Invoice Generation:</strong> Automatic invoice creation on test order completion.</li>
                             <li><strong>Income Accounts:</strong> Per-test income account configuration.</li>
                             <li><strong>Tax Rules:</strong> Configurable tax applied per test or department.</li>
@@ -837,68 +1027,68 @@
             <!-- ========================================================== -->
             <section id="workflow">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-project-diagram text-3xl text-teal-600"></i>
+                    <i class="fas fa-project-diagram text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Complete Workflow</h2>
                 </div>
                 <p class="text-gray-600 dark:text-gray-300 mb-6">
                     Click on any step below to see detailed information about that stage.
                 </p>
 
-                <!-- Workflow Flowchart -->
-                <div class="card p-6">
-                    <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-                        <div class="workflow-node" data-step="1">
-                            <i class="fas fa-user-plus text-teal-600 text-xl block mb-1"></i>
-                            <span class="font-semibold">Patient</span>
+                <div class="glass-card p-6">
+                    <!-- Workflow Nodes -->
+                    <div class="flex flex-wrap items-center justify-center gap-3 md:gap-5">
+                        <div class="workflow-node active" data-step="1">
+                            <i class="fas fa-user-plus text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Patient</span>
                             <span class="block text-xs text-gray-400">Registration</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="2">
-                            <i class="fas fa-clipboard-list text-teal-600 text-xl block mb-1"></i>
-                            <span class="font-semibold">Test Order</span>
+                            <i class="fas fa-clipboard-list text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Test Order</span>
                             <span class="block text-xs text-gray-400">Creation</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="3">
-                            <i class="fas fa-vial text-teal-600 text-xl block mb-1"></i>
-                            <span class="font-semibold">Sample</span>
+                            <i class="fas fa-vial text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Sample</span>
                             <span class="block text-xs text-gray-400">Collection</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="4">
-                            <i class="fas fa-microscope text-teal-600 text-xl block mb-1"></i>
-                            <span class="font-semibold">Result</span>
+                            <i class="fas fa-microscope text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Result</span>
                             <span class="block text-xs text-gray-400">Entry</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="5">
-                            <i class="fas fa-check-double text-teal-600 text-xl block mb-1"></i>
-                            <span class="font-semibold">Approval</span>
+                            <i class="fas fa-check-double text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Approval</span>
                             <span class="block text-xs text-gray-400">Validation</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="6">
-                            <i class="fas fa-file-pdf text-teal-600 text-xl block mb-1"></i>
-                            <span class="font-semibold">Report</span>
+                            <i class="fas fa-file-pdf text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Report</span>
                             <span class="block text-xs text-gray-400">Generation</span>
                         </div>
                         <span class="workflow-arrow"><i class="fas fa-arrow-right"></i></span>
 
                         <div class="workflow-node" data-step="7">
-                            <i class="fas fa-file-invoice-dollar text-teal-600 text-xl block mb-1"></i>
-                            <span class="font-semibold">Invoicing</span>
+                            <i class="fas fa-file-invoice-dollar text-teal-500 text-xl block mb-1"></i>
+                            <span class="font-semibold text-sm">Invoicing</span>
                             <span class="block text-xs text-gray-400">Billing</span>
                         </div>
                     </div>
 
-                    <!-- Detail panels -->
+                    <!-- Detail Panels -->
                     <div id="workflow-detail-1" class="workflow-detail open">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-user-plus text-teal-600 mr-2"></i>Patient Registration</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-user-plus text-teal-500 mr-2"></i>Patient Registration</h4>
                         <p class="text-gray-600 dark:text-gray-300 text-sm">Patient is registered with demographics, contact details, and medical history.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
                             <li>Unique MRN (Medical Record Number) generated automatically.</li>
@@ -907,7 +1097,7 @@
                         </ul>
                     </div>
                     <div id="workflow-detail-2" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-clipboard-list text-teal-600 mr-2"></i>Test Order Creation</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-clipboard-list text-teal-500 mr-2"></i>Test Order Creation</h4>
                         <p class="text-gray-600 dark:text-gray-300 text-sm">Doctor or clinician selects tests from catalog, sets priority, and submits.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
                             <li>Select patient and referring doctor.</li>
@@ -917,7 +1107,7 @@
                         </ul>
                     </div>
                     <div id="workflow-detail-3" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-vial text-teal-600 mr-2"></i>Sample Collection</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-vial text-teal-500 mr-2"></i>Sample Collection</h4>
                         <p class="text-gray-600 dark:text-gray-300 text-sm">Sample is collected, labeled with barcode, and sent to lab.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
                             <li>Barcode generated for each sample.</li>
@@ -927,7 +1117,7 @@
                         </ul>
                     </div>
                     <div id="workflow-detail-4" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-microscope text-teal-600 mr-2"></i>Result Entry</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-microscope text-teal-500 mr-2"></i>Result Entry</h4>
                         <p class="text-gray-600 dark:text-gray-300 text-sm">Lab technician enters results for each test, with automatic validation.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
                             <li>Results entered per test with normal range validation.</li>
@@ -937,7 +1127,7 @@
                         </ul>
                     </div>
                     <div id="workflow-detail-5" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-check-double text-teal-600 mr-2"></i>Approval &amp; Validation</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-check-double text-teal-500 mr-2"></i>Approval &amp; Validation</h4>
                         <p class="text-gray-600 dark:text-gray-300 text-sm">Pathologist or lab manager reviews and validates results.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
                             <li>Review all results for accuracy.</li>
@@ -947,7 +1137,7 @@
                         </ul>
                     </div>
                     <div id="workflow-detail-6" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-file-pdf text-teal-600 mr-2"></i>Report Generation</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-file-pdf text-teal-500 mr-2"></i>Report Generation</h4>
                         <p class="text-gray-600 dark:text-gray-300 text-sm">Final PDF report is generated with all test results and interpretations.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
                             <li>Professional PDF report with letterhead.</li>
@@ -957,7 +1147,7 @@
                         </ul>
                     </div>
                     <div id="workflow-detail-7" class="workflow-detail">
-                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-file-invoice-dollar text-teal-600 mr-2"></i>Invoicing</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-file-invoice-dollar text-teal-500 mr-2"></i>Invoicing</h4>
                         <p class="text-gray-600 dark:text-gray-300 text-sm">Invoice is generated and sent to patient or insurance provider.</p>
                         <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2">
                             <li>Automatic invoice generation on approval.</li>
@@ -974,231 +1164,73 @@
             <!-- ========================================================== -->
             <section id="roles">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-user-shield text-3xl text-teal-600"></i>
+                    <i class="fas fa-user-shield text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">User Roles &amp; Permissions</h2>
                 </div>
+
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="card p-5 border-t-4 border-teal-500">
-                        <div class="flex items-center gap-3 mb-2">
+                    <div class="glass-card p-5 border-t-4 border-teal-500">
+                        <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600">
                                 <i class="fas fa-user-md text-lg"></i>
                             </div>
                             <h3 class="font-bold text-gray-800 dark:text-white">Doctor</h3>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> Create test orders</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> View patient history</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> Review results</li>
-                            <li><i class="fas fa-times text-red-400 mr-1"></i> Enter results</li>
-                            <li><i class="fas fa-times text-red-400 mr-1"></i> Approve tests</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Create test orders</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View patient history</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Review results</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Enter results</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Approve tests</li>
                         </ul>
                     </div>
-                    <div class="card p-5 border-t-4 border-teal-400">
-                        <div class="flex items-center gap-3 mb-2">
+
+                    <div class="glass-card p-5 border-t-4 border-teal-400">
+                        <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600">
                                 <i class="fas fa-microscope text-lg"></i>
                             </div>
                             <h3 class="font-bold text-gray-800 dark:text-white">Technician</h3>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> View orders</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> Enter results</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> QC checks</li>
-                            <li><i class="fas fa-times text-red-400 mr-1"></i> Approve orders</li>
-                            <li><i class="fas fa-times text-red-400 mr-1"></i> Modify catalog</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View orders</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Enter results</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> QC checks</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Approve orders</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Modify catalog</li>
                         </ul>
                     </div>
-                    <div class="card p-5 border-t-4 border-teal-600">
-                        <div class="flex items-center gap-3 mb-2">
+
+                    <div class="glass-card p-5 border-t-4 border-teal-600">
+                        <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600">
                                 <i class="fas fa-user-tie text-lg"></i>
                             </div>
                             <h3 class="font-bold text-gray-800 dark:text-white">Lab Manager</h3>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> Approve results</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> Manage catalog</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> QC oversight</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> Dashboard</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> User management</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Approve results</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Manage catalog</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> QC oversight</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Dashboard</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> User management</li>
                         </ul>
                     </div>
-                    <div class="card p-5 border-t-4 border-gray-400">
-                        <div class="flex items-center gap-3 mb-2">
+
+                    <div class="glass-card p-5 border-t-4 border-gray-400">
+                        <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500">
                                 <i class="fas fa-user text-lg"></i>
                             </div>
                             <h3 class="font-bold text-gray-800 dark:text-white">Patient (Portal)</h3>
                         </div>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> View reports</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> Request tests</li>
-                            <li><i class="fas fa-check text-teal-500 mr-1"></i> View invoices</li>
-                            <li><i class="fas fa-times text-red-400 mr-1"></i> Enter results</li>
-                            <li><i class="fas fa-times text-red-400 mr-1"></i> Manage tests</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View reports</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> Request tests</li>
+                            <li><i class="fas fa-check-circle text-teal-500 mr-1.5"></i> View invoices</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Enter results</li>
+                            <li><i class="fas fa-times-circle text-red-400 mr-1.5"></i> Manage tests</li>
                         </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ========================================================== -->
-            <!-- FEATURES (Accordion) -->
-            <!-- ========================================================== -->
-            <section id="features">
-                <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-star text-3xl text-teal-600"></i>
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Detailed Features</h2>
-                </div>
-
-                <div class="space-y-2">
-                    <!-- Accordion 1 -->
-                    <div class="accordion">
-                        <div class="accordion-header" data-target="acc1">
-                            <span class="font-semibold text-gray-700 dark:text-gray-200"><i class="fas fa-user-injured text-teal-500 mr-2"></i>Patient Management</span>
-                            <i class="fas fa-chevron-down text-gray-400 transition"></i>
-                        </div>
-                        <div id="acc1" class="accordion-body">
-                            <p class="text-gray-600 dark:text-gray-300">Complete patient management with demographics, medical history, and all lab interactions.</p>
-                            <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2 space-y-1">
-                                <li>Unique MRN (Medical Record Number) auto-generation.</li>
-                                <li>Patient search by name, ID, phone, or email.</li>
-                                <li>Comprehensive medical history tracking.</li>
-                                <li>List of all test orders with status.</li>
-                                <li>Patient portal access for reports.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Accordion 2 -->
-                    <div class="accordion">
-                        <div class="accordion-header" data-target="acc2">
-                            <span class="font-semibold text-gray-700 dark:text-gray-200"><i class="fas fa-flask text-teal-500 mr-2"></i>Test Catalog &amp; Pricing</span>
-                            <i class="fas fa-chevron-down text-gray-400 transition"></i>
-                        </div>
-                        <div id="acc2" class="accordion-body">
-                            <p class="text-gray-600 dark:text-gray-300">Comprehensive catalog of all available tests with pricing, normal ranges, and departmental categorization.</p>
-                            <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2 space-y-1">
-                                <li>Test name, code, and description.</li>
-                                <li>Normal range (min/max) with unit of measurement.</li>
-                                <li>Department association (Hematology, Biochemistry, etc.).</li>
-                                <li>Sample type validation (Blood, Urine, CSF, etc.).</li>
-                                <li>Price configuration with currency support.</li>
-                                <li>Turnaround time in hours.</li>
-                            </ul>
-                            <div class="code-block mt-3">
-                                <span class="text-teal-300"># Example Test Definition</span><br>
-                                {<br>
-                                &nbsp;&nbsp;'name': 'Complete Blood Count',<br>
-                                &nbsp;&nbsp;'code': 'CBC001',<br>
-                                &nbsp;&nbsp;'department_id': hematology_dept.id,<br>
-                                &nbsp;&nbsp;'sample_type': 'blood',<br>
-                                &nbsp;&nbsp;'price': 25.00,<br>
-                                &nbsp;&nbsp;'normal_range_min': 4.0,<br>
-                                &nbsp;&nbsp;'normal_range_max': 11.0,<br>
-                                &nbsp;&nbsp;'unit': '10^9/L',<br>
-                                &nbsp;&nbsp;'turnaround_time': 4<br>
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Accordion 3 -->
-                    <div class="accordion">
-                        <div class="accordion-header" data-target="acc3">
-                            <span class="font-semibold text-gray-700 dark:text-gray-200"><i class="fas fa-clipboard-list text-teal-500 mr-2"></i>Test Order Management</span>
-                            <i class="fas fa-chevron-down text-gray-400 transition"></i>
-                        </div>
-                        <div id="acc3" class="accordion-body">
-                            <p class="text-gray-600 dark:text-gray-300">Create and manage test orders with full workflow control.</p>
-                            <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2 space-y-1">
-                                <li>Order creation with patient and doctor selection.</li>
-                                <li>Multi-test selection from catalog.</li>
-                                <li>Priority levels: Routine, Urgent, Emergency.</li>
-                                <li>State machine: Draft → Confirmed → Sample Collected → In Progress → Completed → Approved.</li>
-                                <li>Barcode generation for sample tracking.</li>
-                                <li>Order history and status tracking.</li>
-                            </ul>
-                            <div class="code-block mt-3">
-                                <span class="text-teal-300"># State Transitions</span><br>
-                                <span class="text-yellow-300">draft</span> → <span class="text-blue-300">confirmed</span> → <span class="text-purple-300">sample_collected</span> → <span class="text-indigo-300">in_progress</span> → <span class="text-green-300">completed</span> → <span class="text-teal-300">approved</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Accordion 4 -->
-                    <div class="accordion">
-                        <div class="accordion-header" data-target="acc4">
-                            <span class="font-semibold text-gray-700 dark:text-gray-200"><i class="fas fa-check-double text-teal-500 mr-2"></i>Result Entry &amp; Validation</span>
-                            <i class="fas fa-chevron-down text-gray-400 transition"></i>
-                        </div>
-                        <div id="acc4" class="accordion-body">
-                            <p class="text-gray-600 dark:text-gray-300">Enter test results with automatic validation against normal ranges.</p>
-                            <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2 space-y-1">
-                                <li>Result entry per test with unit validation.</li>
-                                <li>Auto-flagging of abnormal results.</li>
-                                <li>Normal range check (min/max).</li>
-                                <li>Quality control pass/fail.</li>
-                                <li>Technician and validator tracking.</li>
-                                <li>Comment and note fields for clinical interpretation.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Accordion 5 -->
-                    <div class="accordion">
-                        <div class="accordion-header" data-target="acc5">
-                            <span class="font-semibold text-gray-700 dark:text-gray-200"><i class="fas fa-file-pdf text-teal-500 mr-2"></i>Report Generation</span>
-                            <i class="fas fa-chevron-down text-gray-400 transition"></i>
-                        </div>
-                        <div id="acc5" class="accordion-body">
-                            <p class="text-gray-600 dark:text-gray-300">Generate professional PDF reports for patients and doctors.</p>
-                            <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2 space-y-1">
-                                <li>PDF report with hospital letterhead.</li>
-                                <li>Patient and doctor information.</li>
-                                <li>All test results with normal ranges.</li>
-                                <li>Abnormal results highlighted.</li>
-                                <li>Interpretation and clinical notes.</li>
-                                <li>Auto-email to doctor and patient.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Accordion 6 -->
-                    <div class="accordion">
-                        <div class="accordion-header" data-target="acc6">
-                            <span class="font-semibold text-gray-700 dark:text-gray-200"><i class="fas fa-chart-bar text-teal-500 mr-2"></i>Analytics &amp; Dashboards</span>
-                            <i class="fas fa-chevron-down text-gray-400 transition"></i>
-                        </div>
-                        <div id="acc6" class="accordion-body">
-                            <p class="text-gray-600 dark:text-gray-300">Real-time dashboards and analytics for lab performance monitoring.</p>
-                            <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2 space-y-1">
-                                <li>Dashboard with KPI cards (orders, results, revenue).</li>
-                                <li>Test volume by department.</li>
-                                <li>Average turnaround time.</li>
-                                <li>Abnormal result ratio.</li>
-                                <li>Revenue by test category.</li>
-                                <li>Exportable reports (CSV/Excel).</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Accordion 7 -->
-                    <div class="accordion">
-                        <div class="accordion-header" data-target="acc7">
-                            <span class="font-semibold text-gray-700 dark:text-gray-200"><i class="fas fa-file-invoice-dollar text-teal-500 mr-2"></i>Accounting Integration</span>
-                            <i class="fas fa-chevron-down text-gray-400 transition"></i>
-                        </div>
-                        <div id="acc7" class="accordion-body">
-                            <p class="text-gray-600 dark:text-gray-300">Seamless integration with Odoo Accounting for billing and revenue tracking.</p>
-                            <ul class="list-disc list-inside text-gray-500 dark:text-gray-400 text-sm mt-2 space-y-1">
-                                <li>Automatic invoice generation on order approval.</li>
-                                <li>Itemized test charges.</li>
-                                <li>Income account mapping per test.</li>
-                                <li>Tax rule application.</li>
-                                <li>Insurance partner billing support.</li>
-                                <li>Payment reconciliation.</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -1208,57 +1240,46 @@
             <!-- ========================================================== -->
             <section id="screenshots">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-images text-3xl text-teal-600"></i>
+                    <i class="fas fa-images text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Screenshots &amp; UI Gallery</h2>
                 </div>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <div class="screenshot-placeholder">
-                            <i class="fas fa-user-injured"></i>
-                            <p class="font-semibold">Patient Form View</p>
-                            <p class="text-sm">Patient demographics, medical history, and related test orders.</p>
-                            <span class="badge-teal">Form View</span>
-                        </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-user-injured"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Patient Form View</p>
+                        <p class="text-sm">Patient demographics and medical history</p>
+                        <span class="badge-teal">Form View</span>
                     </div>
-                    <div>
-                        <div class="screenshot-placeholder">
-                            <i class="fas fa-clipboard-list"></i>
-                            <p class="font-semibold">Test Order Form</p>
-                            <p class="text-sm">Create test orders with multi-test selection and priority.</p>
-                            <span class="badge-teal">Form View</span>
-                        </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Order Form</p>
+                        <p class="text-sm">Multi-test selection with priority</p>
+                        <span class="badge-teal">Form View</span>
                     </div>
-                    <div>
-                        <div class="screenshot-placeholder">
-                            <i class="fas fa-table"></i>
-                            <p class="font-semibold">Test Order Tree</p>
-                            <p class="text-sm">List view of all test orders with status and priority.</p>
-                            <span class="badge-teal">Tree View</span>
-                        </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-table"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Order Tree</p>
+                        <p class="text-sm">List view with status and priority</p>
+                        <span class="badge-teal">Tree View</span>
                     </div>
-                    <div>
-                        <div class="screenshot-placeholder">
-                            <i class="fas fa-th"></i>
-                            <p class="font-semibold">Test Order Kanban</p>
-                            <p class="text-sm">Visual kanban view grouped by status.</p>
-                            <span class="badge-teal">Kanban View</span>
-                        </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-th"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Order Kanban</p>
+                        <p class="text-sm">Visual kanban grouped by status</p>
+                        <span class="badge-teal">Kanban View</span>
                     </div>
-                    <div>
-                        <div class="screenshot-placeholder">
-                            <i class="fas fa-flask"></i>
-                            <p class="font-semibold">Test Catalog</p>
-                            <p class="text-sm">Complete test catalog with normal ranges and pricing.</p>
-                            <span class="badge-teal">Tree View</span>
-                        </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-flask"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Test Catalog</p>
+                        <p class="text-sm">Complete catalog with normal ranges</p>
+                        <span class="badge-teal">Tree View</span>
                     </div>
-                    <div>
-                        <div class="screenshot-placeholder">
-                            <i class="fas fa-file-pdf"></i>
-                            <p class="font-semibold">Lab Report PDF</p>
-                            <p class="text-sm">Professional PDF report with results and normal ranges.</p>
-                            <span class="badge-teal">Report</span>
-                        </div>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-file-pdf"></i>
+                        <p class="font-semibold text-gray-700 dark:text-gray-300">Lab Report PDF</p>
+                        <p class="text-sm">Professional PDF with results</p>
+                        <span class="badge-teal">Report</span>
                     </div>
                 </div>
             </section>
@@ -1268,23 +1289,23 @@
             <!-- ========================================================== -->
             <section id="use-cases">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-briefcase text-3xl text-teal-600"></i>
+                    <i class="fas fa-briefcase text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Workflow Examples &amp; Use Cases</h2>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-6">
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-2 mb-3">
                             <span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 px-3 py-1 rounded-full text-xs font-bold">EMERGENCY</span>
                         </div>
                         <h3 class="font-bold text-gray-800 dark:text-white text-lg">Emergency Panel</h3>
-                        <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300 mt-3">
+                        <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
                                 <span>Patient Arrives</span>
                                 <span class="text-teal-600 font-medium">T+0</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Order Created (Emergency)</span>
+                                <span>Order Created</span>
                                 <span class="text-teal-600 font-medium">T+5min</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
@@ -1309,12 +1330,12 @@
                         </div>
                     </div>
 
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-2 mb-3">
                             <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold">ROUTINE</span>
                         </div>
                         <h3 class="font-bold text-gray-800 dark:text-white text-lg">Routine Blood Test</h3>
-                        <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300 mt-3">
+                        <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
                                 <span>Patient Visit</span>
                                 <span class="text-teal-600 font-medium">Day 1</span>
@@ -1345,18 +1366,18 @@
                         </div>
                     </div>
 
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-2 mb-3">
                             <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-xs font-bold">BATCH</span>
                         </div>
                         <h3 class="font-bold text-gray-800 dark:text-white text-lg">Batch Processing</h3>
-                        <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300 mt-3">
+                        <div class="space-y-1.5 text-sm text-gray-600 dark:text-gray-300 mt-3">
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Multiple Orders Created</span>
+                                <span>Multiple Orders</span>
                                 <span class="text-teal-600 font-medium">Day 1</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
-                                <span>Batch Sample Collection</span>
+                                <span>Batch Collection</span>
                                 <span class="text-teal-600 font-medium">Day 1</span>
                             </div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-1">
@@ -1368,7 +1389,7 @@
                                 <span class="text-teal-600 font-medium">Day 2</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Batch Reports &amp; Invoices</span>
+                                <span>Batch Reports</span>
                                 <span class="text-teal-600 font-medium">Day 3</span>
                             </div>
                         </div>
@@ -1384,40 +1405,41 @@
             <!-- ========================================================== -->
             <section id="best-practices">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-lightbulb text-3xl text-teal-600"></i>
+                    <i class="fas fa-lightbulb text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Best Practices &amp; Tips</h2>
                 </div>
-                <div class="card p-6 grid md:grid-cols-2 gap-6">
-                    <div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="glass-card p-5">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-database text-teal-500 mr-2"></i>Data Entry</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Use barcode scanning for sample tracking.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Validate patient data before order creation.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Use default normal ranges from test catalog.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use barcode scanning for sample tracking.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Validate patient data before order creation.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use default normal ranges from test catalog.</li>
                         </ul>
                     </div>
-                    <div>
+                    <div class="glass-card p-5">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-tachometer-alt text-teal-500 mr-2"></i>Performance</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Archive old test orders periodically.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Use indexed fields for faster search.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Configure automated cleanup for old records.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Archive old test orders periodically.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use indexed fields for faster search.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Configure automated cleanup for old records.</li>
                         </ul>
                     </div>
-                    <div>
+                    <div class="glass-card p-5">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-cogs text-teal-500 mr-2"></i>Customization</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Extend models via inheritance.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Add custom fields for lab-specific data.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Use automated actions for state transitions.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Extend models via inheritance.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Add custom fields for lab-specific data.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use automated actions for state transitions.</li>
                         </ul>
                     </div>
-                    <div>
+                    <div class="glass-card p-5">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-users text-teal-500 mr-2"></i>User Training</h4>
                         <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 mt-2">
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Train technicians on result entry workflow.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Train doctors on order creation and report review.</li>
-                            <li><i class="fas fa-check-circle text-teal-400 mr-1"></i> Use the built-in tooltips and help messages.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Train technicians on result entry workflow.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Train doctors on order creation and report review.</li>
+                            <li><i class="fas fa-check-circle text-teal-400 mr-1.5"></i> Use the built-in tooltips and help messages.</li>
                         </ul>
                     </div>
                 </div>
@@ -1428,21 +1450,22 @@
             <!-- ========================================================== -->
             <section id="troubleshooting">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-tools text-3xl text-teal-600"></i>
+                    <i class="fas fa-tools text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Troubleshooting</h2>
                 </div>
-                <div class="card p-6 space-y-4">
+
+                <div class="glass-card p-6 space-y-4">
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Sample Barcode Not Printing</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Ensure the barcode printer is configured in Odoo settings. Check <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">Settings → Technical → Barcode</code>.</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Ensure the barcode printer is configured in Odoo settings. Check <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">Settings → Technical → Barcode</code>.</p>
                     </div>
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Results Not Auto-Flagging Abnormal</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Verify that normal ranges are configured in the test catalog. Check <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">LIMS → Configuration → Tests</code>.</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Verify that normal ranges are configured in the test catalog. Check <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">LIMS → Configuration → Tests</code>.</p>
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-800 dark:text-white"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>Invoices Not Generating</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Check accounting configuration. Ensure income accounts are mapped to tests. Verify <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">Settings → Accounting</code>.</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Check accounting configuration. Ensure income accounts are mapped to tests. Verify <code class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-xs">Settings → Accounting</code>.</p>
                     </div>
                 </div>
             </section>
@@ -1452,27 +1475,32 @@
             <!-- ========================================================== -->
             <section id="api">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-plug text-3xl text-teal-600"></i>
+                    <i class="fas fa-plug text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">API &amp; Extension Points</h2>
                 </div>
-                <div class="card p-6">
+
+                <div class="glass-card p-6">
                     <p class="text-gray-600 dark:text-gray-300 mb-4">The module provides several extension points for customization:</p>
                     <ul class="space-y-3 text-sm">
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Model Inheritance:</span>
-                            <code class="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-xs block mt-1">class CustomTestOrder(models.Model):<br>&nbsp;&nbsp;_inherit = 'lims.test.order'</code>
+                            <code class="block bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded text-xs mt-1 font-mono">
+                                class CustomTestOrder(models.Model):<br>
+                                &nbsp;&nbsp;_inherit = 'lims.test.order'<br>
+                                &nbsp;&nbsp;custom_field = fields.Char(string='Custom Field')
+                            </code>
                         </li>
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Automated Actions:</span>
-                            <code class="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-xs block mt-1">Create automated actions for state transitions, email notifications, and QC triggers.</code>
+                            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Create automated actions for state transitions, email notifications, and QC triggers.</p>
                         </li>
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">Report Templates:</span>
-                            <code class="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-xs block mt-1">Override QWeb templates for custom report layouts.</code>
+                            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Override QWeb templates for custom report layouts.</p>
                         </li>
                         <li class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded">
                             <span class="font-semibold text-teal-600">API Endpoints:</span>
-                            <code class="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-xs block mt-1">REST API endpoints for third-party integrations (LIS integration).</code>
+                            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">REST API endpoints for third-party integrations (LIS integration).</p>
                         </li>
                     </ul>
                 </div>
@@ -1483,10 +1511,11 @@
             <!-- ========================================================== -->
             <section id="changelog">
                 <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-history text-3xl text-teal-600"></i>
+                    <i class="fas fa-history text-3xl gradient-text"></i>
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Changelog &amp; Version History</h2>
                 </div>
-                <div class="card p-6 space-y-4">
+
+                <div class="glass-card p-6 space-y-4">
                     <div class="border-l-4 border-teal-500 pl-4">
                         <div class="flex items-center gap-3">
                             <span class="font-bold text-teal-600">v1.0.0</span>
@@ -1519,24 +1548,33 @@
             </section>
 
             <!-- ========================================================== -->
-            <!-- CALL TO ACTION -->
+            <!-- CTA -->
             <!-- ========================================================== -->
-            <section id="cta" class="hero-gradient rounded-2xl p-8 md:p-12 text-white text-center">
-                <h2 class="text-3xl md:text-4xl font-bold">Ready to Transform Your Lab?</h2>
-                <p class="text-teal-100 text-lg mt-3 max-w-2xl mx-auto">
-                    Get the complete Hospital LIMS module for your Odoo 17 instance.
-                    Streamline your laboratory workflow and improve patient care.
-                </p>
-                <div class="flex flex-wrap justify-center gap-4 mt-6">
-                    <a href="#" class="bg-white text-teal-700 hover:bg-teal-50 font-semibold px-8 py-3 rounded-full shadow-lg transition inline-flex items-center gap-2">
-                        <i class="fas fa-download"></i> Download Module
-                    </a>
-                    <a href="#" class="bg-teal-700/40 hover:bg-teal-700/60 backdrop-blur-sm text-white font-semibold px-8 py-3 rounded-full transition inline-flex items-center gap-2 border border-white/20">
-                        <i class="fas fa-book"></i> View Docs
-                    </a>
-                    <a href="#" class="bg-teal-700/40 hover:bg-teal-700/60 backdrop-blur-sm text-white font-semibold px-8 py-3 rounded-full transition inline-flex items-center gap-2 border border-white/20">
-                        <i class="fas fa-github"></i> GitHub
-                    </a>
+            <section id="cta" class="hero-gradient rounded-2xl p-8 md:p-12 text-white text-center relative overflow-hidden">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-4xl font-bold">Ready to Transform Your Lab?</h2>
+                    <p class="text-teal-100 text-lg mt-3 max-w-2xl mx-auto">
+                        Get the complete Hospital LIMS module for your Odoo 17 instance.
+                        Streamline your laboratory workflow and improve patient care.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 mt-6">
+                        <a href="#" class="btn-primary bg-white text-teal-700 hover:bg-teal-50 shadow-lg">
+                            <i class="fas fa-download"></i> Download Module
+                        </a>
+                        <a href="#" class="btn-secondary">
+                            <i class="fas fa-book"></i> View Docs
+                        </a>
+                        <a href="#" class="btn-secondary">
+                            <i class="fas fa-github"></i> GitHub
+                        </a>
+                    </div>
+                    <div class="mt-6 flex flex-wrap justify-center gap-6 text-sm text-teal-100/80">
+                        <span><i class="fas fa-check-circle mr-1"></i> Odoo 17</span>
+                        <span><i class="fas fa-check-circle mr-1"></i> 10,514 Lines</span>
+                        <span><i class="fas fa-check-circle mr-1"></i> LGPL-3</span>
+                    </div>
                 </div>
             </section>
 
@@ -1553,8 +1591,10 @@
                     <i class="fas fa-flask text-teal-400"></i>
                     <span class="font-bold text-white">Hospital LIMS</span>
                     <span class="text-xs text-gray-500">v1.0.0</span>
+                    <span class="text-xs text-gray-500 ml-2">|</span>
+                    <span class="text-xs text-gray-500">10,514 lines of code</span>
                 </div>
-                <div class="flex gap-6 text-sm">
+                <div class="flex flex-wrap gap-6 text-sm">
                     <a href="#" class="hover:text-white transition">Documentation</a>
                     <a href="#" class="hover:text-white transition">Support</a>
                     <a href="#" class="hover:text-white transition">GitHub</a>
@@ -1573,7 +1613,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // ---- Dark Mode Toggle ----
+            // ---- Dark Mode ----
             const darkToggle = document.getElementById('dark-toggle');
             if (darkToggle) {
                 darkToggle.addEventListener('click', function() {
@@ -1587,7 +1627,7 @@
                 });
             }
 
-            // ---- Sidebar TOC Active Link ----
+            // ---- Sidebar TOC Active ----
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('section[id]');
 
@@ -1610,7 +1650,7 @@
             window.addEventListener('scroll', updateActiveLink);
             updateActiveLink();
 
-            // ---- Smooth Scroll for TOC ----
+            // ---- Smooth Scroll ----
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1626,17 +1666,13 @@
             const workflowNodes = document.querySelectorAll('.workflow-node');
             const workflowDetails = document.querySelectorAll('.workflow-detail');
 
-            workflowNodes.forEach((node, index) => {
+            workflowNodes.forEach((node) => {
                 node.addEventListener('click', function() {
-                    // Remove active class from all nodes
                     workflowNodes.forEach(n => n.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Hide all detail panels
-                    workflowDetails.forEach(d => d.classList.remove('open'));
-
-                    // Show corresponding detail panel
                     const step = this.dataset.step;
+                    workflowDetails.forEach(d => d.classList.remove('open'));
                     const detail = document.getElementById('workflow-detail-' + step);
                     if (detail) {
                         detail.classList.add('open');
@@ -1656,16 +1692,13 @@
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Remove active from all tabs
                     tabBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Hide all panes
                     Object.values(tabPanes).forEach(pane => {
                         if (pane) pane.classList.remove('active');
                     });
 
-                    // Show selected pane
                     const tabId = this.dataset.tab;
                     if (tabPanes[tabId]) {
                         tabPanes[tabId].classList.add('active');
@@ -1684,7 +1717,7 @@
                         const icon = this.querySelector('.fa-chevron-down');
                         if (icon) {
                             icon.style.transform = body.classList.contains('open') ? 'rotate(180deg)' :
-                            'rotate(0)';
+                                'rotate(0)';
                         }
                     }
                 });
@@ -1698,7 +1731,6 @@
                     const allContent = document.querySelector('main');
                     const textElements = allContent.querySelectorAll('p, li, h1, h2, h3, h4, .code-block');
 
-                    // Remove previous highlights
                     textElements.forEach(el => {
                         el.innerHTML = el.innerHTML.replace(/<span class="search-highlight">/g, '');
                         el.innerHTML = el.innerHTML.replace(/<\/span>/g, '');
@@ -1709,15 +1741,15 @@
                     textElements.forEach(el => {
                         const text = el.textContent.toLowerCase();
                         if (text.includes(query)) {
-                            // Simple highlight - wrap matching text
                             const regex = new RegExp(`(${query})`, 'gi');
-                            el.innerHTML = el.innerHTML.replace(regex, '<span class="search-highlight">$1</span>');
+                            el.innerHTML = el.innerHTML.replace(regex,
+                                '<span class="search-highlight">$1</span>');
                         }
                     });
                 });
             }
 
-            // ---- Progress Bar Animation (on scroll) ----
+            // ---- Progress Bars ----
             const progressBars = document.querySelectorAll('.progress-bar .fill');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1734,41 +1766,8 @@
 
             progressBars.forEach(bar => observer.observe(bar));
 
-            // ---- Fake "Live Demo" form validation ----
-            const demoForm = document.getElementById('demo-order-form');
-            if (demoForm) {
-                demoForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const patient = this.querySelector('[name="patient"]');
-                    const tests = this.querySelector('[name="tests"]');
-                    let valid = true;
-
-                    if (!patient.value.trim()) {
-                        patient.style.borderColor = '#e17055';
-                        valid = false;
-                    } else {
-                        patient.style.borderColor = '#00b894';
-                    }
-
-                    if (!tests.value) {
-                        tests.style.borderColor = '#e17055';
-                        valid = false;
-                    } else {
-                        tests.style.borderColor = '#00b894';
-                    }
-
-                    if (valid) {
-                        alert('✅ Test Order Created Successfully!\nPatient: ' + patient.value +
-                            '\nTests: ' + tests.options[tests.selectedIndex].text);
-                        this.reset();
-                    } else {
-                        alert('⚠️ Please fill in all required fields.');
-                    }
-                });
-            }
-
             console.log('🏥 Hospital LIMS Documentation Loaded Successfully.');
-            console.log('📊 3500+ lines of comprehensive documentation.');
+            console.log('📊 10,514 lines of code documented.');
         });
     </script>
 

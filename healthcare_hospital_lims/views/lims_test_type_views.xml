@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== TREE VIEW ===================== -->
+    <record id="view_lims_test_type_tree" model="ir.ui.view">
+        <field name="name">lims.test_type.tree</field>
+        <field name="model">lims.test_type</field>
+        <field name="arch" type="xml">
+            <tree string="Test Types" decoration-success="active==True" decoration-muted="active==False">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category" widget="badge"/>
+                <field name="test_type" widget="badge"/>
+                <field name="price" sum="Total Price"/>
+                <field name="required_sample_type" widget="badge"/>
+                <field name="turnaround_time"/>
+                <field name="total_orders"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_lims_test_type_form" model="ir.ui.view">
+        <field name="name">lims.test_type.form</field>
+        <field name="model">lims.test_type</field>
+        <field name="arch" type="xml">
+            <form string="Test Type">
+                <header>
+                    <button name="action_activate" type="object"
+                            class="oe_highlight"
+                            invisible="active"
+                            string="Activate"/>
+                    <button name="action_deactivate" type="object"
+                            class="oe_highlight"
+                            invisible="not active"
+                            string="Deactivate"/>
+                    <button name="action_create_template" type="object"
+                            string="Create Template"
+                            class="oe_highlight"
+                            icon="fa-copy"/>
+                    <field name="active" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Test Name"/>
+                        </h1>
+                        <h3>
+                            <field name="code" placeholder="Test Code"/>
+                            <field name="short_name" placeholder="Short Name"/>
+                        </h3>
+                    </div>
+                    <notebook>
+                        <!-- ===== Page: General Information ===== -->
+                        <page string="General Information" name="general">
+                            <group>
+                                <group string="Test Classification">
+                                    <field name="category"/>
+                                    <field name="sub_category"/>
+                                    <field name="test_type"/>
+                                    <field name="is_stat_available"/>
+                                    <field name="is_esoteric"/>
+                                    <field name="requires_specialist"/>
+                                </group>
+                                <group string="Description">
+                                    <field name="description" nolabel="1" placeholder="Description"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Pricing & Business ===== -->
+                        <page string="Pricing &amp; Business" name="pricing">
+                            <group>
+                                <group string="Pricing">
+                                    <field name="price"/>
+                                    <field name="cost"/>
+                                    <field name="margin" readonly="1"/>
+                                    <field name="margin_percentage" readonly="1" widget="percentage"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+                                <group string="Product Integration">
+                                    <field name="product_id"/>
+                                    <field name="product_categ_id"/>
+                                </group>
+                            </group>
+                            <group string="Statistics">
+                                <group>
+                                    <field name="total_orders" readonly="1"/>
+                                    <field name="total_revenue" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="average_price" readonly="1"/>
+                                    <field name="abnormal_rate" readonly="1" widget="percentage"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Sample Requirements ===== -->
+                        <page string="Sample Requirements" name="samples">
+                            <group>
+                                <group string="Sample Collection">
+                                    <field name="required_sample_type"/>
+                                    <field name="sample_volume"/>
+                                    <field name="sample_container"/>
+                                    <field name="sample_stability"/>
+                                </group>
+                                <group string="Instructions">
+                                    <field name="special_preparation" nolabel="1" placeholder="Special Preparation Instructions"/>
+                                    <field name="special_handling" nolabel="1" placeholder="Special Handling Instructions"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Results & Ranges ===== -->
+                        <page string="Results &amp; Ranges" name="ranges">
+                            <group>
+                                <group string="Result Configuration">
+                                    <field name="unit"/>
+                                    <field name="decimal_places"/>
+                                    <field name="normal_range"/>
+                                </group>
+                                <group string="Reference Ranges">
+                                    <field name="abnormal_low"/>
+                                    <field name="abnormal_high"/>
+                                    <field name="critical_low"/>
+                                    <field name="critical_high"/>
+                                </group>
+                            </group>
+                            <group string="Range Specificity">
+                                <field name="age_specific"/>
+                                <field name="gender_specific"/>
+                                <field name="pregnancy_specific"/>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Turnaround Time ===== -->
+                        <page string="Turnaround Time" name="tat">
+                            <group>
+                                <group string="Turnaround Times">
+                                    <field name="turnaround_time" help="Expected TAT in hours"/>
+                                    <field name="minimum_tat" help="Minimum possible TAT in hours"/>
+                                    <field name="maximum_tat" help="Maximum acceptable TAT in hours"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Quality Control ===== -->
+                        <page string="Quality Control" name="qc">
+                            <group>
+                                <group string="QC Configuration">
+                                    <field name="requires_qc"/>
+                                    <field name="qc_frequency"/>
+                                    <field name="qc_target"/>
+                                    <field name="qc_tolerance"/>
+                                    <field name="qc_pass_rate" readonly="1" widget="percentage"/>
+                                </group>
+                            </group>
+                            <field name="qc_ids">
+                                <tree string="QC Records">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="result_value"/>
+                                    <field name="target_value"/>
+                                    <field name="is_passed" widget="boolean_favorite"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Methodology ===== -->
+                        <page string="Methodology" name="method">
+                            <group>
+                                <group string="Technical Details">
+                                    <field name="methodology" nolabel="1" placeholder="Methodology"/>
+                                    <field name="instrument_type"/>
+                                </group>
+                                <group string="Requirements">
+                                    <field name="reagents" nolabel="1" placeholder="Reagents Required"/>
+                                    <field name="calibrators" nolabel="1" placeholder="Calibrators"/>
+                                </group>
+                            </group>
+                            <field name="instrument_ids" widget="many2many_tags"/>
+                        </page>
+
+                        <!-- ===== Page: Order Lines ===== -->
+                        <page string="Order Lines" name="orders">
+                            <field name="order_line_ids">
+                                <tree string="Order Lines">
+                                    <field name="test_order_id"/>
+                                    <field name="sample_id"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="result_value"/>
+                                    <field name="is_abnormal" widget="boolean_favorite"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Templates ===== -->
+                        <page string="Result Templates" name="templates">
+                            <field name="template_ids">
+                                <tree string="Result Templates">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="version"/>
+                                    <field name="normal_range"/>
+                                    <field name="is_default"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Chatter ===== -->
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_lims_test_type_search" model="ir.ui.view">
+        <field name="name">lims.test_type.search</field>
+        <field name="model">lims.test_type</field>
+        <field name="arch" type="xml">
+            <search string="Search Test Types">
+                <field name="name" string="Name"/>
+                <field name="code" string="Code"/>
+                <field name="category" string="Category"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter name="is_stat" string="STAT Available" domain="[('is_stat_available', '=', True)]"/>
+                <filter name="requires_qc" string="Requires QC" domain="[('requires_qc', '=', True)]"/>
+                <filter name="esoteric" string="Esoteric Tests" domain="[('is_esoteric', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_test_type" string="Test Type" context="{'group_by': 'test_type'}"/>
+                    <filter name="group_sample_type" string="Sample Type" context="{'group_by': 'required_sample_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTION ===================== -->
+    <record id="action_lims_test_type" model="ir.actions.act_window">
+        <field name="name">Test Types</field>
+        <field name="res_model">lims.test_type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_lims_test_type_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first test type
+            </p>
+            <p>
+                Define the laboratory tests that can be ordered.
+            </p>
+        </field>
+    </record>
+</odoo>

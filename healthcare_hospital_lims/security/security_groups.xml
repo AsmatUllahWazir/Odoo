@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Create the base category for LIMS groups -->
+        <record id="module_category_lims" model="ir.module.category">
+            <field name="name">Laboratory</field>
+            <field name="description">Laboratory Information Management System</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Laboratory Groups -->
+        <record id="group_lims_user" model="res.groups">
+            <field name="name">LIMS User</field>
+            <field name="category_id" ref="module_category_lims"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_lims_doctor" model="res.groups">
+            <field name="name">LIMS Doctor</field>
+            <field name="category_id" ref="module_category_lims"/>
+            <field name="implied_ids" eval="[(4, ref('group_lims_user'))]"/>
+        </record>
+
+        <record id="group_lims_technician" model="res.groups">
+            <field name="name">LIMS Technician</field>
+            <field name="category_id" ref="module_category_lims"/>
+            <field name="implied_ids" eval="[(4, ref('group_lims_user'))]"/>
+        </record>
+
+        <record id="group_lims_manager" model="res.groups">
+            <field name="name">LIMS Manager</field>
+            <field name="category_id" ref="module_category_lims"/>
+            <field name="implied_ids" eval="[(4, ref('group_lims_technician'))]"/>
+        </record>
+    </data>
+</odoo>

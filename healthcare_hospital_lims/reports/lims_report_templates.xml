@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== PDF REPORT ACTION ===================== -->
+    <record id="action_report_lims_pdf" model="ir.actions.report">
+        <field name="name">Laboratory Report</field>
+        <field name="model">lims.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hospital_lims.report_lims_pdf</field>
+        <field name="report_file">hospital_lims.report_lims_pdf</field>
+        <field name="binding_model_id" ref="model_lims_report"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'LIMS_Report_' + object.name</field>
+    </record>
+
+    <!-- ===================== QWEB PDF TEMPLATE ===================== -->
+    <template id="report_lims_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: 0 auto;">
+
+                    <!-- Header -->
+                    <div style="text-align: center; border-bottom: 3px solid #2c3e50; padding-bottom: 20px; margin-bottom: 30px;">
+                        <h1 style="color: #2c3e50; font-size: 28px; margin: 0;">LABORATORY INFORMATION MANAGEMENT SYSTEM</h1>
+                        <h2 style="color: #34495e; font-size: 20px; margin: 5px 0;">PATHOLOGY REPORT</h2>
+                        <p style="color: #7f8c8d; font-size: 12px; margin: 5px 0;">This report contains laboratory test results for clinical use only</p>
+                        <div style="margin-top: 10px;">
+                            <span style="background: #3498db; color: white; padding: 3px 10px; border-radius: 3px; font-size: 12px;">
+                                Report: <t t-esc="doc.name"/>
+                            </span>
+                            <span style="background: #2ecc71; color: white; padding: 3px 10px; border-radius: 3px; font-size: 12px; margin-left: 10px;">
+                                Date: <t t-esc="doc.report_date"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Patient Information -->
+                    <div style="margin-bottom: 25px; background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0;">PATIENT INFORMATION</h3>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <tr>
+                                <td style="padding: 5px; width: 50%;"><strong>Patient Name:</strong> <t t-esc="doc.patient_id.name"/></td>
+                                <td style="padding: 5px; width: 50%;"><strong>Patient ID:</strong> <t t-esc="doc.patient_id.patient_id"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;"><strong>Date of Birth:</strong> <t t-esc="doc.patient_id.date_of_birth"/></td>
+                                <td style="padding: 5px;"><strong>Age:</strong> <t t-esc="doc.patient_id.age"/> years</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;"><strong>Gender:</strong> <t t-esc="doc.patient_id.gender"/></td>
+                                <td style="padding: 5px;"><strong>Blood Type:</strong> <t t-esc="doc.patient_id.blood_type or 'N/A'"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;" colspan="2"><strong>Allergies:</strong> <t t-esc="doc.patient_id.allergies or 'None reported'"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Order Information -->
+                    <div style="margin-bottom: 25px; background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0;">ORDER INFORMATION</h3>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <tr>
+                                <td style="padding: 5px; width: 50%;"><strong>Order ID:</strong> <t t-esc="doc.test_order_id.order_id"/></td>
+                                <td style="padding: 5px; width: 50%;"><strong>Order Date:</strong> <t t-esc="doc.test_order_id.date_ordered"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;"><strong>Priority:</strong> <t t-esc="doc.test_order_id.priority"/></td>
+                                <td style="padding: 5px;"><strong>Ordering Doctor:</strong> <t t-esc="doc.test_order_id.doctor_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;" colspan="2"><strong>Clinical Indications:</strong> <t t-esc="doc.test_order_id.clinical_indications or 'Not specified'"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Test Results -->
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0;">TEST RESULTS</h3>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                            <thead>
+                                <tr style="background-color: #2c3e50; color: white;">
+                                    <th style="border: 1px solid #2c3e50; padding: 8px; text-align: left;">Test Name</th>
+                                    <th style="border: 1px solid #2c3e50; padding: 8px; text-align: left;">Result</th>
+                                    <th style="border: 1px solid #2c3e50; padding: 8px; text-align: left;">Unit</th>
+                                    <th style="border: 1px solid #2c3e50; padding: 8px; text-align: left;">Normal Range</th>
+                                    <th style="border: 1px solid #2c3e50; padding: 8px; text-align: left;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.test_order_id.order_line_ids" t-as="line">
+                                    <tr t-attf-class="#{line.is_abnormal and 'bg-warning' or ''}">
+                                        <td style="border: 1px solid #ddd; padding: 8px;">
+                                            <t t-esc="line.test_type_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">
+                                            <t t-if="line.result_text"><t t-esc="line.result_text"/></t>
+                                            <t t-else=""><t t-esc="line.result_value"/></t>
+                                        </td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">
+                                            <t t-esc="line.result_unit or ''"/>
+                                        </td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">
+                                            <t t-esc="line.normal_range or 'N/A'"/>
+                                        </td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">
+                                            <t t-if="line.is_critical">
+                                                <span style="color: #e74c3c; font-weight: bold;">⚠️ CRITICAL</span>
+                                            </t>
+                                            <t t-elif="line.is_abnormal">
+                                                <span style="color: #f39c12; font-weight: bold;">⚠️ Abnormal</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color: #27ae60; font-weight: bold;">✅ Normal</span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Interpretations -->
+                    <div style="margin-bottom: 25px;" t-if="any(line.interpretation for line in doc.test_order_id.order_line_ids)">
+                        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0;">INTERPRETATIONS</h3>
+                        <t t-foreach="doc.test_order_id.order_line_ids" t-as="line">
+                            <div t-if="line.interpretation" style="margin: 5px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #3498db;">
+                                <strong><t t-esc="line.test_type_id.name"/>:</strong>
+                                <p style="margin: 5px 0 0 15px;"><t t-esc="line.interpretation"/></p>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Summary -->
+                    <div style="margin-bottom: 25px; background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0;">REPORT SUMMARY</h3>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                            <tr>
+                                <td style="padding: 5px; width: 33%;"><strong>Total Tests:</strong> <t t-esc="len(doc.test_order_id.order_line_ids)"/></td>
+                                <td style="padding: 5px; width: 33%;"><strong>Abnormal Results:</strong> <t t-esc="len([l for l in doc.test_order_id.order_line_ids if l.is_abnormal])"/></td>
+                                <td style="padding: 5px; width: 33%;"><strong>Critical Results:</strong> <t t-esc="len([l for l in doc.test_order_id.order_line_ids if l.is_critical])"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px;"><strong>Turnaround Time:</strong> <t t-esc="doc.test_order_id.actual_turnaround_hours or 0"/> hours</td>
+                                <td style="padding: 5px;"><strong>Expected TAT:</strong> <t t-esc="doc.test_order_id.expected_turnaround_hours or 0"/> hours</td>
+                                <td style="padding: 5px;"><strong>Total Amount:</strong> <t t-esc="doc.test_order_id.amount_total or 0"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Signatures -->
+                    <div style="margin: 30px 0 20px 0; padding: 20px; border-top: 2px solid #2c3e50;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="width: 33%; text-align: center;">
+                                    <div style="border-bottom: 1px solid #333; padding-bottom: 5px; min-height: 50px;">
+                                        <span style="font-size: 12px; color: #95a5a6;">Digital Signature</span>
+                                    </div>
+                                    <p style="font-size: 12px; margin-top: 5px;">Laboratory Technician</p>
+                                </td>
+                                <td style="width: 33%; text-align: center;">
+                                    <div style="border-bottom: 1px solid #333; padding-bottom: 5px; min-height: 50px;">
+                                        <span style="font-size: 12px; color: #95a5a6;">Digital Signature</span>
+                                    </div>
+                                    <p style="font-size: 12px; margin-top: 5px;">Pathologist / Doctor</p>
+                                </td>
+                                <td style="width: 33%; text-align: center;">
+                                    <div style="border-bottom: 1px solid #333; padding-bottom: 5px; min-height: 50px;">
+                                        <span style="font-size: 12px; color: #95a5a6;">Laboratory Stamp</span>
+                                    </div>
+                                    <p style="font-size: 12px; margin-top: 5px;">Laboratory</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Disclaimer -->
+                    <div style="margin-top: 30px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #95a5a6; font-size: 11px; color: #7f8c8d;">
+                        <p style="margin: 0;"><strong>DISCLAIMER:</strong></p>
+                        <p style="margin: 5px 0 0 20px;"><t t-esc="doc.disclaimer or 'This report is generated automatically. Please consult your doctor for clinical interpretation.'"/></p>
+                        <p style="margin: 5px 0 0 20px; font-size: 10px;">Report ID: <t t-esc="doc.name"/> | Generated: <t t-esc="doc.report_date"/> | Version: 1.0</p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 10px; color: #95a5a6;">
+                        <p>© 2024 Laboratory Information Management System. All rights reserved.</p>
+                        <p>This report is electronically generated and does not require a physical signature.</p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================== QC REPORT ===================== -->
+    <record id="action_report_lims_qc" model="ir.actions.report">
+        <field name="name">Quality Control Report</field>
+        <field name="model">lims.quality_control</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hospital_lims.report_lims_qc</field>
+        <field name="report_file">hospital_lims.report_lims_qc</field>
+        <field name="binding_model_id" ref="model_lims_quality_control"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_lims_qc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; padding: 40px;">
+                    <h1 style="text-align: center; color: #2c3e50;">QUALITY CONTROL REPORT</h1>
+                    <hr/>
+                    <div style="margin-bottom: 20px;">
+                        <p><strong>QC Reference:</strong> <t t-esc="doc.name"/></p>
+                        <p><strong>Test Type:</strong> <t t-esc="doc.test_type_id.name"/></p>
+                        <p><strong>Date:</strong> <t t-esc="doc.date"/></p>
+                        <p><strong>Technician:</strong> <t t-esc="doc.technician_id.name"/></p>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background: #2c3e50; color: white;">
+                            <th style="padding: 10px; border: 1px solid #2c3e50;">Parameter</th>
+                            <th style="padding: 10px; border: 1px solid #2c3e50;">Value</th>
+                            <th style="padding: 10px; border: 1px solid #2c3e50;">Target</th>
+                            <th style="padding: 10px; border: 1px solid #2c3e50;">Tolerance</th>
+                            <th style="padding: 10px; border: 1px solid #2c3e50;">Status</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">QC Result</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;"><t t-esc="doc.result_value"/></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="doc.target_value"/></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">± <t t-esc="doc.tolerance"/></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">
+                                <t t-if="doc.is_passed">
+                                    <span style="color: #27ae60; font-weight: bold;">✅ PASSED</span>
+                                </t>
+                                <t t-else="">
+                                    <span style="color: #e74c3c; font-weight: bold;">❌ FAILED</span>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Deviation</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;" colspan="4"><t t-esc="doc.deviation"/> (<t t-esc="doc.deviation_percentage"/>%)</td>
+                        </tr>
+                    </table>
+                    <div style="margin-top: 20px;">
+                        <p><strong>Control Material:</strong> <t t-esc="doc.control_material"/></p>
+                        <p><strong>Lot Number:</strong> <t t-esc="doc.lot_number"/></p>
+                        <p><strong>Expiry Date:</strong> <t t-esc="doc.expiry_date"/></p>
+                    </div>
+                    <div style="margin-top: 20px; background: #f8f9fa; padding: 15px;">
+                        <p><strong>Notes:</strong> <t t-esc="doc.notes"/></p>
+                        <p t-if="doc.corrective_action"><strong>Corrective Action:</strong> <t t-esc="doc.corrective_action"/></p>
+                    </div>
+                    <div style="margin-top: 30px; text-align: center;">
+                        <p>Report generated on <t t-esc="datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/></p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

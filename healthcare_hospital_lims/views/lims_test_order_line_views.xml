@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== TREE VIEW ===================== -->
+    <record id="view_lims_test_order_line_tree" model="ir.ui.view">
+        <field name="name">lims.test_order_line.tree</field>
+        <field name="model">lims.test_order_line</field>
+        <field name="arch" type="xml">
+            <tree string="Test Lines" decoration-danger="is_critical==True" decoration-warning="is_abnormal==True and is_critical==False" decoration-success="state in ['verified','reported']">
+                <field name="test_order_id"/>
+                <field name="test_type_id"/>
+                <field name="sample_id"/>
+                <field name="state" widget="badge"/>
+                <field name="result_display"/>
+                <field name="is_abnormal" widget="boolean_favorite"/>
+                <field name="is_critical" widget="boolean_favorite"/>
+                <field name="technician_id"/>
+                <field name="subtotal" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_lims_test_order_line_form" model="ir.ui.view">
+        <field name="name">lims.test_order_line.form</field>
+        <field name="model">lims.test_order_line</field>
+        <field name="arch" type="xml">
+            <form string="Test Line">
+                <header>
+                    <button name="action_assign" type="object"
+                            string="Assign"
+                            class="oe_highlight"
+                            invisible="state not in ['draft','cancelled']"/>
+                    <button name="action_start_test" type="object"
+                            string="Start Test"
+                            class="oe_highlight"
+                            invisible="state != 'assigned'"/>
+                    <button name="action_enter_result" type="object"
+                            string="Enter Result"
+                            class="oe_highlight"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_complete_test" type="object"
+                            string="Complete"
+                            class="oe_highlight"
+                            invisible="state != 'pending_review'"/>
+                    <button name="action_verify" type="object"
+                            string="Verify"
+                            class="oe_highlight"
+                            invisible="state != 'completed'"/>
+                    <button name="action_report" type="object"
+                            string="Report"
+                            class="oe_highlight"
+                            invisible="state not in ['completed','verified']"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancel"
+                            class="oe_highlight"
+                            invisible="state in ['reported','verified','cancelled']"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            class="oe_highlight"
+                            invisible="state not in ['cancelled']"/>
+                    <button name="action_add_interpretation" type="object"
+                            string="Add Interpretation"
+                            class="oe_highlight"
+                            icon="fa-comment-o"/>
+                    <button name="action_add_notes" type="object"
+                            string="Add Notes"
+                            class="oe_highlight"
+                            icon="fa-sticky-note-o"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,assigned,in_progress,pending_review,completed,verified,reported"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="test_type_id"/>
+                        </h1>
+                        <h3>
+                            <field name="test_order_id"/>
+                            <field name="test_code" invisible="1"/>
+                        </h3>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_order" type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o">
+                            <span class="o_stat_text">Order</span>
+                        </button>
+                        <button name="action_view_patient" type="object"
+                                class="oe_stat_button"
+                                icon="fa-user">
+                            <span class="o_stat_text">Patient</span>
+                        </button>
+                        <button name="action_view_sample" type="object"
+                                class="oe_stat_button"
+                                icon="fa-tint">
+                            <span class="o_stat_text">Sample</span>
+                        </button>
+                        <button name="action_view_qc" type="object"
+                                class="oe_stat_button"
+                                icon="fa-check-circle-o">
+                            <span class="o_stat_text">QC</span>
+                        </button>
+                    </div>
+                    <notebook>
+                        <!-- ===== Page: Test Details ===== -->
+                        <page string="Test Details" name="details">
+                            <group>
+                                <group string="Test Information">
+                                    <field name="test_order_id"/>
+                                    <field name="test_type_id"/>
+                                    <field name="sample_id"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="price"/>
+                                    <field name="discount"/>
+                                    <field name="subtotal" readonly="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+                                <group string="Technician">
+                                    <field name="technician_id"/>
+                                    <field name="supervisor_id" readonly="1"/>
+                                    <field name="assigned_date" readonly="1"/>
+                                    <field name="started_date" readonly="1"/>
+                                    <field name="completed_date" readonly="1"/>
+                                    <field name="verified_date" readonly="1"/>
+                                </group>
+                            </group>
+                            <group string="Test Specifications">
+                                <field name="test_type_id" invisible="1"/>
+                                <field name="normal_range" readonly="1" style="background-color: #f0f9f4;"/>
+                                <field name="result_unit" readonly="1" invisible="1"/>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Results ===== -->
+                        <page string="Results" name="results">
+                            <group>
+                                <group string="Result Entry">
+                                    <field name="result_value"/>
+                                    <field name="result_text"/>
+                                    <field name="result_unit" readonly="1"/>
+                                    <field name="result_date" readonly="1"/>
+                                </group>
+                                <group string="Validation">
+                                    <field name="is_abnormal" widget="boolean_favorite" readonly="1"/>
+                                    <field name="is_critical" widget="boolean_favorite" readonly="1"/>
+                                    <field name="validation_status" widget="badge" readonly="1"/>
+                                    <field name="validation_message" readonly="1" style="background-color: #fff3cd;"/>
+                                </group>
+                            </group>
+                            <group string="Result Display">
+                                <field name="result_display" readonly="1" style="font-weight: bold; font-size: 16px;"/>
+                            </group>
+                            <group string="QC Status">
+                                <field name="qc_passed" widget="boolean_favorite"/>
+                                <field name="qc_notes" placeholder="QC Notes"/>
+                                <field name="run_number"/>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Interpretation ===== -->
+                        <page string="Interpretation" name="interpretation">
+                            <field name="interpretation" nolabel="1" placeholder="Clinical Interpretation"/>
+                        </page>
+
+                        <!-- ===== Page: Notes ===== -->
+                        <page string="Notes" name="notes">
+                            <field name="notes" nolabel="1" placeholder="Additional Notes"/>
+                        </page>
+
+                        <!-- ===== Page: Related Info ===== -->
+                        <page string="Related Information" name="related">
+                            <group>
+                                <group string="Patient">
+                                    <field name="patient_id" readonly="1"/>
+                                    <field name="patient_name" readonly="1"/>
+                                    <field name="patient_age" readonly="1"/>
+                                </group>
+                                <group string="Test Type">
+                                    <field name="test_name" readonly="1"/>
+                                    <field name="test_code" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Chatter ===== -->
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_lims_test_order_line_search" model="ir.ui.view">
+        <field name="name">lims.test_order_line.search</field>
+        <field name="model">lims.test_order_line</field>
+        <field name="arch" type="xml">
+            <search string="Search Test Lines">
+                <field name="test_type_id" string="Test"/>
+                <field name="test_order_id" string="Order"/>
+                <field name="patient_id" string="Patient"/>
+                <field name="technician_id" string="Technician"/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_assigned" string="Assigned" domain="[('state', '=', 'assigned')]"/>
+                <filter name="state_processing" string="Processing" domain="[('state', 'in', ['in_progress','pending_review'])]"/>
+                <filter name="state_completed" string="Completed" domain="[('state', '=', 'completed')]"/>
+                <filter name="state_verified" string="Verified" domain="[('state', '=', 'verified')]"/>
+                <filter name="state_reported" string="Reported" domain="[('state', '=', 'reported')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="abnormal" string="Abnormal" domain="[('is_abnormal', '=', True)]"/>
+                <filter name="critical" string="Critical" domain="[('is_critical', '=', True)]"/>
+                <filter name="normal" string="Normal" domain="[('is_abnormal', '=', False), ('state', 'in', ['completed','verified','reported'])]"/>
+                <separator/>
+                <filter name="has_result" string="Has Result" domain="[('result_value', '!=', False)]"/>
+                <filter name="no_result" string="No Result" domain="[('result_value', '=', False)]"/>
+                <filter name="qc_passed" string="QC Passed" domain="[('qc_passed', '=', True)]"/>
+                <filter name="qc_failed" string="QC Failed" domain="[('qc_passed', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_test_type" string="Test Type" context="{'group_by': 'test_type_id'}"/>
+                    <filter name="group_technician" string="Technician" context="{'group_by': 'technician_id'}"/>
+                    <filter name="group_validation" string="Validation" context="{'group_by': 'validation_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTION ===================== -->
+    <record id="action_lims_test_order_line" model="ir.actions.act_window">
+        <field name="name">Test Lines</field>
+        <field name="res_model">lims.test_order_line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_lims_test_order_line_search"/>
+    </record>
+</odoo>

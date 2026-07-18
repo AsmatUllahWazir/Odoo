@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="test_type_cbc" model="lims.test_type">
+            <field name="name">Complete Blood Count</field>
+            <field name="code">CBC</field>
+            <field name="price">50.00</field>
+            <field name="category">hematology</field>
+            <field name="required_sample_type">blood</field>
+            <field name="turnaround_time">4</field>
+            <field name="normal_range">RBC: 4.7-6.1, WBC: 4.5-11.0</field>
+        </record>
+
+        <record id="test_type_glucose" model="lims.test_type">
+            <field name="name">Blood Glucose</field>
+            <field name="code">GLU</field>
+            <field name="price">25.00</field>
+            <field name="category">biochemistry</field>
+            <field name="required_sample_type">blood</field>
+            <field name="turnaround_time">2</field>
+            <field name="normal_range">70-100 mg/dL</field>
+        </record>
+
+        <record id="test_type_cholesterol" model="lims.test_type">
+            <field name="name">Total Cholesterol</field>
+            <field name="code">CHOL</field>
+            <field name="price">35.00</field>
+            <field name="category">biochemistry</field>
+            <field name="required_sample_type">blood</field>
+            <field name="turnaround_time">3</field>
+            <field name="normal_range">&lt;200 mg/dL</field>
+        </record>
+
+        <record id="test_type_urinalysis" model="lims.test_type">
+            <field name="name">Urinalysis</field>
+            <field name="code">UA</field>
+            <field name="price">40.00</field>
+            <field name="category">pathology</field>
+            <field name="required_sample_type">urine</field>
+            <field name="turnaround_time">3</field>
+            <field name="normal_range">Clear, pH 4.5-8.0</field>
+        </record>
+
+        <record id="test_type_culture" model="lims.test_type">
+            <field name="name">Blood Culture</field>
+            <field name="code">BC</field>
+            <field name="price">75.00</field>
+            <field name="category">microbiology</field>
+            <field name="required_sample_type">blood</field>
+            <field name="turnaround_time">72</field>
+            <field name="normal_range">No growth</field>
+        </record>
+
+        <record id="patient_john_doe" model="lims.patient">
+            <field name="name">John Doe</field>
+            <field name="patient_id">PAT-00001</field>
+            <field name="date_of_birth">1985-06-15</field>
+            <field name="gender">male</field>
+            <field name="blood_type">A+</field>
+            <field name="phone">+1234567890</field>
+            <field name="email">john.doe@example.com</field>
+            <field name="street">123 Main Street</field>
+            <field name="city">New York</field>
+            <field name="zip">10001</field>
+        </record>
+
+        <record id="patient_jane_smith" model="lims.patient">
+            <field name="name">Jane Smith</field>
+            <field name="patient_id">PAT-00002</field>
+            <field name="date_of_birth">1990-03-22</field>
+            <field name="gender">female</field>
+            <field name="blood_type">O-</field>
+            <field name="phone">+9876543210</field>
+            <field name="email">jane.smith@example.com</field>
+            <field name="street">456 Oak Avenue</field>
+            <field name="city">Los Angeles</field>
+            <field name="zip">90001</field>
+        </record>
+
+        <record id="test_order_demo_1" model="lims.test_order">
+            <field name="patient_id" ref="patient_john_doe"/>
+            <field name="doctor_id" ref="base.user_admin"/>
+            <field name="date_ordered">2026-07-14 10:00:00</field>
+            <field name="state">draft</field>
+            <field name="notes">Routine checkup</field>
+        </record>
+
+        <record id="test_order_line_1" model="lims.test_order_line">
+            <field name="test_order_id" ref="test_order_demo_1"/>
+            <field name="test_type_id" ref="test_type_cbc"/>
+            <field name="price">50.00</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="test_order_line_2" model="lims.test_order_line">
+            <field name="test_order_id" ref="test_order_demo_1"/>
+            <field name="test_type_id" ref="test_type_glucose"/>
+            <field name="price">25.00</field>
+            <field name="state">draft</field>
+        </record>
+    </data>
+</odoo>

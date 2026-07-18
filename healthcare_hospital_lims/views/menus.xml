@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== MAIN MENU ===================== -->
+    <menuitem id="menu_lims_root"
+              name="Laboratory"
+              sequence="10"
+              web_icon="hospital_lims,static/description/icon.png"/>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <menuitem id="menu_lims_dashboard"
+              name="Dashboard"
+              parent="menu_lims_root"
+              action="action_lims_dashboard"
+              sequence="5"
+              groups="group_lims_user"/>
+
+    <!-- ===================== PATIENTS ===================== -->
+    <menuitem id="menu_lims_patients"
+              name="Patients"
+              parent="menu_lims_root"
+              sequence="10"
+              groups="group_lims_user"/>
+
+    <menuitem id="menu_lims_patient_list"
+              name="Patients"
+              parent="menu_lims_patients"
+              action="action_lims_patient"
+              sequence="10"
+              groups="group_lims_user"/>
+
+    <!-- ===================== TEST TYPES ===================== -->
+    <menuitem id="menu_lims_test_types"
+              name="Test Types"
+              parent="menu_lims_root"
+              sequence="20"
+              groups="group_lims_user"/>
+
+    <menuitem id="menu_lims_test_type_list"
+              name="Test Types"
+              parent="menu_lims_test_types"
+              action="action_lims_test_type"
+              sequence="10"
+              groups="group_lims_user"/>
+
+    <!-- ===================== TEST ORDERS ===================== -->
+    <menuitem id="menu_lims_orders"
+              name="Test Orders"
+              parent="menu_lims_root"
+              sequence="30"
+              groups="group_lims_user"/>
+
+    <menuitem id="menu_lims_order_list"
+              name="Test Orders"
+              parent="menu_lims_orders"
+              action="action_lims_test_order"
+              sequence="10"
+              groups="group_lims_user"/>
+
+    <menuitem id="menu_lims_order_line_list"
+              name="Test Lines"
+              parent="menu_lims_orders"
+              action="action_lims_test_order_line"
+              sequence="20"
+              groups="group_lims_technician"/>
+
+    <!-- ===================== SAMPLES ===================== -->
+    <menuitem id="menu_lims_samples"
+              name="Samples"
+              parent="menu_lims_root"
+              sequence="40"
+              groups="group_lims_user"/>
+
+    <menuitem id="menu_lims_sample_list"
+              name="Samples"
+              parent="menu_lims_samples"
+              action="action_lims_sample"
+              sequence="10"
+              groups="group_lims_user"/>
+
+    <!-- ===================== QUALITY CONTROL ===================== -->
+    <menuitem id="menu_lims_qc"
+              name="Quality Control"
+              parent="menu_lims_root"
+              sequence="50"
+              groups="group_lims_technician"/>
+
+    <menuitem id="menu_lims_qc_list"
+              name="Quality Control"
+              parent="menu_lims_qc"
+              action="action_lims_quality_control"
+              sequence="10"
+              groups="group_lims_technician"/>
+
+    <menuitem id="menu_lims_instrument_list"
+              name="Instruments"
+              parent="menu_lims_qc"
+              action="action_lims_instrument"
+              sequence="20"
+              groups="group_lims_technician"/>
+
+    <!-- ===================== REPORTS ===================== -->
+    <menuitem id="menu_lims_reports"
+              name="Reports"
+              parent="menu_lims_root"
+              sequence="60"
+              groups="group_lims_user"/>
+
+    <menuitem id="menu_lims_report_list"
+              name="Reports"
+              parent="menu_lims_reports"
+              action="action_lims_report"
+              sequence="10"
+              groups="group_lims_user"/>
+
+    <!-- ===================== CONFIGURATION ===================== -->
+    <menuitem id="menu_lims_config"
+              name="Configuration"
+              parent="menu_lims_root"
+              sequence="100"
+              groups="group_lims_manager"/>
+
+    <menuitem id="menu_lims_result_templates"
+              name="Result Templates"
+              parent="menu_lims_config"
+              action="action_lims_result_template"
+              sequence="10"
+              groups="group_lims_manager"/>
+</odoo>

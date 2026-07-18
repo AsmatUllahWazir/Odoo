@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== TREE VIEW ===================== -->
+    <record id="view_lims_sample_tree" model="ir.ui.view">
+        <field name="name">lims.sample.tree</field>
+        <field name="model">lims.sample</field>
+        <field name="arch" type="xml">
+            <tree string="Samples" decoration-danger="is_expired==True" decoration-warning="status in ['registered','collected','received']" decoration-success="status in ['analyzed','reported']">
+                <field name="sample_id"/>
+                <field name="patient_id"/>
+                <field name="sample_type" widget="badge"/>
+                <field name="collection_date"/>
+                <field name="status" widget="badge"/>
+                <field name="quality_ok" widget="boolean_favorite"/>
+                <field name="is_expired" widget="boolean_favorite"/>
+                <field name="test_count"/>
+                <field name="test_order_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== KANBAN VIEW ===================== -->
+    <record id="view_lims_sample_kanban" model="ir.ui.view">
+        <field name="name">lims.sample.kanban</field>
+        <field name="model">lims.sample</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="status">
+                <field name="sample_id"/>
+                <field name="patient_id"/>
+                <field name="sample_type"/>
+                <field name="status"/>
+                <field name="quality_ok"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="'/lims/barcode/sample/%s' % record.id.raw_value" alt="Barcode" class="o_image_64_cover"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="sample_id"/>
+                                </strong>
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <field name="patient_id"/>
+                                    </div>
+                                    <div>
+                                        <field name="sample_type" widget="badge"/>
+                                        <field name="status" widget="badge"/>
+                                    </div>
+                                    <div>
+                                        Quality: <field name="quality_ok" widget="boolean_favorite"/>
+                                    </div>
+                                    <div>
+                                        Tests: <field name="test_count"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_lims_sample_form" model="ir.ui.view">
+        <field name="name">lims.sample.form</field>
+        <field name="model">lims.sample</field>
+        <field name="arch" type="xml">
+            <form string="Sample">
+                <header>
+                    <button name="action_collect" type="object"
+                            string="Collect"
+                            class="oe_highlight"
+                            invisible="status not in ['registered']"/>
+                    <button name="action_receive" type="object"
+                            string="Receive"
+                            class="oe_highlight"
+                            invisible="status not in ['collected']"/>
+                    <button name="action_process" type="object"
+                            string="Process"
+                            class="oe_highlight"
+                            invisible="status not in ['received']"/>
+                    <button name="action_analyze" type="object"
+                            string="Analyze"
+                            class="oe_highlight"
+                            invisible="status not in ['processing']"/>
+                    <button name="action_reject" type="object"
+                            string="Reject"
+                            class="oe_highlight"
+                            invisible="status in ['rejected','discarded','analyzed','reported']"/>
+                    <button name="action_discard" type="object"
+                            string="Discard"
+                            class="oe_highlight"
+                            invisible="status in ['discarded']"/>
+                    <button name="action_restore" type="object"
+                            string="Restore"
+                            class="oe_highlight"
+                            invisible="status not in ['rejected','discarded']"/>
+                    <button name="action_generate_barcode" type="object"
+                            string="Generate Barcode"
+                            class="oe_highlight"/>
+                    <button name="action_print_barcode" type="object"
+                            string="Print Barcode"
+                            class="oe_highlight"/>
+                    <field name="status" widget="statusbar" statusbar_visible="registered,collected,received,processing,analyzed,reported"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sample_id" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <field name="patient_id"/>
+                        </h3>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_tests" type="object"
+                                class="oe_stat_button"
+                                icon="fa-flask">
+                            <div class="o_stat_info">
+                                <field name="test_count" widget="statinfo"/>
+                                <span class="o_stat_text">Tests</span>
+                            </div>
+                        </button>
+                        <button name="action_view_patient" type="object"
+                                class="oe_stat_button"
+                                icon="fa-user">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Patient</span>
+                            </div>
+                        </button>
+                        <button name="action_view_order" type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Order</span>
+                            </div>
+                        </button>
+                    </div>
+                    <notebook>
+                        <!-- ===== Page: Sample Information ===== -->
+                        <page string="Sample Information" name="info">
+                            <group>
+                                <group string="Sample Details">
+                                    <field name="sample_type"/>
+                                    <field name="barcode"/>
+                                    <field name="container_id"/>
+                                    <field name="storage_location"/>
+                                    <field name="storage_temperature"/>
+                                </group>
+                                <group string="Collection Details">
+                                    <field name="collection_date"/>
+                                    <field name="collector_id"/>
+                                    <field name="collection_method"/>
+                                    <field name="collection_location"/>
+                                    <field name="collection_notes" nolabel="1" placeholder="Collection Notes"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Sample Quantity">
+                                    <field name="volume"/>
+                                    <field name="quantity"/>
+                                    <field name="quantity_unit"/>
+                                </group>
+                                <group string="Expiry">
+                                    <field name="expiry_date" readonly="1"/>
+                                    <field name="is_expired" readonly="1" widget="boolean_favorite"/>
+                                    <field name="days_old" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Quality Control ===== -->
+                        <page string="Quality Control" name="quality">
+                            <group>
+                                <group string="Quality Status">
+                                    <field name="quality_ok" widget="boolean_favorite"/>
+                                    <field name="quality_notes" nolabel="1" placeholder="Quality Notes"/>
+                                </group>
+                                <group string="Quality Indicators">
+                                    <field name="hemolysis"/>
+                                    <field name="lipemia"/>
+                                    <field name="icterus"/>
+                                    <field name="clot_present"/>
+                                </group>
+                            </group>
+                            <group string="Discard Information" invisible="status != 'discarded'">
+                                <field name="discard_date" readonly="1"/>
+                                <field name="discard_reason" nolabel="1" placeholder="Discard Reason"/>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Test Lines ===== -->
+                        <page string="Test Lines" name="tests">
+                            <field name="test_line_ids">
+                                <tree string="Test Lines">
+                                    <field name="test_type_id"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="result_value"/>
+                                    <field name="result_text"/>
+                                    <field name="is_abnormal" widget="boolean_favorite"/>
+                                    <field name="technician_id"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Related Documents ===== -->
+                        <page string="Related" name="related">
+                            <group>
+                                <group string="Test Order">
+                                    <field name="test_order_id" readonly="1"/>
+                                    <field name="test_order_name" readonly="1"/>
+                                </group>
+                                <group string="Patient">
+                                    <field name="patient_id" readonly="1"/>
+                                    <field name="patient_name" readonly="1"/>
+                                    <field name="patient_age" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Chatter ===== -->
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_lims_sample_search" model="ir.ui.view">
+        <field name="name">lims.sample.search</field>
+        <field name="model">lims.sample</field>
+        <field name="arch" type="xml">
+            <search string="Search Samples">
+                <field name="sample_id" string="Sample ID"/>
+                <field name="patient_id" string="Patient"/>
+                <field name="barcode" string="Barcode"/>
+                <field name="container_id" string="Container"/>
+                <filter name="status_registered" string="Registered" domain="[('status', '=', 'registered')]"/>
+                <filter name="status_collected" string="Collected" domain="[('status', '=', 'collected')]"/>
+                <filter name="status_received" string="Received" domain="[('status', '=', 'received')]"/>
+                <filter name="status_processing" string="Processing" domain="[('status', '=', 'processing')]"/>
+                <filter name="status_analyzed" string="Analyzed" domain="[('status', '=', 'analyzed')]"/>
+                <filter name="status_reported" string="Reported" domain="[('status', '=', 'reported')]"/>
+                <filter name="status_rejected" string="Rejected" domain="[('status', '=', 'rejected')]"/>
+                <filter name="status_discarded" string="Discarded" domain="[('status', '=', 'discarded')]"/>
+                <separator/>
+                <filter name="quality_ok" string="Quality OK" domain="[('quality_ok', '=', True)]"/>
+                <filter name="quality_not_ok" string="Quality Not OK" domain="[('quality_ok', '=', False)]"/>
+                <filter name="expired" string="Expired" domain="[('is_expired', '=', True)]"/>
+                <filter name="not_expired" string="Not Expired" domain="[('is_expired', '=', False)]"/>
+                <separator/>
+                <filter name="sample_blood" string="Blood" domain="[('sample_type', 'in', ['blood','blood_arterial','blood_venous','blood_capillary'])]"/>
+                <filter name="sample_urine" string="Urine" domain="[('sample_type', 'in', ['urine','urine_24h'])]"/>
+                <filter name="sample_tissue" string="Tissue" domain="[('sample_type', 'in', ['tissue','biopsy'])]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_sample_type" string="Sample Type" context="{'group_by': 'sample_type'}"/>
+                    <filter name="group_patient" string="Patient" context="{'group_by': 'patient_id'}"/>
+                    <filter name="group_collector" string="Collector" context="{'group_by': 'collector_id'}"/>
+                    <filter name="group_storage" string="Storage Location" context="{'group_by': 'storage_location'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTION ===================== -->
+    <record id="action_lims_sample" model="ir.actions.act_window">
+        <field name="name">Samples</field>
+        <field name="res_model">lims.sample</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_lims_sample_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Track laboratory samples
+            </p>
+            <p>
+                Manage biological samples from collection to analysis.
+            </p>
+        </field>
+    </record>
+</odoo>

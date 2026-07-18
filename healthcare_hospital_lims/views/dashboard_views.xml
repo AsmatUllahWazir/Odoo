@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== DASHBOARD FORM VIEW ===================== -->
+    <record id="view_lims_dashboard_form" model="ir.ui.view">
+        <field name="name">lims.dashboard.form</field>
+        <field name="model">lims.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard">
+                <sheet>
+                    <div style="padding: 20px;">
+                        <h2 style="margin-bottom: 20px;">Laboratory Dashboard</h2>
+
+                        <!-- ===== Quick Stats Row ===== -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #3498db; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 24px;"><field name="total_orders"/></div>
+                                    <div>Total Orders</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #2ecc71; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 24px;"><field name="total_patients"/></div>
+                                    <div>Total Patients</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #f39c12; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 24px;"><field name="total_samples"/></div>
+                                    <div>Total Samples</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #e74c3c; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 24px;"><field name="total_reports"/></div>
+                                    <div>Total Reports</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Daily Stats Row ===== -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #1abc9c; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;"><field name="today_orders"/></div>
+                                    <div>Today's Orders</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #9b59b6; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;"><field name="today_samples"/></div>
+                                    <div>Today's Samples</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #27ae60; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;"><field name="today_reports"/></div>
+                                    <div>Today's Reports</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card" style="background: #d35400; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;"><field name="today_revenue"/></div>
+                                    <div>Today's Revenue</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Status & Quality Row ===== -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-md-4">
+                                <div class="stat-card" style="background: #2980b9; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;"><field name="pending_orders"/></div>
+                                    <div>Pending Orders</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-card" style="background: #8e44ad; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;"><field name="pending_samples"/></div>
+                                    <div>Pending Samples</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-card" style="background: #c0392b; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;"><field name="abnormal_results"/></div>
+                                    <div>Abnormal Results</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Quality Control Row ===== -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-md-6">
+                                <div class="stat-card" style="background: #2c3e50; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;">
+                                        <field name="qc_passed"/> /
+                                        <field name="qc_failed"/>
+                                        (<field name="qc_pass_rate" widget="percentage"/>)
+                                    </div>
+                                    <div>QC Results (Passed/Failed)</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-card" style="background: #16a085; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 20px;">
+                                        <field name="completion_rate" widget="percentage"/>
+                                        /
+                                        <field name="on_time_rate" widget="percentage"/>
+                                    </div>
+                                    <div>Completion Rate / On-Time Rate</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Weekly/Monthly Stats ===== -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-md-6">
+                                <div class="stat-card" style="background: #34495e; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 18px;">
+                                        <field name="week_orders"/> orders |
+                                        <field name="week_revenue"/> revenue
+                                    </div>
+                                    <div>Weekly Summary</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-card" style="background: #2c3e50; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 18px;">
+                                        <field name="month_orders"/> orders |
+                                        <field name="month_revenue"/> revenue
+                                    </div>
+                                    <div>Monthly Summary</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Performance Metrics ===== -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="stat-card" style="background: #1a252f; color: white; padding: 15px; border-radius: 5px;">
+                                    <div style="font-size: 16px;">
+                                        Avg Turnaround: <field name="avg_turnaround"/> hours
+                                        <span style="margin-left: 20px;">
+                                            <field name="critical_results"/> Critical Results
+                                        </span>
+                                        <span style="margin-left: 20px;">
+                                            <field name="year_orders"/> Yearly Orders
+                                        </span>
+                                        <span style="margin-left: 20px;">
+                                            <field name="year_revenue"/> Yearly Revenue
+                                        </span>
+                                    </div>
+                                    <div style="margin-top: 5px;">Performance Metrics</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== DASHBOARD ACTION ===================== -->
+    <record id="action_lims_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">lims.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_lims_dashboard_form"/>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Laboratory Dashboard
+            </p>
+            <p>
+                View key performance indicators and statistics.
+            </p>
+        </field>
+    </record>
+</odoo>

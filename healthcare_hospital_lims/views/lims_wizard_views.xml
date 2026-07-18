@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== MERGE PATIENT WIZARD ===================== -->
+    <record id="view_lims_patient_merge_wizard_form" model="ir.ui.view">
+        <field name="name">lims.patient.merge.wizard.form</field>
+        <field name="model">lims.patient.merge.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Merge Patients">
+                <sheet>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"/> This will merge selected patient records into the primary patient.
+                        All related data (orders, samples, reports) will be moved to the primary patient.
+                    </div>
+                    <group>
+                        <group string="Primary Patient">
+                            <field name="primary_patient_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Patients to Merge">
+                            <field name="secondary_patient_ids" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group string="Merge Options">
+                        <field name="merge_orders"/>
+                        <field name="merge_samples"/>
+                        <field name="merge_reports"/>
+                        <field name="merge_medical_history"/>
+                        <field name="delete_after_merge"/>
+                    </group>
+                    <footer>
+                        <button name="action_merge" string="Merge Patients" type="object" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SAMPLE QUALITY WIZARD ===================== -->
+    <record id="view_lims_sample_quality_wizard_form" model="ir.ui.view">
+        <field name="name">lims.sample.quality.wizard.form</field>
+        <field name="model">lims.sample.quality.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sample Quality Check">
+                <sheet>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"/> Perform quality check on sample <field name="sample_id" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Overall Quality">
+                            <field name="quality_ok"/>
+                        </group>
+                        <group string="Quality Indicators">
+                            <field name="hemolysis"/>
+                            <field name="lipemia"/>
+                            <field name="icterus"/>
+                            <field name="clot_present"/>
+                            <field name="insufficient_volume"/>
+                            <field name="contamination"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="quality_notes" nolabel="1" placeholder="Quality Notes..."/>
+                    </group>
+                    <footer>
+                        <button name="action_submit_quality_check" string="Submit Quality Check" type="object" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== BARCODE PRINT WIZARD ===================== -->
+    <record id="view_lims_barcode_print_wizard_form" model="ir.ui.view">
+        <field name="name">lims.barcode.print.wizard.form</field>
+        <field name="model">lims.barcode.print.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Print Barcode">
+                <sheet>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"/> Printing barcode for sample: <field name="sample_id" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Barcode Settings">
+                            <field name="barcode_format"/>
+                            <field name="print_quantity"/>
+                            <field name="label_size"/>
+                        </group>
+                        <group string="Label Content">
+                            <field name="include_patient"/>
+                            <field name="include_order"/>
+                            <field name="include_barcode_text"/>
+                        </group>
+                    </group>
+                    <group string="Preview">
+                        <field name="preview_barcode" widget="image" class="oe_avatar" style="max-width: 200px; max-height: 100px;"/>
+                    </group>
+                    <footer>
+                        <button name="action_print_barcode" string="Print Barcode" type="object" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== INTERPRETATION WIZARD ===================== -->
+    <record id="view_lims_interpretation_wizard_form" model="ir.ui.view">
+        <field name="name">lims.interpretation.wizard.form</field>
+        <field name="model">lims.interpretation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Interpretation">
+                <sheet>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"/> Adding interpretation for test: <field name="test_line_id" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Auto-generation">
+                            <field name="use_auto_generation"/>
+                            <field name="template_id" invisible="not use_auto_generation"/>
+                        </group>
+                    </group>
+                    <group string="Interpretation">
+                        <field name="interpretation" nolabel="1" placeholder="Enter clinical interpretation..."/>
+                    </group>
+                    <footer>
+                        <button name="action_save_interpretation" string="Save Interpretation" type="object" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== NOTES WIZARD ===================== -->
+    <record id="view_lims_notes_wizard_form" model="ir.ui.view">
+        <field name="name">lims.notes.wizard.form</field>
+        <field name="model">lims.notes.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Notes">
+                <sheet>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"/> Adding notes for test: <field name="test_line_id" readonly="1"/>
+                    </div>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" placeholder="Enter notes..."/>
+                    </group>
+                    <footer>
+                        <button name="action_save_notes" string="Save Notes" type="object" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== CALIBRATION WIZARD ===================== -->
+    <record id="view_lims_calibration_wizard_form" model="ir.ui.view">
+        <field name="name">lims.calibration.wizard.form</field>
+        <field name="model">lims.calibration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Record Calibration">
+                <sheet>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"/> Recording calibration for: <field name="instrument_id" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Calibration Details">
+                            <field name="calibration_date"/>
+                            <field name="next_calibration_date"/>
+                            <field name="calibration_provider"/>
+                        </group>
+                        <group string="Certificate">
+                            <field name="calibration_certificate" widget="binary" filename="certificate_filename"/>
+                            <field name="certificate_filename"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" placeholder="Additional notes..."/>
+                    </group>
+                    <footer>
+                        <button name="action_record_calibration" string="Record Calibration" type="object" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== QC CHART WIZARD ===================== -->
+    <record id="view_lims_qc_chart_wizard_form" model="ir.ui.view">
+        <field name="name">lims.qc.chart.wizard.form</field>
+        <field name="model">lims.qc.chart.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate QC Chart">
+                <sheet>
+                    <group>
+                        <group string="Chart Parameters">
+                            <field name="test_type_id" options="{'no_create': True}"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="chart_type"/>
+                        </group>
+                        <group string="Display Options">
+                            <field name="include_sd_lines"/>
+                            <field name="include_mean_line"/>
+                        </group>
+                    </group>
+                    <group string="Preview" invisible="not chart_image">
+                        <field name="chart_image" widget="image" class="oe_avatar" style="max-width: 100%; max-height: 400px;"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate_chart" string="Generate Chart" type="object" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== QC CHART RESULT ===================== -->
+    <record id="view_lims_qc_chart_result_form" model="ir.ui.view">
+        <field name="name">lims.qc.chart.result.form</field>
+        <field name="model">lims.qc.chart.result</field>
+        <field name="arch" type="xml">
+            <form string="QC Chart Result">
+                <sheet>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"/> QC Chart for <field name="test_type_id" readonly="1"/>
+                        <span class="ml-3">Period: <field name="start_date" readonly="1"/> to <field name="end_date" readonly="1"/></span>
+                        <span class="ml-3">Type: <field name="chart_type" readonly="1"/></span>
+                    </div>
+                    <group>
+                        <field name="stats_summary" readonly="1"/>
+                    </group>
+                    <group string="Chart">
+                        <field name="chart_image" widget="image" class="oe_avatar" style="max-width: 100%; max-height: 500px;"/>
+                    </group>
+                    <footer>
+                        <button string="Close" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

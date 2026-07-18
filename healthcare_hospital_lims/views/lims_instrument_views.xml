@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== TREE VIEW ===================== -->
+    <record id="view_lims_instrument_tree" model="ir.ui.view">
+        <field name="name">lims.instrument.tree</field>
+        <field name="model">lims.instrument</field>
+        <field name="arch" type="xml">
+            <tree string="Instruments" decoration-danger="status in ['repair','calibration_due']" decoration-warning="status in ['maintenance']" decoration-success="status=='active'">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="model"/>
+                <field name="category" widget="badge"/>
+                <field name="status" widget="badge"/>
+                <field name="calibration_date"/>
+                <field name="next_calibration_date"/>
+                <field name="qc_pass_rate" widget="progressbar"/>
+                <field name="is_under_warranty" widget="boolean_favorite"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== KANBAN VIEW ===================== -->
+    <record id="view_lims_instrument_kanban" model="ir.ui.view">
+        <field name="name">lims.instrument.kanban</field>
+        <field name="model">lims.instrument</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="status">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="status"/>
+                <field name="category"/>
+                <field name="qc_pass_rate"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <span class="fa fa-microscope" style="font-size: 48px;"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <field name="code"/>
+                                        <field name="category" widget="badge"/>
+                                        <field name="status" widget="badge"/>
+                                    </div>
+                                    <div>
+                                        Calibration: <field name="next_calibration_date"/>
+                                    </div>
+                                    <div>
+                                        QC Pass Rate: <field name="qc_pass_rate" widget="progressbar"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_lims_instrument_form" model="ir.ui.view">
+        <field name="name">lims.instrument.form</field>
+        <field name="model">lims.instrument</field>
+        <field name="arch" type="xml">
+            <form string="Instrument">
+                <header>
+                    <button name="action_calibrate" type="object"
+                            string="Calibrate"
+                            class="oe_highlight"
+                            invisible="status not in ['calibration_due','active']"/>
+                    <button name="action_calibrate_with_provider" type="object"
+                            string="Record Calibration"
+                            class="oe_highlight"
+                            icon="fa-calendar"/>
+                    <button name="action_perform_maintenance" type="object"
+                            string="Record Maintenance"
+                            class="oe_highlight"
+                            icon="fa-wrench"/>
+                    <button name="action_check_status" type="object"
+                            string="Check Status"
+                            class="oe_highlight"/>
+                    <button name="action_mark_repair" type="object"
+                            string="Mark for Repair"
+                            class="oe_highlight"
+                            invisible="status in ['repair','decommissioned']"/>
+                    <button name="action_mark_decommission" type="object"
+                            string="Decommission"
+                            class="oe_highlight"
+                            invisible="status in ['decommissioned']"/>
+                    <button name="action_activate" type="object"
+                            string="Activate"
+                            class="oe_highlight"
+                            invisible="status in ['active','decommissioned']"/>
+                    <button name="action_record_usage" type="object"
+                            string="Record Usage"
+                            class="oe_highlight"
+                            icon="fa-play"/>
+                    <field name="status" widget="statusbar" statusbar_visible="active,maintenance,calibration_due,repair,obsolete,decommissioned"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Instrument Name"/>
+                        </h1>
+                        <h3>
+                            <field name="code" placeholder="Instrument Code"/>
+                            <field name="model"/>
+                        </h3>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_qc_records" type="object"
+                                class="oe_stat_button"
+                                icon="fa-check-circle-o">
+                            <div class="o_stat_info">
+                                <field name="total_qc_count" widget="statinfo"/>
+                                <span class="o_stat_text">QC Records</span>
+                            </div>
+                        </button>
+                        <button name="action_view_test_types" type="object"
+                                class="oe_stat_button"
+                                icon="fa-flask">
+                            <div class="o_stat_info">
+<!--                                <field name="test_type_count" widget="statinfo" invisible="1"/>-->
+                                <span class="o_stat_text">Test Types</span>
+                            </div>
+                        </button>
+                    </div>
+                    <notebook>
+                        <!-- ===== Page: General Information ===== -->
+                        <page string="General Information" name="general">
+                            <group>
+                                <group string="Instrument Details">
+                                    <field name="model"/>
+                                    <field name="serial_number"/>
+                                    <field name="manufacturer"/>
+                                    <field name="category"/>
+                                    <field name="instrument_type"/>
+                                </group>
+                                <group string="Acquisition">
+                                    <field name="purchase_date"/>
+                                    <field name="purchase_price"/>
+                                    <field name="current_value" readonly="1"/>
+                                    <field name="warranty_expiry"/>
+                                    <field name="is_under_warranty" widget="boolean_favorite" readonly="1"/>
+                                    <field name="age_days" readonly="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+                            </group>
+                            <group string="Operational Status">
+                                <field name="operational_hours"/>
+                                <field name="last_used_date"/>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Calibration ===== -->
+                        <page string="Calibration" name="calibration">
+                            <group>
+                                <group string="Calibration Schedule">
+                                    <field name="calibration_date"/>
+                                    <field name="next_calibration_date" readonly="1"/>
+                                    <field name="calibration_frequency"/>
+                                    <field name="calibration_due" widget="boolean_favorite" readonly="1"/>
+                                </group>
+                                <group string="Calibration Provider">
+                                    <field name="calibration_provider"/>
+                                    <field name="calibration_certificate" widget="binary" filename="certificate_filename"/>
+                                    <field name="certificate_filename"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Maintenance ===== -->
+                        <page string="Maintenance" name="maintenance">
+                            <group>
+                                <group string="Maintenance Schedule">
+                                    <field name="maintenance_date"/>
+                                    <field name="next_maintenance_date" readonly="1"/>
+                                    <field name="maintenance_frequency"/>
+                                    <field name="maintenance_due" widget="boolean_favorite" readonly="1"/>
+                                </group>
+                                <group string="Maintenance Details">
+                                    <field name="maintenance_notes" nolabel="1" placeholder="Maintenance Notes"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: QC Records ===== -->
+                        <page string="QC Records" name="qc_records">
+                            <group>
+                                <group string="QC Statistics">
+                                    <field name="last_qc_date" readonly="1"/>
+                                    <field name="last_qc_result" widget="boolean_favorite" readonly="1"/>
+                                    <field name="qc_pass_rate" widget="progressbar" readonly="1"/>
+                                    <field name="failed_qc_count" readonly="1"/>
+                                </group>
+                            </group>
+                            <field name="qc_ids">
+                                <tree string="QC Records">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="technician_id"/>
+                                    <field name="result_value"/>
+                                    <field name="target_value"/>
+                                    <field name="is_passed" widget="boolean_favorite"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Supported Tests ===== -->
+                        <page string="Supported Tests" name="tests">
+                            <field name="test_type_ids" widget="many2many_tags">
+                                <tree string="Supported Test Types">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="category" widget="badge"/>
+                                    <field name="price"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Notes ===== -->
+<!--                        <page string="Notes" name="notes">-->
+<!--                            <field name="notes" nolabel="1" placeholder="Notes"/>-->
+<!--                        </page>-->
+
+                        <!-- ===== Page: Chatter ===== -->
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_lims_instrument_search" model="ir.ui.view">
+        <field name="name">lims.instrument.search</field>
+        <field name="model">lims.instrument</field>
+        <field name="arch" type="xml">
+            <search string="Search Instruments">
+                <field name="name" string="Name"/>
+                <field name="code" string="Code"/>
+                <field name="model" string="Model"/>
+                <field name="serial_number" string="Serial Number"/>
+                <field name="manufacturer" string="Manufacturer"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter name="status_active" string="Active" domain="[('status', '=', 'active')]"/>
+                <filter name="status_calibration_due" string="Calibration Due" domain="[('status', '=', 'calibration_due')]"/>
+                <filter name="status_maintenance" string="Under Maintenance" domain="[('status', '=', 'maintenance')]"/>
+                <filter name="status_repair" string="Needs Repair" domain="[('status', '=', 'repair')]"/>
+                <separator/>
+                <filter name="calibration_due" string="Calibration Due" domain="[('calibration_due', '=', True)]"/>
+                <filter name="maintenance_due" string="Maintenance Due" domain="[('maintenance_due', '=', True)]"/>
+                <filter name="under_warranty" string="Under Warranty" domain="[('is_under_warranty', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_instrument_type" string="Instrument Type" context="{'group_by': 'instrument_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTION ===================== -->
+    <record id="action_lims_instrument" model="ir.actions.act_window">
+        <field name="name">Instruments</field>
+        <field name="res_model">lims.instrument</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_lims_instrument_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage laboratory instruments
+            </p>
+            <p>
+                Track instruments, calibration, maintenance, and quality control.
+            </p>
+        </field>
+    </record>
+</odoo>

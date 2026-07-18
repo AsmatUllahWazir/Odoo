@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== TREE VIEW ===================== -->
+    <record id="view_lims_result_template_tree" model="ir.ui.view">
+        <field name="name">lims.result_template.tree</field>
+        <field name="model">lims.result_template</field>
+        <field name="arch" type="xml">
+            <tree string="Result Templates" decoration-success="is_default==True" decoration-muted="active==False">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="test_type_id"/>
+                <field name="version"/>
+                <field name="normal_range"/>
+                <field name="unit"/>
+                <field name="is_default" widget="boolean_favorite"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_lims_result_template_form" model="ir.ui.view">
+        <field name="name">lims.result_template.form</field>
+        <field name="model">lims.result_template</field>
+        <field name="arch" type="xml">
+            <form string="Result Template">
+                <header>
+                    <button name="toggle_active" type="object"
+                            class="oe_highlight"
+                            invisible="not active"
+                            string="Archive"/>
+                    <button name="toggle_active" type="object"
+                            class="oe_highlight"
+                            invisible="active"
+                            string="Unarchive"/>
+                    <field name="active" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Template Name"/>
+                        </h1>
+                        <h3>
+                            <field name="code" placeholder="Template Code"/>
+                            <field name="version"/>
+                        </h3>
+                    </div>
+                    <notebook>
+                        <!-- ===== Page: General Information ===== -->
+                        <page string="General Information" name="general">
+                            <group>
+                                <group string="Template Details">
+                                    <field name="test_type_id"/>
+                                    <field name="is_default"/>
+                                    <field name="unit"/>
+                                    <field name="conversion_factor"/>
+                                    <field name="alternate_units"/>
+                                </group>
+                                <group string="References">
+                                    <field name="references" nolabel="1" placeholder="References"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Reference Ranges ===== -->
+                        <page string="Reference Ranges" name="ranges">
+                            <group>
+                                <group string="Normal Range">
+                                    <field name="normal_range"/>
+                                    <field name="normal_range_min"/>
+                                    <field name="normal_range_max"/>
+                                </group>
+                                <group string="Abnormal Ranges">
+                                    <field name="abnormal_low"/>
+                                    <field name="abnormal_high"/>
+                                    <field name="critical_low"/>
+                                    <field name="critical_high"/>
+                                </group>
+                            </group>
+                            <group string="Range Display">
+                                <field name="range_display" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Interpretations ===== -->
+                        <page string="Interpretations" name="interpretations">
+                            <field name="normal_interpretation" nolabel="1" placeholder="Normal Interpretation"/>
+                            <field name="abnormal_interpretation" nolabel="1" placeholder="Abnormal Interpretation"/>
+                            <field name="critical_interpretation" nolabel="1" placeholder="Critical Interpretation"/>
+                            <field name="default_interpretation" nolabel="1" placeholder="Default Interpretation"/>
+                        </page>
+
+                        <!-- ===== Page: Clinical Guidance ===== -->
+                        <page string="Clinical Guidance" name="clinical">
+                            <field name="clinical_significance" nolabel="1" placeholder="Clinical Significance"/>
+                            <field name="follow_up_advice" nolabel="1" placeholder="Follow-up Advice"/>
+                            <field name="limitations" nolabel="1" placeholder="Test Limitations"/>
+                        </page>
+
+                        <!-- ===== Page: Validation Rules ===== -->
+                        <page string="Validation Rules" name="validation">
+                            <group>
+                                <group string="Age Validation">
+                                    <field name="validate_age"/>
+                                    <field name="age_range_min"/>
+                                    <field name="age_range_max"/>
+                                </group>
+                                <group string="Other Validation">
+                                    <field name="validate_gender"/>
+                                    <field name="validate_medications"/>
+                                </group>
+                            </group>
+                            <group string="Age-Specific Ranges" invisible="not validate_age">
+                                <field name="age_specific_ranges">
+                                    <tree string="Age-Specific Ranges" editable="bottom">
+                                        <field name="age_min"/>
+                                        <field name="age_max"/>
+                                        <field name="normal_range"/>
+                                        <field name="normal_range_min"/>
+                                        <field name="normal_range_max"/>
+                                        <field name="interpretation"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Gender-Specific Ranges" invisible="not validate_gender">
+                                <field name="gender_specific_ranges">
+                                    <tree string="Gender-Specific Ranges" editable="bottom">
+                                        <field name="gender"/>
+                                        <field name="normal_range"/>
+                                        <field name="normal_range_min"/>
+                                        <field name="normal_range_max"/>
+                                        <field name="interpretation"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Notes ===== -->
+                        <page string="Notes" name="notes">
+                            <field name="notes" nolabel="1" placeholder="Notes"/>
+                        </page>
+
+                        <!-- ===== Page: Chatter ===== -->
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_lims_result_template_search" model="ir.ui.view">
+        <field name="name">lims.result_template.search</field>
+        <field name="model">lims.result_template</field>
+        <field name="arch" type="xml">
+            <search string="Search Templates">
+                <field name="name" string="Name"/>
+                <field name="code" string="Code"/>
+                <field name="test_type_id" string="Test Type"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                <filter name="is_default" string="Default" domain="[('is_default', '=', True)]"/>
+                <separator/>
+                <filter name="has_age_ranges" string="Has Age-Specific Ranges" domain="[('validate_age', '=', True)]"/>
+                <filter name="has_gender_ranges" string="Has Gender-Specific Ranges" domain="[('validate_gender', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_test_type" string="Test Type" context="{'group_by': 'test_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTION ===================== -->
+    <record id="action_lims_result_template" model="ir.actions.act_window">
+        <field name="name">Result Templates</field>
+        <field name="res_model">lims.result_template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_lims_result_template_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create result templates
+            </p>
+            <p>
+                Define standard reference ranges and interpretations.
+            </p>
+        </field>
+    </record>
+</odoo>

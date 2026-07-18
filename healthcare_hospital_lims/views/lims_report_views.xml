@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== TREE VIEW ===================== -->
+    <record id="view_lims_report_tree" model="ir.ui.view">
+        <field name="name">lims.report.tree</field>
+        <field name="model">lims.report</field>
+        <field name="arch" type="xml">
+            <tree string="Reports" decoration-danger="has_abnormal==True" decoration-success="state in ['sent','received']">
+                <field name="name"/>
+                <field name="test_order_id"/>
+                <field name="patient_id"/>
+                <field name="report_date"/>
+                <field name="report_type" widget="badge"/>
+                <field name="state" widget="badge"/>
+                <field name="total_tests"/>
+                <field name="abnormal_count"/>
+                <field name="has_abnormal" widget="boolean_favorite"/>
+                <field name="print_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_lims_report_form" model="ir.ui.view">
+        <field name="name">lims.report.form</field>
+        <field name="model">lims.report</field>
+        <field name="arch" type="xml">
+            <form string="Report">
+                <header>
+                    <button name="action_generate" type="object"
+                            string="Generate"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_review" type="object"
+                            string="Review"
+                            class="oe_highlight"
+                            invisible="state != 'generated'"/>
+                    <button name="action_approve" type="object"
+                            string="Approve"
+                            class="oe_highlight"
+                            invisible="state != 'reviewed'"/>
+                    <button name="action_send" type="object"
+                            string="Send"
+                            class="oe_highlight"
+                            invisible="state not in ['approved','generated']"/>
+                    <button name="action_send_email" type="object"
+                            string="Send via Email"
+                            class="oe_highlight"
+                            invisible="state not in ['approved','generated']"/>
+                    <button name="action_print_pdf" type="object"
+                            string="Print PDF"
+                            class="oe_highlight"
+                            icon="fa-print"/>
+                    <button name="action_download_pdf" type="object"
+                            string="Download PDF"
+                            class="oe_highlight"
+                            icon="fa-download"
+                            invisible="state == 'draft'"/>
+                    <button name="action_archive" type="object"
+                            string="Archive"
+                            class="oe_highlight"
+                            invisible="state in ['draft','archived']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,generated,reviewed,approved,sent,received,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <field name="patient_id"/>
+                            <field name="test_order_id"/>
+                        </h3>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_order" type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o">
+                            <span class="o_stat_text">Order</span>
+                        </button>
+                        <button name="action_view_patient" type="object"
+                                class="oe_stat_button"
+                                icon="fa-user">
+                            <span class="o_stat_text">Patient</span>
+                        </button>
+                    </div>
+                    <notebook>
+                        <!-- ===== Page: Report Details ===== -->
+                        <page string="Report Details" name="details">
+                            <group>
+                                <group string="Report Information">
+                                    <field name="test_order_id"/>
+                                    <field name="patient_id" readonly="1"/>
+                                    <field name="report_date"/>
+                                    <field name="report_type"/>
+                                    <field name="report_language"/>
+                                    <field name="state" widget="badge" readonly="1"/>
+                                </group>
+                                <group string="Statistics">
+                                    <field name="total_tests" readonly="1"/>
+                                    <field name="abnormal_count" readonly="1"/>
+                                    <field name="has_abnormal" widget="boolean_favorite" readonly="1"/>
+                                    <field name="print_count" readonly="1"/>
+                                    <field name="view_count" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Report Content ===== -->
+                        <page string="Report Content" name="content">
+                            <field name="report_content" nolabel="1" widget="html"/>
+                        </page>
+
+                        <!-- ===== Page: Distribution ===== -->
+                        <page string="Distribution" name="distribution">
+                            <group>
+                                <group string="Sending Information">
+                                    <field name="sent_date" readonly="1"/>
+                                    <field name="sent_by" readonly="1"/>
+                                    <field name="sent_to" readonly="1"/>
+                                    <field name="delivery_method"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Review & Approval ===== -->
+                        <page string="Review &amp; Approval" name="review">
+                            <group>
+                                <group string="Review">
+                                    <field name="reviewed_by" readonly="1"/>
+                                    <field name="review_date" readonly="1"/>
+                                    <field name="review_notes" nolabel="1" placeholder="Review Notes" readonly="1"/>
+                                </group>
+                                <group string="Approval">
+                                    <field name="approved_by" readonly="1"/>
+                                    <field name="approval_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Signatures ===== -->
+                        <page string="Signatures" name="signatures">
+                            <group>
+                                <group string="Digital Signatures">
+                                    <field name="doctor_signature" widget="image" class="oe_avatar"/>
+                                    <field name="technician_signature" widget="image" class="oe_avatar"/>
+                                    <field name="digital_stamp" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Attachment ===== -->
+                        <page string="Attachment" name="attachment" invisible="not attachment_id">
+                            <field name="attachment_id" readonly="1"/>
+                        </page>
+
+                        <!-- ===== Page: Notes ===== -->
+                        <page string="Notes" name="notes">
+                            <field name="notes" nolabel="1" placeholder="Notes"/>
+                            <field name="disclaimer" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <!-- ===== Page: Chatter ===== -->
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_lims_report_search" model="ir.ui.view">
+        <field name="name">lims.report.search</field>
+        <field name="model">lims.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Reports">
+                <field name="name" string="Report Number"/>
+                <field name="patient_id" string="Patient"/>
+                <field name="test_order_id" string="Order"/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_generated" string="Generated" domain="[('state', '=', 'generated')]"/>
+                <filter name="state_reviewed" string="Reviewed" domain="[('state', '=', 'reviewed')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_sent" string="Sent" domain="[('state', 'in', ['sent','received'])]"/>
+                <filter name="state_archived" string="Archived" domain="[('state', '=', 'archived')]"/>
+                <separator/>
+                <filter name="has_abnormal" string="Has Abnormal Results" domain="[('has_abnormal', '=', True)]"/>
+                <filter name="no_abnormal" string="No Abnormal Results" domain="[('has_abnormal', '=', False)]"/>
+                <filter name="report_type_standard" string="Standard Report" domain="[('report_type', '=', 'standard')]"/>
+                <filter name="report_type_detailed" string="Detailed Report" domain="[('report_type', '=', 'detailed')]"/>
+                <filter name="report_type_emergency" string="Emergency Report" domain="[('report_type', '=', 'emergency')]"/>
+                <separator/>
+                <filter name="today" string="Today" domain="[('report_date', '>=', context_today)]"/>
+                <filter name="this_week" string="This Week" domain="[('report_date', '>=', context_today - 7)]"/>
+                <filter name="this_month" string="This Month" domain="[('report_date', '>=', context_today - 30)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_report_type" string="Report Type" context="{'group_by': 'report_type'}"/>
+                    <filter name="group_patient" string="Patient" context="{'group_by': 'patient_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTION ===================== -->
+    <record id="action_lims_report" model="ir.actions.act_window">
+        <field name="name">Reports</field>
+        <field name="res_model">lims.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_lims_report_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Generate reports
+            </p>
+            <p>
+                Create and manage laboratory reports for patients.
+            </p>
+        </field>
+    </record>
+</odoo>

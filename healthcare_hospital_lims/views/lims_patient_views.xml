@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================== TREE VIEW ===================== -->
+    <record id="view_lims_patient_tree" model="ir.ui.view">
+        <field name="name">lims.patient.tree</field>
+        <field name="model">lims.patient</field>
+        <field name="arch" type="xml">
+            <tree string="Patients" decoration-success="active==True" decoration-muted="active==False">
+                <field name="patient_id"/>
+                <field name="name"/>
+                <field name="gender" widget="badge"/>
+                <field name="age"/>
+                <field name="blood_type" widget="badge"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="total_orders" sum="Total Orders"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== KANBAN VIEW ===================== -->
+    <record id="view_lims_patient_kanban" model="ir.ui.view">
+        <field name="name">lims.patient.kanban</field>
+        <field name="model">lims.patient</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="patient_id"/>
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="blood_type"/>
+                <field name="total_orders"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)" alt="Patient" class="o_image_64_cover"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <field name="patient_id"/>
+                                        <field name="gender" widget="badge"/>
+                                        <field name="blood_type" widget="badge"/>
+                                    </div>
+                                    <div>
+                                        Age: <field name="age"/>
+                                    </div>
+                                    <div>
+                                        Orders: <field name="total_orders"/>
+                                    </div>
+                                    <field name="active" invisible="1"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_lims_patient_form" model="ir.ui.view">
+        <field name="name">lims.patient.form</field>
+        <field name="model">lims.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <header>
+                    <button name="toggle_active" type="object"
+                            class="oe_highlight"
+                            invisible="not active"
+                            string="Archive"/>
+                    <button name="toggle_active" type="object"
+                            class="oe_highlight"
+                            invisible="active"
+                            string="Unarchive"/>
+                    <button name="action_send_patient_email" type="object"
+                            string="Send Email"
+                            class="oe_highlight"
+                            invisible="not email"/>
+                    <button name="action_create_new_order" type="object"
+                            string="New Order"
+                            class="oe_highlight"
+                            icon="fa-flask"/>
+                    <field name="active" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_orders" type="object"
+                                class="oe_stat_button"
+                                icon="fa-flask"
+                                context="{'default_patient_id': active_id}">
+                            <div class="o_stat_info">
+                                <field name="total_orders" widget="statinfo"/>
+                                <span class="o_stat_text">Orders</span>
+                            </div>
+                        </button>
+                        <button name="action_view_samples" type="object"
+                                class="oe_stat_button"
+                                icon="fa-tint">
+                            <div class="o_stat_info">
+                                <field name="total_samples" widget="statinfo"/>
+                                <span class="o_stat_text">Samples</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reports" type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-pdf-o">
+                            <div class="o_stat_info">
+<!--                                <field name="report_count" widget="statinfo"/>-->
+                                <span class="o_stat_text">Reports</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Patient Name"/>
+                        </h1>
+                        <h3>
+                            <field name="patient_id" readonly="1"/>
+                        </h3>
+                    </div>
+                    <notebook>
+                        <!-- ===== Page: Personal Information ===== -->
+                        <page string="Personal Information" name="personal">
+                            <group>
+                                <group string="Demographics">
+                                    <field name="date_of_birth" widget="date"/>
+                                    <field name="age" readonly="1"/>
+                                    <field name="gender"/>
+                                    <field name="blood_type"/>
+                                    <field name="registration_date" readonly="1"/>
+                                </group>
+                                <group string="Contact Information">
+                                    <field name="phone" widget="phone"/>
+                                    <field name="mobile" widget="phone"/>
+                                    <field name="email" widget="email"/>
+                                    <field name="street" placeholder="Street..."/>
+                                    <field name="street2"/>
+                                    <field name="city"/>
+                                    <field name="state_id"/>
+                                    <field name="country_id"/>
+                                    <field name="zip"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Medical Information ===== -->
+                        <page string="Medical Information" name="medical">
+                            <group string="Medical History">
+                                <field name="medical_history" nolabel="1" placeholder="Medical History"/>
+                            </group>
+                            <group>
+                                <group string="Allergies &amp; Medications">
+                                    <field name="allergies" nolabel="1" placeholder="Allergies"/>
+                                    <field name="current_medications" nolabel="1" placeholder="Current Medications"/>
+                                </group>
+                                <group string="Chronic Conditions">
+                                    <field name="chronic_conditions" nolabel="1" placeholder="Chronic Conditions"/>
+                                </group>
+                            </group>
+                            <group string="Emergency Contact">
+                                <group>
+                                    <field name="emergency_contact_name"/>
+                                    <field name="emergency_contact_phone" widget="phone"/>
+                                </group>
+                                <group>
+                                    <field name="emergency_contact_relation"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Healthcare Team ===== -->
+                        <page string="Healthcare Team" name="team">
+                            <group>
+                                <group string="Primary Care">
+                                    <field name="responsible_doctor_id"/>
+                                    <field name="referring_doctor_id"/>
+                                    <field name="primary_care_physician"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Insurance ===== -->
+                        <page string="Insurance" name="insurance">
+                            <group>
+                                <group string="Insurance Details">
+                                    <field name="insurance_provider"/>
+                                    <field name="insurance_policy_number"/>
+                                    <field name="insurance_group_number"/>
+                                </group>
+                                <group string="Insurance Period">
+                                    <field name="insurance_effective_date"/>
+                                    <field name="insurance_expiry_date"/>
+                                    <field name="is_insurance_valid"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ===== Page: Test Orders ===== -->
+                        <page string="Test Orders" name="orders">
+                            <field name="test_order_ids" context="{'default_patient_id': active_id}">
+                                <tree string="Test Orders">
+                                    <field name="order_id"/>
+                                    <field name="date_ordered"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="total_tests"/>
+                                    <field name="amount_total"/>
+                                    <field name="has_abnormal_results" widget="boolean_favorite"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Samples ===== -->
+                        <page string="Samples" name="samples">
+                            <field name="sample_ids">
+                                <tree string="Samples">
+                                    <field name="sample_id"/>
+                                    <field name="sample_type" widget="badge"/>
+                                    <field name="collection_date"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="quality_ok"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Reports ===== -->
+                        <page string="Reports" name="reports">
+                            <field name="report_ids">
+                                <tree string="Reports">
+                                    <field name="name"/>
+                                    <field name="report_date"/>
+                                    <field name="report_type"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="total_tests"/>
+                                    <field name="abnormal_count"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- ===== Page: Chatter ===== -->
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_lims_patient_search" model="ir.ui.view">
+        <field name="name">lims.patient.search</field>
+        <field name="model">lims.patient</field>
+        <field name="arch" type="xml">
+            <search string="Search Patients">
+                <field name="name" string="Name"/>
+                <field name="patient_id" string="Patient ID"/>
+                <field name="phone" string="Phone"/>
+                <field name="email" string="Email"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter name="gender_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                <filter name="gender_female" string="Female" domain="[('gender', '=', 'female')]"/>
+                <filter name="blood_type_a" string="Blood Type A" domain="[('blood_type', 'ilike', 'A')]"/>
+                <filter name="blood_type_b" string="Blood Type B" domain="[('blood_type', 'ilike', 'B')]"/>
+                <filter name="blood_type_o" string="Blood Type O" domain="[('blood_type', 'ilike', 'O')]"/>
+                <filter name="blood_type_ab" string="Blood Type AB" domain="[('blood_type', 'ilike', 'AB')]"/>
+                <separator/>
+                <filter name="has_allergies" string="Has Allergies" domain="[('allergies', '!=', False)]"/>
+                <filter name="has_orders" string="Has Orders" domain="[('total_orders', '>', 0)]"/>
+                <filter name="no_orders" string="No Orders" domain="[('total_orders', '=', 0)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_gender" string="Gender" context="{'group_by': 'gender'}"/>
+                    <filter name="group_blood_type" string="Blood Type" context="{'group_by': 'blood_type'}"/>
+                    <filter name="group_age_group" string="Age Group" context="{'group_by': 'age_group'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTION ===================== -->
+    <record id="action_lims_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">lims.patient</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_lims_patient_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first patient
+            </p>
+            <p>
+                Manage laboratory patients and their medical records.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ===================== PATIENT REMINDER ===================== -->
+        <record id="email_template_patient_reminder" model="mail.template">
+            <field name="name">Patient Reminder</field>
+            <field name="model_id" ref="model_lims_patient"/>
+            <field name="subject">Reminder: Laboratory Tests for ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background: #2c3e50; color: white; padding: 20px; text-align: center;">
+                        <h2 style="margin: 0;">Laboratory Reminder</h2>
+                    </div>
+                    <div style="padding: 20px; background: #f8f9fa;">
+                        <h3>Dear ${object.name},</h3>
+                        <p>This is a reminder that you have pending laboratory tests.</p>
+                        <p><strong>Patient ID:</strong> ${object.patient_id}</p>
+                        <p><strong>Date of Birth:</strong> ${object.date_of_birth}</p>
+                        <p>Please contact the laboratory to schedule your appointment.</p>
+                        <p>Best regards,<br/>Laboratory Team</p>
+                    </div>
+                    <div style="padding: 10px; text-align: center; font-size: 12px; color: #7f8c8d;">
+                        <p>This is an automated message. Please do not reply.</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- ===================== RESULTS READY ===================== -->
+        <record id="email_template_result_ready" model="mail.template">
+            <field name="name">Results Ready Notification</field>
+            <field name="model_id" ref="model_lims_test_order"/>
+            <field name="subject">Your Lab Results are Ready - ${object.order_id}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background: #27ae60; color: white; padding: 20px; text-align: center;">
+                        <h2 style="margin: 0;">Results Ready</h2>
+                    </div>
+                    <div style="padding: 20px; background: #f8f9fa;">
+                        <h3>Dear ${object.patient_name},</h3>
+                        <p>Your laboratory test results for order <strong>${object.order_id}</strong> are now ready.</p>
+                        <p><strong>Order Date:</strong> ${object.date_ordered}</p>
+                        <p><strong>Total Tests:</strong> ${object.total_tests}</p>
+                        <t t-if="object.has_abnormal_results">
+                            <p style="color: #e67e22;"><strong>Note:</strong> Some results are outside normal range. Please consult your doctor.</p>
+                        </t>
+                        <p>Please log in to your patient portal to view your results:</p>
+                        <p style="text-align: center;">
+                            <a t-attf-href="#{object.env['ir.config_parameter'].sudo().get_param('web.base.url')}/lims/portal/login"
+                               style="background: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                                View Results
+                            </a>
+                        </p>
+                        <p>Best regards,<br/>Laboratory Team</p>
+                    </div>
+                    <div style="padding: 10px; text-align: center; font-size: 12px; color: #7f8c8d;">
+                        <p>This is an automated message. Please do not reply.</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- ===================== SEND REPORT ===================== -->
+        <record id="email_template_report_send" model="mail.template">
+            <field name="name">Send Report</field>
+            <field name="model_id" ref="model_lims_report"/>
+            <field name="subject">Your Laboratory Report - ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background: #2c3e50; color: white; padding: 20px; text-align: center;">
+                        <h2 style="margin: 0;">Laboratory Report</h2>
+                    </div>
+                    <div style="padding: 20px; background: #f8f9fa;">
+                        <h3>Dear ${object.patient_id.name},</h3>
+                        <p>Please find attached your laboratory report (<strong>${object.name}</strong>).</p>
+                        <p><strong>Report Date:</strong> ${object.report_date}</p>
+                        <p><strong>Order ID:</strong> ${object.test_order_id.order_id}</p>
+                        <t t-if="object.has_abnormal">
+                            <p style="color: #e67e22;"><strong>Note:</strong> Some results are outside normal range. Please consult your doctor for interpretation.</p>
+                        </t>
+                        <p>If you have any questions, please don't hesitate to contact us.</p>
+                        <p>Best regards,<br/>Laboratory Team</p>
+                    </div>
+                    <div style="padding: 10px; text-align: center; font-size: 12px; color: #7f8c8d;">
+                        <p>This is an automated message. Please do not reply.</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- ===================== ORDER REMINDER ===================== -->
+        <record id="email_template_order_reminder" model="mail.template">
+            <field name="name">Order Reminder</field>
+            <field name="model_id" ref="model_lims_test_order"/>
+            <field name="subject">Order Reminder - ${object.order_id}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background: #f39c12; color: white; padding: 20px; text-align: center;">
+                        <h2 style="margin: 0;">Order Reminder</h2>
+                    </div>
+                    <div style="padding: 20px; background: #f8f9fa;">
+                        <h3>Order ${object.order_id} - ${object.patient_name}</h3>
+                        <p><strong>Order Date:</strong> ${object.date_ordered}</p>
+                        <p><strong>Priority:</strong> ${object.priority}</p>
+                        <p><strong>Status:</strong> ${object.state}</p>
+                        <p><strong>Total Tests:</strong> ${object.total_tests}</p>
+                        <p><strong>Completed Tests:</strong> ${object.completed_tests}</p>
+                        <p><strong>Completion:</strong> ${object.completion_percentage}%</p>
+                        <t t-if="object.is_overdue">
+                            <p style="color: #e74c3c;"><strong>⚠️ Overdue:</strong> This order is overdue by ${object.overdue_days} days.</p>
+                        </t>
+                        <p>Please take appropriate action.</p>
+                    </div>
+                    <div style="padding: 10px; text-align: center; font-size: 12px; color: #7f8c8d;">
+                        <p>This is an automated message. Please do not reply.</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- ===================== CRITICAL RESULT ===================== -->
+        <record id="email_template_critical_result" model="mail.template">
+            <field name="name">Critical Result Alert</field>
+            <field name="model_id" ref="model_lims_test_order_line"/>
+            <field name="subject">⚠️ CRITICAL RESULT - ${object.test_type_id.name}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background: #e74c3c; color: white; padding: 20px; text-align: center;">
+                        <h2 style="margin: 0;">⚠️ CRITICAL RESULT ALERT</h2>
+                    </div>
+                    <div style="padding: 20px; background: #f8f9fa;">
+                        <h3>${object.test_type_id.name}</h3>
+                        <p><strong>Patient:</strong> ${object.patient_name}</p>
+                        <p><strong>Patient ID:</strong> ${object.patient_id.patient_id}</p>
+                        <p><strong>Order ID:</strong> ${object.test_order_id.order_id}</p>
+                        <p><strong>Result:</strong> ${object.result_display}</p>
+                        <p><strong>Normal Range:</strong> ${object.normal_range}</p>
+                        <p><strong>Critical Value:</strong> ${object.is_critical}</p>
+                        <p style="color: #e74c3c; font-weight: bold;">This result requires immediate attention!</p>
+                        <t t-if="object.interpretation">
+                            <p><strong>Interpretation:</strong> ${object.interpretation}</p>
+                        </t>
+                        <p>Please review and take appropriate action.</p>
+                    </div>
+                    <div style="padding: 10px; text-align: center; font-size: 12px; color: #7f8c8d;">
+                        <p>This is an automated alert. Please do not reply.</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

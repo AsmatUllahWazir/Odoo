@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_maintenance_search" model="ir.ui.view">
+        <field name="name">property.maintenance.search</field>
+        <field name="model">property.maintenance.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="title"/>
+                <field name="property_id"/>
+                <field name="unit_id"/>
+                <field name="category"/>
+                <field name="priority"/>
+                <field name="status"/>
+                <field name="assigned_to_id"/>
+
+                <filter name="emergency" string="Emergency" domain="[('priority', '=', 'emergency')]"/>
+                <filter name="iot_alert" string="IoT Alerts" domain="[('iot_alert', '=', True)]"/>
+                <filter name="pending" string="Pending" domain="[('status', 'in', ['reported', 'assigned', 'scheduled'])]"/>
+                <filter name="in_progress" string="In Progress" domain="[('status', '=', 'in_progress')]"/>
+                <filter name="overdue" string="Overdue" domain="[('scheduled_date', '&lt;', context_today()), ('status', 'not in', ['completed', 'cancelled'])]"/>
+                <filter name="assigned_to_me" string="Assigned to Me" domain="[('assigned_to_id', '=', uid)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_by_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_by_priority" string="Priority" context="{'group_by': 'priority'}"/>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"/>
+                    <filter name="group_by_assigned" string="Assigned To" context="{'group_by': 'assigned_to_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_property_maintenance_tree" model="ir.ui.view">
+        <field name="name">property.maintenance.tree</field>
+        <field name="model">property.maintenance.request</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Requests" decoration-danger="priority=='emergency'" decoration-warning="priority=='high'" decoration-info="status=='in_progress'" decoration-success="status=='completed'" decoration-muted="status=='cancelled'">
+                <field name="display_name" string="Title"/>
+                <field name="property_id" string="Property"/>
+                <field name="unit_id" string="Unit"/>
+                <field name="category" string="Category" widget="badge"/>
+                <field name="priority" string="Priority" widget="badge"/>
+                <field name="status" string="Status" widget="badge"/>
+                <field name="scheduled_date" string="Scheduled"/>
+                <field name="assigned_to_id" string="Assigned To"/>
+                <field name="iot_alert" string="IoT" widget="boolean_toggle"/>
+                <field name="estimated_cost" string="Est. Cost" sum="Total Est."/>
+                <field name="actual_cost" string="Actual Cost" sum="Total Actual"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_property_maintenance_form" model="ir.ui.view">
+        <field name="name">property.maintenance.form</field>
+        <field name="model">property.maintenance.request</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Request">
+                <header>
+                    <button name="action_assign" string="Assign" type="object" class="btn-primary" invisible="not assigned_to_id or status != 'reported'"/>
+                    <button name="action_schedule" string="Schedule" type="object" class="btn-primary" invisible="not scheduled_date or status != 'assigned'"/>
+                    <button name="action_start_work" string="Start Work" type="object" class="btn-success" invisible="status != 'scheduled'"/>
+                    <button name="action_complete" string="Complete" type="object" class="btn-primary" invisible="status != 'in_progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-danger" invisible="status not in ['reported', 'assigned', 'scheduled', 'in_progress',]"/>
+                    <button name="action_create_work_order" string="Create Work Order" type="object" class="btn-info" invisible="status not in ['assigned', 'scheduled', 'in_progress',]"/>
+                    <field name="status" widget="statusbar" statusbar_visible="reported,assigned,scheduled,in_progress,completed,cancelled"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="title"/>
+<!--                            <span t-if="record.iot_alert.raw_value" class="badge badge-warning">IoT Alert</span>-->
+<!--                            <span t-if="record.priority.raw_value == 'emergency'" class="badge badge-danger">EMERGENCY</span>-->
+                        </h1>
+                        <h4>
+                            <field name="property_id"/>
+<!--                            <span t-if="record.unit_id.raw_value">- <field name="unit_id"/></span>-->
+                            <span class="text-muted">|</span>
+                            <field name="category"/>
+                            <span class="text-muted">|</span>
+                            <field name="priority" widget="badge"/>
+                        </h4>
+                    </div>
+
+                    <group>
+                        <group string="Request Details">
+                            <field name="requestor_id" options="{'no_create': True}"/>
+                            <field name="lease_id"/>
+                            <field name="category" widget="selection"/>
+                            <field name="priority" widget="selection"/>
+                            <field name="status" widget="selection"/>
+                        </group>
+                        <group string="Assignment">
+                            <field name="assigned_to_id" options="{'no_create': True}"/>
+                            <field name="scheduled_date"/>
+                            <field name="completed_date" readonly="1"/>
+                            <field name="estimated_duration"/>
+                            <field name="actual_duration" invisible="status != 'completed'"/>
+                        </group>
+                    </group>
+
+                    <group string="Description">
+                        <field name="description"/>
+                    </group>
+
+                    <group string="Costs">
+                        <group>
+                            <field name="currency_id" readonly="1"/>
+                            <field name="estimated_cost"/>
+                            <field name="actual_cost"/>
+                            <field name="iot_alert" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <group string="IoT Details" invisible="not iot_alert">
+                        <field name="iot_device_id" readonly="1"/>
+                        <field name="iot_data" readonly="1"/>
+                    </group>
+
+                    <group string="Resolution" invisible="status != 'completed'">
+                        <field name="resolution_notes"/>
+                        <field name="follow_up_required" widget="boolean_toggle"/>
+                        <field name="follow_up_date" invisible="not follow_up_required"/>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_maintenance" model="ir.actions.act_window">
+        <field name="name">Maintenance Requests</field>
+        <field name="res_model">property.maintenance.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first maintenance request
+            </p>
+            <p>
+                Track maintenance issues, manage work orders, and monitor costs.
+            </p>
+        </field>
+    </record>
+
+</odoo>

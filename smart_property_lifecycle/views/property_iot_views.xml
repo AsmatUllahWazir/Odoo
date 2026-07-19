@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- IoT Device Search View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_iot_device_search" model="ir.ui.view">
+        <field name="name">property.iot.device.search</field>
+        <field name="model">property.iot.device</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="device_name" string="Device Name"/>
+                <field name="device_id" string="Device ID"/>
+                <field name="property_id" string="Property"/>
+                <field name="device_type"/>
+                <field name="status"/>
+                <field name="manufacturer"/>
+
+                <filter name="online" string="Online" domain="[('status', '=', 'online')]"/>
+                <filter name="offline" string="Offline" domain="[('status', '=', 'offline')]"/>
+                <filter name="has_alert" string="Has Alert" domain="[('has_alert', '=', True)]"/>
+                <filter name="low_battery" string="Low Battery" domain="[('battery_level', '&lt;=', 20)]"/>
+                <filter name="iot_enabled" string="IoT Enabled Properties" domain="[('property_id.iot_enabled', '=', True)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_by_type" string="Device Type" context="{'group_by': 'device_type'}"/>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"/>
+                    <filter name="group_by_manufacturer" string="Manufacturer" context="{'group_by': 'manufacturer'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- IoT Device Tree View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_iot_device_tree" model="ir.ui.view">
+        <field name="name">property.iot.device.tree</field>
+        <field name="model">property.iot.device</field>
+        <field name="arch" type="xml">
+            <tree string="IoT Devices" decoration-success="status=='online'" decoration-danger="status=='offline' or status=='error'" decoration-warning="status=='maintenance'" decoration-muted="status=='inactive'">
+                <field name="device_name" string="Device"/>
+                <field name="device_type" string="Type" widget="badge"/>
+                <field name="device_id" string="Device ID"/>
+                <field name="property_id" string="Property"/>
+                <field name="unit_id" string="Unit"/>
+                <field name="status" string="Status" widget="badge"/>
+                <field name="battery_level" string="Battery" widget="progressbar"/>
+                <field name="last_seen" string="Last Seen"/>
+                <field name="has_alert" string="Alert" widget="boolean_toggle"/>
+                <field name="location_description" string="Location"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- IoT Device Kanban View -->
+    <!-- ===================================================================== -->
+
+<!--    <record id="view_property_iot_device_kanban" model="ir.ui.view">-->
+<!--        <field name="name">property.iot.device.kanban</field>-->
+<!--        <field name="model">property.iot.device</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <kanban class="o_kanban_mobile" default_group_by="status">-->
+<!--                <field name="device_name"/>-->
+<!--                <field name="device_type"/>-->
+<!--                <field name="device_id"/>-->
+<!--                <field name="status"/>-->
+<!--                <field name="battery_level"/>-->
+<!--                <field name="last_seen"/>-->
+<!--                <field name="has_alert"/>-->
+<!--                <field name="property_id"/>-->
+<!--                <field name="unit_id"/>-->
+<!--                <field name="location_description"/>-->
+<!--                <field name="manufacturer"/>-->
+<!--                <field name="model"/>-->
+
+<!--                <templates>-->
+<!--                    <t t-name="kanban-box">-->
+<!--                        <div class="oe_kanban_global_click o_kanban_record" t-att-class="'iot-device-card status-' + record.status.raw_value">-->
+<!--                            <div class="o_kanban_image">-->
+<!--                                <div class="device-icon">-->
+<!--                                    <i class="fa" t-att-class="{-->
+<!--                                        'fa-lock': record.device_type.raw_value == 'smart_lock',-->
+<!--                                        'fa-thermometer-half': record.device_type.raw_value == 'thermostat',-->
+<!--                                        'fa-bolt': record.device_type.raw_value == 'sensor_motion',-->
+<!--                                        'fa-door-open': record.device_type.raw_value == 'sensor_door',-->
+<!--                                        'fa-tint': record.device_type.raw_value == 'sensor_water',-->
+<!--                                        'fa-fire': record.device_type.raw_value == 'sensor_smoke',-->
+<!--                                        'fa-exclamation-circle': record.device_type.raw_value == 'sensor_co2',-->
+<!--                                        'fa-video-camera': record.device_type.raw_value == 'camera',-->
+<!--                                        'fa-microchip': record.device_type.raw_value == 'hub',-->
+<!--                                        'fa-cog': true-->
+<!--                                    }"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="oe_kanban_details">-->
+<!--                                <div class="o_kanban_record_top">-->
+<!--                                    <strong class="o_kanban_record_title">-->
+<!--                                        <span t-field="record.device_name"/>-->
+<!--                                    </strong>-->
+<!--                                    <span class="o_kanban_record_subtitle">-->
+<!--                                        <span t-field="record.device_id"/>-->
+<!--                                    </span>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="o_kanban_record_body">-->
+<!--                                        &lt;!&ndash; Status and Type &ndash;&gt;-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-6">-->
+<!--                                                <span class="badge" t-att-class="{-->
+<!--                                                    'badge-success': record.status.raw_value == 'online',-->
+<!--                                                    'badge-danger': record.status.raw_value in ['offline', 'error'],-->
+<!--                                                    'badge-warning': record.status.raw_value == 'maintenance',-->
+<!--                                                    'badge-secondary': record.status.raw_value == 'inactive'-->
+<!--                                                }" t-field="record.status"/>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6 text-right">-->
+<!--                                                <span class="badge badge-secondary" t-field="record.device_type"/>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        &lt;!&ndash; Property and Location &ndash;&gt;-->
+<!--                                        <div class="row mt-1">-->
+<!--                                            <div class="col-12">-->
+<!--                                                <i class="fa fa-building"/> <span t-field="record.property_id"/>-->
+<!--                                                <span t-if="record.unit_id.raw_value">-->
+<!--                                                    <i class="fa fa-arrow-right"/> Unit <span t-field="record.unit_id"/>-->
+<!--                                                </span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="row" t-if="record.location_description.raw_value">-->
+<!--                                            <div class="col-12">-->
+<!--                                                <i class="fa fa-map-marker"/> <span t-field="record.location_description"/>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        &lt;!&ndash; Battery Level &ndash;&gt;-->
+<!--                                        <div class="row mt-1">-->
+<!--                                            <div class="col-12">-->
+<!--                                                <div class="battery-indicator">-->
+<!--                                                    <div class="battery-level" t-att-class="{-->
+<!--                                                        'high': record.battery_level.raw_value &gt;= 70,-->
+<!--                                                        'medium': record.battery_level.raw_value &gt;= 30 and record.battery_level.raw_value &lt; 70,-->
+<!--                                                        'low': record.battery_level.raw_value &lt; 30-->
+<!--                                                    }" t-att-style="'width: ' + (record.battery_level.raw_value || 0) + '%'">-->
+<!--                                                        <span class="battery-text"><t t-esc="record.battery_level.raw_value || 0"/>%</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        &lt;!&ndash; Last Seen and Alerts &ndash;&gt;-->
+<!--                                        <div class="row mt-1">-->
+<!--                                            <div class="col-6">-->
+<!--                                                <i class="fa fa-clock-o"/> <span t-field="record.last_seen"/>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6 text-right" t-if="record.has_alert.raw_value">-->
+<!--                                                <span class="badge badge-danger">-->
+<!--                                                    <i class="fa fa-exclamation-triangle"/> Alert-->
+<!--                                                </span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        &lt;!&ndash; Manufacturer &ndash;&gt;-->
+<!--                                        <div class="row mt-1" t-if="record.manufacturer.raw_value">-->
+<!--                                            <div class="col-12">-->
+<!--                                                <i class="fa fa-tag"/> <span t-field="record.manufacturer"/>-->
+<!--                                                <span t-if="record.model.raw_value"> - <span t-field="record.model"/></span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="o_kanban_record_footer">-->
+<!--                                        <div class="o_kanban_footer_left">-->
+<!--                                            <span class="text-muted small">-->
+<!--                                                <t t-esc="record.firmware_version.raw_value or 'No firmware'"/>-->
+<!--                                            </span>-->
+<!--                                        </div>-->
+<!--                                        <div class="o_kanban_footer_right">-->
+<!--                                            <div class="o_kanban_actions">-->
+<!--                                                <button type="button" class="btn btn-sm btn-primary" title="Refresh Device" data-action="action_refresh">-->
+<!--                                                    <i class="fa fa-refresh"/>-->
+<!--                                                </button>-->
+<!--                                                <button type="button" class="btn btn-sm btn-warning" title="Clear Alert" data-action="action_clear_alert" t-if="record.has_alert.raw_value">-->
+<!--                                                    <i class="fa fa-check"/>-->
+<!--                                                </button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </t>-->
+<!--                </templates>-->
+<!--            </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- ===================================================================== -->
+    <!-- IoT Device Form View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_iot_device_form" model="ir.ui.view">
+        <field name="name">property.iot.device.form</field>
+        <field name="model">property.iot.device</field>
+        <field name="arch" type="xml">
+            <form string="IoT Device">
+                <header>
+<!--                    <button name="action_refresh" string="Refresh Device" type="object" class="btn-primary"/>-->
+                    <button name="action_clear_alert" string="Clear Alert" type="object" class="btn-warning" invisible="not has_alert"/>
+<!--                    <button name="action_send_command" string="Send Command" type="object" class="btn-info"/>-->
+                    <field name="status" widget="statusbar" statusbar_visible="online,offline,maintenance"/>
+                </header>
+
+                <sheet>
+<!--                    <div class="oe_button_box" name="button_box">-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-bell" invisible="not has_alert">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <span class="o_stat_value text-danger">Alert</span>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-battery-3">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <span class="o_stat_value" t-att-class="{-->
+<!--                                    'text-success': battery_level &gt;= 70,-->
+<!--                                    'text-warning': battery_level &gt;= 30 and battery_level &lt; 70,-->
+<!--                                    'text-danger': battery_level &lt; 30-->
+<!--                                }"><field name="battery_level"/>%</span>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-clock-o">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <span class="o_stat_value small"><field name="last_seen"/></span>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="device_name" placeholder="Device Name"/>
+                            <span class="badge" t-att-class="{
+                                'badge-success': status == 'online',
+                                'badge-danger': status in ['offline', 'error'],
+                                'badge-warning': status == 'maintenance',
+                                'badge-secondary': status == 'inactive'
+                            }"><field name="status"/></span>
+                            <span class="badge badge-danger" invisible="not has_alert"><i class="fa fa-exclamation-triangle"/> Alert</span>
+                        </h1>
+                        <h4>
+                            <field name="device_type"/>
+                            <span class="text-muted">|</span>
+                            <field name="device_id"/>
+                            <span class="text-muted">|</span>
+                            <field name="property_id"/>
+                        </h4>
+                    </div>
+
+                    <notebook>
+                        <page string="General Information">
+                            <group>
+                                <group string="Device Details">
+                                    <field name="device_name"/>
+                                    <field name="device_type" widget="selection"/>
+                                    <field name="device_id"/>
+                                    <field name="status" widget="selection"/>
+                                </group>
+                                <group string="Location">
+                                    <field name="property_id" options="{'no_create': True}"/>
+                                    <field name="unit_id" options="{'no_create': True}"/>
+                                    <field name="location_description"/>
+                                    <field name="floor"/>
+                                    <field name="room"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Technical Details">
+                            <group>
+                                <group string="Manufacturer Info">
+                                    <field name="manufacturer"/>
+                                    <field name="model"/>
+                                    <field name="firmware_version"/>
+                                </group>
+                                <group string="Installation">
+                                    <field name="installation_date"/>
+                                    <field name="last_maintenance_date"/>
+                                </group>
+                            </group>
+                            <group string="Status">
+                                <group>
+                                    <field name="battery_level" widget="progressbar"/>
+                                    <field name="last_seen"/>
+                                </group>
+                                <group>
+                                    <field name="has_alert" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Data">
+                            <field name="last_data" widget="json"/>
+                        </page>
+
+                        <page string="Alerts">
+                            <field name="alert_ids">
+                                <tree>
+                                    <field name="alert_type" widget="badge"/>
+                                    <field name="description"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="create_date"/>
+                                    <field name="resolved_date"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="alert_type" widget="selection"/>
+                                            <field name="status" widget="selection"/>
+                                            <field name="description"/>
+                                        </group>
+                                        <group>
+                                            <field name="create_date" readonly="1"/>
+                                            <field name="acknowledged_date" readonly="1"/>
+                                            <field name="resolved_date" readonly="1"/>
+                                            <field name="resolved_by"/>
+                                        </group>
+                                    </group>
+                                    <group string="Notes">
+                                        <field name="notes"/>
+                                    </group>
+                                    <footer>
+                                        <button name="action_acknowledge" string="Acknowledge" type="object" class="btn-primary" invisible="status != 'active'"/>
+                                        <button name="action_resolve" string="Resolve" type="object" class="btn-success" invisible="status != 'acknowledged'"/>
+                                    </footer>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- IoT Device Action Window -->
+    <!-- ===================================================================== -->
+
+    <record id="action_property_iot_device" model="ir.actions.act_window">
+        <field name="name">IoT Devices</field>
+        <field name="res_model">property.iot.device</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first IoT device
+            </p>
+            <p>
+                Manage smart devices, sensors, and IoT alerts for your properties.
+            </p>
+        </field>
+    </record>
+
+</odoo>

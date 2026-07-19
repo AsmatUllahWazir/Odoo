@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ===================================================================== -->
+    <!-- Lease Contract Report -->
+    <!-- ===================================================================== -->
+    
+    <template id="report_lease_contract">
+        <t t-foreach="docs" t-as="doc">
+            <div class="page" style="font-family: Arial, sans-serif; padding: 40px;">
+                <!-- Header -->
+                <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px;">
+                    <h1 style="font-size: 24px; margin: 0;">RESIDENTIAL LEASE AGREEMENT</h1>
+                    <p style="font-size: 14px; color: #666; margin: 5px 0;">Lease Reference: <span t-esc="doc.name"/></p>
+                    <p style="font-size: 12px; color: #999;">Generated on <span t-esc="time.strftime('%B %d, %Y')"/></p>
+                </div>
+                
+                <!-- Parties -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">1. PARTIES TO THE AGREEMENT</h3>
+                    <table style="width: 100%; font-size: 14px;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px;">
+                                <strong>Landlord/Property Owner:</strong><br/>
+                                <span t-esc="doc.property_id.owner_id.name"/><br/>
+                                <span t-esc="doc.property_id.owner_id.street or ''"/><br/>
+                                <span t-esc="doc.property_id.owner_id.city or ''"/> <span t-esc="doc.property_id.owner_id.state_id.name or ''"/><br/>
+                                Phone: <span t-esc="doc.property_id.owner_id.phone or ''"/><br/>
+                                Email: <span t-esc="doc.property_id.owner_id.email or ''"/>
+                            </td>
+                            <td style="width: 50%; padding: 5px;">
+                                <strong>Tenant:</strong><br/>
+                                <span t-esc="doc.tenant_id.name"/><br/>
+                                <span t-esc="doc.tenant_id.street or ''"/><br/>
+                                <span t-esc="doc.tenant_id.city or ''"/> <span t-esc="doc.tenant_id.state_id.name or ''"/><br/>
+                                Phone: <span t-esc="doc.tenant_id.phone or ''"/><br/>
+                                Email: <span t-esc="doc.tenant_id.email or ''"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Property -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">2. PROPERTY</h3>
+                    <p style="font-size: 14px;">
+                        <strong>Property:</strong> <span t-esc="doc.property_id.name"/><br/>
+                        <strong>Address:</strong> <span t-esc="doc.property_id.full_address or 'N/A'"/><br/>
+                        <t t-if="doc.unit_id">
+                            <strong>Unit Number:</strong> <span t-esc="doc.unit_id.unit_number"/><br/>
+                        </t>
+                        <strong>Property Type:</strong> <span t-esc="doc.property_id.type"/><br/>
+                        <strong>Total Area:</strong> <span t-esc="doc.property_id.area_total"/> sqft
+                    </p>
+                </div>
+                
+                <!-- Term -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">3. TERM</h3>
+                    <p style="font-size: 14px;">
+                        <strong>Commencement Date:</strong> <span t-esc="doc.start_date"/><br/>
+                        <strong>Termination Date:</strong> <span t-esc="doc.end_date"/><br/>
+                        <strong>Term Length:</strong> <span t-esc="doc.term_months"/> months<br/>
+                        <strong>Renewal Option:</strong> <span t-esc="doc.renewal_options.replace('_', ' ').title()"/>
+                    </p>
+                </div>
+                
+                <!-- Rent -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">4. RENT</h3>
+                    <p style="font-size: 14px;">
+                        <strong>Monthly Rent:</strong> <span t-esc="doc.currency_id.symbol or '$'"/><span t-esc="doc.rent_amount"/><br/>
+                        <strong>Rent Frequency:</strong> <span t-esc="doc.rent_frequency"/><br/>
+                        <strong>Security Deposit:</strong> <span t-esc="doc.currency_id.symbol or '$'"/><span t-esc="doc.deposit_amount"/><br/>
+                        <strong>Late Fee:</strong> <span t-esc="doc.currency_id.symbol or '$'"/><span t-esc="doc.late_fee_amount or '0'"/>
+                        <span t-if="doc.grace_period_days"> (after <span t-esc="doc.grace_period_days"/> days grace period)</span>
+                    </p>
+                </div>
+                
+                <!-- Terms and Conditions -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">5. TERMS AND CONDITIONS</h3>
+                    <div style="font-size: 12px; line-height: 1.6;">
+                        <t t-raw="doc.terms_conditions or 'Standard terms and conditions apply.'"/>
+                    </div>
+                </div>
+                
+                <!-- Special Terms -->
+                <t t-if="doc.special_terms">
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">6. SPECIAL TERMS</h3>
+                        <p style="font-size: 12px; line-height: 1.6;">
+                            <t t-esc="doc.special_terms"/>
+                        </p>
+                    </div>
+                </t>
+                
+                <!-- Signatures -->
+                <div style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd;">
+                    <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">7. SIGNATURES</h3>
+                    <table style="width: 100%; margin-top: 30px;">
+                        <tr>
+                            <td style="width: 50%; padding: 20px;">
+                                <div style="border-top: 1px solid #333; padding-top: 10px; text-align: center;">
+                                    <strong>Landlord/Agent Signature</strong><br/>
+                                    <span style="font-size: 12px;">Date: _______________</span>
+                                </div>
+                            </td>
+                            <td style="width: 50%; padding: 20px;">
+                                <div style="border-top: 1px solid #333; padding-top: 10px; text-align: center;">
+                                    <strong>Tenant Signature</strong><br/>
+                                    <span style="font-size: 12px;">Date: _______________</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Footer -->
+                <div style="text-align: center; font-size: 10px; color: #999; margin-top: 50px; border-top: 1px solid #eee; padding-top: 10px;">
+                    This lease agreement is legally binding. Please read all terms carefully before signing.
+                    <br/>Lease Reference: <span t-esc="doc.name"/>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    <!-- ===================================================================== -->
+    <!-- Portfolio Analytics Report -->
+    <!-- ===================================================================== -->
+    
+    <template id="report_portfolio_analytics">
+        <t t-foreach="docs" t-as="doc">
+            <div class="page" style="font-family: Arial, sans-serif; padding: 40px;">
+                <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px;">Portfolio Analytics Report</h1>
+                <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                    Generated on <span t-esc="time.strftime('%B %d, %Y')"/>
+                </p>
+                
+                <!-- Summary -->
+                <div style="background: #f5f5f5; padding: 20px; border-radius: 5px; margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-top: 0;">Portfolio Summary</h3>
+                    <table style="width: 100%; font-size: 14px;">
+                        <tr>
+                            <td><strong>Total Properties:</strong> <span t-esc="len(docs)"/></td>
+                            <td><strong>Total Value:</strong> <span t-esc="doc.currency_id.symbol or '$'"/><span t-esc="sum(docs.mapped('base_price'))"/></td>
+                            <td><strong>Total Area:</strong> <span t-esc="sum(docs.mapped('area_total'))"/> sqft</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Occupied:</strong> <span t-esc="len(docs.filtered(lambda p: p.occupancy_rate > 0))"/></td>
+                            <td><strong>Vacant:</strong> <span t-esc="len(docs.filtered(lambda p: p.occupancy_rate == 0))"/></td>
+                            <td><strong>Occupancy Rate:</strong> 
+                                <span t-esc="(len(docs.filtered(lambda p: p.occupancy_rate > 0)) / len(docs) * 100) if docs else 0"/>%
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Property List -->
+                <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Property Details</h3>
+                <table style="width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 10px;">
+                    <thead>
+                        <tr style="background: #f0f0f0;">
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Code</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Name</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Type</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Status</th>
+                            <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Price</th>
+                            <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Area</th>
+                            <th style="padding: 8px; text-align: center; border: 1px solid #ddd;">Occupancy</th>
+                            <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="property">
+                            <tr>
+                                <td style="padding: 6px; border: 1px solid #ddd;"><span t-esc="property.property_code"/></td>
+                                <td style="padding: 6px; border: 1px solid #ddd;"><span t-esc="property.name"/></td>
+                                <td style="padding: 6px; border: 1px solid #ddd;"><span t-esc="property.type"/></td>
+                                <td style="padding: 6px; border: 1px solid #ddd;">
+                                    <span t-esc="property.status"/>
+                                </td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                    <span t-esc="property.currency_id.symbol or '$'"/><span t-esc="'{:,.0f}'.format(property.base_price)"/>
+                                </td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                    <span t-esc="property.area_total"/>
+                                </td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">
+                                    <span t-esc="property.occupancy_rate"/>%
+                                </td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                    <span t-esc="property.currency_id.symbol or '$'"/><span t-esc="'{:,.0f}'.format(property.total_revenue)"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+    
+    <!-- ===================================================================== -->
+    <!-- Report Actions -->
+    <!-- ===================================================================== -->
+    
+    <record id="action_report_lease_contract" model="ir.actions.report">
+        <field name="name">Lease Contract</field>
+        <field name="model">property.lease</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">smart_property_lifecycle.lease_contract</field>
+        <field name="report_file">smart_property_lifecycle.lease_contract</field>
+        <field name="binding_model_id" ref="model_property_lease"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Lease Contract - %s' % (object.name)</field>
+    </record>
+    
+    <record id="action_report_portfolio_analytics" model="ir.actions.report">
+        <field name="name">Portfolio Analytics</field>
+        <field name="model">property.property</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">smart_property_lifecycle.portfolio_analytics</field>
+        <field name="report_file">smart_property_lifecycle.portfolio_analytics</field>
+        <field name="binding_model_id" ref="model_property_property"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Portfolio Analytics - %s' % (time.strftime('%%Y-%%m-%%d'))</field>
+    </record>
+
+</odoo>

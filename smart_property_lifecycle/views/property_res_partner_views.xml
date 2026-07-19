@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Partner View Extension -->
+    <!-- ===================================================================== -->
+
+    <record id="view_res_partner_form_property" model="ir.ui.view">
+        <field name="name">res.partner.form.property</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <!-- Property Owner Page -->
+                <page string="Properties" invisible="not is_property_owner">
+                    <group string="Property Ownership">
+                        <group>
+                            <field name="is_property_owner" invisible="1"/>
+                            <field name="owner_property_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="owner_property_ids" context="{'default_owner_id': active_id}">
+                        <tree>
+                            <field name="property_code"/>
+                            <field name="name"/>
+                            <field name="type"/>
+                            <field name="status" widget="badge"/>
+                            <field name="city"/>
+                            <field name="base_price"/>
+                            <field name="occupancy_rate"/>
+                        </tree>
+                    </field>
+                    <div class="oe_button_box mt-2">
+                        <button name="action_view_owned_properties" string="View Properties" type="object" class="btn btn-primary"/>
+                    </div>
+                </page>
+
+                <!-- Tenant Page -->
+                <page string="Tenant" invisible="not is_tenant">
+                    <group string="Tenant Information">
+                        <group>
+                            <field name="is_tenant" invisible="1"/>
+                            <field name="tenant_lease_count" readonly="1"/>
+                            <field name="current_property_id" readonly="1"/>
+                            <field name="current_lease_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="last_screening_date" readonly="1"/>
+                            <field name="screening_status" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Leases">
+                        <field name="tenant_lease_ids" context="{'default_tenant_id': active_id}">
+                            <tree>
+                                <field name="name"/>
+                                <field name="property_id"/>
+                                <field name="unit_id"/>
+                                <field name="status" widget="badge"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="rent_amount"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <div class="oe_button_box mt-2">
+                        <button name="action_view_leases" string="View All Leases" type="object" class="btn btn-primary"/>
+                        <button name="action_create_screening" string="Create Screening" type="object" class="btn btn-info"/>
+                        <button name="action_view_screenings" string="View Screenings" type="object" class="btn btn-secondary"/>
+                    </div>
+                </page>
+
+                <!-- HOA Page -->
+                <page string="HOA Associations" invisible="hoa_board_member_count == 0">
+                    <group string="HOA Board Memberships">
+                        <group>
+                            <field name="hoa_board_member_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="hoa_board_member_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="association_type" widget="badge"/>
+                            <field name="city"/>
+                            <field name="state_id"/>
+                            <field name="property_count"/>
+                        </tree>
+                    </field>
+                    <div class="oe_button_box mt-2">
+                        <button name="action_view_hoa_associations" string="View HOA Associations" type="object" class="btn btn-primary"/>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Partner Tree View Extension -->
+    <!-- ===================================================================== -->
+
+    <record id="view_res_partner_tree_property" model="ir.ui.view">
+        <field name="name">res.partner.tree.property</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="is_property_owner" invisible="1"/>
+                <field name="is_tenant" invisible="1"/>
+                <field name="owner_property_count" string="Properties" sum="Total" optional="hide"/>
+                <field name="tenant_lease_count" string="Leases" sum="Total" optional="hide"/>
+                <field name="current_property_id" string="Current Property" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Partner Search View Extension -->
+    <!-- ===================================================================== -->
+
+    <record id="view_res_partner_search_property" model="ir.ui.view">
+        <field name="name">res.partner.search.property</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="property_owners" string="Property Owners" domain="[('is_property_owner', '=', True)]"/>
+                <filter name="tenants" string="Tenants" domain="[('is_tenant', '=', True)]"/>
+                <filter name="has_screening" string="Has Screening" domain="[('screening_ids', '!=', False)]"/>
+
+                <separator/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_owner" string="Property Owner" context="{'group_by': 'is_property_owner'}"/>
+                    <filter name="group_by_tenant" string="Tenant" context="{'group_by': 'is_tenant'}"/>
+                    <filter name="group_by_screening" string="Screening Status" context="{'group_by': 'screening_status'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

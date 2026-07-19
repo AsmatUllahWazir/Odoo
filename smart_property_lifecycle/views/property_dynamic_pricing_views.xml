@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_dynamic_pricing_rule_tree" model="ir.ui.view">
+        <field name="name">property.dynamic.pricing.rule.tree</field>
+        <field name="model">property.dynamic.pricing.rule</field>
+        <field name="arch" type="xml">
+            <tree string="Pricing Rules" decoration-success="active==True" decoration-muted="active==False">
+                <field name="name" string="Rule Name"/>
+                <field name="rule_type" string="Type" widget="badge"/>
+                <field name="property_type" string="Property Type"/>
+                <field name="adjustment_type" string="Adjustment"/>
+                <field name="adjustment_value" string="Value"/>
+                <field name="priority" string="Priority"/>
+                <field name="active" string="Active" widget="boolean_toggle"/>
+                <field name="apply_to_field" string="Apply To"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_property_dynamic_pricing_rule_form" model="ir.ui.view">
+        <field name="name">property.dynamic.pricing.rule.form</field>
+        <field name="model">property.dynamic.pricing.rule</field>
+        <field name="arch" type="xml">
+            <form string="Pricing Rule">
+                <header>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Rule Name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="rule_type" widget="selection"/>
+                            <field name="property_type" widget="selection"/>
+                            <field name="priority"/>
+                            <field name="apply_to_field" widget="selection"/>
+                        </group>
+                        <group>
+                            <field name="adjustment_type" widget="selection"/>
+                            <field name="adjustment_value"/>
+                            <field name="min_adjustment"/>
+                            <field name="max_adjustment"/>
+                        </group>
+                    </group>
+
+                    <group string="Conditions" invisible="rule_type == 'custom'">
+                        <group>
+                            <field name="apply_from_month" invisible="rule_type == 'seasonal'"/>
+                            <field name="apply_to_month" invisible="rule_type == 'seasonal'"/>
+                            <field name="occupancy_threshold"/>
+                        </group>
+                        <group>
+                            <field name="days_on_market"/>
+                            <field name="demand_factor"/>
+                            <field name="competitor_price_ratio"/>
+                            <field name="maintenance_factor"/>
+                        </group>
+                    </group>
+
+                    <group string="Custom Formula" invisible="rule_type == 'custom'">
+                        <field name="custom_formula" placeholder="python formula using dynamic_price variable"/>
+                    </group>
+
+                    <group string="Company">
+                        <field name="company_id" options="{'no_create': True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_dynamic_pricing_rule" model="ir.actions.act_window">
+        <field name="name">Pricing Rules</field>
+        <field name="res_model">property.dynamic.pricing.rule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first pricing rule
+            </p>
+            <p>
+                Configure dynamic pricing rules based on season, occupancy, and market conditions.
+            </p>
+        </field>
+    </record>
+
+</odoo>

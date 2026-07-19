@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_project_office_building" model="project.project">
+            <field name="name">Office Tower Construction - Phase 1</field>
+            <field name="code">P-2024-001</field>
+            <field name="is_construction_project">True</field>
+            <field name="project_type">new_construction</field>
+            <field name="construction_status">in_progress</field>
+            <field name="total_contract_value">2500000.00</field>
+            <field name="partner_id" ref="demo_client_partner"/>
+            <field name="user_id" ref="user_construction_manager"/>
+            <field name="date_start">2024-01-15</field>
+            <field name="date">2024-01-15</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="site_address">100 Corporate Blvd, New York, NY 10001</field>
+            <field name="site_contact">John Smith</field>
+            <field name="site_phone">+1-555-0100</field>
+            <field name="description">Construction of a 15-story office tower. Phase 1 includes foundation and structural work up to the 8th floor.</field>
+            <field name="privacy_visibility">portal</field>
+        </record>
+
+        <record id="demo_project_residential" model="project.project">
+            <field name="name">Luxury Home Renovation</field>
+            <field name="code">P-2024-002</field>
+            <field name="is_construction_project">True</field>
+            <field name="project_type">renovation</field>
+            <field name="construction_status">in_progress</field>
+            <field name="total_contract_value">750000.00</field>
+            <field name="partner_id" ref="demo_client_partner"/>
+            <field name="user_id" ref="user_project_engineer"/>
+            <field name="date_start">2024-03-01</field>
+            <field name="date">2024-03-01</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="site_address">2000 Beverly Hills Drive, Los Angeles, CA 90210</field>
+            <field name="site_contact">Jane Doe</field>
+            <field name="site_phone">+1-555-0200</field>
+            <field name="description">Complete renovation of a 5000 sq ft luxury residence. Includes interior remodeling, electrical upgrades, and landscaping.</field>
+            <field name="privacy_visibility">portal</field>
+        </record>
+
+        <record id="demo_task_excavation" model="project.task">
+            <field name="name">Site Excavation &amp; Grading</field>
+            <field name="project_id" ref="demo_project_office_building"/>
+            <field name="user_id" ref="user_project_engineer"/>
+            <field name="date_deadline">2024-02-15</field>
+            <field name="planned_hours">200.0</field>
+            <field name="stage_id" ref="project.project_stage_0"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="description">Excavate site to required depth. Grade and prepare foundation area.</field>
+        </record>
+
+        <record id="demo_task_foundation" model="project.task">
+            <field name="name">Foundation &amp; Structural Work</field>
+            <field name="project_id" ref="demo_project_office_building"/>
+            <field name="user_id" ref="user_construction_manager"/>
+            <field name="date_deadline">2024-04-30</field>
+            <field name="planned_hours">400.0</field>
+            <field name="stage_id" ref="project.project_stage_0"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="description">Pour foundation, install structural steel, complete up to 8th floor.</field>
+        </record>
+
+        <record id="demo_task_interior_demo" model="project.task">
+            <field name="name">Interior Demolition</field>
+            <field name="project_id" ref="demo_project_residential"/>
+            <field name="user_id" ref="user_project_engineer"/>
+            <field name="date_deadline">2024-03-15</field>
+            <field name="planned_hours">120.0</field>
+            <field name="stage_id" ref="project.project_stage_0"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="description">Demo existing interior walls, flooring, and fixtures.</field>
+        </record>
+    </data>
+</odoo>

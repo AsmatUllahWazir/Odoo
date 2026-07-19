@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Email Templates -->
+    <record id="email_template_lease_created" model="mail.template">
+        <field name="name">Lease Created Notification</field>
+        <field name="model_id" ref="model_property_lease"/>
+        <field name="email_from">${object.property_id.manager_id.email or user.email}</field>
+        <field name="email_to">${object.tenant_id.email}</field>
+        <field name="subject">Lease Contract ${object.name} Created</field>
+        <field name="body_html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #7c7bad;">Lease Contract Created</h2>
+                <p>Dear ${object.tenant_id.name},</p>
+                <p>Your lease contract <strong>${object.name}</strong> has been created.</p>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                    <p><strong>Property:</strong> ${object.property_id.name}</p>
+                    <p><strong>Start Date:</strong> ${object.start_date}</p>
+                    <p><strong>End Date:</strong> ${object.end_date}</p>
+                    <p><strong>Monthly Rent:</strong> ${object.currency_id.symbol}${object.rent_amount}</p>
+                </div>
+                <p><a href="/my/leases/${object.id}" style="background: #7c7bad; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View Lease</a></p>
+            </div>
+            ]]>
+        </field>
+    </record>
+
+    <record id="email_template_viewing_scheduled" model="mail.template">
+        <field name="name">Viewing Scheduled Notification</field>
+        <field name="model_id" ref="model_property_viewing"/>
+        <field name="email_from">${object.sales_person_id.email or user.email}</field>
+        <field name="email_to">${object.prospect_id.email}</field>
+        <field name="subject">Property Viewing Scheduled - ${object.property_id.name}</field>
+        <field name="body_html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #7c7bad;">Viewing Scheduled</h2>
+                <p>Dear ${object.prospect_id.name},</p>
+                <p>Your viewing for <strong>${object.property_id.name}</strong> has been scheduled.</p>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                    <p><strong>Date &amp; Time:</strong> ${object.scheduled_time}</p>
+                    <p><strong>Property:</strong> ${object.property_id.name}</p>
+                    <p><strong>Address:</strong> ${object.property_id.full_address}</p>
+                </div>
+                <p><a href="/property/${object.property_id.property_code}" style="background: #7c7bad; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View Property</a></p>
+            </div>
+            ]]>
+        </field>
+    </record>
+
+    <record id="email_template_maintenance_created" model="mail.template">
+        <field name="name">Maintenance Request Created</field>
+        <field name="model_id" ref="model_property_maintenance_request"/>
+        <field name="email_from">${object.property_id.manager_id.email or user.email}</field>
+        <field name="email_to">${object.requestor_id.email}</field>
+        <field name="subject">Maintenance Request ${object.title}</field>
+        <field name="body_html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #7c7bad;">Maintenance Request Received</h2>
+                <p>Dear ${object.requestor_id.name},</p>
+                <p>Your maintenance request has been received.</p>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                    <p><strong>Title:</strong> ${object.title}</p>
+                    <p><strong>Category:</strong> ${object.category}</p>
+                    <p><strong>Priority:</strong> ${object.priority}</p>
+                </div>
+            </div>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

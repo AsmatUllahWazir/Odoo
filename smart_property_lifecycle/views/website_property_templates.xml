@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Property List Template -->
+    <!-- ===================================================================== -->
+
+    <template id="website_property_list" name="Property Listings">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="mt-4 mb-4">Properties for Sale &amp; Rent</h1>
+                        </div>
+                    </div>
+
+                    <!-- Search and Filters -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <form method="get" action="/property" class="form-inline">
+                                <div class="row w-100">
+                                    <div class="col-md-3 mb-2">
+                                        <input type="text" name="search" class="form-control w-100" placeholder="Search properties..." t-att-value="filters.get('search', '')"/>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <select name="type" class="form-control w-100">
+                                            <option value="">All Types</option>
+                                            <t t-foreach="property_types" t-as="type">
+                                                <option t-att-value="type[0]" t-att-selected="filters.get('type') == type[0]">
+                                                    <t t-esc="type[1]"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <select name="city" class="form-control w-100">
+                                            <option value="">All Cities</option>
+                                            <t t-foreach="cities" t-as="city">
+                                                <option t-att-value="city['city']" t-att-selected="filters.get('city') == city['city']">
+                                                    <t t-esc="city['city']"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <input type="number" name="min_price" class="form-control w-100" placeholder="Min Price" t-att-value="filters.get('min_price', '')"/>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <input type="number" name="max_price" class="form-control w-100" placeholder="Max Price" t-att-value="filters.get('max_price', '')"/>
+                                    </div>
+                                    <div class="col-md-1 mb-2">
+                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Property Grid -->
+                    <div class="row">
+                        <t t-if="properties">
+                            <t t-foreach="properties" t-as="property">
+                                <div class="col-md-4 col-lg-3 mb-4">
+                                    <div class="card h-100 property-card">
+                                        <div class="property-image">
+                                            <img t-att-src="property.image_256 and f'/web/image/property.property/{property.id}/image_256' or '/web/static/img/placeholder.png'"
+                                                 class="card-img-top" alt="Property Image" style="height: 200px; object-fit: cover;"/>
+                                            <span class="badge badge-primary property-status" t-field="property.status"/>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <a t-attf-href="/property/#{property.property_code}">
+                                                    <t t-esc="property.name"/>
+                                                </a>
+                                            </h5>
+                                            <p class="card-text">
+                                                <i class="fa fa-map-marker"/> <t t-esc="property.city or 'Location'"/>
+                                            </p>
+                                            <div class="property-details">
+                                                <span class="badge badge-secondary">
+                                                    <i class="fa fa-bed"/> <t t-esc="property.bedrooms"/> beds
+                                                </span>
+                                                <span class="badge badge-secondary">
+                                                    <i class="fa fa-bath"/> <t t-esc="property.bathrooms"/> baths
+                                                </span>
+                                                <span class="badge badge-secondary">
+                                                    <i class="fa fa-arrows-alt"/> <t t-esc="property.area_total"/> sqft
+                                                </span>
+                                            </div>
+                                            <div class="property-price mt-2">
+                                                <h4 class="text-primary">
+                                                    <t t-esc="property.currency_id.symbol or '$'"/>
+                                                    <t t-esc="'{:,.0f}'.format(property.base_price)"/>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer bg-transparent">
+                                            <a t-attf-href="/property/#{property.property_code}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                            <button class="btn btn-sm btn-success float-right schedule-viewing" t-att-data-property-id="property.id">
+                                                <i class="fa fa-calendar"/> Schedule Viewing
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-info-circle"/> No properties found matching your criteria.
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===================================================================== -->
+    <!-- Property Detail Template -->
+    <!-- ===================================================================== -->
+
+    <template id="website_property_detail" name="Property Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/property">Properties</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        <t t-esc="property.name"/>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Property Images -->
+                        <div class="col-md-8">
+                            <div class="property-gallery">
+                                <img t-att-src="property.image_512 and f'/web/image/property.property/{property.id}/image_512' or '/web/static/img/placeholder.png'"
+                                     class="img-fluid w-100" alt="Property Image" style="height: 400px; object-fit: cover;"/>
+                            </div>
+
+                            <!-- Virtual Tour -->
+                            <div t-if="property.virtual_tour_url" class="mt-3">
+                                <h4>Virtual Tour</h4>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe t-att-src="property.virtual_tour_url" class="embed-responsive-item" allowfullscreen="true"></iframe>
+                                </div>
+                            </div>
+
+                            <!-- YouTube Video -->
+                            <div t-if="property.youtube_video" class="mt-3">
+                                <h4>Video Tour</h4>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe t-att-src="'https://www.youtube.com/embed/' + property.youtube_video" class="embed-responsive-item" allowfullscreen="true"></iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Info Sidebar -->
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h4 class="mb-0"><t t-esc="property.name"/></h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="property-price">
+                                        <h3 class="text-primary">
+                                            <t t-esc="property.currency_id.symbol or '$'"/>
+                                            <t t-esc="'{:,.0f}'.format(property.base_price)"/>
+                                        </h3>
+                                        <span class="text-muted">Dynamic Price:
+                                            <t t-esc="property.currency_id.symbol or '$'"/>
+                                            <t t-esc="'{:,.0f}'.format(property.dynamic_price)"/>
+                                        </span>
+                                    </div>
+                                    <hr/>
+                                    <div class="property-details">
+                                        <p><i class="fa fa-map-marker"/> <t t-esc="property.full_address or 'Address not available'"/></p>
+                                        <p><i class="fa fa-bed"/> <t t-esc="property.bedrooms"/> Bedrooms</p>
+                                        <p><i class="fa fa-bath"/> <t t-esc="property.bathrooms"/> Bathrooms</p>
+                                        <p><i class="fa fa-arrows-alt"/> <t t-esc="property.area_total"/> sqft</p>
+                                        <p><i class="fa fa-calendar"/> Built in <t t-esc="property.year_built or 'N/A'"/></p>
+                                        <p><i class="fa fa-leaf"/> Energy Rating: <t t-esc="property.energy_rating or 'Not Rated'"/></p>
+                                        <p t-if="property.occupancy_rate > 0">
+                                            <i class="fa fa-users"/> Occupancy Rate: <t t-esc="property.occupancy_rate"/>%
+                                        </p>
+                                    </div>
+                                    <hr/>
+                                    <div class="property-actions">
+                                        <button class="btn btn-primary btn-block mb-2" id="schedule_viewing_btn" t-att-data-property-id="property.id">
+                                            <i class="fa fa-calendar"/> Schedule a Viewing
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#inquiryModal">
+                                            <i class="fa fa-envelope"/> Request Information
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Owner Info -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Property Details</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Property Code:</strong> <t t-esc="property.property_code"/></p>
+                                    <p><strong>Type:</strong> <t t-esc="property.type"/></p>
+                                    <p><strong>Category:</strong> <t t-esc="property.category"/></p>
+                                    <p><strong>Status:</strong> <span class="badge badge-primary" t-field="property.status"/></p>
+                                    <p t-if="property.manager_id"><strong>Manager:</strong> <t t-esc="property.manager_id.name"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h3>Description</h3>
+                            <div t-raw="property.description"/>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div t-if="property.features" class="row mt-3">
+                        <div class="col-12">
+                            <h3>Features &amp; Amenities</h3>
+                            <div t-raw="property.features"/>
+                        </div>
+                    </div>
+
+                    <!-- Similar Properties -->
+                    <div t-if="similar_properties" class="row mt-5">
+                        <div class="col-12">
+                            <h3>Similar Properties</h3>
+                            <div class="row">
+                                <t t-foreach="similar_properties" t-as="similar">
+                                    <div class="col-md-3 col-6 mb-3">
+                                        <div class="card h-100">
+                                            <img t-att-src="similar.image_256 and f'/web/image/property.property/{similar.id}/image_256' or '/web/static/img/placeholder.png'"
+                                                 class="card-img-top" alt="Property" style="height: 150px; object-fit: cover;"/>
+                                            <div class="card-body">
+                                                <h6 class="card-title"><t t-esc="similar.name"/></h6>
+                                                <p class="card-text small">
+                                                    <t t-esc="similar.city"/>
+                                                    <br/>
+                                                    <t t-esc="similar.currency_id.symbol or '$'"/>
+                                                    <t t-esc="'{:,.0f}'.format(similar.base_price)"/>
+                                                </p>
+                                                <a t-attf-href="/property/#{similar.property_code}" class="btn btn-sm btn-outline-primary">View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inquiry Modal -->
+            <div class="modal fade" id="inquiryModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Request Information</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="inquiry_form">
+                                <div class="form-group">
+                                    <label>Your Name</label>
+                                    <input type="text" class="form-control" name="name" required="required"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" name="email" required="required"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="tel" class="form-control" name="phone"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Message</label>
+                                    <textarea class="form-control" name="message" rows="3" placeholder="I'm interested in this property..."></textarea>
+                                </div>
+                                <input type="hidden" name="property_id" t-att-value="property.id"/>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="send_inquiry">Send Inquiry</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

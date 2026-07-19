@@ -1,0 +1,336 @@
+# -*- coding: utf-8 -*-
+"""
+Property Maintenance Request Model - Track and manage maintenance issues
+"""
+
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
+
+
+class PropertyMaintenanceRequest(models.Model):
+    """
+    Property Maintenance Request - Manage property maintenance and repairs
+    Extends maintenance request functionality
+    """
+    _name = 'property.maintenance.request'
+    _description = 'Property Maintenance Request'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'create_date desc'
+    _rec_name = 'display_name'
+
+    # ==========================================================================
+    # Basic Information
+    # ==========================================================================
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True
+    )
+
+    property_id = fields.Many2one(
+        'property.property',
+        string='Property',
+        required=True,
+        tracking=True,
+        ondelete='cascade'
+    )
+
+    unit_id = fields.Many2one(
+        'property.unit',
+        string='Unit',
+        help='Specific unit if applicable'
+    )
+
+    lease_id = fields.Many2one(
+        'property.lease',
+        string='Lease',
+        help='Related lease if maintenance is during a lease'
+    )
+
+    requestor_id = fields.Many2one(
+        'res.partner',
+        string='Requestor',
+        required=True,
+        tracking=True,
+        help='Person requesting maintenance'
+    )
+
+    assigned_to_id = fields.Many2one(
+        'res.users',
+        string='Assigned To',
+        tracking=True,
+        help='Person assigned to handle maintenance'
+    )
+
+    # ==========================================================================
+    # Maintenance Details
+    # ==========================================================================
+
+    title = fields.Char(
+        string='Title',
+        required=True,
+        help='Brief description of issue'
+    )
+
+    description = fields.Text(
+        string='Description',
+        help='Detailed description of maintenance issue'
+    )
+
+    category = fields.Selection([
+        ('plumbing', 'Plumbing'),
+        ('electrical', 'Electrical'),
+        ('hvac', 'HVAC'),
+        ('structural', 'Structural'),
+        ('appliance', 'Appliance'),
+        ('pest', 'Pest Control'),
+        ('cleaning', 'Cleaning/JANitorial'),
+        ('landscaping', 'Landscaping'),
+        ('security', 'Security'),
+        ('iot', 'IoT/Smart Device'),
+        ('other', 'Other'),
+    ], string='Category', required=True, default='other', tracking=True)
+
+    priority = fields.Selection([
+        ('emergency', 'Emergency'),
+        ('high', 'High'),
+        ('medium', 'Medium'),
+        ('low', 'Low'),
+    ], string='Priority', required=True, default='medium', tracking=True)
+
+    status = fields.Selection([
+        ('draft', 'Draft'),
+        ('reported', 'Reported'),
+        ('assigned', 'Assigned'),
+        ('scheduled', 'Scheduled'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+        ('deferred', 'Deferred'),
+    ], string='Status', required=True, default='reported', tracking=True)
+
+    # ==========================================================================
+    # Scheduling
+    # ==========================================================================
+
+    scheduled_date = fields.Date(
+        string='Scheduled Date',
+        tracking=True,
+        help='Date maintenance is scheduled to be performed'
+    )
+
+    completed_date = fields.Date(
+        string='Completed Date',
+        help='Date maintenance was completed'
+    )
+
+    estimated_duration = fields.Float(
+        string='Estimated Duration (Hours)',
+        help='Estimated time to complete maintenance'
+    )
+
+    actual_duration = fields.Float(
+        string='Actual Duration (Hours)',
+        help='Actual time taken to complete'
+    )
+
+    # ==========================================================================
+    # Cost Tracking
+    # ==========================================================================
+
+    currency_id = fields.Many2one(
+        'res.currency',
+        string='Currency',
+        related='property_id.currency_id',
+        store=True,
+        readonly=True
+    )
+
+    estimated_cost = fields.Monetary(
+        string='Estimated Cost',
+        currency_field='currency_id',
+        help='Estimated cost of maintenance'
+    )
+
+    actual_cost = fields.Monetary(
+        string='Actual Cost',
+        currency_field='currency_id',
+        help='Actual cost incurred'
+    )
+
+    # ==========================================================================
+    # IoT Integration
+    # ==========================================================================
+
+    iot_alert = fields.Boolean(
+        string='IoT Alert Generated',
+        default=False,
+        help='Whether this request was generated by an IoT alert'
+    )
+
+    iot_device_id = fields.Many2one(
+        'property.iot.device',
+        string='IoT Device',
+        help='Device that triggered this maintenance request'
+    )
+
+    iot_data = fields.Json(
+        string='IoT Data',
+        help='JSON data from IoT alert'
+    )
+
+    # ==========================================================================
+    # Additional Information
+    # ==========================================================================
+
+    resolution_notes = fields.Text(
+        string='Resolution Notes',
+        help='Notes on how the issue was resolved'
+    )
+
+    follow_up_required = fields.Boolean(
+        string='Follow-up Required',
+        default=False,
+        help='Whether follow-up is needed'
+    )
+
+    follow_up_date = fields.Date(
+        string='Follow-up Date',
+        help='Date for scheduled follow-up'
+    )
+
+    # ==========================================================================
+    # Computed Fields
+    # ==========================================================================
+
+    @api.depends('title', 'property_id')
+    def _compute_display_name(self):
+        """Compute display name"""
+        for record in self:
+            property_name = record.property_id.name if record.property_id else ''
+            record.display_name = f"{record.title} - {property_name}"
+
+    # ==========================================================================
+    # Constraints
+    # ==========================================================================
+
+    @api.constrains('estimated_cost', 'actual_cost')
+    def _check_costs(self):
+        """Validate costs are reasonable"""
+        for record in self:
+            if record.estimated_cost and record.estimated_cost < 0:
+                raise ValidationError(_("Estimated cost cannot be negative."))
+            if record.actual_cost and record.actual_cost < 0:
+                raise ValidationError(_("Actual cost cannot be negative."))
+
+    @api.constrains('scheduled_date', 'completed_date')
+    def _check_dates(self):
+        """Validate date sequence"""
+        for record in self:
+            if record.scheduled_date and record.completed_date:
+                if record.scheduled_date > record.completed_date:
+                    raise ValidationError(
+                        _("Scheduled date cannot be after completed date.")
+                    )
+
+    # ==========================================================================
+    # Business Methods
+    # ==========================================================================
+
+    def action_assign(self):
+        """Assign maintenance request to someone"""
+        for record in self:
+            if not record.assigned_to_id:
+                raise ValidationError(_("Please assign to a user first."))
+            record.status = 'assigned'
+            record.message_post(
+                body=_("Request assigned to %s") % record.assigned_to_id.name,
+                message_type='notification'
+            )
+
+    def action_schedule(self):
+        """Schedule maintenance"""
+        for record in self:
+            if not record.scheduled_date:
+                raise ValidationError(_("Please set a scheduled date."))
+            record.status = 'scheduled'
+            record.message_post(
+                body=_("Maintenance scheduled for %s") % record.scheduled_date,
+                message_type='notification'
+            )
+
+    def action_start_work(self):
+        """Start maintenance work"""
+        for record in self:
+            if record.status != 'scheduled':
+                raise ValidationError(_("Request must be scheduled before starting work."))
+            record.status = 'in_progress'
+            record.message_post(
+                body=_("Maintenance work started."),
+                message_type='notification'
+            )
+
+    def action_complete(self):
+        """Complete maintenance"""
+        for record in self:
+            if record.status != 'in_progress':
+                raise ValidationError(_("Request must be in progress to complete."))
+            record.status = 'completed'
+            record.completed_date = fields.Date.today()
+            record.message_post(
+                body=_("Maintenance completed."),
+                message_type='notification'
+            )
+
+    def action_cancel(self):
+        """Cancel maintenance"""
+        for record in self:
+            if record.status in ['completed', 'cancelled']:
+                raise ValidationError(_("This request cannot be cancelled."))
+            record.status = 'cancelled'
+            record.message_post(
+                body=_("Maintenance request cancelled."),
+                message_type='notification'
+            )
+
+    def action_create_work_order(self):
+        """Create a work order / project task"""
+        self.ensure_one()
+        # Use Odoo project module if installed
+        if 'project' in self.env.registry:
+            task_vals = {
+                'name': self.title,
+                'description': self.description,
+                'partner_id': self.property_id.owner_id.id,
+                'user_ids': [(4, self.assigned_to_id.id)] if self.assigned_to_id else [],
+                'planned_date_begin': self.scheduled_date,
+                'planned_date_end': self.scheduled_date,
+            }
+            task = self.env['project.task'].create(task_vals)
+            return {
+                'type': 'ir.actions.act_window',
+                'name': _('Task'),
+                'res_model': 'project.task',
+                'res_id': task.id,
+                'view_mode': 'form',
+                'target': 'current',
+            }
+        return False
+
+    @api.model
+    def _cron_check_pending_maintenance(self):
+        """Cron job to check for pending maintenance requests"""
+        overdue = self.search([
+            ('status', 'in', ['reported', 'assigned', 'scheduled']),
+            ('scheduled_date', '<', fields.Date.today()),
+            ('priority', 'in', ['emergency', 'high']),
+        ])
+
+        for request in overdue:
+            request.message_post(
+                body=_("⚠️ This maintenance request is overdue!"),
+                message_type='notification',
+                subtype_xmlid='mail.mt_note'
+            )
+            

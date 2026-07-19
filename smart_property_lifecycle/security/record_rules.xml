@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Property Record Rules -->
+
+        <!-- Managers see all properties -->
+        <record id="property_property_manager_rule" model="ir.rule">
+            <field name="name">Property: Manager access to all properties</field>
+            <field name="model_id" ref="model_property_property"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_property_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Agents see properties they manage -->
+        <record id="property_property_agent_rule" model="ir.rule">
+            <field name="name">Property: Agent sees own managed properties</field>
+            <field name="model_id" ref="model_property_property"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('manager_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_agent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Owners see only their properties -->
+        <record id="property_property_owner_rule" model="ir.rule">
+            <field name="name">Property: Owner sees owned properties</field>
+            <field name="model_id" ref="model_property_property"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('owner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_owner'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Tenants see properties they lease -->
+        <record id="property_property_tenant_rule" model="ir.rule">
+            <field name="name">Property: Tenant sees leased properties</field>
+            <field name="model_id" ref="model_property_property"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('lease_ids.tenant_id', '=', user.partner_id.id), ('lease_ids.status', 'in', ['active', 'signed'])]</field>
+            <field name="groups" eval="[(4, ref('group_property_tenant_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Lease Record Rules -->
+
+        <!-- Managers see all leases -->
+        <record id="property_lease_manager_rule" model="ir.rule">
+            <field name="name">Lease: Manager access to all leases</field>
+            <field name="model_id" ref="model_property_lease"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_property_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Agents see leases for properties they manage -->
+        <record id="property_lease_agent_rule" model="ir.rule">
+            <field name="name">Lease: Agent sees managed property leases</field>
+            <field name="model_id" ref="model_property_lease"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('property_id.manager_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_agent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Tenants see only their own leases -->
+        <record id="property_lease_tenant_rule" model="ir.rule">
+            <field name="name">Lease: Tenant sees own leases</field>
+            <field name="model_id" ref="model_property_lease"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('tenant_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_tenant_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Owners see leases for their properties -->
+        <record id="property_lease_owner_rule" model="ir.rule">
+            <field name="name">Lease: Owner sees property leases</field>
+            <field name="model_id" ref="model_property_lease"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('property_id.owner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_owner'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Viewing Record Rules -->
+
+        <record id="property_viewing_agent_rule" model="ir.rule">
+            <field name="name">Viewing: Agent sees managed property viewings</field>
+            <field name="model_id" ref="model_property_viewing"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">['|', ('sales_person_id', '=', user.id), ('property_id.manager_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_agent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="property_viewing_tenant_rule" model="ir.rule">
+            <field name="name">Viewing: Tenant sees own viewings</field>
+            <field name="model_id" ref="model_property_viewing"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('prospect_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_tenant_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Maintenance Record Rules -->
+
+        <record id="property_maintenance_tenant_rule" model="ir.rule">
+            <field name="name">Maintenance: Tenant sees own maintenance requests</field>
+            <field name="model_id" ref="model_property_maintenance_request"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('requestor_id', '=', user.partner_id.id)]</field>
+<!--            <field name="domain_force">['|', ('requestor_id', '=', user.partner_id.id), ('lease_id.tenant_id', '=', user.partner_id.id)]</field>-->
+            <field name="groups" eval="[(4, ref('group_property_tenant_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="property_maintenance_agent_rule" model="ir.rule">
+            <field name="name">Maintenance: Agent sees managed property maintenance</field>
+            <field name="model_id" ref="model_property_maintenance_request"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('property_id.manager_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_agent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Tenant Screening Record Rules -->
+
+        <record id="property_screening_agent_rule" model="ir.rule">
+            <field name="name">Screening: Agent sees managed property screenings</field>
+            <field name="model_id" ref="model_property_tenant_screening"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('property_id.manager_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_agent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="property_screening_applicant_rule" model="ir.rule">
+            <field name="name">Screening: Applicant sees own screening</field>
+            <field name="model_id" ref="model_property_tenant_screening"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('applicant_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_tenant_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- HOA Record Rules -->
+
+        <record id="property_hoa_owner_rule" model="ir.rule">
+            <field name="name">HOA: Owner sees associations for owned properties</field>
+            <field name="model_id" ref="model_property_hoa_association"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('property_ids.owner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_owner'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="property_hoa_agent_rule" model="ir.rule">
+            <field name="name">HOA: Agent sees associations for managed properties</field>
+            <field name="model_id" ref="model_property_hoa_association"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('property_ids.manager_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_property_agent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Multi-Company Rules -->
+
+        <record id="property_property_company_rule" model="ir.rule">
+            <field name="name">Property: Multi-company access</field>
+            <field name="model_id" ref="model_property_property"/>
+            <field name="global" eval="True"/>
+<!--            <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+            <field name="groups" eval="[(4, ref('base.group_multi_company'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="property_lease_company_rule" model="ir.rule">
+            <field name="name">Lease: Multi-company access</field>
+            <field name="model_id" ref="model_property_lease"/>
+            <field name="global" eval="True"/>
+<!--            <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+            <field name="groups" eval="[(4, ref('base.group_multi_company'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

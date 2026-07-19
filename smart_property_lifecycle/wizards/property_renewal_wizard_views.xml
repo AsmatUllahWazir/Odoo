@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Lease Renewal Wizard -->
+    <!-- ===================================================================== -->
+
+<!--    <record id="view_property_renewal_wizard_form" model="ir.ui.view">-->
+<!--        <field name="name">property.renewal.wizard.form</field>-->
+<!--        <field name="model">property.lease.renewal.wizard</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Renew Lease">-->
+<!--                <div class="alert alert-info" role="alert">-->
+<!--                    <i class="fa fa-info-circle"/> Renewing this lease will create a new lease agreement or extend the current one.-->
+<!--                </div>-->
+
+<!--                <group>-->
+<!--                    <group string="Current Lease Information">-->
+<!--                        <field name="lease_id" readonly="1"/>-->
+<!--                        <field name="lease_id.tenant_id" readonly="1" string="Tenant"/>-->
+<!--                        <field name="lease_id.property_id" readonly="1" string="Property"/>-->
+<!--                        <field name="lease_id.unit_id" readonly="1" string="Unit" invisible="not lease_id.unit_id"/>-->
+<!--                        <field name="lease_id.end_date" readonly="1" string="Current End Date"/>-->
+<!--                        <field name="lease_id.rent_amount" readonly="1" string="Current Rent"/>-->
+<!--                        <field name="lease_id.deposit_amount" readonly="1" string="Current Deposit"/>-->
+<!--                    </group>-->
+<!--                    <group string="Renewal Details">-->
+<!--                        <field name="renewal_type" widget="selection"/>-->
+<!--                        <field name="new_start_date"/>-->
+<!--                        <field name="new_end_date" readonly="1"/>-->
+<!--                        <field name="renewal_term"/>-->
+<!--                    </group>-->
+<!--                </group>-->
+
+<!--                <group string="Financial Adjustments">-->
+<!--                    <group>-->
+<!--                        <field name="currency_id" readonly="1"/>-->
+<!--                        <field name="rent_increase_percent"-->
+<!--                               widget="float"-->
+<!--                               help="Percentage increase in rent (e.g., 3 for 3%)"/>-->
+<!--                        <field name="new_rent_amount"-->
+<!--                               help="New monthly rent amount after renewal"/>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="new_deposit_amount"-->
+<!--                               help="New deposit amount (leave empty to keep same)"/>-->
+<!--                    </group>-->
+<!--                </group>-->
+
+<!--                <group string="Renewal Options">-->
+<!--                    <group>-->
+<!--                        <field name="create_new_lease"-->
+<!--                               widget="boolean_toggle"-->
+<!--                               help="Create a new lease record for the renewal"/>-->
+<!--                        <field name="update_existing"-->
+<!--                               widget="boolean_toggle" invisible="create_new_lease"-->
+<!--                               help="Update the existing lease with new dates"/>-->
+<!--                    </group>-->
+<!--                </group>-->
+
+<!--                <group string="Notes">-->
+<!--                    <field name="renewal_notes"-->
+<!--                           placeholder="Add any notes about this renewal..."/>-->
+<!--                </group>-->
+
+<!--                <footer>-->
+<!--                    <button name="action_renew_lease"-->
+<!--                            string="Renew Lease"-->
+<!--                            type="object"-->
+<!--                            class="btn-primary"/>-->
+<!--                    <button string="Cancel"-->
+<!--                            class="btn-default"-->
+<!--                            special="cancel"/>-->
+<!--                </footer>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>

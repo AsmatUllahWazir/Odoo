@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+    <!-- ===================================================================== -->
+    <!-- Property Kanban Card Template -->
+    <!-- ===================================================================== -->
+
+    <div t-name="smart_property_lifecycle.PropertyKanbanCard" class="oe_kanban_global_click o_kanban_record">
+        <div class="o_kanban_image">
+            <img t-att-src="kanban_image('property.property', 'image_256', record.id.raw_value)"
+                 alt="Property"
+                 class="o_image_64_cover"
+                 t-if="record.image_256.raw_value"/>
+            <div t-else="" class="o_kanban_image_empty">
+                <i class="fa fa-building-o fa-3x"/>
+            </div>
+        </div>
+
+        <div class="oe_kanban_details">
+            <!-- Header -->
+            <div class="o_kanban_record_top">
+                <strong class="o_kanban_record_title">
+                    <span t-field="record.name"/>
+                </strong>
+                <span class="o_kanban_record_subtitle">
+                    <span t-field="record.property_code"/>
+                </span>
+            </div>
+
+            <!-- Body -->
+            <div class="o_kanban_record_bottom">
+                <div class="o_kanban_record_body">
+                    <!-- Type and Status -->
+                    <div class="row">
+                        <div class="col-6">
+                            <span t-field="record.type"/>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span t-field="record.status" widget="badge"/>
+                        </div>
+                    </div>
+
+                    <!-- Location and Specs -->
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <i class="fa fa-map-marker"/>
+                            <span t-field="record.city"/>
+                        </div>
+                        <div class="col-6 text-right">
+                            <i class="fa fa-bed"/>
+                            <span t-field="record.bedrooms"/>
+                            <i class="fa fa-bath ml-1"/>
+                            <span t-field="record.bathrooms"/>
+                        </div>
+                    </div>
+
+                    <!-- Area and Price -->
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <span t-field="record.area_total"/> sqft
+                        </div>
+                        <div class="col-6 text-right">
+                            <span t-field="record.base_price" widget="monetary"/>
+                        </div>
+                    </div>
+
+                    <!-- Occupancy Progress -->
+                    <div class="row mt-1" t-if="record.occupancy_rate.raw_value > 0">
+                        <div class="col-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-occupancy"
+                                     t-att-style="'width: %s%%' % record.occupancy_rate.raw_value"
+                                     t-att-aria-valuenow="record.occupancy_rate.raw_value">
+                                    <span class="progress-text">
+                                        <t t-esc="record.occupancy_rate.raw_value"/>%
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Energy and IoT -->
+                    <div class="row mt-1">
+                        <div class="col-6" t-if="record.energy_rating.raw_value">
+                            <i class="fa fa-leaf"/> <span t-field="record.energy_rating"/>
+                        </div>
+                        <div class="col-6 text-right" t-if="record.website_published.raw_value">
+                            <i class="fa fa-globe text-success"/> Published
+                        </div>
+                    </div>
+
+                    <!-- IoT Devices -->
+                    <div class="row mt-1" t-if="record.iot_enabled.raw_value">
+                        <div class="col-12">
+                            <span class="badge badge-info">
+                                <i class="fa fa-wifi"/> IoT Enabled
+                            </span>
+                            <span class="badge badge-secondary" t-if="record.iot_device_count.raw_value">
+                                <t t-esc="record.iot_device_count.raw_value"/> devices
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="o_kanban_record_footer">
+                    <div class="o_kanban_footer_left">
+                        <span t-field="record.owner_id" widget="many2one_avatar"/>
+                        <span class="small text-muted" t-if="record.manager_id.raw_value">
+                            <i class="fa fa-user"></i> <span t-field="record.manager_id"/>
+                        </span>
+                    </div>
+                    <div class="o_kanban_footer_right">
+                        <div class="o_kanban_actions">
+                            <button type="button"
+                                    class="btn btn-sm btn-primary"
+                                    title="Create Lease"
+                                    data-action="action_create_lease">
+                                <i class="fa fa-file-text-o"/>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-success"
+                                    title="Schedule Viewing"
+                                    data-action="action_schedule_viewing">
+                                <i class="fa fa-calendar"/>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-info"
+                                    title="View Leases"
+                                    data-action="action_show_leases">
+                                <i class="fa fa-list"/>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-warning"
+                                    title="Maintenance"
+                                    data-action="action_show_maintenance">
+                                <i class="fa fa-wrench"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- IoT Device Card Template -->
+    <!-- ===================================================================== -->
+
+    <div t-name="smart_property_lifecycle.IoTDeviceCard" class="iot-device-card card mb-2" t-att-class="'status-' + device.status">
+        <div class="card-body p-2">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div class="device-icon">
+                        <i class="fa" t-att-class="getDeviceIcon(device.device_type)"/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong t-esc="device.device_name"/>
+                            <span class="badge ms-2" t-att-class="getStatusBadge(device.status)">
+                                <i class="fa" t-att-class="getStatusIcon(device.status)"/>
+                                <t t-esc="device.status"/>
+                            </span>
+                        </div>
+                        <span class="text-muted small" t-esc="formatLastSeen(device.last_seen)"/>
+                    </div>
+                    <div class="text-muted small">
+                        <i class="fa fa-tag"/> <t t-esc="device.device_type.replace('_', ' ').title()"/>
+                        <span t-if="device.location_description">
+                            <i class="fa fa-map-marker ms-2"/> <t t-esc="device.location_description"/>
+                        </span>
+                    </div>
+                    <div class="mt-1">
+                        <div class="battery-indicator">
+                            <div class="battery-level"
+                                 t-att-class="getBatteryLevelClass(device.battery_level)"
+                                 t-att-style="'width: ' + (device.battery_level || 0) + '%'"/>
+                        </div>
+                        <span class="small text-muted">
+                            Battery: <t t-esc="device.battery_level || 0"/>%
+                        </span>
+                        <span t-if="device.has_alert" class="badge badge-danger ms-2">
+                            <i class="fa fa-exclamation-triangle"/> Alert
+                        </span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="btn-group btn-group-sm">
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                title="Refresh"
+                                t-on-click="() => refreshDevice(device.id)">
+                            <i class="fa fa-refresh"/>
+                        </button>
+                        <button type="button"
+                                class="btn btn-outline-primary"
+                                title="View Details"
+                                t-on-click="() => viewDeviceDetail(device.id)">
+                            <i class="fa fa-chevron-right"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- Property Gallery Template -->
+    <!-- ===================================================================== -->
+
+    <div t-name="smart_property_lifecycle.PropertyGallery">
+        <div class="property-gallery-wrapper">
+            <!-- Thumbnails -->
+            <div class="row">
+                <t t-foreach="state.images.slice(0, 4)" t-as="image" t-key="image_index">
+                    <div class="col-3">
+                        <img t-att-src="image"
+                             class="img-fluid cursor-pointer"
+                             style="height: 100px; object-fit: cover;"
+                             t-on-click="() => openGallery(image_index)"/>
+                    </div>
+                </t>
+                <t t-if="state.images.length > 4">
+                    <div class="col-3 position-relative">
+                        <img t-att-src="state.images[4]"
+                             class="img-fluid cursor-pointer"
+                             style="height: 100px; object-fit: cover; opacity: 0.5;"
+                             t-on-click="() => openGallery(4)"/>
+                        <div class="position-absolute top-50 start-50 translate-middle">
+                            <span class="badge bg-dark">+<t t-esc="state.images.length - 4"/></span>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Modal Gallery -->
+            <div class="modal fade" t-att-class="state.showModal ? 'show d-block' : ''"
+                 style="background: rgba(0,0,0,0.9);">
+                <div class="modal-dialog modal-lg modal-fullscreen">
+                    <div class="modal-content bg-transparent border-0">
+                        <div class="modal-header border-0">
+                            <button type="button" class="btn-close btn-close-white"
+                                    t-on-click="closeGallery"/>
+                        </div>
+                        <div class="modal-body d-flex align-items-center justify-content-center">
+                            <button type="button" class="btn btn-light position-absolute start-0 ms-3"
+                                    t-on-click="prevImage" t-if="state.currentIndex > 0">
+                                <i class="fa fa-chevron-left"/>
+                            </button>
+                            <img t-att-src="state.images[state.currentIndex]"
+                                 class="img-fluid"
+                                 style="max-height: 80vh; object-fit: contain;"/>
+                            <button type="button" class="btn btn-light position-absolute end-0 me-3"
+                                    t-on-click="nextImage" t-if="state.currentIndex < state.images.length - 1">
+                                <i class="fa fa-chevron-right"/>
+                            </button>
+                        </div>
+                        <div class="modal-footer border-0 justify-content-center">
+                            <span class="text-white">
+                                <t t-esc="state.currentIndex + 1"/> / <t t-esc="state.images.length"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</templates>

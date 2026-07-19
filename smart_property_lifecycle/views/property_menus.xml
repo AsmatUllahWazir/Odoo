@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Root Menu -->
+    <!-- ===================================================================== -->
+
+    <menuitem id="property_menu_root"
+              name="Properties"
+              sequence="10"
+              web_icon="smart_property_lifecycle,static/description/icon.png"/>
+
+    <!-- ===================================================================== -->
+    <!-- Main Modules Menu -->
+    <!-- ===================================================================== -->
+
+    <menuitem id="property_menu_properties"
+              name="Properties"
+              parent="property_menu_root"
+              sequence="10"
+              action="action_property_property"/>
+
+    <menuitem id="property_menu_leases"
+              name="Leases"
+              parent="property_menu_root"
+              sequence="20"
+              action="action_property_lease"/>
+
+    <menuitem id="property_menu_viewings"
+              name="Viewings"
+              parent="property_menu_root"
+              sequence="30"
+              action="action_property_viewing"/>
+
+    <menuitem id="property_menu_maintenance"
+              name="Maintenance"
+              parent="property_menu_root"
+              sequence="40"
+              action="action_property_maintenance"/>
+
+    <menuitem id="property_menu_screening"
+              name="Tenant Screening"
+              parent="property_menu_root"
+              sequence="50"
+              action="action_property_tenant_screening"/>
+
+    <menuitem id="property_menu_hoa"
+              name="HOA Associations"
+              parent="property_menu_root"
+              sequence="60"
+              action="action_property_hoa_association"/>
+
+    <menuitem id="property_menu_analytics"
+              name="Analytics"
+              parent="property_menu_root"
+              sequence="70"
+              action="action_property_portfolio"/>
+
+    <!-- ===================================================================== -->
+    <!-- Reports Sub-Menu -->
+    <!-- ===================================================================== -->
+
+    <menuitem id="property_menu_reports"
+              name="Reports"
+              parent="property_menu_root"
+              sequence="80"
+              groups="group_property_analyst"/>
+
+    <menuitem id="property_menu_reports_portfolio"
+              name="Portfolio Analytics"
+              parent="property_menu_reports"
+              sequence="10"
+              action="action_property_portfolio"/>
+
+    <menuitem id="property_menu_reports_portfolio_results"
+              name="Saved Reports"
+              parent="property_menu_reports"
+              sequence="20"
+              action="action_property_portfolio_results"/>
+
+    <menuitem id="property_menu_reports_lease_contract"
+              name="Lease Contracts"
+              parent="property_menu_reports"
+              sequence="30"
+              action="action_report_lease_contract"/>
+
+    <menuitem id="property_menu_reports_portfolio_analytics"
+              name="Portfolio Analytics PDF"
+              parent="property_menu_reports"
+              sequence="40"
+              action="action_report_portfolio_analytics"/>
+
+    <!-- ===================================================================== -->
+    <!-- Configuration Sub-Menu -->
+    <!-- ===================================================================== -->
+
+    <menuitem id="property_menu_configuration"
+              name="Configuration"
+              parent="property_menu_root"
+              sequence="90"
+              groups="group_property_manager"/>
+
+    <menuitem id="property_menu_configuration_pricing"
+              name="Pricing Rules"
+              parent="property_menu_configuration"
+              sequence="10"
+              action="action_property_dynamic_pricing_rule"/>
+
+    <menuitem id="property_menu_configuration_iot"
+              name="IoT Devices"
+              parent="property_menu_configuration"
+              sequence="20"
+              action="action_property_iot_device"/>
+
+    <menuitem id="property_menu_configuration_hoa"
+              name="HOA Settings"
+              parent="property_menu_configuration"
+              sequence="30"
+              action="action_property_hoa_association"/>
+
+    <menuitem id="property_menu_configuration_maintenance"
+              name="Maintenance Categories"
+              parent="property_menu_configuration"
+              sequence="40"/>
+
+    <!-- ===================================================================== -->
+    <!-- Menu Actions (if not defined in view files) -->
+    <!-- ===================================================================== -->
+
+    <!-- IoT Devices Action -->
+    <record id="action_property_iot_device" model="ir.actions.act_window">
+        <field name="name">IoT Devices</field>
+        <field name="res_model">property.iot.device</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first IoT device
+            </p>
+            <p>
+                Manage smart devices, sensors, and IoT alerts for your properties.
+            </p>
+        </field>
+    </record>
+
+    <!-- Portfolio Report Action -->
+    <record id="action_property_portfolio" model="ir.actions.act_window">
+        <field name="name">Portfolio Analytics</field>
+        <field name="res_model">property.portfolio.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Generate Portfolio Report
+            </p>
+            <p>
+                Get comprehensive analytics for your property portfolio including
+                occupancy rates, revenue, and property breakdowns.
+            </p>
+        </field>
+    </record>
+
+    <!-- Portfolio Results Action -->
+    <record id="action_property_portfolio_results" model="ir.actions.act_window">
+        <field name="name">Portfolio Reports</field>
+        <field name="res_model">property.portfolio.report.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View Portfolio Reports
+            </p>
+            <p>
+                Review and analyze previously generated portfolio reports.
+            </p>
+        </field>
+    </record>
+
+</odoo>

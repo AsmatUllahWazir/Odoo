@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Demo Maintenance Request 1 -->
+        <record id="demo_maintenance_1" model="property.maintenance.request">
+            <field name="property_id" ref="demo_property_1"/>
+            <field name="lease_id" ref="demo_lease_1"/>
+            <field name="title">Leaking Faucet in Kitchen</field>
+            <field name="description">Kitchen sink faucet is leaking water. Need to replace washer or faucet.</field>
+            <field name="category">plumbing</field>
+            <field name="priority">medium</field>
+            <field name="status">reported</field>
+            <field name="requestor_id" ref="demo_property_tenant"/>
+            <field name="scheduled_date">2024-07-15</field>
+            <field name="estimated_cost">150</field>
+        </record>
+
+        <!-- Demo Maintenance Request 2 -->
+        <record id="demo_maintenance_2" model="property.maintenance.request">
+            <field name="property_id" ref="demo_property_2"/>
+            <field name="title">HVAC System Not Cooling</field>
+            <field name="description">The air conditioning unit is not cooling properly. Temperature is 10 degrees above setting.</field>
+            <field name="category">hvac</field>
+            <field name="priority">high</field>
+            <field name="status">in_progress</field>
+            <field name="requestor_id" ref="demo_property_tenant"/>
+            <field name="assigned_to_id" ref="base.user_demo"/>
+            <field name="scheduled_date">2024-07-10</field>
+            <field name="estimated_cost">500</field>
+            <field name="actual_cost">450</field>
+        </record>
+
+        <!-- Demo Maintenance Request 3 (IoT Alert) -->
+        <record id="demo_maintenance_3" model="property.maintenance.request">
+            <field name="property_id" ref="demo_property_3"/>
+            <field name="title">Smart Lock Alert - Unauthorized Access</field>
+            <field name="description">Smart lock detected unauthorized access attempt at 2:30 AM. Security protocol activated.</field>
+            <field name="category">iot</field>
+            <field name="priority">emergency</field>
+            <field name="status">assigned</field>
+            <field name="requestor_id" ref="demo_property_owner"/>
+            <field name="assigned_to_id" ref="base.user_demo"/>
+            <field name="iot_alert">True</field>
+            <field name="scheduled_date">2024-07-08</field>
+        </record>
+
+    </data>
+</odoo>

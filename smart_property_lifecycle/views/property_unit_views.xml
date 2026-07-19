@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Unit Tree View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_unit_tree" model="ir.ui.view">
+        <field name="name">property.unit.tree</field>
+        <field name="model">property.unit</field>
+        <field name="arch" type="xml">
+            <tree string="Units" decoration-success="status=='occupied'" decoration-info="status=='vacant'" decoration-danger="status=='under_maintenance'" decoration-warning="status=='pending_inspection'">
+                <field name="unit_number" string="Unit"/>
+                <field name="property_id" string="Property"/>
+                <field name="floor_number" string="Floor"/>
+                <field name="unit_type" string="Type"/>
+                <field name="status" string="Status" widget="badge"/>
+                <field name="unit_area" string="Area" sum="Total Area"/>
+                <field name="bedrooms" string="Beds"/>
+                <field name="bathrooms" string="Baths"/>
+                <field name="rent_amount" string="Rent" sum="Total Rent"/>
+                <field name="current_tenant_id" string="Tenant"/>
+                <field name="is_occupied" string="Occupied" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Unit Form View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_unit_form" model="ir.ui.view">
+        <field name="name">property.unit.form</field>
+        <field name="model">property.unit</field>
+        <field name="arch" type="xml">
+            <form string="Unit">
+                <header>
+                    <button name="action_occupy_unit" string="Occupy" type="object" class="btn-primary" invisible="is_occupied or status not in ['vacant', 'pending_inspection']"/>
+                    <button name="action_vacate_unit" string="Vacate" type="object" class="btn-warning" invisible="not is_occupied or status != 'occupied'"/>
+                    <button name="action_maintenance_unit" string="Maintenance" type="object" class="btn-secondary" invisible="status not in ['vacant', 'occupied']"/>
+                    <field name="status" widget="statusbar" statusbar_visible="vacant,occupied,under_maintenance"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" string="Unit"/>
+                        </h1>
+                        <h4>
+                            <field name="property_id"/>
+                            <span class="text-muted">|</span>
+                            <field name="unit_type"/>
+                            <span class="text-muted">|</span>
+                            <span class="badge badge-success" invisible="not is_occupied">Occupied</span>
+                            <span class="badge badge-secondary" invisible="is_occupied">Vacant</span>
+                        </h4>
+                    </div>
+
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group>
+                                    <field name="unit_number"/>
+                                    <field name="floor_number"/>
+                                    <field name="unit_type" widget="selection"/>
+                                    <field name="status" widget="selection"/>
+                                </group>
+                                <group>
+                                    <field name="unit_area"/>
+                                    <field name="bedrooms"/>
+                                    <field name="bathrooms"/>
+                                    <field name="balcony_area"/>
+                                    <field name="parking_spaces"/>
+                                    <field name="storage_unit" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Pricing">
+                            <group>
+                                <group>
+                                    <field name="unit_price"/>
+                                    <field name="rent_amount"/>
+                                    <field name="deposit_amount"/>
+                                </group>
+                                <group>
+                                    <field name="hoa_fees"/>
+                                    <field name="currency_id" readonly="1"/>
+                                    <field name="is_occupied" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Leases">
+                            <field name="lease_ids"/>
+                        </page>
+
+                        <page string="Maintenance">
+                            <field name="maintenance_request_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Unit Action Window -->
+    <!-- ===================================================================== -->
+
+    <record id="action_property_unit" model="ir.actions.act_window">
+        <field name="name">Units</field>
+        <field name="res_model">property.unit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first unit
+            </p>
+            <p>
+                Manage individual units within multi-unit properties.
+            </p>
+        </field>
+    </record>
+
+</odoo>

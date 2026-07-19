@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Portfolio Report Wizard Form -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_portfolio_report_form" model="ir.ui.view">
+        <field name="name">property.portfolio.report.form</field>
+        <field name="model">property.portfolio.report</field>
+        <field name="arch" type="xml">
+            <form string="Portfolio Analytics">
+                <group>
+                    <group string="Filters">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group string="Options">
+                        <field name="property_type" widget="selection"/>
+                        <field name="status" widget="selection"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_report" string="Generate Report" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Portfolio Report Result Tree View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_portfolio_report_result_tree" model="ir.ui.view">
+        <field name="name">property.portfolio.report.result.tree</field>
+        <field name="model">property.portfolio.report.result</field>
+        <field name="arch" type="xml">
+            <tree string="Portfolio Reports">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="total_properties" sum="Total Properties"/>
+                <field name="total_value" sum="Total Value"/>
+                <field name="total_rent" sum="Total Rent"/>
+                <field name="occupancy_rate" widget="progressbar"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Portfolio Report Result Form View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_portfolio_report_result_form" model="ir.ui.view">
+        <field name="name">property.portfolio.report.result.form</field>
+        <field name="model">property.portfolio.report.result</field>
+        <field name="arch" type="xml">
+            <form string="Portfolio Report">
+                <header>
+                    <button name="action_view_properties" string="View Properties" type="object" class="btn-primary"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Summary">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="total_properties" widget="statbutton"/>
+                            <field name="total_value" widget="statbutton"/>
+                        </group>
+                        <group string="Metrics">
+                            <field name="total_rent" widget="statbutton"/>
+                            <field name="occupancy_rate" widget="progressbar"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Properties">
+                        <field name="property_ids">
+                            <tree>
+                                <field name="property_code"/>
+                                <field name="name"/>
+                                <field name="type"/>
+                                <field name="status" widget="badge"/>
+                                <field name="city"/>
+                                <field name="base_price"/>
+                                <field name="rental_price"/>
+                                <field name="occupancy_rate"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Portfolio Report Actions -->
+    <!-- ===================================================================== -->
+
+    <record id="action_property_portfolio" model="ir.actions.act_window">
+        <field name="name">Portfolio Analytics</field>
+        <field name="res_model">property.portfolio.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Generate Portfolio Report
+            </p>
+            <p>
+                Get comprehensive analytics for your property portfolio including
+                occupancy rates, revenue, and property breakdowns.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_property_portfolio_results" model="ir.actions.act_window">
+        <field name="name">Portfolio Reports</field>
+        <field name="res_model">property.portfolio.report.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View Portfolio Reports
+            </p>
+            <p>
+                Review and analyze previously generated portfolio reports.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,387 @@
+/* ==========================================================================
+   Property Module Custom Styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Property Kanban Cards
+   -------------------------------------------------------------------------- */
+
+.property-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.property-card .property-image {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+}
+
+.property-card .property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-card .property-image:hover img {
+    transform: scale(1.05);
+}
+
+.property-card .property-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.property-card .property-details {
+    margin: 10px 0;
+}
+
+.property-card .property-details .badge {
+    margin-right: 5px;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.property-card .property-price {
+    margin-top: 10px;
+}
+
+.property-card .property-price h4 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.property-card .card-footer {
+    background: transparent;
+    border-top: 1px solid #eee;
+    padding: 10px 15px;
+}
+
+/* --------------------------------------------------------------------------
+   Property Gallery
+   -------------------------------------------------------------------------- */
+
+.property-gallery {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.property-gallery img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.property-gallery .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.property-gallery .gallery-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.property-gallery .gallery-nav.prev {
+    left: 10px;
+}
+
+.property-gallery .gallery-nav.next {
+    right: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Property Details Page
+   -------------------------------------------------------------------------- */
+
+.property-detail-page .property-actions {
+    margin-top: 20px;
+}
+
+.property-detail-page .property-actions .btn {
+    margin-bottom: 10px;
+}
+
+.property-detail-page .similar-properties .card {
+    transition: transform 0.2s ease;
+}
+
+.property-detail-page .similar-properties .card:hover {
+    transform: scale(1.02);
+}
+
+/* --------------------------------------------------------------------------
+   Status Badges
+   -------------------------------------------------------------------------- */
+
+.badge-status-draft {
+    background-color: #6c757d;
+    color: white;
+}
+
+.badge-status-listed {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.badge-status-under_offer {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge-status-leased {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge-status-sold {
+    background-color: #007bff;
+    color: white;
+}
+
+.badge-status-maintenance {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-status-archived {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* --------------------------------------------------------------------------
+   Smart Buttons
+   -------------------------------------------------------------------------- */
+
+.oe_button_box .oe_stat_button .o_stat_info .o_stat_text {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.oe_button_box .oe_stat_button .o_stat_info .o_stat_value {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Progress Bars
+   -------------------------------------------------------------------------- */
+
+.progress-bar-occupancy {
+    background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.progress-bar-battery {
+    background: linear-gradient(90deg, #dc3545, #ffc107, #28a745);
+}
+
+/* --------------------------------------------------------------------------
+   IoT Device Cards
+   -------------------------------------------------------------------------- */
+
+.iot-device-card {
+    border-left: 4px solid #6c757d;
+    transition: all 0.3s ease;
+}
+
+.iot-device-card.status-online {
+    border-left-color: #28a745;
+}
+
+.iot-device-card.status-offline {
+    border-left-color: #dc3545;
+}
+
+.iot-device-card.status-maintenance {
+    border-left-color: #ffc107;
+}
+
+.iot-device-card.status-error {
+    border-left-color: #dc3545;
+}
+
+.iot-device-card .device-icon {
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f8f9fa;
+}
+
+.iot-device-card .battery-indicator {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: #e9ecef;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.iot-device-card .battery-indicator .battery-level {
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.iot-device-card .battery-indicator .battery-level.high {
+    background: #28a745;
+}
+
+.iot-device-card .battery-indicator .battery-level.medium {
+    background: #ffc107;
+}
+
+.iot-device-card .battery-indicator .battery-level.low {
+    background: #dc3545;
+}
+
+/* --------------------------------------------------------------------------
+   Alert Animations
+   -------------------------------------------------------------------------- */
+
+@keyframes pulse-alert {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.alert-active {
+    animation: pulse-alert 2s infinite;
+}
+
+.alert-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.alert-badge.critical {
+    background: #dc3545;
+    color: white;
+}
+
+.alert-badge.warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.alert-badge.info {
+    background: #17a2b8;
+    color: white;
+}
+
+/* --------------------------------------------------------------------------
+   Portal Styles
+   -------------------------------------------------------------------------- */
+
+.portal-property-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.2s ease;
+}
+
+.portal-property-card:hover {
+    border-color: #7c7bad;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.portal-property-card .property-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.portal-lease-status {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.portal-lease-status.active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.portal-lease-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.portal-lease-status.terminated {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adjustments
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .property-card .property-image {
+        height: 150px;
+    }
+
+    .property-detail-page .property-gallery img {
+        max-height: 300px;
+    }
+
+    .oe_button_box .oe_stat_button {
+        width: 50% !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Print Styles for Reports
+   -------------------------------------------------------------------------- */
+
+@media print {
+    .property-card .property-image {
+        height: auto;
+    }
+
+    .property-detail-page .property-actions {
+        display: none;
+    }
+
+    .oe_chatter {
+        display: none !important;
+    }
+
+    .btn {
+        display: none !important;
+    }
+}

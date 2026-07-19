@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Lease Creation Wizard -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_lease_wizard_form" model="ir.ui.view">
+        <field name="name">property.lease.wizard.form</field>
+        <field name="model">property.lease.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Lease">
+                <group>
+                    <group string="Property Details">
+                        <field name="property_id" options="{'no_create': True}"/>
+<!--                        <field name="unit_id" options="{'no_create': True}" invisible="property_id.type != multy_unit"/>-->
+                        <field name="unit_id" options="{'no_create': True}"/>
+                        <field name="tenant_id" options="{'no_create': True}"/>
+                    </group>
+                    <group string="Lease Terms">
+                        <field name="start_date"/>
+                        <field name="end_date" readonly="1"/>
+                        <field name="term_months"/>
+                        <field name="rent_frequency" widget="selection"/>
+                    </group>
+                </group>
+
+                <group string="Financial">
+                    <group>
+                        <field name="currency_id" readonly="1"/>
+                        <field name="rent_amount"/>
+                        <field name="deposit_amount"/>
+                    </group>
+                    <group>
+                        <field name="renewal_options" widget="selection"/>
+                    </group>
+                </group>
+
+                <group string="Legal Terms">
+                    <field name="terms_conditions" widget="html"/>
+                    <field name="special_terms"/>
+                </group>
+
+                <group string="Options">
+                    <group>
+                        <field name="create_invoices" widget="boolean_toggle"/>
+                        <field name="send_signature" widget="boolean_toggle"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="action_create_lease" string="Create Lease" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Lease Renewal Wizard -->
+    <!-- ===================================================================== -->
+
+<!--    <record id="view_property_renewal_wizard_form" model="ir.ui.view">-->
+<!--        <field name="name">property.renewal.wizard.form</field>-->
+<!--        <field name="model">property.lease.renewal.wizard</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Renew Lease">-->
+<!--                <group>-->
+<!--                    <group string="Current Lease">-->
+<!--                        <field name="lease_id" readonly="1"/>-->
+<!--                        <field name="lease_id.tenant_id" readonly="1" string="Tenant"/>-->
+<!--                        <field name="lease_id.property_id" readonly="1" string="Property"/>-->
+<!--                        <field name="lease_id.end_date" readonly="1" string="Current End Date"/>-->
+<!--                        <field name="lease_id.rent_amount" readonly="1" string="Current Rent"/>-->
+<!--                    </group>-->
+<!--                    <group string="Renewal Details">-->
+<!--                        <field name="renewal_type" widget="selection"/>-->
+<!--                        <field name="new_start_date"/>-->
+<!--                        <field name="new_end_date" readonly="1"/>-->
+<!--                        <field name="renewal_term"/>-->
+<!--                    </group>-->
+<!--                </group>-->
+
+<!--                <group string="Financial">-->
+<!--                    <group>-->
+<!--                        <field name="currency_id" readonly="1"/>-->
+<!--                        <field name="rent_increase_percent"/>-->
+<!--                        <field name="new_rent_amount"/>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="new_deposit_amount"/>-->
+<!--                    </group>-->
+<!--                </group>-->
+
+<!--                <group string="Options">-->
+<!--                    <group>-->
+<!--                        <field name="create_new_lease" widget="boolean_toggle"/>-->
+<!--                        <field name="update_existing" widget="boolean_toggle" invisible="create_new_lease"/>-->
+<!--                    </group>-->
+<!--                </group>-->
+
+<!--                <group string="Notes">-->
+<!--                    <field name="renewal_notes"/>-->
+<!--                </group>-->
+
+<!--                <footer>-->
+<!--                    <button name="action_renew_lease" string="Renew Lease" type="object" class="btn-primary"/>-->
+<!--                    <button string="Cancel" class="btn-default" special="cancel"/>-->
+<!--                </footer>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- ===================================================================== -->
+    <!-- Lease Termination Wizard -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_terminate_wizard_form" model="ir.ui.view">
+        <field name="name">property.terminate.wizard.form</field>
+        <field name="model">property.lease.terminate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Terminate Lease">
+                <group>
+                    <group string="Lease Information">
+                        <field name="lease_id" readonly="1"/>
+<!--                        <field name="lease_id.tenant_id" readonly="1" string="Tenant"/>-->
+<!--                        <field name="lease_id.property_id" readonly="1" string="Property"/>-->
+<!--                        <field name="lease_id.start_date" readonly="1" string="Start Date"/>-->
+<!--                        <field name="lease_id.end_date" readonly="1" string="End Date"/>-->
+                    </group>
+                    <group string="Termination Details">
+                        <field name="termination_date"/>
+                        <field name="termination_reason" widget="selection"/>
+                        <field name="termination_notes"/>
+                    </group>
+                </group>
+
+                <group string="Deposit" invisible="not return_deposit">
+                    <group>
+                        <field name="return_deposit" widget="boolean_toggle"/>
+                        <field name="deposit_return_date" invisible="not return_deposit"/>
+                    </group>
+                    <group>
+                        <field name="deposit_deductions" invisible="not return_deposit"/>
+                        <field name="deposit_returned_amount" readonly="1" invisible="not return_deposit"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="action_terminate_lease" string="Terminate Lease" type="object" class="btn-danger"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

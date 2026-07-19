@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences -->
+        <record id="seq_construction_boq" model="ir.sequence">
+            <field name="name">Construction BOQ</field>
+            <field name="code">construction.boq</field>
+            <field name="prefix">BOQ-%(year)s-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_construction_requisition" model="ir.sequence">
+            <field name="name">Material Requisition</field>
+            <field name="code">construction.requisition</field>
+            <field name="prefix">REQ-%(year)s-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_construction_progress_billing" model="ir.sequence">
+            <field name="name">Progress Billing</field>
+            <field name="code">construction.progress.billing</field>
+            <field name="prefix">BILL-%(year)s-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

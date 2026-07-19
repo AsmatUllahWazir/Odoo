@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_viewing_search" model="ir.ui.view">
+        <field name="name">property.viewing.search</field>
+        <field name="model">property.viewing</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="display_name"/>
+                <field name="prospect_id"/>
+                <field name="property_id"/>
+                <field name="sales_person_id"/>
+                <field name="status"/>
+                <field name="outcome"/>
+
+                <filter name="scheduled" string="Scheduled" domain="[('status', '=', 'scheduled')]"/>
+                <filter name="confirmed" string="Confirmed" domain="[('status', '=', 'confirmed')]"/>
+                <filter name="completed" string="Completed" domain="[('status', '=', 'completed')]"/>
+                <filter name="today" string="Today" domain="[('scheduled_time', '&gt;=', context_today()), ('scheduled_time', '&lt;', context_today()+1)]"/>
+                <filter name="this_week" string="This Week" domain="[('scheduled_time', '>=', context_today().start_of('week')), ('scheduled_time', '&lt;', context_today().end_of('week'))]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_by_outcome" string="Outcome" context="{'group_by': 'outcome'}"/>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"/>
+                    <filter name="group_by_sales_person" string="Sales Person" context="{'group_by': 'sales_person_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_property_viewing_tree" model="ir.ui.view">
+        <field name="name">property.viewing.tree</field>
+        <field name="model">property.viewing</field>
+        <field name="arch" type="xml">
+            <tree string="Viewings" decoration-success="status=='completed'" decoration-info="status=='confirmed'" decoration-warning="status=='scheduled'" decoration-danger="status=='cancelled' or status=='no_show'" decoration-primary="status=='in_progress'">
+                <field name="display_name" string="Viewing"/>
+                <field name="property_id" string="Property"/>
+                <field name="unit_id" string="Unit"/>
+                <field name="prospect_id" string="Prospect"/>
+                <field name="scheduled_time" string="Scheduled"/>
+                <field name="status" string="Status" widget="badge"/>
+                <field name="outcome" string="Outcome" widget="badge"/>
+                <field name="sales_person_id" string="Sales Person"/>
+                <field name="rating" string="Rating"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_property_viewing_form" model="ir.ui.view">
+        <field name="name">property.viewing.form</field>
+        <field name="model">property.viewing</field>
+        <field name="arch" type="xml">
+            <form string="Viewing">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary" invisible="status != 'scheduled'"/>
+                    <button name="action_start" string="Start Viewing" type="object" class="btn-success" invisible="status not in ['confirmed', 'scheduled']"/>
+                    <button name="action_complete" string="Complete" type="object" class="btn-primary" invisible="status != 'in_progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-danger" invisible="status not in ['confirmed', 'scheduled', 'in_progress']"/>
+                    <button name="action_launch_screening" string="Launch Screening" type="object" class="btn-info" invisible="not screening_id or status != 'completed'"/>
+                    <button name="action_create_lease" string="Create Lease" type="object" class="btn-primary" invisible="lease_id or status != 'completed'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="scheduled,confirmed,in_progress,completed,cancelled"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
+                        <h4>
+                            <field name="property_id"/>
+<!--                            <span t-if="record.unit_id.raw_value">- <field name="unit_id"/></span>-->
+                            <span class="text-muted">|</span>
+                            <field name="scheduled_time"/>
+                        </h4>
+                    </div>
+
+                    <group>
+                        <group string="Viewing Details">
+                            <field name="property_id" options="{'no_create': True}"/>
+<!--                            <field name="unit_id" options="{'no_create': True}" invisible="property_id.type != 'multi_unit'"/>-->
+                            <field name="unit_id" options="{'no_create': True}"/>
+                            <field name="prospect_id" options="{'no_create': True}"/>
+                            <field name="sales_person_id" options="{'no_create': True}"/>
+                            <field name="status" widget="selection"/>
+                        </group>
+                        <group string="Schedule">
+                            <field name="scheduled_time"/>
+                            <field name="duration"/>
+                            <field name="end_time" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Outcome" invisible="status != 'completed'">
+                        <group>
+                            <field name="outcome" widget="selection"/>
+                            <field name="rating" widget="selection"/>
+                        </group>
+                        <group>
+                            <field name="feedback" placeholder="Enter feedback about the viewing"/>
+                        </group>
+                    </group>
+
+                    <group string="Related Records">
+                        <field name="screening_id"/>
+                        <field name="lease_id"/>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_viewing" model="ir.actions.act_window">
+        <field name="name">Viewings</field>
+        <field name="res_model">property.viewing</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Schedule your first viewing
+            </p>
+            <p>
+                Manage property viewings, track outcomes, and convert prospects to tenants.
+            </p>
+        </field>
+    </record>
+
+</odoo>

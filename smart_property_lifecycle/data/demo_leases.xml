@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Demo Lease 1 (Active) -->
+        <record id="demo_lease_1" model="property.lease">
+            <field name="name">LEASE-001</field>
+            <field name="property_id" ref="demo_property_1"/>
+            <field name="tenant_id" ref="demo_property_tenant"/>
+            <field name="status">active</field>
+            <field name="start_date">2025-06-10</field>
+            <field name="end_date">2025-06-30</field>
+            <field name="term_months">12</field>
+            <field name="rent_amount">4500</field>
+            <field name="deposit_amount">4500</field>
+            <field name="rent_frequency">monthly</field>
+            <field name="signed">True</field>
+            <field name="signed_date">2024-07-01</field>
+            <field name="renewal_options">fixed_term</field>
+            <field name="terms_conditions"><![CDATA[
+                <p><strong>Standard Lease Terms</strong></p>
+                <ul>
+                    <li>Rent due on the 1st of each month</li>
+                    <li>Late fee of $50 applies after 5 days grace period</li>
+                    <li>Security deposit held for duration of lease</li>
+                    <li>No pets allowed without written consent</li>
+                    <li>Utilities not included in rent</li>
+                </ul>
+            ]]></field>
+        </record>
+
+        <!-- Demo Lease 2 (Pending Signature) -->
+        <record id="demo_lease_2" model="property.lease">
+            <field name="name">LEASE-002</field>
+            <field name="property_id" ref="demo_property_2"/>
+            <field name="tenant_id" ref="demo_property_tenant"/>
+            <field name="status">pending_signature</field>
+            <field name="start_date">2025-06-10</field>
+            <field name="end_date">2025-06-30</field>
+            <field name="term_months">12</field>
+            <field name="rent_amount">3500</field>
+            <field name="deposit_amount">3500</field>
+            <field name="rent_frequency">monthly</field>
+            <field name="signed">False</field>
+            <field name="renewal_options">month_to_month</field>
+        </record>
+
+        <!-- Demo Lease 3 (Signed) -->
+        <record id="demo_lease_3" model="property.lease">
+            <field name="name">LEASE-003</field>
+            <field name="property_id" ref="demo_property_3"/>
+            <field name="tenant_id" ref="demo_property_tenant"/>
+            <field name="status">signed</field>
+            <field name="start_date">2025-06-10</field>
+            <field name="end_date">2025-06-30</field>
+            <field name="term_months">12</field>
+            <field name="rent_amount">12000</field>
+            <field name="deposit_amount">12000</field>
+            <field name="rent_frequency">monthly</field>
+            <field name="signed">True</field>
+            <field name="signed_date">2024-08-15</field>
+            <field name="renewal_options">fixed_term</field>
+        </record>
+
+    </data>
+</odoo>

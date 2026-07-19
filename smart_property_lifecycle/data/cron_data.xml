@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Cron Jobs -->
+    <record id="cron_check_lease_renewals" model="ir.cron">
+        <field name="name">Check Lease Renewals</field>
+        <field name="model_id" ref="model_property_lease"/>
+        <field name="code">model._cron_check_renewal_dates()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="active" eval="True"/>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="cron_check_expired_leases" model="ir.cron">
+        <field name="name">Check Expired Leases</field>
+        <field name="model_id" ref="model_property_lease"/>
+        <field name="code">model._cron_check_expired_leases()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="active" eval="True"/>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="cron_check_pending_maintenance" model="ir.cron">
+        <field name="name">Check Pending Maintenance</field>
+        <field name="model_id" ref="model_property_maintenance_request"/>
+        <field name="code">model._cron_check_pending_maintenance()</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="active" eval="True"/>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="cron_check_iot_offline" model="ir.cron">
+        <field name="name">Check IoT Offline Devices</field>
+        <field name="model_id" ref="model_property_iot_device"/>
+        <field name="code">model._cron_check_offline_devices()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="active" eval="True"/>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="cron_update_dynamic_pricing" model="ir.cron">
+        <field name="name">Update Dynamic Pricing</field>
+        <field name="model_id" ref="model_property_property"/>
+        <field name="code">model._cron_update_dynamic_prices()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="active" eval="True"/>
+        <field name="priority">10</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_tenant_screening_search" model="ir.ui.view">
+        <field name="name">property.tenant.screening.search</field>
+        <field name="model">property.tenant.screening</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="display_name"/>
+                <field name="applicant_id"/>
+                <field name="property_id"/>
+                <field name="status"/>
+                <field name="credit_score"/>
+                <field name="risk_level"/>
+
+                <filter name="approved" string="Approved" domain="[('status', '=', 'approved')]"/>
+                <filter name="rejected" string="Rejected" domain="[('status', '=', 'rejected')]"/>
+                <filter name="pending" string="Pending Review" domain="[('status', 'in', ['submitted', 'in_review', 'additional_info'])]"/>
+                <filter name="high_risk" string="High Risk" domain="[('risk_level', '=', 'high')]"/>
+                <filter name="high_score" string="High Score" domain="[('screening_score', '&gt;=', 80)]"/>
+                <filter name="low_score" string="Low Score" domain="[('screening_score', '&lt;', 60)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_by_risk_level" string="Risk Level" context="{'group_by': 'risk_level'}"/>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"/>
+                    <filter name="group_by_recommendation" string="Recommendation" context="{'group_by': 'approval_recommendation'}"/>
+                    <filter name="group_by_employment" string="Employment Status" context="{'group_by': 'employment_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_property_tenant_screening_tree" model="ir.ui.view">
+        <field name="name">property.tenant.screening.tree</field>
+        <field name="model">property.tenant.screening</field>
+        <field name="arch" type="xml">
+            <tree string="Tenant Screenings" decoration-success="status=='approved'" decoration-danger="status=='rejected'" decoration-warning="status=='additional_info'" decoration-info="status=='submitted'" decoration-primary="status=='in_review'">
+                <field name="display_name" string="Application"/>
+                <field name="applicant_id" string="Applicant"/>
+                <field name="property_id" string="Property"/>
+                <field name="unit_id" string="Unit"/>
+                <field name="status" string="Status" widget="badge"/>
+                <field name="credit_score" string="Credit"/>
+                <field name="screening_score" string="Score" widget="progressbar"/>
+                <field name="risk_level" string="Risk" widget="badge"/>
+                <field name="approval_recommendation" string="Recommendation" widget="badge"/>
+                <field name="application_date" string="Date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_property_tenant_screening_form" model="ir.ui.view">
+        <field name="name">property.tenant.screening.form</field>
+        <field name="model">property.tenant.screening</field>
+        <field name="arch" type="xml">
+            <form string="Tenant Screening">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="status != 'draft'"/>
+                    <button name="action_start_review" string="Start Review" type="object" class="btn-primary" invisible="status != 'submitted'"/>
+                    <button name="action_request_info" string="Request Info" type="object" class="btn-warning" invisible="status not in ['in_review', 'submitted']"/>
+                    <button name="action_approve" string="Approve" type="object" class="btn-success" invisible="status not in ['in_review', 'additional_info']"/>
+                    <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="status not in ['in_review', 'additional_info']"/>
+                    <button name="action_create_lease" string="Create Lease" type="object" class="btn-primary" invisible="status != 'approved'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,submitted,in_review,additional_info,approved,rejected"/>
+                </header>
+
+                <sheet>
+<!--                    <div class="oe_button_box" name="button_box">-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-file-text-o">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <field name="document_ids" widget="statbutton" string="Documents" options="{'field': 'document_ids'}"/>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+                    <div class="oe_title">
+                        <h1>
+<!--                            <span t-field="applicant_id"/>-->
+<!--                            <span t-if="record.status.raw_value == 'approved'" class="badge badge-success">✅ Approved</span>-->
+<!--                            <span t-if="record.status.raw_value == 'rejected'" class="badge badge-danger">❌ Rejected</span>-->
+                        </h1>
+                        <h4>
+                            <field name="property_id"/>
+<!--                            <span t-if="record.unit_id.raw_value">- <field name="unit_id"/></span>-->
+                            <span class="text-muted">|</span>
+                            Applied: <field name="application_date"/>
+                        </h4>
+                    </div>
+
+                    <group>
+                        <group string="Applicant Information">
+                            <field name="applicant_id" options="{'no_create': True}"/>
+                            <field name="property_id" options="{'no_create': True}"/>
+<!--                            <field name="unit_id" options="{'no_create': True}" invisible="property_id.type != 'multi_unit'"/>-->
+                            <field name="unit_id" options="{'no_create': True}"/>
+                            <field name="viewing_id" options="{'no_create': True}"/>
+                            <field name="sales_person_id" options="{'no_create': True}"/>
+                            <field name="status" widget="selection"/>
+                        </group>
+                        <group string="Screening Details">
+                            <field name="credit_score"/>
+                            <field name="income_monthly"/>
+                            <field name="employment_status" widget="selection"/>
+                            <field name="employer_name"/>
+                            <field name="employment_duration"/>
+                        </group>
+                    </group>
+
+                    <group string="Background Information">
+                        <group>
+                            <field name="previous_address"/>
+                            <field name="previous_landlord"/>
+                            <field name="reference_1"/>
+                            <field name="reference_2"/>
+                        </group>
+                        <group>
+                            <field name="criminal_background" widget="selection"/>
+                            <field name="eviction_history" widget="selection"/>
+                            <field name="pets_allowed" widget="boolean_toggle"/>
+                            <field name="pet_details" invisible="not pets_allowed"/>
+                            <field name="smoking" widget="boolean_toggle"/>
+                            <field name="move_in_date"/>
+                        </group>
+                    </group>
+
+                    <group string="Screening Results">
+                        <group>
+                            <field name="screening_score" readonly="1" widget="progressbar"/>
+                            <field name="risk_level" readonly="1" widget="badge"/>
+                            <field name="approval_recommendation" readonly="1" widget="badge"/>
+                        </group>
+                        <group>
+<!--                            <field name="id_verification" widget="boolean_toggle"/>-->
+<!--                            <field name="income_verified" widget="boolean_toggle"/>-->
+                            <field name="decision_date" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Decision Notes">
+                        <field name="decision_notes" placeholder="Notes on the screening decision"/>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_tenant_screening" model="ir.actions.act_window">
+        <field name="name">Tenant Screenings</field>
+        <field name="res_model">property.tenant.screening</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first tenant screening
+            </p>
+            <p>
+                Screen tenants, check backgrounds, and manage approvals.
+            </p>
+        </field>
+    </record>
+
+</odoo>

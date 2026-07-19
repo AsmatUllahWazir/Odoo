@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================================== -->
+    <!-- Lease Search View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_lease_search" model="ir.ui.view">
+        <field name="name">property.lease.search</field>
+        <field name="model">property.lease</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Lease Reference"/>
+                <field name="tenant_id" string="Tenant"/>
+                <field name="property_id" string="Property"/>
+                <field name="unit_id" string="Unit"/>
+                <field name="status"/>
+
+                <filter name="active" string="Active" domain="[('status', '=', 'active')]"/>
+                <filter name="signed" string="Signed" domain="[('signed', '=', True)]"/>
+                <filter name="pending_signature" string="Pending Signature" domain="[('status', '=', 'pending_signature')]"/>
+                <filter name="expired" string="Expired" domain="[('status', '=', 'expired')]"/>
+                <filter name="ending_soon" string="Ending Soon" domain="[('end_date', '&lt;=', context_today()+30)]"/>
+                <filter name="renewal_pending" string="Renewal Pending" domain="[('status', '=', 'renewal_pending')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_by_tenant" string="Tenant" context="{'group_by': 'tenant_id'}"/>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"/>
+                    <filter name="group_by_rent_frequency" string="Rent Frequency" context="{'group_by': 'rent_frequency'}"/>
+                    <filter name="group_by_signed" string="Signed" context="{'group_by': 'signed'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Lease Tree View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_lease_tree" model="ir.ui.view">
+        <field name="name">property.lease.tree</field>
+        <field name="model">property.lease</field>
+        <field name="arch" type="xml">
+            <tree string="Leases" decoration-success="status=='active'" decoration-info="status=='signed'" decoration-warning="status=='renewal_pending'" decoration-danger="status=='expired' or status=='terminated'" decoration-primary="status=='pending_signature'">
+                <field name="name" string="Reference"/>
+                <field name="tenant_id" string="Tenant"/>
+                <field name="property_id" string="Property"/>
+                <field name="unit_id" string="Unit"/>
+                <field name="status" string="Status" widget="badge"/>
+                <field name="start_date" string="Start"/>
+                <field name="end_date" string="End"/>
+                <field name="rent_amount" string="Rent" sum="Total Rent"/>
+                <field name="deposit_amount" string="Deposit" sum="Total Deposits"/>
+                <field name="signed" string="Signed" widget="boolean_toggle"/>
+                <field name="paid_amount" string="Paid" sum="Total Paid"/>
+                <field name="outstanding_amount" string="Outstanding" sum="Total Outstanding"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Lease Form View -->
+    <!-- ===================================================================== -->
+
+    <record id="view_property_lease_form" model="ir.ui.view">
+        <field name="name">property.lease.form</field>
+        <field name="model">property.lease</field>
+        <field name="arch" type="xml">
+            <form string="Lease">
+                <header>
+                    <button name="action_send_signature" string="Send for Signature" type="object" class="btn-primary" invisible="signed or status != 'draft'"/>
+                    <button name="action_mark_signed" string="Mark Signed" type="object" class="btn-success" invisible="signed or status != 'pending_signature'"/>
+                    <button name="action_activate" string="Activate Lease" type="object" class="btn-primary" invisible="not signed or status != 'signed'"/>
+                    <button name="action_renew" string="Renew" type="object" class="btn-info" invisible="status not in ['active', 'renewal_pending']"/>
+                    <button name="action_terminate" string="Terminate" type="object" class="btn-danger" invisible="status not in ['active', 'renewal_pending']"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,pending_signature,signed,active,terminated,expired"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+<!--                        <button type="object" class="oe_stat_button" icon="fa-file-text-o">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <field name="invoice_ids" widget="statbutton" string="Invoices" options="{'field': 'invoice_ids'}"/>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-calendar">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <field name="viewing_ids" widget="statbutton" string="Viewings" options="{'field': 'viewing_ids'}"/>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-wrench">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <field name="maintenance_ids" widget="statbutton" string="Maintenance" options="{'field': 'maintenance_ids'}"/>-->
+<!--                            </div>-->
+<!--                        </button>-->
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Lease Reference"/>
+<!--                            <span t-if="record.signed.raw_value" class="badge badge-success">Signed</span>-->
+<!--                            <span t-else="" class="badge badge-secondary">Unsigned</span>-->
+                        </h1>
+                        <h4>
+                            <field name="tenant_id"/>
+                            <span class="text-muted">|</span>
+                            <field name="property_id"/>
+<!--                            <span t-if="record.unit_id.raw_value">- <field name="unit_id"/></span>-->
+                        </h4>
+                    </div>
+
+                    <notebook>
+                        <page string="General Information">
+                            <group>
+                                <group string="Lease Details">
+                                    <field name="name" readonly="1"/>
+                                    <field name="tenant_id" options="{'no_create': True}"/>
+                                    <field name="property_id" options="{'no_create': True}"/>
+<!--                                    <field name="unit_id" options="{'no_create': True}" invisible="property_id.type != 'multi_unit'"/>-->
+                                    <field name="unit_id" options="{'no_create': True}"/>
+                                    <field name="status" widget="selection"/>
+                                </group>
+                                <group string="Dates">
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="term_months"/>
+                                    <field name="renewal_date" readonly="1"/>
+                                    <field name="notice_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Financial">
+                            <group>
+                                <group string="Rent &amp; Fees">
+                                    <field name="currency_id" readonly="1"/>
+                                    <field name="rent_amount"/>
+                                    <field name="deposit_amount"/>
+                                    <field name="rent_frequency" widget="selection"/>
+                                    <field name="lease_fees"/>
+                                </group>
+                                <group string="Late Fees">
+                                    <field name="late_fee_amount"/>
+                                    <field name="late_fee_percent"/>
+                                    <field name="grace_period_days"/>
+                                </group>
+                            </group>
+                            <group string="Payment Summary">
+                                <group>
+                                    <field name="paid_amount" readonly="1"/>
+                                    <field name="outstanding_amount" readonly="1"/>
+                                </group>
+                            </group>
+                            <group string="Invoices">
+                                <field name="invoice_ids"/>
+                            </group>
+                        </page>
+
+                        <page string="Legal &amp; Terms">
+                            <group string="Renewal Options">
+                                <field name="renewal_options" widget="selection"/>
+                                <field name="renewal_terms"/>
+                            </group>
+                            <group string="Terms &amp; Conditions">
+                                <field name="terms_conditions" widget="html"/>
+                            </group>
+                            <group string="Special Terms">
+                                <field name="special_terms"/>
+                            </group>
+                        </page>
+
+                        <page string="Documents">
+                            <group>
+                                <group>
+                                    <field name="signed" widget="boolean_toggle"/>
+                                    <field name="signed_date"/>
+                                </group>
+                                <group>
+                                    <field name="contract_attachment" widget="binary" filename="contract_filename"/>
+                                    <field name="contract_filename" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Termination">
+                            <group string="Termination Details" invisible="status != 'terminated'">
+                                <field name="termination_date"/>
+                                <field name="termination_reason"/>
+                                <field name="deposit_returned" widget="boolean_toggle"/>
+                                <field name="deposit_return_date"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================================================================== -->
+    <!-- Lease Action Window -->
+    <!-- ===================================================================== -->
+
+    <record id="action_property_lease" model="ir.actions.act_window">
+        <field name="name">Leases</field>
+        <field name="res_model">property.lease</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first lease
+            </p>
+            <p>
+                Manage lease agreements, track signatures, and automate invoicing.
+            </p>
+        </field>
+    </record>
+
+</odoo>

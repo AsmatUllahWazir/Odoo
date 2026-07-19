@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- HOA Association Views -->
+    <record id="view_property_hoa_association_search" model="ir.ui.view">
+        <field name="name">property.hoa.association.search</field>
+        <field name="model">property.hoa.association</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="association_type"/>
+                <field name="city"/>
+                <field name="state_id"/>
+
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="has_properties" string="Has Properties" domain="[('property_ids', '!=', False)]"/>
+                <filter name="has_board" string="Has Board" domain="[('board_member_ids', '!=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_type" string="Type" context="{'group_by': 'association_type'}"/>
+                    <filter name="group_by_city" string="City" context="{'group_by': 'city'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by': 'state_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_property_hoa_association_tree" model="ir.ui.view">
+        <field name="name">property.hoa.association.tree</field>
+        <field name="model">property.hoa.association</field>
+        <field name="arch" type="xml">
+            <tree string="HOA Associations" decoration-success="active==True" decoration-muted="active==False">
+                <field name="display_name" string="Name"/>
+                <field name="association_type" string="Type" widget="badge"/>
+                <field name="city" string="City"/>
+                <field name="state_id" string="State"/>
+                <field name="monthly_fee" string="Monthly Fee"/>
+                <field name="property_count" string="Properties"/>
+                <field name="board_member_count" string="Board Members"/>
+                <field name="active" string="Active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_property_hoa_association_form" model="ir.ui.view">
+        <field name="name">property.hoa.association.form</field>
+        <field name="model">property.hoa.association</field>
+        <field name="arch" type="xml">
+            <form string="HOA Association">
+                <header>
+                    <button name="action_schedule_meeting" string="Schedule Meeting" type="object" class="btn-primary"/>
+                    <button name="action_view_properties" string="View Properties" type="object" class="btn-info"/>
+                    <button name="action_view_board_members" string="View Board" type="object" class="btn-secondary"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+
+                <sheet>
+<!--                    <div class="oe_button_box" name="button_box">-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-building">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <field name="property_count" string="Properties" widget="statbutton"/>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object" class="oe_stat_button" icon="fa-users">-->
+<!--                            <div class="o_stat_info">-->
+<!--                                <field name="board_member_count" string="Board Members" widget="statbutton"/>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
+                    </div>
+
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="association_type" widget="selection"/>
+                                    <field name="active" invisible="1"/>
+                                </group>
+                                <group string="Address">
+                                    <field name="street"/>
+                                    <field name="city"/>
+                                    <field name="state_id"/>
+                                    <field name="zip"/>
+                                    <field name="country_id"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Financial">
+                            <group>
+                                <group>
+                                    <field name="currency_id" readonly="1"/>
+                                    <field name="monthly_fee"/>
+                                    <field name="annual_budget"/>
+                                </group>
+                                <group>
+                                    <field name="reserve_fund"/>
+                                </group>
+                            </group>
+                            <group string="Fees">
+                                <field name="fee_ids">
+                                    <tree>
+                                        <field name="property_id"/>
+                                        <field name="month"/>
+                                        <field name="amount"/>
+                                        <field name="paid" widget="boolean_toggle"/>
+                                        <field name="paid_date"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+
+                        <page string="Management">
+                            <group>
+                                <group>
+                                    <field name="management_company_id" options="{'no_create': True}"/>
+                                    <field name="contact_person"/>
+                                    <field name="phone"/>
+                                </group>
+                                <group>
+                                    <field name="email"/>
+                                    <field name="website"/>
+                                </group>
+                            </group>
+                            <group string="Board Members">
+                                <field name="board_member_ids"/>
+                            </group>
+                        </page>
+
+                        <page string="Properties">
+                            <field name="property_ids"/>
+                        </page>
+
+                        <page string="Meetings">
+                            <field name="meeting_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="meeting_type" widget="badge"/>
+                                    <field name="meeting_date"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="location"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Documents">
+                            <field name="cc_rules" widget="html"/>
+                            <field name="bylaws"/>
+                            <field name="document_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_hoa_association" model="ir.actions.act_window">
+        <field name="name">HOA Associations</field>
+        <field name="res_model">property.hoa.association</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first HOA Association
+            </p>
+            <p>
+                Manage HOA and condo associations, fees, and board members.
+            </p>
+        </field>
+    </record>
+
+</odoo>

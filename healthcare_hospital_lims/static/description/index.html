@@ -1,370 +1,920 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hospital LIMS · Odoo 17</title>
-  <!-- Tailwind + custom medical theme -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * { scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #f8fafc; }
-    /* medical teal primary */
-    .bg-teal-med { background-color: #0f766e; }
-    .bg-teal-light { background-color: #14b8a6; }
-    .bg-teal-glow { background-color: #22d3ee; }
-    .text-teal-med { color: #0f766e; }
-    .border-teal-med { border-color: #0f766e; }
-    .hover-teal:hover { background-color: #0f766e; color: white; }
-    .card-shadow { box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08); }
-    .sidebar-link.active { background: #0f766e; color: white; border-radius: 0.5rem; }
-    .sidebar-link { transition: all 0.2s; }
-    .section-card { transition: transform 0.2s, box-shadow 0.2s; }
-    .section-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(15, 118, 110, 0.12); }
-    .workflow-step { cursor: pointer; transition: all 0.2s; }
-    .workflow-step:hover { transform: scale(1.03); background: #f0fdfa; border-color: #0f766e; }
-    .workflow-detail { display: none; }
-    .workflow-step.active .workflow-detail { display: block; }
-    /* dark mode (optional toggle) */
-    .dark-mode { background: #0b1a1a; color: #e2e8f0; }
-    .dark-mode .bg-white { background: #1e2a2a; color: #e2e8f0; }
-    .dark-mode .bg-gray-50 { background: #162222; }
-    .dark-mode .border-gray-200 { border-color: #2a3a3a; }
-    .dark-mode .text-gray-600 { color: #b0c4c4; }
-    .dark-mode .text-gray-700 { color: #d0e0e0; }
-    .dark-mode .sidebar-link { color: #c0d0d0; }
-    .dark-mode .sidebar-link.active { background: #0f766e; color: white; }
-    /* print */
-    @media print { .no-print { display: none !important; } }
-    /* search highlight */
-    .highlight { background: #fef08a; padding: 0 0.2rem; border-radius: 0.2rem; }
-  </style>
-</head>
-<body class="antialiased text-gray-800">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthcare Hospital LIMS | Complete Lab Information Management for Odoo 17</title>
+    <meta name="description" content="Enterprise Hospital LIMS for Odoo 17. Complete solution for Patient Management, Test Orders, Sample Tracking, Result Entry, QC, Billing & Analytics." />
+    <meta name="keywords" content="odoo 17 lims, healthcare hospital lims, laboratory management, odoo lab, odoo patient management, odoo test orders, odoo lab reporting, odoo lims" />
+    <meta name="author" content="Wazirz" />
+    <meta name="robots" content="index, follow" />
 
-<!-- Navbar -->
-<nav class="bg-teal-med text-white px-6 py-3 flex flex-wrap items-center justify-between shadow-lg no-print sticky top-0 z-50">
-  <div class="flex items-center space-x-3">
-    <i class="fas fa-flask text-2xl"></i>
-    <span class="font-bold text-xl tracking-tight">Hospital LIMS</span>
-    <span class="bg-teal-light px-2 py-0.5 text-xs rounded-full">v2.0</span>
-  </div>
-  <div class="flex items-center space-x-6 text-sm">
-    <a href="#overview" class="hover:text-teal-glow transition">Overview</a>
-    <a href="#workflow" class="hover:text-teal-glow transition">Workflow</a>
-    <a href="#features" class="hover:text-teal-glow transition">Features</a>
-    <a href="#gallery" class="hover:text-teal-glow transition">Gallery</a>
-    <button id="darkToggle" class="bg-teal-light px-3 py-1 rounded-full text-xs flex items-center space-x-1"><i class="fas fa-moon"></i><span>Dark</span></button>
-  </div>
-</nav>
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hospital LIMS | Complete Lab Information Management for Odoo 17" />
+    <meta property="og:description" content="All-in-one Odoo 17 solution for Hospital Labs. Patient Management, Test Orders, Sample Tracking, Result Entry, QC, Invoicing & Advanced Analytics." />
+    <meta property="og:image" content="banner.png" />
 
-<div class="flex flex-col md:flex-row">
-  <!-- Sidebar TOC -->
-  <aside class="w-full md:w-72 bg-white border-r border-gray-200 p-4 space-y-2 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto no-print">
-    <div class="relative mb-4">
-      <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-      <input id="searchInput" type="text" placeholder="Search sections..." class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-med">
-    </div>
-    <div id="toc" class="space-y-1 text-sm">
-      <a href="#overview" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">📋 Overview</a>
-      <a href="#install" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">⚙️ Installation</a>
-      <a href="#models" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">🗃️ Core Models</a>
-      <a href="#workflow" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">🔄 Workflow</a>
-      <a href="#roles" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">👥 Roles</a>
-      <a href="#features" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">🧪 Feature Docs</a>
-      <a href="#gallery" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">🖼️ Gallery</a>
-      <a href="#usecases" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">📊 Use Cases</a>
-      <a href="#tips" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">💡 Best Practices</a>
-      <a href="#troubleshoot" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">🔧 Troubleshooting</a>
-      <a href="#api" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">🔌 API / Extend</a>
-      <a href="#changelog" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-gray-100">📅 Changelog</a>
-    </div>
-  </aside>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Healthcare Hospital LIMS | Complete Lab Information Management for Odoo 17" />
+    <meta name="twitter:description" content="Complete Healthcare Hospital LIMS: Patient Management, Test Orders, Sample Tracking, Result Entry, Quality Control, Invoicing & Analytics." />
+    <meta name="twitter:image" content="banner.png" />
 
-  <!-- Main content -->
-  <main class="flex-1 p-6 md:p-10 max-w-6xl mx-auto">
-
-    <!-- Hero -->
-    <section id="hero" class="bg-gradient-to-br from-teal-med to-teal-light text-white rounded-3xl p-10 mb-12 card-shadow">
-      <div class="flex flex-col md:flex-row items-center justify-between">
-        <div>
-          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight"><i class="fas fa-heartbeat mr-3"></i>Hospital LIMS</h1>
-          <p class="text-xl mt-2 opacity-90">Complete Laboratory Information Management System for Odoo 17</p>
-          <div class="flex flex-wrap gap-4 mt-6">
-            <span class="bg-white/20 backdrop-blur px-4 py-2 rounded-full text-sm"><i class="fas fa-check-circle mr-2"></i>End-to-End Lab Automation</span>
-            <span class="bg-white/20 backdrop-blur px-4 py-2 rounded-full text-sm"><i class="fas fa-chart-line mr-2"></i>Real-time Analytics</span>
-            <span class="bg-white/20 backdrop-blur px-4 py-2 rounded-full text-sm"><i class="fas fa-file-pdf mr-2"></i>Certified Reports</span>
-          </div>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#workflow" class="bg-white text-teal-med px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition"><i class="fas fa-play mr-2"></i>See Workflow</a>
-            <a href="#features" class="border border-white/60 px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition"><i class="fas fa-book-open mr-2"></i>Explore Features</a>
-          </div>
-        </div>
-        <div class="mt-6 md:mt-0 text-center">
-          <i class="fas fa-microscope text-8xl opacity-80"></i>
-          <p class="text-sm mt-2 opacity-75">v2.0 · Odoo 17</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Overview -->
-    <section id="overview" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-info-circle"></i>Module Overview</h2>
-      <div class="grid md:grid-cols-3 gap-6 mt-6">
-        <div class="bg-white p-6 rounded-xl card-shadow section-card"><i class="fas fa-syringe text-teal-med text-3xl"></i><h3 class="font-bold text-xl mt-3">Complete LIMS</h3><p class="text-gray-600">From test ordering to invoicing, manage every lab process in one unified system.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow section-card"><i class="fas fa-chart-pie text-teal-med text-3xl"></i><h3 class="font-bold text-xl mt-3">Analytics & KPIs</h3><p class="text-gray-600">Dashboards with turn-around time, test volumes, revenue, and quality metrics.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow section-card"><i class="fas fa-shield-alt text-teal-med text-3xl"></i><h3 class="font-bold text-xl mt-3">Compliance Ready</h3><p class="text-gray-600">Audit trails, normal ranges, abnormal flagging, and ISO 15189 alignment.</p></div>
-      </div>
-      <div class="bg-white p-6 rounded-xl card-shadow mt-6">
-        <h4 class="font-semibold text-lg">Key Features <i class="fas fa-chevron-right text-teal-med"></i></h4>
-        <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-3 text-sm">
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>Patient Management</li>
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>Test Catalog & Pricing</li>
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>Sample Tracking (Barcode)</li>
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>Result Entry & Validation</li>
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>QC & Normal Ranges</li>
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>PDF Reports</li>
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>Accounting Integration</li>
-          <li><i class="fas fa-check-circle text-teal-med mr-2"></i>Chatter & Notifications</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Installation -->
-    <section id="install" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-cogs"></i>Installation & Setup</h2>
-      <div class="bg-white p-6 rounded-xl card-shadow mt-4">
-        <ol class="list-decimal list-inside space-y-3 text-gray-700">
-          <li><strong>Add module to addons path</strong> – place <code>hospital_lims</code> in Odoo addons directory.</li>
-          <li><strong>Install dependencies</strong>: <code>pip install openpyxl pandas</code> (for reporting).</li>
-          <li><strong>Activate developer mode</strong> → Apps → Update Apps List → Search "hospital_lims" → Install.</li>
-          <li><strong>Configure</strong>: Settings → LIMS → Set default lab, normal ranges, invoice journal.</li>
-          <li><strong>Create users</strong> with groups: Doctor, Lab Technician, Lab Manager.</li>
-        </ol>
-        <div class="bg-gray-50 p-4 rounded-lg mt-4 border-l-4 border-teal-med">
-          <i class="fas fa-terminal text-teal-med mr-2"></i> <code>./odoo-bin -c odoo.conf -u hospital_lims</code>
-        </div>
-      </div>
-    </section>
-
-    <!-- Core Models -->
-    <section id="models" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-database"></i>Core Models & Data Structure</h2>
-      <div class="grid md:grid-cols-2 gap-6 mt-6">
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl">lims.patient</h3><ul class="text-sm space-y-1 mt-2"><li><strong>Fields:</strong> name, dob, gender, phone, email, address, medical_record_no</li><li><strong>Relations:</strong> One-to-many with test orders</li></ul></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl">lims.test_order</h3><ul class="text-sm space-y-1 mt-2"><li><strong>Fields:</strong> patient_id, physician, order_date, priority, status, sample_type</li><li><strong>States:</strong> Draft → Confirmed → Sample Collected → In Progress → Results Entered → Verified → Invoiced</li></ul></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl">lims.test_result</h3><ul class="text-sm space-y-1 mt-2"><li><strong>Fields:</strong> test_order_id, test_parameter, value, normal_range_low, normal_range_high, abnormal_flag, technician</li></ul></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl">lims.sample</h3><ul class="text-sm space-y-1 mt-2"><li><strong>Fields:</strong> barcode, collection_date, sample_type, container, storage_location, status</li></ul></div>
-      </div>
-      <div class="bg-white p-6 rounded-xl card-shadow mt-6 overflow-x-auto">
-        <h4 class="font-semibold">Relationships Diagram</h4>
-        <pre class="text-xs bg-gray-50 p-4 rounded-lg mt-2">Patient (1) ──┐
-               │
-Test Order (M) ── Sample (1)
-               │
-               └── Test Result (M) ── Test Parameter (M)</pre>
-      </div>
-    </section>
-
-    <!-- Workflow interactive -->
-    <section id="workflow" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-project-diagram"></i>Complete Workflow</h2>
-      <div class="bg-white p-6 rounded-xl card-shadow mt-4">
-        <div class="flex flex-wrap justify-center gap-4">
-          <div class="workflow-step border-2 border-gray-200 rounded-xl p-4 text-center w-36" onclick="toggleWorkflow(this)">
-            <i class="fas fa-file-medical text-3xl text-teal-med"></i>
-            <p class="font-semibold mt-1">Test Order</p>
-            <div class="workflow-detail text-xs mt-2 text-gray-600">Physician creates order, selects tests, priority.</div>
-          </div>
-          <i class="fas fa-arrow-right text-2xl self-center text-teal-light"></i>
-          <div class="workflow-step border-2 border-gray-200 rounded-xl p-4 text-center w-36" onclick="toggleWorkflow(this)">
-            <i class="fas fa-vial text-3xl text-teal-med"></i>
-            <p class="font-semibold mt-1">Sample Collection</p>
-            <div class="workflow-detail text-xs mt-2 text-gray-600">Print barcode, collect specimen, link to order.</div>
-          </div>
-          <i class="fas fa-arrow-right text-2xl self-center text-teal-light"></i>
-          <div class="workflow-step border-2 border-gray-200 rounded-xl p-4 text-center w-36" onclick="toggleWorkflow(this)">
-            <i class="fas fa-microscope text-3xl text-teal-med"></i>
-            <p class="font-semibold mt-1">Result Entry</p>
-            <div class="workflow-detail text-xs mt-2 text-gray-600">Technician enters values, auto-validate normal ranges.</div>
-          </div>
-          <i class="fas fa-arrow-right text-2xl self-center text-teal-light"></i>
-          <div class="workflow-step border-2 border-gray-200 rounded-xl p-4 text-center w-36" onclick="toggleWorkflow(this)">
-            <i class="fas fa-check-double text-3xl text-teal-med"></i>
-            <p class="font-semibold mt-1">Verification</p>
-            <div class="workflow-detail text-xs mt-2 text-gray-600">Senior tech verifies results, flags abnormalities.</div>
-          </div>
-          <i class="fas fa-arrow-right text-2xl self-center text-teal-light"></i>
-          <div class="workflow-step border-2 border-gray-200 rounded-xl p-4 text-center w-36" onclick="toggleWorkflow(this)">
-            <i class="fas fa-file-pdf text-3xl text-teal-med"></i>
-            <p class="font-semibold mt-1">Report & Invoice</p>
-            <div class="workflow-detail text-xs mt-2 text-gray-600">Generate PDF, send to patient, create invoice.</div>
-          </div>
-        </div>
-        <p class="text-sm text-gray-500 mt-4 text-center"><i class="fas fa-hand-pointer mr-1"></i>Click any step for details</p>
-      </div>
-    </section>
-
-    <!-- Roles -->
-    <section id="roles" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-user-tag"></i>User Roles & Permissions</h2>
-      <div class="grid md:grid-cols-3 gap-6 mt-4">
-        <div class="bg-white p-6 rounded-xl card-shadow"><i class="fas fa-user-md text-3xl text-teal-med"></i><h3 class="font-bold text-xl mt-2">Doctor</h3><p class="text-sm text-gray-600">Create test orders, view results, sign reports.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><i class="fas fa-flask text-3xl text-teal-med"></i><h3 class="font-bold text-xl mt-2">Lab Technician</h3><p class="text-sm text-gray-600">Enter results, manage samples, run QC, print labels.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><i class="fas fa-user-cog text-3xl text-teal-med"></i><h3 class="font-bold text-xl mt-2">Lab Manager</h3><p class="text-sm text-gray-600">Configure tests, approve results, manage users, view dashboards.</p></div>
-      </div>
-    </section>
-
-    <!-- Detailed Features -->
-    <section id="features" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-list-ul"></i>Detailed Feature Documentation</h2>
-      <div class="space-y-6 mt-6">
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-users text-teal-med mr-2"></i>Patient Management</h3><p>Complete patient registry with medical record number, contact details, and history of test orders. Integrated with Odoo's partner model.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-tags text-teal-med mr-2"></i>Test Catalog & Pricing</h3><p>Define test parameters, normal ranges, pricing, and panels. Supports combo tests (e.g., Complete Blood Count).</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-clipboard-list text-teal-med mr-2"></i>Test Order Creation</h3><p>Form with patient search, test selection, priority (routine/urgent/stat), and sample type. Auto-generates order number.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-barcode text-teal-med mr-2"></i>Sample Tracking</h3><p>Barcode generation for samples, scan-in, storage location tracking, and chain of custody.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-edit text-teal-med mr-2"></i>Result Entry & Validation</h3><p>Grid entry for multiple results, auto-validation against normal ranges, abnormal flagging (H/L), and delta checks.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-chart-bar text-teal-med mr-2"></i>Quality Control</h3><p>Levey-Jennings charts, Westgard rules, QC material tracking, and lot management.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-file-invoice text-teal-med mr-2"></i>Report Generation</h3><p>Customizable PDF reports with patient info, results, normal ranges, and physician signature block.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-coins text-teal-med mr-2"></i>Accounting Integration</h3><p>Automatic invoice creation on order confirmation, linked to Odoo's accounting module, with insurance support.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-chart-pie text-teal-med mr-2"></i>Analytics & Dashboards</h3><p>Dashboard widgets: test volume by department, average TAT, revenue by test, and abnormal rate.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-comments text-teal-med mr-2"></i>Notifications & Chatter</h3><p>Real-time notifications on order status changes, result verification, and messaging between lab staff.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold text-xl"><i class="fas fa-search text-teal-med mr-2"></i>Search, Filters, Kanban</h3><p>Advanced search with filters (status, date, physician), Kanban view for test orders, and list/tree views.</p></div>
-      </div>
-    </section>
-
-    <!-- Gallery -->
-<!--    <section id="gallery" class="mb-16 scroll-mt-16">-->
-<!--      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-images"></i>Screenshots & UI Gallery</h2>-->
-<!--      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">-->
-<!--        <div class="bg-white rounded-xl card-shadow overflow-hidden"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85a?w=400&h=200&fit=crop" alt="Test order form" class="w-full h-32 object-cover"><div class="p-3 text-sm font-medium">Test Order Form</div></div>-->
-<!--        <div class="bg-white rounded-xl card-shadow overflow-hidden"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=200&fit=crop" alt="Result entry grid" class="w-full h-32 object-cover"><div class="p-3 text-sm font-medium">Result Entry Grid</div></div>-->
-<!--        <div class="bg-white rounded-xl card-shadow overflow-hidden"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=200&fit=crop" alt="Dashboard" class="w-full h-32 object-cover"><div class="p-3 text-sm font-medium">Analytics Dashboard</div></div>-->
-<!--        <div class="bg-white rounded-xl card-shadow overflow-hidden"><img src="https://images.unsplash.com/photo-1571513722275-4b41940f54b8?w=400&h=200&fit=crop" alt="Kanban" class="w-full h-32 object-cover"><div class="p-3 text-sm font-medium">Kanban View</div></div>-->
-<!--        <div class="bg-white rounded-xl card-shadow overflow-hidden"><img src="https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400&h=200&fit=crop" alt="PDF report" class="w-full h-32 object-cover"><div class="p-3 text-sm font-medium">PDF Report Sample</div></div>-->
-<!--        <div class="bg-white rounded-xl card-shadow overflow-hidden"><img src="https://images.unsplash.com/photo-1584016912348-0be11ebc3f67?w=400&h=200&fit=crop" alt="Barcode" class="w-full h-32 object-cover"><div class="p-3 text-sm font-medium">Barcode & Sample Tracking</div></div>-->
-<!--      </div>-->
-<!--    </section>-->
-
-    <!-- Use Cases -->
-    <section id="usecases" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-stethoscope"></i>Workflow Examples & Use Cases</h2>
-      <div class="grid md:grid-cols-3 gap-6 mt-4">
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold">Routine Blood Test</h3><p class="text-sm text-gray-600">Order → CBC panel → sample collection → results in 2h → verification → PDF report → invoice.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold">Emergency Panel</h3><p class="text-sm text-gray-600">STAT order → priority sample → immediate processing → result in 30min → notification to ER.</p></div>
-        <div class="bg-white p-6 rounded-xl card-shadow"><h3 class="font-bold">Batch Processing</h3><p class="text-sm text-gray-600">Multiple samples from phlebotomy → batch entry → bulk result validation → batch invoicing.</p></div>
-      </div>
-    </section>
-
-    <!-- Best Practices -->
-    <section id="tips" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-lightbulb"></i>Best Practices & Tips</h2>
-      <ul class="bg-white p-6 rounded-xl card-shadow space-y-2">
-        <li><i class="fas fa-check-circle text-teal-med mr-2"></i> Always validate normal ranges for each test parameter.</li>
-        <li><i class="fas fa-check-circle text-teal-med mr-2"></i> Use barcode scanning to reduce sample mix-ups.</li>
-        <li><i class="fas fa-check-circle text-teal-med mr-2"></i> Set up automated QC alerts for Westgard violations.</li>
-        <li><i class="fas fa-check-circle text-teal-med mr-2"></i> Archive older orders periodically for performance.</li>
-      </ul>
-    </section>
-
-    <!-- Troubleshooting -->
-    <section id="troubleshoot" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-wrench"></i>Troubleshooting</h2>
-      <div class="bg-white p-6 rounded-xl card-shadow space-y-3">
-        <div><strong>Q:</strong> Samples not appearing in result entry? <strong>A:</strong> Ensure order status is "Sample Collected".</div>
-        <div><strong>Q:</strong> PDF report missing logo? <strong>A:</strong> Check company branding settings in Odoo.</div>
-        <div><strong>Q:</strong> Abnormal flag not showing? <strong>A:</strong> Verify normal ranges are defined for the test.</div>
-      </div>
-    </section>
-
-    <!-- API -->
-    <section id="api" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-plug"></i>API / Extension Points</h2>
-      <div class="bg-white p-6 rounded-xl card-shadow">
-        <p>Extend the module via Odoo's standard API:</p>
-        <ul class="list-disc list-inside mt-2">
-          <li>Inherit <code>lims.test.order</code> to add custom fields.</li>
-          <li>Override <code>_compute_normal_range()</code> for custom validation.</li>
-          <li>Use <code>@api.onchange</code> for dynamic form behavior.</li>
-          <li>Add new report templates via QWeb.</li>
-        </ul>
-        <pre class="bg-gray-50 p-4 rounded-lg mt-3 text-xs">class TestOrder(models.Model):
-    _inherit = 'lims.test.order'
-    custom_field = fields.Char('Custom Field')</pre>
-      </div>
-    </section>
-
-    <!-- Changelog -->
-    <section id="changelog" class="mb-16 scroll-mt-16">
-      <h2 class="text-3xl font-bold text-teal-med flex items-center gap-3"><i class="fas fa-history"></i>Changelog</h2>
-      <div class="bg-white p-6 rounded-xl card-shadow">
-        <p><strong>v2.0</strong> (2026-07) – Odoo 17 compatibility, new dashboard, improved barcode scanning.</p>
-        <p><strong>v1.5</strong> (2025-12) – Added QC module and Westgard rules.</p>
-        <p><strong>v1.0</strong> (2025-06) – Initial release.</p>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-gray-200 pt-8 mt-12 text-gray-500 text-sm flex flex-wrap justify-between items-center">
-      <div><i class="fas fa-flask text-teal-med mr-2"></i>Hospital LIMS · Odoo 17</div>
-      <div><a href="#" class="hover:text-teal-med"><i class="fab fa-github mr-2"></i>GitHub</a> · <a href="#" class="hover:text-teal-med"><i class="fas fa-envelope mr-2"></i>Contact</a></div>
-      <div>© 2026 · All rights reserved</div>
-    </footer>
-  </main>
-</div>
-
-<!-- JS: search, dark mode, workflow toggle -->
-<script>
-  (function() {
-    // sidebar active highlight on scroll
-    const links = document.querySelectorAll('.sidebar-link');
-    const sections = document.querySelectorAll('section[id]');
-    function highlightSidebar() {
-      let current = '';
-      sections.forEach(sec => {
-        const top = sec.offsetTop - 120;
-        if (window.scrollY >= top) current = sec.id;
-      });
-      links.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
-      });
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Healthcare Hospital LIMS for Odoo 17",
+      "operatingSystem": "Odoo 17",
+      "applicationCategory": "MedicalApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "85.00",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "112"
+      },
+      "description": "Enterprise Hospital Laboratory Information Management System featuring Patient Management, Test Ordering, Sample Tracking, Result Entry with Normal Ranges, Quality Control, Reporting, Invoicing, and Executive Dashboards.",
+      "author": {
+        "@type": "Organization",
+        "name": "Wazirz",
+        "url": ""
+      }
     }
-    window.addEventListener('scroll', highlightSidebar);
-    highlightSidebar();
+    </script>
+</head>
+<body style="font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333333; background-color: #F8FAFC; margin: 0; padding: 0;">
 
-    // search
-    const searchInput = document.getElementById('searchInput');
-    const tocLinks = document.querySelectorAll('#toc a');
-    searchInput.addEventListener('input', function() {
-      const q = this.value.toLowerCase().trim();
-      tocLinks.forEach(link => {
-        const txt = link.textContent.toLowerCase();
-        if (q === '' || txt.includes(q)) {
-          link.style.display = 'block';
-          if (q && txt.includes(q)) link.innerHTML = link.textContent.replace(new RegExp(q, 'gi'), match => `<span class="highlight">${match}</span>`);
-          else link.innerHTML = link.textContent;
-        } else {
-          link.style.display = 'none';
-        }
-      });
-    });
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container" style="padding-left: 2%; padding-right: 2%;">
+    <section class="oe_container d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0;">
+            <div class="d-flex align-items-center">
+                <span style="background: #0f766e; color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.5px;">
+                    🧪 Odoo 17 Ready
+                </span>
+                <span style="font-size: 18px; font-weight: 700; color: #1E293B; margin-left: 16px;">
+                    Healthcare Hospital LIMS Suite
+                </span>
+            </div>
+            <div class="d-flex align-items-center">
+                <div style="font-size: 15px; color: #475569; font-weight: 600; margin-right: 12px;">
+                    Supported Editions:
+                </div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #BFDBFE; margin-right: 8px;">
+                    Community
+                </span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #E9D5FF; margin-right: 16px;">
+                    Enterprise
+                </span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 6px; border: 1px solid #FDE68A;">
+                    USD $85.00
+                </span>
+            </div>
+        </div>
+    </section>
+</section>
 
-    // dark mode toggle
-    const darkToggle = document.getElementById('darkToggle');
-    darkToggle.addEventListener('click', function() {
-      document.body.classList.toggle('dark-mode');
-      this.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i><span>Light</span>' : '<i class="fas fa-moon"></i><span>Dark</span>';
-    });
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5" style="text-align: center;">
+    <h1 style="font-size: 38px; color: #0F172A; font-weight: 800; margin-bottom: 16px; line-height: 1.2;">
+        Healthcare Hospital LIMS – Complete Lab Information Management for Odoo 17
+    </h1>
+    <p style="font-weight: 500; font-size: 19px; color: #475569; max-width: 860px; margin: 0 auto 28px; line-height: 1.6;">
+        End-to-end Laboratory Information Management System built specifically for Hospitals, Diagnostic Centers, and Clinical Labs. Patient Management, Test Ordering, Sample Tracking, Result Entry with Normal Ranges, Quality Control, Invoicing, and Advanced Analytics – all seamlessly integrated with Odoo 17.
+    </p>
+    <div style="margin-top: 24px;">
+        <a href="#odoo_view_tab1" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FFFFFF; border: 3px solid #0f766e; color: #0f766e; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #0f766e !important;">🖼️ View All Screenshots</strong>
+        </a>
+        <a href="#odoo_view_tab5" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #000000 !important;">🎥 Watch Video Walkthrough</strong>
+        </a>
+        <a href="https://yourwebsite.com/contact" target="_blank" class="d-inline-block px-4 py-3 mb-2" style="background-color: #0f766e; border: 3px solid #0a5a54; color: #FFFFFF; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);">
+            <strong style="color: #FFFFFF !important;">💬 Get Free Consultation</strong>
+        </a>
+    </div>
+</section>
 
-    // workflow toggle
-    window.toggleWorkflow = function(el) {
-      el.classList.toggle('active');
-    };
-  })();
-</script>
-<!-- ensure code length > 3000 lines (this is a rich single file) -->
+<!-- ==================== CORE ARCHITECTURAL CARDS ==================== -->
+
+<!-- 1. Patient Management -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #E0E7FF; color: #1E40AF; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                👤
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Patient Management & Medical Records
+                </h2>
+                <span style="background: #FDF4FF; color: #86198F; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #F5D0FE;">
+                    CORE MODEL
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Comprehensive patient registry with integrated medical record management. Store all patient demographics, contact information, and complete test history in one unified view.
+        </p>
+        <div class="row" style="margin-top: 16px;">
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Medical Record No.</strong>
+                    <span style="font-size: 14px; color: #64748B;">Unique patient identifier generated automatically.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Complete Demographics</strong>
+                    <span style="font-size: 14px; color: #64748B;">Name, DOB, gender, phone, email, address.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Test History</strong>
+                    <span style="font-size: 14px; color: #64748B;">Complete historical test orders and results.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Integration</strong>
+                    <span style="font-size: 14px; color: #64748B;">Seamless link with Odoo's partner model.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Test Catalog & Pricing -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #EFF6FF; color: #2563EB; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📋
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Test Catalog & Pricing Engine
+                </h2>
+                <span style="background: #EFF6FF; color: #1E40AF; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BFDBFE;">
+                    CONFIGURATION
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Define and manage comprehensive test catalog with parameters, normal ranges, pricing, and panel compositions. Supports both individual tests and multi-test panels.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Test Parameters:</strong> Define test name, code, units, normal range (low/high), and critical values.</li>
+            <li><strong>Pricing Structure:</strong> Set selling price, cost price, and insurance rates for each test.</li>
+            <li><strong>Panels/Profiles:</strong> Group multiple tests into panels (e.g., CBC, Lipid Profile, Liver Function).</li>
+            <li><strong>Category Management:</strong> Organize tests by department (Hematology, Biochemistry, Microbiology).</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 3. Test Order Management -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FEF3C7; color: #D97706; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📝
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Test Order Management
+                </h2>
+                <span style="background: #FEF3C7; color: #B45309; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FDE68A;">
+                    CORE WORKFLOW
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            End-to-end test order lifecycle from creation to invoicing. Supports multiple test selection, priority levels, and automated sample management.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Order Creation:</strong> Quick patient search, multi-test selection, priority (Routine/Urgent/STAT).</li>
+            <li><strong>State Machine:</strong> Draft → Confirmed → Sample Collected → In Progress → Results Entered → Verified → Invoiced.</li>
+            <li><strong>Sample Management:</strong> Automatic barcode generation, sample type selection, and collection tracking.</li>
+            <li><strong>Physician Integration:</strong> Link orders to referring physicians with digital signatures.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 4. Sample Tracking & Barcode -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #DCFCE7; color: #166534; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🏷️
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Sample Tracking & Barcode System
+                </h2>
+                <span style="background: #DCFCE7; color: #166534; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BBF7D0;">
+                    TRACKING
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Complete sample lifecycle tracking with barcode generation, collection management, storage location, and chain of custody.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Barcode Generation:</strong> Unique barcodes for each sample with QR/CODE128 support.</li>
+            <li><strong>Collection Management:</strong> Track collection date, time, collector, and sample type.</li>
+            <li><strong>Storage Location:</strong> Manage sample storage with shelf and freezer locations.</li>
+            <li><strong>Chain of Custody:</strong> Complete audit trail of sample handling from collection to disposal.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 5. Result Entry & Validation -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FCE7F3; color: #DB2777; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🔬
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Result Entry & Validation
+                </h2>
+                <span style="background: #FCE7F3; color: #9D174D; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FBCFE8;">
+                    CORE FEATURE
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Efficient result entry with automatic validation against normal ranges, abnormal flagging, and delta check alerts.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Grid Entry:</strong> Fast batch result entry with tab navigation.</li>
+            <li><strong>Normal Range Validation:</strong> Auto-flag results as High (H) or Low (L) based on defined ranges.</li>
+            <li><strong>Delta Check:</strong> Compare results with previous values for the same patient.</li>
+            <li><strong>Technician Assignment:</strong> Track who entered and verified each result.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 6. Quality Control -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #F3E8FF; color: #7E22CE; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📊
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Quality Control Management
+                </h2>
+                <span style="background: #F3E8FF; color: #6B21A8; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #E9D5FF;">
+                    QC ENGINE
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Comprehensive quality control with Levey-Jennings charts, Westgard rules, QC material tracking, and lot management.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>QC Charts:</strong> Visual Levey-Jennings charts with Westgard rule violation alerts.</li>
+            <li><strong>QC Material:</strong> Track QC material lots, expiry dates, and target values.</li>
+            <li><strong>Rule Violation Alerts:</strong> Automatic notifications for Westgard 1:2s, 1:3s, 2:2s, etc.</li>
+            <li><strong>QC Reports:</strong> Generate comprehensive QC reports for accreditation.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 7. Reporting & Invoicing -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #E0F2FE; color: #0369A1; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📄
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Report Generation & Invoicing
+                </h2>
+                <span style="background: #E0F2FE; color: #0369A1; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BAE6FD;">
+                    BILLING
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Generate professional PDF lab reports with patient and test details, normal ranges, and physician signatures. Automatic invoice generation on order verification.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>PDF Reports:</strong> Customizable QWeb report templates with logo and branding.</li>
+            <li><strong>Normal Ranges Display:</strong> Show reference ranges alongside patient results.</li>
+            <li><strong>Physician Signature:</strong> Digital signature field for verification.</li>
+            <li><strong>Accounting Integration:</strong> Auto-create invoices on order verification with Odoo Accounting.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 8. Analytics & Dashboards -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FEF2F2; color: #DC2626; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📈
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Analytics & Executive Dashboards
+                </h2>
+                <span style="background: #FEF2F2; color: #DC2626; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FECACA;">
+                    INSIGHTS
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Real-time KPI dashboards with test volumes, turnaround times, revenue analysis, and abnormal result monitoring.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Test Volume:</strong> Daily/Monthly test count by department and test type.</li>
+            <li><strong>Turnaround Time (TAT):</strong> Average processing time from sample collection to result verification.</li>
+            <li><strong>Revenue Analysis:</strong> Revenue by test, department, and physician.</li>
+            <li><strong>Abnormal Rate:</strong> Percentage of abnormal results with department breakdown.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== HIGHLIGHTED FEATURES CHECKLIST ==================== -->
+<section class="oe_container my-5">
+    <div class="d-flex mb-4 flex-column align-items-center" style="text-align: center;">
+        <h2 style="font-weight: 800; font-size: 32px; color: #0F172A; margin-bottom: 8px;">
+            🏆 Healthcare Hospital LIMS Feature Checklist
+        </h2>
+        <p style="font-weight: 500; font-size: 18px; color: #64748B;">
+            Comprehensive operational checklist powered by Healthcare Hospital LIMS for Odoo 17
+        </p>
+    </div>
+    <div class="row" style="font-size: 16px; font-weight: 600; color: #1E293B;">
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Complete Patient Management with Medical Records</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Test Catalog with Normal Ranges & Pricing</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Test Order Creation with Priority (Routine/Urgent/STAT)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Sample Tracking with Barcode Generation</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Result Entry with Normal Range Validation</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Abnormal Flagging (H/L) and Delta Check</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Quality Control with Levey-Jennings Charts</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Westgard Rules Violation Alerts</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Professional PDF Lab Reports</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Automatic Invoice Generation with Odoo Accounting</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Executive Dashboards with TAT & Revenue Analytics</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Granular Security Groups for Lab Roles</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Physician Portal for Result Access</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Chatter & Real-time Notifications</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Advanced Search, Filters & Kanban Views</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Audit Trail & Compliance Ready</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== INTERACTIVE TABBED SECTION ==================== -->
+<section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="card-header shadow-sm p-0" style="font-weight: 700; font-size: 18px; color: #333333;">
+        <ul class="nav nav-tabs justify-content-center pt-3" id="myTab" role="tablist" style="background-color: #F1F5F9; border-bottom: 2px solid #0f766e; gap: 12px; margin: 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab" style="color: #0f766e; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FFFFFF; border: 2px solid #0f766e; border-bottom: 2px solid #FFFFFF; text-decoration: none; display: block;">
+                    🖼️ All Screenshots & Screens
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="detailed-tab" data-bs-toggle="tab" href="#odoo_view_tab2" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    📋 Detailed Functional Workflows
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#odoo_view_tab3" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    ⚙️ Backend & Configuration
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="portal-tab" data-bs-toggle="tab" href="#odoo_view_tab4" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    🌐 Physician Portal Access
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="video-tab" data-bs-toggle="tab" href="#odoo_view_tab5" role="tab" style="color: #000000; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FEF08A; border: 2px solid #000000; text-decoration: none; display: block;">
+                    🎥 Live Video Walkthrough & Demo
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="card-body tab-content text-center p-0" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: none; padding: 32px 16px;">
+
+        <!-- TAB 1: ALL SCREENSHOTS -->
+        <div class="tab-pane fade active show" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-4">
+
+                <!-- Screen 1: Dashboard -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📊 Screenshot 1: Executive Laboratory Dashboard
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Real-time KPI dashboard with total tests, average TAT, revenue, abnormal rate, and test volume charts.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/01_lims_dashboard.png" alt="Laboratory Dashboard" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 2: Patient Form -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                👤 Screenshot 2: Patient Management Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete patient record with demographics, medical record number, and test history.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/02_patient_form.png" alt="Patient Management Form" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 3: Test Catalog -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📋 Screenshot 3: Test Catalog & Pricing
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Define test parameters, normal ranges, pricing, and panel compositions.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/03_test_catalog.png" alt="Test Catalog" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 4: Test Order -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📝 Screenshot 4: Test Order Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Create test orders with patient selection, test selection, priority, and sample type.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/04_test_order.png" alt="Test Order Form" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 5: Sample Tracking -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🏷️ Screenshot 5: Sample Tracking & Barcode
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Barcode generation, collection tracking, and storage location management.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/05_sample_tracking.png" alt="Sample Tracking" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 6: Result Entry -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🔬 Screenshot 6: Result Entry Grid
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Fast batch result entry with normal range validation and abnormal flagging.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/06_result_entry.png" alt="Result Entry" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 7: QC Chart -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📊 Screenshot 7: Quality Control Chart
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Levey-Jennings QC chart with Westgard rule violation indicators.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/07_qc_chart.png" alt="QC Chart" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 8: PDF Report -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📄 Screenshot 8: Lab Report PDF
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Professional PDF lab report with patient info, test results, normal ranges, and physician signature.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/08_pdf_report.png" alt="PDF Report" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 9: Invoice -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                💰 Screenshot 9: Invoice Integration
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Automatic invoice generation from verified test orders with Odoo Accounting.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/09_invoice.png" alt="Invoice Integration" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 10: Configuration -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                ⚙️ Screenshot 10: Configuration Menu
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Master setup center for patients, tests, orders, samples, and QC.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/10_configuration.png" alt="Configuration Menu" />
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAILED FUNCTIONAL WORKFLOWS -->
+        <div class="tab-pane fade" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Detailed Operational Workflows & System Architecture
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0f766e; margin-bottom: 16px;">
+                                📋 Test Order Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Order Creation:</strong> Physician creates order with patient and test selection.</li>
+                                <li><strong>Confirmation:</strong> Order is confirmed and sample barcode is generated.</li>
+                                <li><strong>Sample Collection:</strong> Sample collected, scanned, and linked to order.</li>
+                                <li><strong>Result Entry:</strong> Technician enters results with automatic validation.</li>
+                                <li><strong>Verification:</strong> Senior tech verifies results and flags abnormalities.</li>
+                                <li><strong>Reporting:</strong> PDF report generated and sent to physician.</li>
+                                <li><strong>Invoicing:</strong> Invoice automatically created in Odoo Accounting.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0D9488; margin-bottom: 16px;">
+                                🔬 Quality Control Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>QC Material Setup:</strong> Define QC materials with target values and ranges.</li>
+                                <li><strong>QC Testing:</strong> Run QC samples alongside patient samples.</li>
+                                <li><strong>Chart Generation:</strong> Auto-generate Levey-Jennings charts for each QC material.</li>
+                                <li><strong>Rule Checking:</strong> Automatic Westgard rule evaluation and violation alerts.</li>
+                                <li><strong>Corrective Action:</strong> Log corrective actions for rule violations.</li>
+                                <li><strong>QC Reports:</strong> Generate comprehensive QC reports for accreditation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0284C7; margin-bottom: 16px;">
+                                📄 Reporting & Invoicing Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Result Verification:</strong> Results are verified by authorized staff.</li>
+                                <li><strong>PDF Generation:</strong> Lab report generated with patient details and results.</li>
+                                <li><strong>Report Delivery:</strong> Report sent to physician via email or portal.</li>
+                                <li><strong>Invoice Creation:</strong> Invoice automatically created from order line items.</li>
+                                <li><strong>Payment Tracking:</strong> Integration with Odoo Accounting for payment tracking.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #7E22CE; margin-bottom: 16px;">
+                                📈 Analytics & Monitoring
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Real-time Dashboards:</strong> Test volume, TAT, revenue, and abnormal rate.</li>
+                                <li><strong>Department Analysis:</strong> Performance metrics by lab department.</li>
+                                <li><strong>Physician Reports:</strong> Test ordering patterns and revenue by physician.</li>
+                                <li><strong>Trend Analysis:</strong> Historical trend analysis for operational planning.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BACKEND & CONFIGURATION -->
+        <div class="tab-pane fade" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Enterprise Backend Configuration & Access Rights
+                </h2>
+                <div class="p-4 shadow-sm border mb-4" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Granular Security Groups Matrix
+                    </h3>
+                    <p style="font-size: 15px; color: #475569; line-height: 1.8;">
+                        The module defines 3 distinct security access groups inside Odoo 17 User Settings. Each role strictly controls what the logged-in user can view, create, edit, or export:
+                    </p>
+                    <table class="table border" style="width: 100%; margin-top: 16px; font-size: 15px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #F1F5F9; color: #0F172A; text-align: left;">
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Security Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Intended Staff Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Permissions & Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0284C7;">Lab Technician</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Technicians / Phlebotomists</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Enter results, manage samples, run QC, view orders assigned to them.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0D9488;">Lab Supervisor</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Senior Technologists / Supervisors</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Verify results, approve QC, manage QC materials, configure tests.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #701A75;">Lab Manager</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Lab Directors / Administrators</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Complete administrative control over all LIMS data, configuration, reporting, and user management.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Automated Workflows & Business Logic
+                    </h3>
+                    <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                        <li><strong>Test Order Workflow:</strong> Draft → Confirmed → Sample Collected → In Progress → Results Entered → Verified → Invoiced.</li>
+                        <li><strong>Abnormal Flagging:</strong> Auto-flag results as High (H) or Low (L) based on normal ranges.</li>
+                        <li><strong>Delta Check:</strong> Compare current results with previous values for the same patient.</li>
+                        <li><strong>QC Rule Checking:</strong> Automatic Westgard rule evaluation and violation alerts.</li>
+                        <li><strong>Barcode Generation:</strong> Unique barcodes for each sample and order.</li>
+                        <li><strong>Invoice Auto-Creation:</strong> Generate invoices upon order verification.</li>
+                        <li><strong>Email Notifications:</strong> Notify physicians when reports are ready.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: PHYSICIAN PORTAL -->
+        <div class="tab-pane fade" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Physician Portal Access & Result Review
+                </h2>
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px;" src="screenshots/15_physician_portal.png" alt="Physician Portal" />
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 22px; font-weight: 700; color: #1E40AF; margin-bottom: 16px;">
+                                Empowering Physicians with Real-time Access
+                            </h3>
+                            <p style="font-size: 15px; color: #475569; line-height: 1.8; margin-bottom: 16px;">
+                                The module includes a dedicated physician portal that provides:
+                            </p>
+                            <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                                <li><strong>Order Dashboard:</strong> View all test orders by status and priority.</li>
+                                <li><strong>Result Access:</strong> View patient results with normal range comparisons.</li>
+                                <li><strong>PDF Reports:</strong> Download and print lab reports.</li>
+                                <li><strong>Patient History:</strong> Access complete test history for each patient.</li>
+                                <li><strong>Real-time Updates:</strong> Get notifications when results are ready.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: VIDEO WALKTHROUGH -->
+        <div class="tab-pane fade" id="odoo_view_tab5" role="tabpanel">
+            <div class="container px-4 text-center">
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 3px solid #000000; border-radius: 16px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #FEF08A; border-bottom: 3px solid #000000; color: #000000; padding: 24px;">
+                            <h3 style="font-size: 28px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🎥 Complete Healthcare Hospital LIMS Video Walkthrough & Live Demo
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 10px 0 0; line-height: 1.6;">
+                                Interactive step-by-step video tour demonstrating Patient Management, Test Orders, Sample Tracking, Result Entry, QC, Reporting & Invoicing.
+                            </p>
+                        </div>
+                        <div class="panel-body p-5" style="background: #FFFFFF;">
+                            <div class="mx-auto" style="max-width: 920px; border: 4px solid #000000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #0F172A;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; background: #0F172A;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1; width: 90%;">
+                                        <div style="color: #FFFFFF; font-size: 24px; font-weight: 800; margin-bottom: 16px;">
+                                            🎥 Healthcare Hospital LIMS Video Walkthrough
+                                        </div>
+                                        <a href="https://yourwebsite.com/demo" target="_blank" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-size: 20px; font-weight: 800; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: inline-block;">
+                                            ▶️ Click Here to Play Video / Request Live Interactive Demo
+                                        </a>
+                                    </div>
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                                            title="Healthcare Hospital LIMS Odoo 17 Video Demo"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-5">
+                                <a href="https://yourwebsite.com/contact" target="_blank" class="px-5 py-3" style="background-color: #0f766e; border: 3px solid #0a5a54; color: #FFFFFF; font-weight: 800; font-size: 20px; border-radius: 999px; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3); display: inline-flex; align-items: center;">
+                                    <strong style="color: #FFFFFF !important; font-size: 20px;">💬 Request Live 1-on-1 Video Demo with Our Team</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5">
+    <div class="p-5 shadow-sm text-center" style="background-color: #F8FAFC; color: #000000; border-radius: 16px; border: 3px solid #CBD5E1;">
+        <h2 style="font-size: 36px; font-weight: 800; margin-bottom: 14px; color: #000000;">
+            Looking for an experienced Odoo Developer?
+        </h2>
+        <p style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 auto 24px;">
+            We specialize in:
+        </p>
+
+        <div class="mx-auto text-left" style="max-width: 780px; background-color: #FFFFFF; border: 2px solid #E2E8F0; border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div class="row" style="text-align: left; font-size: 19px; font-weight: 700; color: #000000; line-height: 2.2;">
+                <div class="col-md-6">
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Enterprise Odoo Implementation</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Custom Odoo Module Development</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>LIMS / Healthcare Solutions</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Third-Party API Integrations</div>
+                </div>
+                <div class="col-md-6">
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Migration & Upgrades</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Performance Optimization</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Technical Support & Maintenance</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Training & Consultation</div>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 22px; font-weight: 800; color: #000000; margin: 0 auto 28px;">
+            Get in touch today for fast and professional Odoo solutions.
+        </p>
+
+        <div class="d-flex justify-content-center flex-wrap" style="gap: 20px;">
+            <a href="https://wa.me/+966565815529" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
+            </a>
+            <a href="mailto:asmatullahwazir415@gmail.com" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 Email: asmatullahwazir415@gmail.com</strong>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Bootstrap JS for Tabs -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

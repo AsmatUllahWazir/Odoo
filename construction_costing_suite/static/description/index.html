@@ -42,15 +42,15 @@
       "description": "Enterprise construction management application featuring BOQ management, job costing, work orders, RA billing, material purchase requisitions, subcontracting, job sheets, and advanced budget reporting.",
       "author": {
         "@type": "Organization",
-        "name": "Your Company",
-        "url": "https://yourwebsite.com"
+        "name": "Wazirz",
+        "url": ""
       }
     }
     </script>
 </head>
 <body style="font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333333; background-color: #F8FAFC; margin: 0; padding: 0;">
 
-<!-- Top Header Bar -->
+<!-- ==================== TOP HEADER BAR ==================== -->
 <section class="oe_container" style="padding-left: 2%; padding-right: 2%;">
     <section class="oe_container d-flex justify-content-center">
         <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0;">
@@ -80,7 +80,7 @@
     </section>
 </section>
 
-<!-- Hero Title Section -->
+<!-- ==================== HERO SECTION ==================== -->
 <section class="oe_container my-5" style="text-align: center;">
     <h1 style="font-size: 38px; color: #0F172A; font-weight: 800; margin-bottom: 16px; line-height: 1.2;">
         Construction & Project Costing Management Suite for Odoo 17
@@ -90,7 +90,7 @@
     </p>
     <div style="margin-top: 24px;">
         <a href="#odoo_view_tab1" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FFFFFF; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
-            <strong style="color: #000000 !important;">🖼️ View All 15 Screenshots</strong>
+            <strong style="color: #000000 !important;">🖼️ View All Screenshots</strong>
         </a>
         <a href="#odoo_view_tab5" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
             <strong style="color: #000000 !important;">🎥 Watch Video Walkthrough</strong>
@@ -101,16 +101,18 @@
     </div>
 </section>
 
-<!-- Core Architectural Highlight Cards -->
+<!-- ==================== CORE ARCHITECTURAL CARDS ==================== -->
+
+<!-- 1. Granular Security Groups -->
 <section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
     <div class="p-4">
         <div class="d-sm-flex align-items-center mb-3">
             <span style="font-size: 32px; background: #E0E7FF; color: #1E40AF; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
-                📋
+                🔒
             </span>
             <div>
                 <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
-                    Bill of Quantities (BOQ) Management with Excel Import
+                    Granular Security Groups & Role-Based Access Control
                 </h2>
                 <span style="background: #FDF4FF; color: #86198F; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #F5D0FE;">
                     NEW FEATURE IN ODOO 17
@@ -118,31 +120,66 @@
             </div>
         </div>
         <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
-            Create, manage, and approve detailed Bills of Quantities with full version control. Import BOQ data directly from Excel spreadsheets, and automatically generate job cost lines and material requisitions upon approval.
+            Protect sensitive financial revenue, employee commission math, and construction configurations with multi-tier role-based access rights specifically engineered for construction hierarchies directly inside Odoo User Settings:
         </p>
         <div class="row" style="margin-top: 16px;">
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
                 <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #94A3B8;">
-                    <strong style="color: #0F172A; display: block;">Excel Import/Export</strong>
-                    <span style="font-size: 14px; color: #64748B;">Upload BOQ from Excel with automatic product creation and category mapping.</span>
+                    <strong style="color: #0F172A; display: block;">No Access / View Only</strong>
+                    <span style="font-size: 14px; color: #64748B;">Junior staff or trainees view project details without editing rights.</span>
                 </div>
             </div>
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
                 <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0284C7;">
-                    <strong style="color: #0F172A; display: block;">Version Control</strong>
-                    <span style="font-size: 14px; color: #64748B;">Track BOQ revisions with version numbers and previous version references.</span>
+                    <strong style="color: #0F172A; display: block;">User: Create Projects</strong>
+                    <span style="font-size: 14px; color: #64748B;">Project engineers manage BOQs, tasks, and requisitions.</span>
                 </div>
             </div>
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
                 <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0D9488;">
-                    <strong style="color: #0F172A; display: block;">Auto-Generate Cost Lines</strong>
-                    <span style="font-size: 14px; color: #64748B;">Approved BOQ automatically creates job cost lines and material requisitions.</span>
+                    <strong style="color: #0F172A; display: block;">User: Manage Costs</strong>
+                    <span style="font-size: 14px; color: #64748B;">Cost controllers track job costs and variance analysis.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #701A75;">
+                    <strong style="color: #0F172A; display: block;">Manager (Full Access)</strong>
+                    <span style="font-size: 14px; color: #64748B;">Full control over project setup, budgets, approvals, and reports.</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- 2. BOQ Management -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #EFF6FF; color: #2563EB; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📋
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Bill of Quantities (BOQ) Management with Excel Import
+                </h2>
+                <span style="background: #EFF6FF; color: #1E40AF; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BFDBFE;">
+                    BUDGETING ENGINE
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Create, manage, and approve detailed Bills of Quantities with full version control. Import BOQ data directly from Excel spreadsheets, and automatically generate job cost lines and material requisitions upon approval.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Excel Import/Export:</strong> Upload BOQ from Excel with automatic product creation and category mapping.</li>
+            <li><strong>Version Control:</strong> Track BOQ revisions with version numbers and previous version references.</li>
+            <li><strong>Auto-Generate Cost Lines:</strong> Approved BOQ automatically creates job cost lines and material requisitions.</li>
+            <li><strong>Approval Workflow:</strong> Draft → Under Review → Approved → Auto-generates cost lines & requisitions.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 3. Real-Time Job Costing -->
 <section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
     <div class="p-4">
         <div class="d-sm-flex align-items-center mb-3">
@@ -170,17 +207,18 @@
     </div>
 </section>
 
+<!-- 4. Material Requisitions -->
 <section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
     <div class="p-4">
         <div class="d-sm-flex align-items-center mb-3">
-            <span style="font-size: 32px; background: #EFF6FF; color: #2563EB; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+            <span style="font-size: 32px; background: #DCFCE7; color: #166534; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
                 🚚
             </span>
             <div>
                 <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
                     Material Purchase Requisitions & Inventory Integration
                 </h2>
-                <span style="background: #EFF6FF; color: #1E40AF; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BFDBFE;">
+                <span style="background: #DCFCE7; color: #166534; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BBF7D0;">
                     PROCUREMENT ENGINE
                 </span>
             </div>
@@ -197,6 +235,7 @@
     </div>
 </section>
 
+<!-- 5. Work Orders -->
 <section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
     <div class="p-4">
         <div class="d-sm-flex align-items-center mb-3">
@@ -224,6 +263,7 @@
     </div>
 </section>
 
+<!-- 6. RA Billing -->
 <section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
     <div class="p-4">
         <div class="d-sm-flex align-items-center mb-3">
@@ -251,11 +291,39 @@
     </div>
 </section>
 
-<!-- Highlighted Features Checklist -->
+<!-- 7. Subcontractor Management -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #E0F2FE; color: #0369A1; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                👷
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Subcontractor Management
+                </h2>
+                <span style="background: #E0F2FE; color: #0369A1; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BAE6FD;">
+                    CONTRACTOR CONTROL
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Manage subcontractor tasks, contracts, performance ratings, and payments in one place. Track progress, quality, and invoice generation with comprehensive reporting.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Contract Management:</strong> Create and manage subcontractor contracts with value tracking and deadlines.</li>
+            <li><strong>Performance Tracking:</strong> Monitor subcontractor performance with quality ratings and progress tracking.</li>
+            <li><strong>Invoice Integration:</strong> Auto-generate vendor invoices upon subcontractor task completion.</li>
+            <li><strong>Quality Ratings:</strong> Track subcontractor quality with 5-star rating system and detailed notes.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== HIGHLIGHTED FEATURES CHECKLIST ==================== -->
 <section class="oe_container my-5">
     <div class="d-flex mb-4 flex-column align-items-center" style="text-align: center;">
         <h2 style="font-weight: 800; font-size: 32px; color: #0F172A; margin-bottom: 8px;">
-            Highlighted Features Checklist
+            🏆 Highlighted Features Checklist
         </h2>
         <p style="font-weight: 500; font-size: 18px; color: #64748B;">
             Comprehensive operational checklist powered by Construction Management Suite for Odoo 17
@@ -349,7 +417,7 @@
         <div class="col-md-3 mb-3">
             <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
                 <span style="color: #1a3a5c; font-size: 20px; margin-right: 12px;">✔</span>
-                <span>Job cost, BOQ, and progress billing reports</span>
+                <span>Job cost, BOQ, and progress billing reports (PDF & Excel)</span>
             </div>
         </div>
         <div class="col-md-3 mb-3">
@@ -361,13 +429,13 @@
     </div>
 </section>
 
-<!-- Interactive Tabbed Section -->
+<!-- ==================== INTERACTIVE TABBED SECTION ==================== -->
 <section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
     <div class="card-header shadow-sm p-0" style="font-weight: 700; font-size: 18px; color: #333333;">
         <ul class="nav nav-tabs justify-content-center pt-3" id="myTab" role="tablist" style="background-color: #F1F5F9; border-bottom: 2px solid #1a3a5c; gap: 12px; margin: 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap;">
             <li class="nav-item" style="margin-bottom: -2px;">
                 <a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab" style="color: #1a3a5c; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FFFFFF; border: 2px solid #1a3a5c; border-bottom: 2px solid #FFFFFF; text-decoration: none; display: block;">
-                    🖼️ All 15 Screenshots & Screens
+                    🖼️ All Screenshots & Screens
                 </a>
             </li>
             <li class="nav-item" style="margin-bottom: -2px;">
@@ -396,7 +464,7 @@
     <!-- Tab Contents -->
     <div class="card-body tab-content text-center p-0" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: none; padding: 32px 16px;">
 
-        <!-- TAB 1: ALL 15 SCREENSHOTS -->
+        <!-- TAB 1: ALL SCREENSHOTS -->
         <div class="tab-pane fade active show" id="odoo_view_tab1" role="tabpanel">
             <div class="container px-4">
 
@@ -849,7 +917,7 @@
     </div>
 </section>
 
-<!-- Author & Support Footer -->
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
 <section class="oe_container my-5">
     <div class="p-5 shadow-sm text-center" style="background-color: #F8FAFC; color: #000000; border-radius: 16px; border: 3px solid #CBD5E1;">
         <h2 style="font-size: 36px; font-weight: 800; margin-bottom: 14px; color: #000000;">
@@ -881,11 +949,11 @@
         </p>
 
         <div class="d-flex justify-content-center flex-wrap" style="gap: 20px;">
-            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #FFFFFF; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.15); display: inline-flex; align-items: center;">
-                <strong style="color: #000000 !important; font-size: 19px;">🔗 LinkedIn: Your Profile</strong>
+            <a href="https://wa.me/+966 565815529" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
             </a>
-            <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
-                <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +123 456 7890</strong>
+            <a href="asmatullahwazir415@gmail.com" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 Email: asmatullahwazir415@gmail.com</strong>
             </a>
         </div>
     </div>

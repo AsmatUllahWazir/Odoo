@@ -22,8 +22,8 @@
         Full lifecycle: Listing → Marketing → Viewing → Tenant Screening → 
         Leasing → Occupancy/Maintenance → Renewal/Termination → Portfolio Analytics
     """,
-    'author': 'Property Management Solutions',
-    'website': 'https://www.example.com',
+    'author': 'Wazirz',
+    'website': '',
     'depends': [
         'base',
         'contacts',
@@ -33,7 +33,6 @@
         'maintenance',
         'website',
         'portal',
-        # 'sign',
         'mail',
         'calendar',
         'web',
@@ -110,8 +109,12 @@
             'smart_property_lifecycle/static/src/js/website_property.js',
         ],
     },
+
+    'images': ['static/description/icon.png'],
     'license': 'LGPL-3',
     'installable': True,
     'application': True,
     'auto_install': False,
+    'price': 65.00,
+    'currency': 'USD',
 }

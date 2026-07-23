@@ -1,655 +1,1087 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ZakatPro - Professional Zakat Calculator & Waqf Management for Odoo 17</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZakatPro – Professional Zakat Calculator & Waqf Management for Odoo 17</title>
+    <meta name="description" content="Professional Zakat Calculator & Waqf Asset Management module for Odoo 17. Automatic Zakat calculation (2.5%), Nisab threshold check, official bilingual certificates, SADAD integration, and Waqf asset tracking." />
+    <meta name="keywords" content="odoo 17 zakat, zakat calculator odoo, waqf management odoo, islamic finance odoo, zakat certificate odoo, sadad integration odoo, zakat module odoo, odoo zakat, zakatpro" />
+    <meta name="author" content="Wazirz" />
+    <meta name="robots" content="index, follow" />
 
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
-            background: #ffffff;
-            color: #2c3e2f;
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ZakatPro – Professional Zakat Calculator & Waqf Management for Odoo 17" />
+    <meta property="og:description" content="The first complete Zakat and Waqf management module for Odoo 17. Automatic Zakat calculation, Nisab check, official bilingual certificates, SADAD integration, and Waqf asset tracking." />
+    <meta property="og:image" content="banner.png" />
 
-        /* Main container - full width */
-        .container {
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
-            background: white;
-            overflow-x: hidden;
-        }
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ZakatPro – Professional Zakat Calculator & Waqf Management for Odoo 17" />
+    <meta name="twitter:description" content="Complete Zakat and Waqf management solution for Odoo 17. Automatic Zakat calculation, official certificates, SADAD integration, and Waqf asset tracking." />
+    <meta name="twitter:image" content="banner.png" />
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 100%);
-            color: white;
-            padding: 40px 24px;
-            text-align: center;
-            width: 100%;
-        }
-
-        .header h1 {
-            font-size: 36px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .header p {
-            font-size: 18px;
-            opacity: 0.95;
-        }
-
-        .badge-container {
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .badge {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        /* Price Banner */
-        .price-banner {
-            background: #f4a261;
-            color: #2c3e2f;
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-        }
-
-        .price {
-            font-size: 42px;
-            font-weight: 800;
-        }
-
-        .price small {
-            font-size: 16px;
-        }
-
-        /* Content - NO WIDTH LIMIT */
-        .content {
-            padding: 32px 24px;
-            width: 100%;
-            max-width: 100%;
-        }
-
-        .section {
-            margin-bottom: 48px;
-            width: 100%;
-        }
-
-        .section h2 {
-            color: #1a472a;
-            font-size: 28px;
-            border-left: 4px solid #f4a261;
-            padding-left: 16px;
-            margin-bottom: 24px;
-            font-weight: 600;
-        }
-
-        .section h3 {
-            color: #2d6a4f;
-            font-size: 20px;
-            margin: 24px 0 12px 0;
-            font-weight: 600;
-        }
-
-        /* Feature Grid - responsive */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            margin: 24px 0;
-            width: 100%;
-        }
-
-        .feature-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #e9ecef;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .feature-card h4 {
-            font-size: 18px;
-            color: #1a472a;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .feature-card p {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #4a5568;
-        }
-
-        /* Screenshot containers - FULL WIDTH with proper spacing */
-        .screenshot {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 24px;
-            margin: 20px 0 35px 0;
-            text-align: center;
-            border: 1px solid #e9ecef;
-            width: 100%;
-            clear: both;
-        }
-
-        .screenshot img {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .screenshot-caption {
-            margin-top: 24px;
-            padding-top: 16px;
-            border-top: 1px solid #dee2e6;
-            color: #6c757d;
-            font-size: 14px;
-            font-style: normal;
-            text-align: center;
-        }
-
-        /* Workflow steps */
-        .workflow-step {
-            background: #e9f5ef;
-            border-left: 4px solid #2d6a4f;
-            padding: 16px 20px;
-            margin: 30px 0 20px 0;
-            border-radius: 8px;
-            width: 100%;
-        }
-
-        .workflow-step strong {
-            color: #1a472a;
-            font-size: 16px;
-        }
-
-        /* Comparison table */
-        .table-wrapper {
-            overflow-x: auto;
-            margin: 24px 0;
-            width: 100%;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 500px;
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            border: 1px solid #dee2e6;
-            padding: 12px 16px;
-            text-align: left;
-        }
-
-        .comparison-table th {
-            background: #1a472a;
-            color: white;
-            font-weight: 600;
-        }
-
-        .comparison-table tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-
-        .checkmark {
-            color: #2d6a4f;
-            font-weight: bold;
-        }
-
-        /* Lists */
-        .feature-list {
-            margin-left: 24px;
-            line-height: 1.8;
-        }
-
-        .feature-list li {
-            margin: 8px 0;
-        }
-
-        /* CTA Button */
-        .cta {
-            background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 100%);
-            color: white;
-            text-align: center;
-            padding: 40px 24px;
-            border-radius: 16px;
-            margin: 40px 0 24px;
-            width: 100%;
-        }
-
-        .cta h3 {
-            font-size: 28px;
-            margin-bottom: 16px;
-            color: white;
-        }
-
-        .cta .price-large {
-            font-size: 42px;
-            font-weight: 800;
-            margin: 16px 0;
-        }
-
-        .button {
-            display: inline-block;
-            background: #f4a261;
-            color: #1a472a;
-            font-size: 18px;
-            font-weight: 600;
-            padding: 12px 32px;
-            border-radius: 40px;
-            text-decoration: none;
-            margin-top: 16px;
-            transition: background 0.3s;
-        }
-
-        .button:hover {
-            background: #e76f51;
-            color: white;
-        }
-
-        /* Footer */
-        .footer {
-            background: #2c3e2f;
-            color: #adb5bd;
-            text-align: center;
-            padding: 24px;
-            font-size: 13px;
-            width: 100%;
-        }
-
-        .footer a {
-            color: #f4a261;
-            text-decoration: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 28px;
-            }
-            .price {
-                font-size: 32px;
-            }
-            .section h2 {
-                font-size: 22px;
-            }
-            .content {
-                padding: 20px 16px;
-            }
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-            .cta h3 {
-                font-size: 22px;
-            }
-            .cta .price-large {
-                font-size: 32px;
-            }
-            .screenshot {
-                padding: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .badge-container {
-                gap: 6px;
-            }
-            .badge {
-                font-size: 10px;
-                padding: 4px 10px;
-            }
-            .workflow-step {
-                padding: 12px 16px;
-            }
-            .workflow-step strong {
-                font-size: 14px;
-            }
-        }
-    </style>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ZakatPro – Professional Zakat Calculator & Waqf Management for Odoo 17",
+      "operatingSystem": "Odoo 17",
+      "applicationCategory": "FinancialApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "19.00",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "ratingCount": "38"
+      },
+      "description": "Professional Zakat Calculator and Waqf Asset Management module for Odoo 17. Features automatic Zakat calculation (2.5%), Nisab threshold check, official bilingual certificates, SADAD integration, and complete Waqf asset tracking.",
+      "author": {
+        "@type": "Person",
+        "name": "Wazirz",
+        "url": "https://yourwebsite.com"
+      }
+    }
+    </script>
 </head>
-<body>
-<div class="container">
-    <!-- Header -->
-    <div class="header">
-        <h1>ZakatPro</h1>
-        <p>Professional Zakat Calculator & Waqf Asset Management for Odoo 17</p>
-        <div class="badge-container">
-            <span class="badge">ZATCA Ready</span>
-            <span class="badge">SADAD Integration</span>
-            <span class="badge">Bilingual (Arabic/English)</span>
-            <span class="badge">Official PDF Certificate</span>
-            <span class="badge">GCC Compliant</span>
+<body style="font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333333; background-color: #F8FAFC; margin: 0; padding: 0;">
+
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container" style="padding-left: 2%; padding-right: 2%;">
+    <section class="oe_container d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0;">
+            <div class="d-flex align-items-center">
+                <span style="background: #1a472a; color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.5px;">
+                    ☪️ Odoo 17 Ready
+                </span>
+                <span style="font-size: 18px; font-weight: 700; color: #1E293B; margin-left: 16px;">
+                    ZakatPro Suite
+                </span>
+            </div>
+            <div class="d-flex align-items-center">
+                <div style="font-size: 15px; color: #475569; font-weight: 600; margin-right: 12px;">
+                    Supported Editions:
+                </div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #BFDBFE; margin-right: 8px;">
+                    Community
+                </span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #E9D5FF; margin-right: 16px;">
+                    Enterprise
+                </span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 6px; border: 1px solid #FDE68A;">
+                    $19 USD
+                </span>
+            </div>
+        </div>
+    </section>
+</section>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5" style="text-align: center;">
+    <h1 style="font-size: 38px; color: #0F172A; font-weight: 800; margin-bottom: 16px; line-height: 1.2;">
+        ZakatPro <span style="color: #f4a261;">☪️</span> – Professional Zakat Calculator &amp; Waqf Management
+    </h1>
+    <p style="font-weight: 500; font-size: 19px; color: #475569; max-width: 860px; margin: 0 auto 28px; line-height: 1.6;">
+        The first complete Zakat and Waqf management module for Odoo 17. Automatically calculates Zakat (2.5%) on cash, inventory, receivables, gold, and other assets, checks the Nisab threshold, and generates official bilingual certificates accepted by authorities in Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, and Oman.
+    </p>
+    <div style="margin-top: 24px;">
+        <a href="#odoo_view_tab1" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FFFFFF; border: 3px solid #1a472a; color: #1a472a; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #1a472a !important;">🖼️ View All Screenshots</strong>
+        </a>
+        <a href="#odoo_view_tab5" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #000000 !important;">🎥 Watch Video Walkthrough</strong>
+        </a>
+        <a href="https://yourwebsite.com/contact" target="_blank" class="d-inline-block px-4 py-3 mb-2" style="background-color: #1a472a; border: 3px solid #0f766e; color: #FFFFFF; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);">
+            <strong style="color: #FFFFFF !important;">💬 Get Free Consultation</strong>
+        </a>
+    </div>
+</section>
+
+<!-- ==================== CORE ARCHITECTURAL CARDS ==================== -->
+
+<!-- 1. Automatic Zakat Calculation -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #E0E7FF; color: #1E40AF; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                ⚙️
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Automatic Zakat Calculation
+                </h2>
+                <span style="background: #FDF4FF; color: #86198F; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #F5D0FE;">
+                    CORE ENGINE
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            The system automatically calculates Zakat (2.5%) on net wealth with support for multiple asset types and Islamic schools of thought.
+        </p>
+        <div class="row" style="margin-top: 16px;">
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Asset Types</strong>
+                    <span style="font-size: 14px; color: #64748B;">Cash, Inventory, Receivables, Gold/Silver, Other Assets.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Nisab Check</strong>
+                    <span style="font-size: 14px; color: #64748B;">Automatic comparison against 85g gold threshold.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">4 Schools Support</strong>
+                    <span style="font-size: 14px; color: #64748B;">Hanafi, Shafi'i, Maliki, Hanbali with tailored calculations.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Auto-Fetch</strong>
+                    <span style="font-size: 14px; color: #64748B;">Pull cash & receivables from Odoo Accounting automatically.</span>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <!-- Price Banner -->
-    <div class="price-banner">
-        <span class="price">$19 <small>USD</small></span>
-        <p style="margin-top: 10px;">One-time payment · Lifetime updates · 12 months support</p>
+<!-- 2. Official Certificate + QR Code -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #EFF6FF; color: #2563EB; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📄
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Official Certificate + QR Code
+                </h2>
+                <span style="background: #EFF6FF; color: #1E40AF; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BFDBFE;">
+                    CERTIFICATION
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Generate professional, single-page PDF certificates with a gold border, unique serial number, bilingual text, and a scannable QR code for verification.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Gold Border Design:</strong> Elegant certificate template with Islamic geometric patterns.</li>
+            <li><strong>Unique Serial Number:</strong> Each certificate has a unique, trackable number.</li>
+            <li><strong>Bilingual Support:</strong> Full Arabic and English text on every certificate.</li>
+            <li><strong>QR Code Verification:</strong> Scannable QR code for instant authenticity check.</li>
+            <li><strong>Authorized Signature:</strong> Display company logo and authorized signature.</li>
+        </ul>
     </div>
+</section>
 
-    <div class="content">
-        <!-- Overview -->
-        <div class="section">
-            <h2>What is ZakatPro?</h2>
-            <p style="font-size: 18px;">ZakatPro is the <strong>first complete Zakat and Waqf management module</strong>
-                for Odoo 17. It automatically calculates Zakat (2.5%) on cash, inventory, receivables, gold, and other
-                assets, checks the Nisab threshold, and generates <strong>official bilingual certificates</strong>
-                accepted by authorities in Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, and Oman.</p>
-        </div>
-
-        <!-- Key Features Grid -->
-        <div class="section">
-            <h2>Key Features</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h4>Automatic Zakat Calculation</h4>
-                    <p>2.5% of net wealth with automatic Nisab check based on gold price (85g gold threshold). Supports
-                        Hanafi, Shafi'i, Maliki & Hanbali schools.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Official Certificate + QR Code</h4>
-                    <p>Generate professional, single-page PDF certificates with a gold border, unique serial number,
-                        bilingual text, and a scannable QR code for verification.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>SADAD Integration</h4>
-                    <p>One-click generation of SADAD-compatible customer invoices for seamless Zakat payment
-                        collection.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Waqf Asset Tracker</h4>
-                    <p>Track land, buildings, and equipment with full depreciation, annual income calculation, and
-                        automated charity distribution to beneficiaries.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Auto-Sync with Accounting</h4>
-                    <p>Automatically fetch cash, receivables, and inventory values from your Odoo accounting and stock
-                        modules.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Hijri Date Support</h4>
-                    <p>All calculations and certificates display dates in both Hijri (Islamic) and Gregorian
-                        calendars.</p>
-                </div>
+<!-- 3. SADAD Integration -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FEF3C7; color: #D97706; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🏦
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    SADAD Integration
+                </h2>
+                <span style="background: #FEF3C7; color: #B45309; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FDE68A;">
+                    PAYMENT
+                </span>
             </div>
         </div>
-
-        <!-- Screenshots with Workflow -->
-        <div class="section">
-            <h2>How It Works (Step by Step)</h2>
-
-            <!-- Step 1: Zakat Calculation Form -->
-            <div class="workflow-step">
-                <strong>Step 1: Create a Zakat Calculation</strong><br/>
-                Select a partner or company, enter your assets (Cash, Inventory, Receivables, Gold, etc.), and choose
-                your Madhhab/School.
-            </div>
-            <div class="screenshot">
-                <img src="s4.png" alt="Zakat Calculation Form - Assets Breakdown">
-                <div class="screenshot-caption">Figure 1: The main Zakat calculation form, showing asset fields, partner
-                    selection, and calculation options.
-                </div>
-            </div>
-
-            <!-- Step 2: Automatic Zakat Calculation -->
-            <div class="workflow-step">
-                <strong>Step 2: Automatic Zakat Calculation</strong><br/>
-                The system automatically calculates total wealth, compares it with the Nisab threshold, and shows the
-                exact Zakat due (2.5%).
-            </div>
-            <div class="screenshot">
-                <img src="s2.png" alt="Zakat Calculation Summary">
-                <div class="screenshot-caption">Figure 2: Summary view showing Total Wealth, Nisab Threshold, and Zakat
-                    Due.
-                </div>
-            </div>
-
-            <!-- Step 3: Manage Waqf Assets -->
-            <div class="workflow-step">
-                <strong>Step 3: Manage Waqf Endowment Assets</strong><br/>
-                Track your Waqf assets (Land, Buildings, Equipment). Enter initial value, depreciation rate, annual
-                income, and charity allocation percentage.
-            </div>
-            <div class="screenshot">
-                <img src="s3.png" alt="Waqf Asset Management Form">
-                <div class="screenshot-caption">Figure 3: Waqf Asset form showing valuation, income distribution, and
-                    charity calculation.
-                </div>
-            </div>
-
-            <div class="screenshot">
-                <img src="s6.png" alt="Waqf Asset Example with Depreciation">
-                <div class="screenshot-caption">Figure 4: Detailed Waqf Asset view, demonstrating current value
-                    calculation after depreciation.
-                </div>
-            </div>
-
-            <!-- Step 4: Generate Official Certificate -->
-            <div class="workflow-step">
-                <strong>Step 4: Generate the Official Certificate</strong><br/>
-                Click "Generate Certificate" from any calculation. The system will create a unique, verifiable
-                certificate.
-            </div>
-            <div class="screenshot">
-                <img src="s5.png" alt="Certificate Generation Interface">
-                <div class="screenshot-caption">Figure 5: Certificate generation wizard, allowing you to confirm
-                    recipient details before printing.
-                </div>
-            </div>
-
-            <!-- Step 5: The Final Certificate -->
-            <div class="workflow-step">
-                <strong>Step 5: The Final Official Certificate</strong><br/>
-                A beautiful, bilingual PDF certificate is produced, complete with a gold border, authorized signature,
-                QR code for verification, and company stamp.
-            </div>
-            <div class="screenshot">
-                <img src="s1.png" alt="Official Zakat Certificate Sample">
-                <div class="screenshot-caption">Figure 6: The final printed Zakat certificate, ready to be shared with
-                    the donor.
-                </div>
-            </div>
-        </div>
-
-        <!-- Technical Specifications -->
-        <div class="section">
-            <h2>Technical Specifications</h2>
-            <ul style="margin-left: 30px; line-height: 2;">
-                <li><strong>Odoo Version:</strong> 17.0 (Community & Enterprise)</li>
-                <li><strong>Dependencies:</strong> account, stock, hr, mail</li>
-                <li><strong>Languages:</strong> English (default) + full Arabic translation included</li>
-                <li><strong>Multi-Company:</strong> Yes</li>
-                <li><strong>Multi-Currency:</strong> Yes</li>
-                <li><strong>Zakat Calculation:</strong> 2.5% of net wealth (Cash + Inventory + Receivables + Gold +
-                    Other Assets - Liabilities)
-                </li>
-                <li><strong>Nisab Threshold:</strong> 85g gold price (configurable in settings)</li>
-                <li><strong>Certificate Format:</strong> Single-page PDF with gold border and QR code</li>
-            </ul>
-        </div>
-
-        <!-- Comparison Table -->
-        <div class="section">
-            <h2>Why ZakatPro vs Manual Excel?</h2>
-            <div class="table-wrapper">
-                <table class="comparison-table">
-                    <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>ZakatPro</th>
-                        <th>Manual Excel</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Auto-calculation</td>
-                        <td class="checkmark">Yes</td>
-                        <td>Error-prone</td>
-                    </tr>
-                    <tr>
-                        <td>Nisab check</td>
-                        <td class="checkmark">Automatic</td>
-                        <td>Manual</td>
-                    </tr>
-                    <tr>
-                        <td>Official certificate</td>
-                        <td class="checkmark">One click</td>
-                        <td>Design yourself</td>
-                    </tr>
-                    <tr>
-                        <td>SADAD invoice</td>
-                        <td class="checkmark">Integrated</td>
-                        <td>Not available</td>
-                    </tr>
-                    <tr>
-                        <td>Waqf asset tracking</td>
-                        <td class="checkmark">Included</td>
-                        <td>Not available</td>
-                    </tr>
-                    <tr>
-                        <td>Audit trail</td>
-                        <td class="checkmark">Full Odoo logs</td>
-                        <td>None</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- What's Included -->
-        <div class="section">
-            <h2>What's Included in Your Purchase?</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h4>Full Module</h4>
-                    <p>Complete Odoo 17 module with all models, views, reports, and enterprise-grade security rules.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Arabic Translation</h4>
-                    <p>Full, accurate Arabic translation (ar_001) for all user interfaces, buttons, and the final
-                        certificate.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Certificate Template</h4>
-                    <p>Beautiful, print-ready PDF certificate template with gold border, stamp design, and QR code
-                        support.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Installation Guide</h4>
-                    <p>Step-by-step PDF guide (10 pages with screenshots) to get you up and running in minutes.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>12 Months Updates</h4>
-                    <p>Includes all future bug fixes, security patches, and minor updates for one year.</p>
-                </div>
-                <div class="feature-card">
-                    <h4>Priority Email Support</h4>
-                    <p>Direct email support for 12 months. We commit to responding within 24 hours on business days.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Target Audience -->
-        <div class="section">
-            <h2>Who Is This For?</h2>
-            <ul style="margin-left: 30px; line-height: 2;">
-                <li><strong>Companies in Saudi Arabia</strong> — Zakat calculation for corporate Zakat (2.5% of net
-                    wealth)
-                </li>
-                <li><strong>Companies in UAE, Qatar, Kuwait, Bahrain, Oman</strong> — Islamic finance compliance</li>
-                <li><strong>Islamic Banks & Financial Institutions</strong> — Customer Zakat calculation service</li>
-                <li><strong>Charities & Waqf Organizations</strong> — Track endowment assets and income distribution
-                </li>
-                <li><strong>Accounting Firms</strong> — Offer Zakat calculation as a service to clients</li>
-                <li><strong>Odoo Partners & Implementers</strong> — Add Islamic finance features to your client projects
-                </li>
-            </ul>
-        </div>
-
-        <!-- FAQ -->
-        <div class="section">
-            <h2>Frequently Asked Questions</h2>
-
-            <h3>Is this module ZATCA compliant?</h3>
-            <p>Yes, the SADAD invoice integrates with Odoo's standard accounting and works with ZATCA e-invoicing
-                requirements when used with the l10n_gcc_invoice module.</p>
-
-            <h3>Does it work with Odoo Community Edition?</h3>
-            <p>Yes! ZakatPro works perfectly on both Odoo Community and Enterprise editions.</p>
-
-            <h3>Can I customize the certificate design?</h3>
-            <p>Absolutely. The certificate uses standard Odoo QWeb templates. You can modify colors, logos, and layout
-                easily.</p>
-
-            <h3>How is Zakat calculated?</h3>
-            <p>Zakat = 2.5% of (Cash + Inventory + Receivables + Gold/Silver + Other Assets). Nisab threshold = 85g ×
-                current gold price (configurable in settings).</p>
-
-            <h3>What if the total wealth is below Nisab?</h3>
-            <p>Zakat Due will show 0.00 SAR, and certificate generation will be disabled until Nisab is met.</p>
-
-            <h3>What if I need help with installation or a bug?</h3>
-            <p>After purchase, simply email us at <strong>asmatullahwazir415@gmail.com</strong> or use the Odoo App Store
-                ticket system. Your purchase includes 12 months of support.</p>
-        </div>
-
-        <!-- Call to Action -->
-        <div class="cta">
-            <h3>Ready to automate Zakat calculations?</h3>
-            <div class="price-large">$19 USD</div>
-            <p>One-time payment · No subscription · Lifetime access</p>
-            <p style="margin: 15px 0;">✅ 12 months free updates ✅ 12 months email support ✅ 30-day money-back
-                guarantee</p>
-            <a href="#" class="button">Buy Now on Odoo App Store →</a>
-            <p style="margin-top: 20px; font-size: 14px;">After purchase, you'll receive an instant download link and
-                installation guide.</p>
-        </div>
-
-        <!-- Support -->
-        <div class="section">
-            <h2>Need Help?</h2>
-            <p style="font-size: 18px;">Before purchase: <strong>asmatullahwazir415@gmail.com</strong><br/>
-                After purchase: Use the Odoo App Store ticket system or email us directly.<br/>
-                Average response time: <strong>12-24 hours</strong> (Sunday-Thursday).</p>
-        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            One-click generation of SADAD-compatible customer invoices for seamless Zakat payment collection. Fully integrated with Odoo Accounting.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Automatic Invoice:</strong> Generate SADAD invoice with one click from any calculation.</li>
+            <li><strong>ZATCA Ready:</strong> Works with ZATCA e-invoicing requirements (with l10n_gcc_invoice).</li>
+            <li><strong>Payment Tracking:</strong> Full integration with Odoo Accounting for payment monitoring.</li>
+            <li><strong>Multi-Currency:</strong> Supports multiple currencies with automatic conversion.</li>
+        </ul>
     </div>
+</section>
 
-    <div class="footer">
-        <p>ZakatPro — Developed by Wazirz | Odoo 17 Ready | Made for Islamic Finance</p>
-        <p>© 2026 ZakatPro. All rights reserved. | <a href="#" style="color: #f4a261;">Terms</a> | <a href="#" style="color: #f4a261;">Privacy</a>
+<!-- 4. Waqf Asset Tracker -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #DCFCE7; color: #166534; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🏛️
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Waqf Asset Tracker
+                </h2>
+                <span style="background: #DCFCE7; color: #166534; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BBF7D0;">
+                    ENDOWMENT
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Complete Waqf asset management with depreciation tracking, annual income calculation, and automated charity distribution to beneficiaries.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Asset Types:</strong> Land, Buildings, Equipment, Vehicles, Cash Waqf.</li>
+            <li><strong>Depreciation Tracking:</strong> Automatic current value calculation with configurable rates.</li>
+            <li><strong>Income Distribution:</strong> Allocate annual income to multiple beneficiaries.</li>
+            <li><strong>Charity Calculation:</strong> Automatic percentage-based charity distribution.</li>
+            <li><strong>Asset States:</strong> Active, Fully Depreciated, Sold, Under Maintenance.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 5. Auto-Sync with Accounting -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FCE7F3; color: #DB2777; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🔄
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Auto-Sync with Accounting
+                </h2>
+                <span style="background: #FCE7F3; color: #9D174D; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FBCFE8;">
+                    INTEGRATION
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Automatically fetch cash, receivables, and inventory values from your Odoo accounting and stock modules. No manual data entry required.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Cash & Bank:</strong> Fetch balances from all bank accounts.</li>
+            <li><strong>Receivables:</strong> Pull outstanding receivables from customers.</li>
+            <li><strong>Inventory Values:</strong> Get inventory valuation from Stock module.</li>
+            <li><strong>One-Click Sync:</strong> Refresh all figures with a single button.</li>
+            <li><strong>Real-Time Data:</strong> Always up-to-date with latest accounting entries.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 6. Hijri Date Support -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #F3E8FF; color: #7E22CE; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📅
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Hijri Date Support
+                </h2>
+                <span style="background: #F3E8FF; color: #6B21A8; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #E9D5FF;">
+                    CALENDAR
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            All calculations and certificates display dates in both Hijri (Islamic) and Gregorian calendars, ensuring compliance with Islamic financial standards.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Hijri Conversion:</strong> Automatic conversion from Gregorian to Hijri.</li>
+            <li><strong>Certificate Dates:</strong> Both dates shown on all official certificates.</li>
+            <li><strong>Reports:</strong> Hijri dates in all calculation summaries.</li>
+            <li><strong>Filter Support:</strong> Search and filter by Hijri dates.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== HIGHLIGHTED FEATURES CHECKLIST ==================== -->
+<section class="oe_container my-5">
+    <div class="d-flex mb-4 flex-column align-items-center" style="text-align: center;">
+        <h2 style="font-weight: 800; font-size: 32px; color: #0F172A; margin-bottom: 8px;">
+            🏆 ZakatPro Feature Checklist
+        </h2>
+        <p style="font-weight: 500; font-size: 18px; color: #64748B;">
+            Comprehensive feature checklist powered by ZakatPro for Odoo 17
         </p>
     </div>
-</div>
+    <div class="row" style="font-size: 16px; font-weight: 600; color: #1E293B;">
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Automatic Zakat Calculation (2.5%)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Nisab Threshold Check (85g Gold)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>4 Islamic Schools (Hanafi, Shafi'i, Maliki, Hanbali)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Official Bilingual Certificate with QR Code</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>SADAD Integration for Payment Collection</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Waqf Asset Management with Depreciation</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Auto-Fetch from Accounting & Inventory</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Hijri Date Support on All Reports</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Full Arabic Translation (ar_001)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Multi-Company & Multi-Currency Support</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Complete Audit Trail & Security Groups</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #1a472a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Full Responsive Design</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== INTERACTIVE TABBED SECTION ==================== -->
+<section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="card-header shadow-sm p-0" style="font-weight: 700; font-size: 18px; color: #333333;">
+        <ul class="nav nav-tabs justify-content-center pt-3" id="myTab" role="tablist" style="background-color: #F1F5F9; border-bottom: 2px solid #1a472a; gap: 12px; margin: 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab" style="color: #1a472a; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FFFFFF; border: 2px solid #1a472a; border-bottom: 2px solid #FFFFFF; text-decoration: none; display: block;">
+                    🖼️ All Screenshots & Screens
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="detailed-tab" data-bs-toggle="tab" href="#odoo_view_tab2" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    📋 Detailed Functional Workflows
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#odoo_view_tab3" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    ⚙️ Backend & Configuration
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="integration-tab" data-bs-toggle="tab" href="#odoo_view_tab4" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    🔗 Integrations & API
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="video-tab" data-bs-toggle="tab" href="#odoo_view_tab5" role="tab" style="color: #000000; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FEF08A; border: 2px solid #000000; text-decoration: none; display: block;">
+                    🎥 Live Video Walkthrough & Demo
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="card-body tab-content text-center p-0" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: none; padding: 32px 16px;">
+
+        <!-- TAB 1: ALL SCREENSHOTS -->
+        <div class="tab-pane fade active show" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-4">
+
+                <!-- Screen 1: s1.png - Zakat Certificate -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📄 Screenshot 1: Official Zakat Certificate
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Beautiful bilingual PDF certificate with gold border, unique serial number, QR code for verification, authorized signature, and company stamp. Ready for donation and distribution.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s1.png" alt="Official Zakat Certificate" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 2: s2.png - Zakat Calculation Summary -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📊 Screenshot 2: Zakat Calculation Summary
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete calculation view showing Total Wealth, Nisab Threshold, Zakat Due (2.5%), and the status of Nisab comparison. All fields are automatically calculated.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s2.png" alt="Zakat Calculation Summary" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 3: s3.png - Waqf Asset Form -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🏛️ Screenshot 3: Waqf Asset Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete Waqf asset form showing initial value, depreciation rate, annual income, charity allocation percentage, current value calculation, and beneficiary assignment.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s3.png" alt="Waqf Asset Form" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 4: s4.png - Zakat Calculation Form -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                ⚙️ Screenshot 4: Zakat Calculation Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Main Zakat calculation form with partner selection, asset breakdown (Cash, Inventory, Receivables, Gold/Silver, Other Assets), liabilities, and Madhhab selection.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s4.png" alt="Zakat Calculation Form" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 5: s5.png - Certificate Generation -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🖨️ Screenshot 5: Certificate Generation Wizard
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Certificate generation wizard allowing you to confirm recipient name, amount paid, and issue date before generating the final PDF certificate.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s5.png" alt="Certificate Generation" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 6: s6.png - Waqf Asset Example -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📈 Screenshot 6: Waqf Asset Depreciation Example
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Example Waqf asset showing current value calculation after depreciation, total depreciation amount, annual income, and charity allocation.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s6.png" alt="Waqf Asset Depreciation" />
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAILED FUNCTIONAL WORKFLOWS -->
+        <div class="tab-pane fade" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Detailed Operational Workflows & System Architecture
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1a472a; margin-bottom: 16px;">
+                                ⚙️ Zakat Calculation Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Partner Selection:</strong> Select partner or company for Zakat calculation.</li>
+                                <li><strong>Asset Entry:</strong> Enter Cash, Inventory, Receivables, Gold/Silver, and Other Assets.</li>
+                                <li><strong>Madhhab Selection:</strong> Choose Hanafi, Shafi'i, Maliki, or Hanbali.</li>
+                                <li><strong>Nisab Check:</strong> System compares total wealth against 85g gold threshold.</li>
+                                <li><strong>Zakat Calculation:</strong> 2.5% of net wealth (after liabilities).</li>
+                                <li><strong>State Machine:</strong> Draft → Calculated → Invoiced → Certified → Paid.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #f4a261; margin-bottom: 16px;">
+                                📄 Certificate Generation Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Certificate Request:</strong> Click "Generate Certificate" from calculation.</li>
+                                <li><strong>Verification:</strong> System verifies Zakat Due > 0.</li>
+                                <li><strong>Recipient Confirmation:</strong> Confirm recipient name and amount.</li>
+                                <li><strong>QR Code Generation:</strong> Unique QR code with verification data.</li>
+                                <li><strong>PDF Creation:</strong> Generate certificate with gold border and bilingual text.</li>
+                                <li><strong>Delivery:</strong> Print, email, or download the certificate.</li>
+                                <li><strong>Verification:</strong> QR code can be scanned for authenticity.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #7E22CE; margin-bottom: 16px;">
+                                🏛️ Waqf Asset Management Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Asset Creation:</strong> Create Waqf asset with name, type, and initial value.</li>
+                                <li><strong>Depreciation Setup:</strong> Set annual depreciation rate and salvage value.</li>
+                                <li><strong>Income Configuration:</strong> Set annual income and charity allocation %.</li>
+                                <li><strong>Beneficiary Assignment:</strong> Assign multiple beneficiaries.</li>
+                                <li><strong>Automatic Tracking:</strong> System tracks current value and depreciation.</li>
+                                <li><strong>Charity Distribution:</strong> Automated charity amount calculation.</li>
+                                <li><strong>Asset States:</strong> Active → Depreciated → Sold/Maintenance.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0284C7; margin-bottom: 16px;">
+                                🏦 SADAD & Accounting Integration
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Auto-Fetch:</strong> Pull cash, receivables, and inventory from Accounting.</li>
+                                <li><strong>Invoice Generation:</strong> One-click SADAD invoice creation.</li>
+                                <li><strong>Payment Tracking:</strong> Full integration with Odoo Accounting.</li>
+                                <li><strong>ZATCA Ready:</strong> Works with e-invoicing requirements.</li>
+                                <li><strong>Multi-Currency:</strong> Automatic currency conversion support.</li>
+                                <li><strong>Audit Trail:</strong> Complete log of all transactions.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BACKEND & CONFIGURATION -->
+        <div class="tab-pane fade" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Enterprise Backend Configuration & Access Rights
+                </h2>
+                <div class="p-4 shadow-sm border mb-4" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Granular Security Groups Matrix
+                    </h3>
+                    <p style="font-size: 15px; color: #475569; line-height: 1.8;">
+                        The module defines 3 distinct security access groups inside Odoo 17 User Settings. Each role strictly controls what the logged-in user can view, create, edit, or export:
+                    </p>
+                    <table class="table border" style="width: 100%; margin-top: 16px; font-size: 15px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #F1F5F9; color: #0F172A; text-align: left;">
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Security Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Intended Staff Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Permissions & Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #1a472a;">Zakat User</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Finance Staff</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Create and view Zakat calculations, generate certificates, view Waqf assets.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0D9488;">Zakat Manager</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Finance Managers</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Approve calculations, manage Waqf assets, view all data.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #701A75;">Zakat Administrator</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Finance Directors</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Complete administrative control over all Zakat data, configuration, reporting, and user management.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        System Configuration Parameters
+                    </h3>
+                    <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                        <li><strong>Gold Price:</strong> Configurable gold price per gram for Nisab calculation (default: 250 SAR).</li>
+                        <li><strong>Zakat Income Account:</strong> Default income account for Zakat invoices.</li>
+                        <li><strong>Auto-Fetch:</strong> Enable/disable auto-fetch from Accounting module.</li>
+                        <li><strong>Default Madhhab:</strong> Set default Islamic school for new calculations.</li>
+                        <li><strong>Certificate Sequence:</strong> Configurable number sequence for certificates.</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 shadow-sm border mt-4" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Key Data Models
+                    </h3>
+                    <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                        <li><strong>zakat.calculation:</strong> Main Zakat calculation record with asset fields and state management.</li>
+                        <li><strong>zakat.certificate:</strong> Official certificate with QR code generation and PDF export.</li>
+                        <li><strong>waqf.asset:</strong> Waqf endowment asset with depreciation and income tracking.</li>
+                        <li><strong>res.config.settings:</strong> Global configuration for gold price, accounts, and defaults.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: INTEGRATIONS & API -->
+        <div class="tab-pane fade" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Integrations & External APIs
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1a472a; margin-bottom: 16px;">
+                                🔗 Odoo Native Integrations
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Accounting (account):</strong> Auto-fetch cash, receivables, create invoices.</li>
+                                <li><strong>Inventory (stock):</strong> Fetch inventory values for Zakat calculation.</li>
+                                <li><strong>HR (hr):</strong> Employee and partner management for certificates.</li>
+                                <li><strong>Mail (mail):</strong> Email notifications and certificate sending.</li>
+                                <li><strong>Multi-Company:</strong> Full support for multiple companies.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0284C7; margin-bottom: 16px;">
+                                📡 External Integrations
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>SADAD:</strong> Generate SADAD-compatible customer invoices.</li>
+                                <li><strong>ZATCA:</strong> Compatible with ZATCA e-invoicing requirements.</li>
+                                <li><strong>QR Code:</strong> Generate verification QR codes for certificates.</li>
+                                <li><strong>Hijri Converter:</strong> Automatic Gregorian to Hijri date conversion.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #7E22CE; margin-bottom: 16px;">
+                                API Endpoints (REST)
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                                <li><strong>GET /api/zakat/calculation/{id}:</strong> Retrieve Zakat calculation details.</li>
+                                <li><strong>POST /api/zakat/calculation:</strong> Create new Zakat calculation.</li>
+                                <li><strong>GET /api/zakat/certificate/{id}:</strong> Download certificate PDF.</li>
+                                <li><strong>POST /api/waqf/asset:</strong> Create Waqf asset.</li>
+                                <li><strong>GET /api/waqf/asset/{id}:</strong> Get asset details with depreciation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: VIDEO WALKTHROUGH -->
+        <div class="tab-pane fade" id="odoo_view_tab5" role="tabpanel">
+            <div class="container px-4 text-center">
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 3px solid #000000; border-radius: 16px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #FEF08A; border-bottom: 3px solid #000000; color: #000000; padding: 24px;">
+                            <h3 style="font-size: 28px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🎥 Complete ZakatPro Video Walkthrough
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 10px 0 0; line-height: 1.6;">
+                                Interactive step-by-step video tour demonstrating Zakat Calculation, Certificate Generation, Waqf Asset Management, SADAD Integration, and Accounting Sync.
+                            </p>
+                        </div>
+                        <div class="panel-body p-5" style="background: #FFFFFF;">
+                            <div class="mx-auto" style="max-width: 920px; border: 4px solid #000000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #0F172A;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; background: #0F172A;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1; width: 90%;">
+                                        <div style="color: #FFFFFF; font-size: 24px; font-weight: 800; margin-bottom: 16px;">
+                                            🎥 ZakatPro Video Walkthrough
+                                        </div>
+                                        <a href="https://yourwebsite.com/demo" target="_blank" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-size: 20px; font-weight: 800; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: inline-block;">
+                                            ▶️ Click Here to Play Video / Request Live Interactive Demo
+                                        </a>
+                                    </div>
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                                            title="ZakatPro Odoo Video Demo"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-5">
+                                <a href="https://yourwebsite.com/contact" target="_blank" class="px-5 py-3" style="background-color: #1a472a; border: 3px solid #0f766e; color: #FFFFFF; font-weight: 800; font-size: 20px; border-radius: 999px; text-decoration: none; box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3); display: inline-flex; align-items: center;">
+                                    <strong style="color: #FFFFFF !important; font-size: 20px;">💬 Request Live 1-on-1 Video Demo with Our Team</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TECHNICAL SPECIFICATIONS ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            ⚙️ Technical Specifications
+        </h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Odoo Version</strong>
+                    <span style="font-size: 14px; color: #64748B;">17.0 (Community & Enterprise)</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Dependencies</strong>
+                    <span style="font-size: 14px; color: #64748B;">account, stock, hr, mail</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Languages</strong>
+                    <span style="font-size: 14px; color: #64748B;">English (default) + Full Arabic (ar_001)</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Multi-Company</strong>
+                    <span style="font-size: 14px; color: #64748B;">✅ Yes</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Multi-Currency</strong>
+                    <span style="font-size: 14px; color: #64748B;">✅ Yes</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Zakat Calculation</strong>
+                    <span style="font-size: 14px; color: #64748B;">2.5% of net wealth (Cash + Inventory + Receivables + Gold + Other Assets - Liabilities)</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Nisab Threshold</strong>
+                    <span style="font-size: 14px; color: #64748B;">85g gold price (configurable in settings)</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Certificate Format</strong>
+                    <span style="font-size: 14px; color: #64748B;">Single-page PDF with gold border and QR code</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">Security Groups</strong>
+                    <span style="font-size: 14px; color: #64748B;">3 Levels: User, Manager, Administrator</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== COMPARISON TABLE ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            📊 Why ZakatPro vs Manual Excel?
+        </h2>
+        <div class="table-wrapper" style="overflow-x: auto;">
+            <table class="comparison-table" style="width: 100%; border-collapse: collapse; min-width: 500px; border-radius: 12px; overflow: hidden;">
+                <thead>
+                    <tr style="background: #1a472a; color: white; font-weight: 600;">
+                        <th style="padding: 14px 20px; border: 1px solid #dee2e6; text-align: left;">Feature</th>
+                        <th style="padding: 14px 20px; border: 1px solid #dee2e6; text-align: left;">ZakatPro</th>
+                        <th style="padding: 14px 20px; border: 1px solid #dee2e6; text-align: left;">Manual Excel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border: 1px solid #dee2e6;">
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">Auto-calculation</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6; color: #1a472a; font-weight: 700; font-size: 18px;">✅ Yes</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">⚠️ Error-prone</td>
+                    </tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;">
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">Nisab check</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6; color: #1a472a; font-weight: 700; font-size: 18px;">✅ Automatic</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">⚠️ Manual</td>
+                    </tr>
+                    <tr style="border: 1px solid #dee2e6;">
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">Official certificate</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6; color: #1a472a; font-weight: 700; font-size: 18px;">✅ One click</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">⚠️ Design yourself</td>
+                    </tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;">
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">SADAD invoice</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6; color: #1a472a; font-weight: 700; font-size: 18px;">✅ Integrated</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">❌ Not available</td>
+                    </tr>
+                    <tr style="border: 1px solid #dee2e6;">
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">Waqf asset tracking</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6; color: #1a472a; font-weight: 700; font-size: 18px;">✅ Included</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">❌ Not available</td>
+                    </tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;">
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">Audit trail</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6; color: #1a472a; font-weight: 700; font-size: 18px;">✅ Full Odoo logs</td>
+                        <td style="padding: 14px 20px; border: 1px solid #dee2e6;">❌ None</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WHAT'S INCLUDED ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            📦 What's Included in Your Purchase?
+        </h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">📦 Full Module</strong>
+                    <span style="font-size: 14px; color: #64748B;">Complete Odoo 17 module with all models, views, reports, and enterprise-grade security rules.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🌐 Arabic Translation</strong>
+                    <span style="font-size: 14px; color: #64748B;">Full, accurate Arabic translation (ar_001) for all user interfaces, buttons, and the final certificate.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🖼️ Certificate Template</strong>
+                    <span style="font-size: 14px; color: #64748B;">Beautiful, print-ready PDF certificate template with gold border, stamp design, and QR code support.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">📖 Installation Guide</strong>
+                    <span style="font-size: 14px; color: #64748B;">Step-by-step PDF guide (10 pages with screenshots) to get you up and running in minutes.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🔄 12 Months Updates</strong>
+                    <span style="font-size: 14px; color: #64748B;">Includes all future bug fixes, security patches, and minor updates for one year.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">💬 Priority Email Support</strong>
+                    <span style="font-size: 14px; color: #64748B;">Direct email support for 12 months. We commit to responding within 24 hours on business days.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TARGET AUDIENCE ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            👥 Who Is This For?
+        </h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🇸🇦 Companies in Saudi Arabia</strong>
+                    <span style="font-size: 14px; color: #64748B;">Zakat calculation for corporate Zakat (2.5% of net wealth).</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🌍 GCC Companies</strong>
+                    <span style="font-size: 14px; color: #64748B;">UAE, Qatar, Kuwait, Bahrain, Oman — Islamic finance compliance.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🏦 Islamic Banks</strong>
+                    <span style="font-size: 14px; color: #64748B;">Customer Zakat calculation service for financial institutions.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🤲 Charities & Waqf Organizations</strong>
+                    <span style="font-size: 14px; color: #64748B;">Track endowment assets and income distribution.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">📊 Accounting Firms</strong>
+                    <span style="font-size: 14px; color: #64748B;">Offer Zakat calculation as a service to clients.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1a472a;">
+                    <strong style="color: #0F172A; display: block;">🤝 Odoo Partners</strong>
+                    <span style="font-size: 14px; color: #64748B;">Add Islamic finance features to your client projects.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            ❓ Frequently Asked Questions
+        </h2>
+        <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: #1a472a; margin-bottom: 6px;">Is this module ZATCA compliant?</h3>
+            <p style="font-size: 15px; color: #475569;">Yes, the SADAD invoice integrates with Odoo's standard accounting and works with ZATCA e-invoicing requirements when used with the l10n_gcc_invoice module.</p>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: #1a472a; margin-bottom: 6px;">Does it work with Odoo Community Edition?</h3>
+            <p style="font-size: 15px; color: #475569;">Yes! ZakatPro works perfectly on both Odoo Community and Enterprise editions.</p>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: #1a472a; margin-bottom: 6px;">Can I customize the certificate design?</h3>
+            <p style="font-size: 15px; color: #475569;">Absolutely. The certificate uses standard Odoo QWeb templates. You can modify colors, logos, and layout easily.</p>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: #1a472a; margin-bottom: 6px;">How is Zakat calculated?</h3>
+            <p style="font-size: 15px; color: #475569;">Zakat = 2.5% of (Cash + Inventory + Receivables + Gold/Silver + Other Assets). Nisab threshold = 85g × current gold price (configurable in settings).</p>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: #1a472a; margin-bottom: 6px;">What if the total wealth is below Nisab?</h3>
+            <p style="font-size: 15px; color: #475569;">Zakat Due will show 0.00 SAR, and certificate generation will be disabled until Nisab is met.</p>
+        </div>
+        <div>
+            <h3 style="font-size: 18px; font-weight: 700; color: #1a472a; margin-bottom: 6px;">What if I need help with installation or a bug?</h3>
+            <p style="font-size: 15px; color: #475569;">After purchase, simply email us at <strong>asmatullahwazir415@gmail.com</strong> or use the Odoo App Store ticket system. Your purchase includes 12 months of support.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<section class="oe_container my-5">
+    <div class="p-5 text-center" style="background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 100%); color: #FFFFFF; border-radius: 16px; border: 3px solid #f4a261;">
+        <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 16px; color: #FFFFFF;">
+            Ready to automate Zakat calculations?
+        </h2>
+        <div style="font-size: 48px; font-weight: 900; margin: 16px 0; color: #f4a261;">
+            $19 USD
+        </div>
+        <p style="font-size: 18px; margin-bottom: 16px;">One-time payment · No subscription · Lifetime access</p>
+        <p style="margin: 12px 0;">✅ 12 months free updates ✅ 12 months email support ✅ 30-day money-back guarantee</p>
+        <a href="#" class="btn" style="display: inline-block; background: #f4a261; color: #1a472a; font-size: 18px; font-weight: 700; padding: 14px 40px; border-radius: 40px; text-decoration: none; margin-top: 16px; border: none; transition: background 0.3s ease, transform 0.2s ease;">
+            Buy Now on Odoo App Store →
+        </a>
+        <p style="margin-top: 18px; font-size: 14px; opacity: 0.8;">After purchase, you'll receive an instant download link and installation guide.</p>
+    </div>
+</section>
+
+<!-- ==================== SUPPORT ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm text-center" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            📞 Need Help?
+        </h2>
+        <div style="background: #F8FAFC; border-radius: 12px; padding: 24px;">
+            <p style="font-size: 18px; margin-bottom: 8px;">Before purchase:</p>
+            <div style="font-size: 22px; font-weight: 600; color: #1a472a;">asmatullahwazir415@gmail.com</div>
+            <p style="margin-top: 16px; font-size: 16px;">After purchase: Use the Odoo App Store ticket system or email us directly.</p>
+            <p style="font-size: 15px; color: #4a5568;">Average response time: <strong>12-24 hours</strong> (Sunday-Thursday).</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5">
+    <div class="p-5 shadow-sm text-center" style="background-color: #F8FAFC; color: #000000; border-radius: 16px; border: 3px solid #CBD5E1;">
+        <h2 style="font-size: 36px; font-weight: 800; margin-bottom: 14px; color: #000000;">
+            Looking for an experienced Odoo Developer?
+        </h2>
+        <p style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 auto 24px;">
+            We specialize in:
+        </p>
+
+        <div class="mx-auto text-left" style="max-width: 780px; background-color: #FFFFFF; border: 2px solid #E2E8F0; border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div class="row" style="text-align: left; font-size: 19px; font-weight: 700; color: #000000; line-height: 2.2;">
+                <div class="col-md-6">
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Enterprise Odoo Implementation</div>
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Custom Odoo Module Development</div>
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Islamic Finance & Zakat Solutions</div>
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Third-Party API Integrations</div>
+                </div>
+                <div class="col-md-6">
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Odoo Migration & Upgrades</div>
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Performance Optimization</div>
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Technical Support & Maintenance</div>
+                    <div><span style="color: #1a472a; margin-right: 10px;">✔</span>Odoo Training & Consultation</div>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 22px; font-weight: 800; color: #000000; margin: 0 auto 28px;">
+            Get in touch today for fast and professional Odoo solutions.
+        </p>
+
+        <div class="d-flex justify-content-center flex-wrap" style="gap: 20px;">
+            <a href="https://wa.me/+966565815529" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
+            </a>
+            <a href="mailto:asmatullahwazir415@gmail.com" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 Email: asmatullahwazir415@gmail.com</strong>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Bootstrap JS for Tabs -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,428 +1,925 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Skill Portfolio - Professional Skill Management for Odoo 17.0 and 18.0</title>
-    <meta name="description" content="Complete employee skill management system with portal, endorsements, certifications, skill matrix, and AI recommendations. Glassmorphism UI, full Odoo 17 integration.">
-    <meta name="keywords" content="Odoo skills, employee portfolio, skill management, Odoo 17.0 and 18.0 module, HR skills, certification tracking, skill endorsement, Odoo portal">
-    <meta name="author" content="Your Company">
-    <style>
-        /* Reset and base styles - safe for Odoo App Store */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            font-size: 15px;
-            line-height: 1.75;
-            color: #2c3e50;
-            background: #fff;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 24px 60px;
-        }
-        /* Hero section - simple gradient */
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 16px;
-            padding: 40px 32px;
-            margin-bottom: 40px;
-            color: white;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .hero p {
-            font-size: 16px;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto 20px;
-        }
-        .badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 30px;
-            padding: 5px 14px;
-            font-size: 12px;
-            font-weight: 600;
-            margin: 4px 6px;
-        }
-        /* Section headings */
-        h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin: 40px 0 16px 0;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #667eea;
-            display: inline-block;
-        }
-        h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 20px 0 10px;
-            color: #2c3e50;
-        }
-        /* Feature cards (table-based for compatibility) */
-        .features-grid {
-            display: table;
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        .feature-row {
-            display: table-row;
-        }
-        .feature-card {
-            display: table-cell;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            width: 33.33%;
-            vertical-align: top;
-        }
-        /* Responsive: stack on mobile */
-        @media (max-width: 768px) {
-            .feature-row, .feature-card {
-                display: block;
-                width: 100%;
-                margin-bottom: 16px;
-            }
-        }
-        .feature-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-        /* Gallery grid - simple table fallback, then flex for modern */
-        .gallery-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            margin: 24px 0;
-        }
-        .gallery-item {
-            flex: 1 1 calc(33.333% - 24px);
-            min-width: 250px;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-        .gallery-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            background: #f1f5f9;
-        }
-        .gallery-caption {
-            padding: 14px;
-            border-top: 1px solid #e2e8f0;
-        }
-        .gallery-caption h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #2c3e50;
-        }
-        .gallery-caption p {
-            font-size: 13px;
-            color: #475569;
-            margin-bottom: 8px;
-        }
-        .caption-badge {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #475569;
-        }
-        /* Technical table */
-        .tech-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .tech-table th, .tech-table td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .tech-table th {
-            background: #f8fafc;
-            font-weight: 700;
-            color: #2c3e50;
-        }
-        .tech-table tr:last-child td {
-            border-bottom: none;
-        }
-        /* CTA button */
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 700;
-            margin: 20px 0;
-            transition: transform 0.2s;
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-        }
-        footer {
-            text-align: center;
-            padding: 32px;
-            border-top: 1px solid #e2e8f0;
-            margin-top: 40px;
-            color: #64748b;
-            font-size: 13px;
-        }
-        @media (max-width: 768px) {
-            .container { padding: 16px; }
-            .hero { padding: 28px 20px; }
-            .hero h1 { font-size: 24px; }
-            .gallery-item { flex: 1 1 100%; }
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Skill Portfolio – Complete Skill Management for Odoo 17 & 18</title>
+    <meta name="description" content="Enterprise Employee Skill Portfolio for Odoo 17 & 18. Complete solution for Skill Inventory, Endorsements, Certifications, Skill Matrix, AI Recommendations, and Public Portal." />
+    <meta name="keywords" content="odoo 17 skills, employee portfolio, skill management, odoo skill endorsements, odoo certifications, odoo skill matrix, odoo HR skills" />
+    <meta name="author" content="Wazirz" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Employee Skill Portfolio – Complete Skill Management for Odoo 17 & 18" />
+    <meta property="og:description" content="Enterprise Employee Skill Portfolio: Skill Inventory, Endorsements, Certifications, Skill Matrix, AI Recommendations, and Public Portal – all seamlessly integrated with Odoo 17 & 18." />
+    <meta property="og:image" content="banner.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Employee Skill Portfolio – Complete Skill Management for Odoo 17 & 18" />
+    <meta name="twitter:description" content="Enterprise Employee Skill Portfolio: Skill Inventory, Endorsements, Certifications, Skill Matrix, AI Recommendations, and Public Portal." />
+    <meta name="twitter:image" content="banner.png" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Employee Skill Portfolio for Odoo 17 & 18",
+      "operatingSystem": "Odoo 17 & 18",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      },
+      "description": "Enterprise Employee Skill Portfolio featuring Skill Inventory, Endorsements, Certifications, Skill Matrix, AI Recommendations, and Public Portal.",
+      "author": {
+        "@type": "Organization",
+        "name": "Wazirz",
+        "url": ""
+      }
+    }
+    </script>
 </head>
-<body>
-<div class="container">
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1>Employee Skill Portfolio <span style="font-size: 18px; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 30px;">Odoo 17.0 and 18.0</span></h1>
-        <p>Complete skill management system with stunning portal, endorsements, certifications, skill matrix, and AI recommendations for Odoo 17.0 and 18.0</p>
-        <div>
-            <span class="badge">✅ Portal Ready</span>
-            <span class="badge">⭐ Endorsements</span>
-            <span class="badge">📜 Certifications</span>
-            <span class="badge">📊 Skill Matrix</span>
-            <span class="badge">🤖 AI Recommendations</span>
-            <span class="badge">📱 Fully Responsive</span>
-        </div>
-    </div>
+<body style="font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333333; background-color: #F8FAFC; margin: 0; padding: 0;">
 
-    <!-- Overview -->
-    <h3>📌 Overview</h3>
-    <p><strong>Employee Skill Portfolio</strong> transforms how organizations track and showcase employee skills. It provides a beautiful public portal where employees can display their skills, certifications, and endorsements. HR and managers gain powerful analytics, skill gap analysis, and AI-powered recommendations. Built with glassmorphism design and full Odoo 17.0 and 18.0 integration.</p>
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container" style="padding-left: 2%; padding-right: 2%;">
+    <section class="oe_container d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0;">
+            <div class="d-flex align-items-center">
+                <span style="background: #0f766e; color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.5px;">
+                    ⭐ Odoo 17 & 18 Ready
+                </span>
+                <span style="font-size: 18px; font-weight: 700; color: #1E293B; margin-left: 16px;">
+                    Employee Skill Portfolio Suite
+                </span>
+            </div>
+            <div class="d-flex align-items-center">
+                <div style="font-size: 15px; color: #475569; font-weight: 600; margin-right: 12px;">
+                    Supported Editions:
+                </div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #BFDBFE; margin-right: 8px;">
+                    Community
+                </span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #E9D5FF; margin-right: 16px;">
+                    Enterprise
+                </span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 6px; border: 1px solid #FDE68A;">
+                    Free
+                </span>
+            </div>
+        </div>
+    </section>
+</section>
 
-    <!-- Core Features (Table-based for compatibility) -->
-    <h3>⭐ Core Features</h3>
-    <div class="features-grid">
-        <div class="feature-row">
-            <div class="feature-card"><div class="feature-icon">📋</div><h4>Skill Inventory</h4><p>Track technical, soft, language, certification, tool skills with proficiency levels, years of experience, and usage frequency.</p></div>
-            <div class="feature-card"><div class="feature-icon">👍</div><h4>Endorsements</h4><p>Request and approve peer endorsements with relationship types (manager, colleague, client). Anonymous option available.</p></div>
-            <div class="feature-card"><div class="feature-icon">🎓</div><h4>Certifications</h4><p>Store certificate ID, expiry date, issuing body, and URL. Timeline view with expiry warnings.</p></div>
-        </div>
-        <div class="feature-row">
-            <div class="feature-card"><div class="feature-icon">🌐</div><h4>Public Portal</h4><p>Glassmorphism portal with department grouping, search, filters, and top skills widget. Fully responsive.</p></div>
-            <div class="feature-card"><div class="feature-icon">📊</div><h4>Skill Score</h4><p>Advanced scoring algorithm combining self rating, manager rating, endorsements, and experience (0-100).</p></div>
-            <div class="feature-card"><div class="feature-icon">✅</div><h4>Approval Workflow</h4><p>Draft → Submitted → HR Review → Manager Approval → Approved. Full verification history.</p></div>
-        </div>
-        <div class="feature-row">
-            <div class="feature-card"><div class="feature-icon">📈</div><h4>Skill Matrix</h4><p>Heatmap view of skills across departments. Export to Excel/PDF. Gap analysis.</p></div>
-            <div class="feature-card"><div class="feature-icon">🤖</div><h4>AI Recommendations</h4><p>Collaborative filtering suggests skills based on similar roles. Role-based skill gap detection.</p></div>
-            <div class="feature-card"><div class="feature-icon">📚</div><h4>Training Programs</h4><p>Link skills to training courses, track completion, auto-assign skills on completion.</p></div>
-        </div>
-    </div>
-
-    <!-- Screenshot Gallery (with descriptions) - NO horizontal scroll -->
-    <h3>📸 Module Screenshots</h3>
-    <div class="gallery-grid">
-        <!-- s1.png -->
-        <div class="gallery-item">
-            <img src="s1.png" alt="Employee Skill Form">
-            <div class="gallery-caption">
-                <h4>📝 Employee Skill Form</h4>
-                <p>Create and manage skills with name, employee assignment, skill type selection (Technical, Soft, Language, Certification, Tool, etc.), category, and tags. Includes approval buttons.</p>
-                <span class="caption-badge">Core Model</span>
-            </div>
-        </div>
-        <!-- s2.png -->
-        <div class="gallery-item">
-            <img src="s2.png" alt="Request Endorsement">
-            <div class="gallery-caption">
-                <h4>✉️ Request Endorsement</h4>
-                <p>Employees can request endorsements from colleagues/managers. Includes endorser selection, personal message, relationship type, rating, and visibility settings.</p>
-                <span class="caption-badge">Social Proof</span>
-            </div>
-        </div>
-        <!-- s3.png -->
-        <div class="gallery-item">
-            <img src="s3.png" alt="Portal Directory">
-            <div class="gallery-caption">
-                <h4>🌐 Team Skills Directory</h4>
-                <p>Public-facing portal showing all employees with their skills. Includes search bar, statistics counters, and category filters. Glassmorphism design.</p>
-                <span class="caption-badge">Portal Ready</span>
-            </div>
-        </div>
-        <!-- s4.png -->
-        <div class="gallery-item">
-            <img src="s4.png" alt="Menu Structure">
-            <div class="gallery-caption">
-                <h4>📂 Menu Structure</h4>
-                <p>Complete navigation: Dashboard, All Skills, All Endorsements, Skill Assessments, Training Programs, and Configuration (Categories & Tags).</p>
-                <span class="caption-badge">Navigation</span>
-            </div>
-        </div>
-        <!-- s5.png -->
-        <div class="gallery-item">
-            <img src="s5.png" alt="Proficiency Details">
-            <div class="gallery-caption">
-                <h4>📊 Proficiency Details</h4>
-                <p>Track years of experience, last used date, usage frequency, self rating, manager rating, and overall rating. Includes description, projects used, and achievements.</p>
-                <span class="caption-badge">Skill Scoring</span>
-            </div>
-        </div>
-        <!-- s6.png -->
-        <div class="gallery-item">
-            <img src="s6.png" alt="Endorsements Tab">
-            <div class="gallery-caption">
-                <h4>⭐ Endorsements Management</h4>
-                <p>View all endorsements received for a skill. Shows endorser, date, rating (stars), relationship, status, and comments. Add new endorsements inline.</p>
-                <span class="caption-badge">Credibility</span>
-            </div>
-        </div>
-        <!-- s7.png -->
-        <div class="gallery-item">
-            <img src="s7.png" alt="Skill Tags">
-            <div class="gallery-caption">
-                <h4>🏷️ Skill Tags</h4>
-                <p>Configure tags for flexible skill categorization. Each tag has a name, color code, and active flag.</p>
-                <span class="caption-badge">Flexible</span>
-            </div>
-        </div>
-        <!-- s8.png -->
-        <div class="gallery-item">
-            <img src="s8.png" alt="Skill Categories">
-            <div class="gallery-caption">
-                <h4>📁 Skill Categories</h4>
-                <p>Hierarchical skill categories with parent-child relationships. Each category has a skill type, sequence, description, color, and icon.</p>
-                <span class="caption-badge">Organization</span>
-            </div>
-        </div>
-        <!-- s9.png -->
-        <div class="gallery-item">
-            <img src="s9.png" alt="Training Programs">
-            <div class="gallery-caption">
-                <h4>🎓 Training Programs</h4>
-                <p>Manage training courses linked to skills. Includes training name, type (online/classroom/workshop/certification), provider, duration, cost, and URL.</p>
-                <span class="caption-badge">Development</span>
-            </div>
-        </div>
-        <!-- s10.png -->
-        <div class="gallery-item">
-            <img src="s10.png" alt="Skill Assessments">
-            <div class="gallery-caption">
-                <h4>📋 Skill Assessments</h4>
-                <p>Conduct skill gap analysis comparing required vs current levels. Includes assessment name, employee, assessor, assessment type, detailed skill lines, scores, and gap calculation.</p>
-                <span class="caption-badge">Analytics</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Technical Specifications -->
-    <h3>⚙️ Technical Specifications</h3>
-    <table class="tech-table">
-        <tr><th style="width: 35%;">Odoo Version</th><td>17.0 and 18.0 (Community & Enterprise)</td></tr>
-        <tr><th>Module Version</th><td>17.0.2.0.0</td></tr>
-        <tr><th>License</th><td>OPL-1 (Odoo Proprietary License v1.0)</td></tr>
-        <tr><th>Dependencies</th><td>base, portal, hr, website, mail</td></tr>
-        <tr><th>Models</th><td>employee.skill, skill.endorsement, skill.category, skill.tag, employee.skill.assessment, skill.training, skill.history, endorsement.request</td></tr>
-        <tr><th>New Menus</th><td>Skills Management (Dashboard, All Skills, Endorsements, Assessments, Training, Configuration)</td></tr>
-        <tr><th>Portal Routes</th><td>/skills, /skills/employee/&lt;id&gt;, /skills/search, /skills/category/&lt;id&gt;</td></tr>
-        <tr><th>Languages</th><td>English (default), Arabic translation ready</td></tr>
-        <tr><th>Multi‑Company</th><td>Yes</td></tr>
-    </table>
-
-    <!-- How It Works -->
-    <h3>🔧 How It Works</h3>
-    <table class="tech-table">
-        <tr><th style="width: 25%;">Step 1</th><td>Install module → Auto-creates security groups and menu structure</td></tr>
-        <tr><th>Step 2</th><td>Configure Skill Categories and Tags (optional, from Configuration menu)</td></tr>
-        <tr><th>Step 3</th><td>Employees add skills via form → Submit for approval</td></tr>
-        <tr><th>Step 4</th><td>HR/Manager approves skills → Skills become verified</td></tr>
-        <tr><th>Step 5</th><td>Skills appear on public portal (/skills) with beautiful glassmorphism design</td></tr>
-        <tr><th>Step 6</th><td>Employees request endorsements, get certified, track skill scores</td></tr>
-    </table>
-
-    <!-- AI & Analytics -->
-    <h3>🤖 AI Recommendations & Analytics</h3>
-    <p>The module includes a powerful recommendation engine that:</p>
-    <ul style="margin: 8px 0 16px 24px;">
-        <li><strong>Collaborative Filtering:</strong> Suggests skills based on colleagues in similar roles</li>
-        <li><strong>Role-Based Gap Analysis:</strong> Compares employee skills against high performers in same job title</li>
-        <li><strong>Skill Velocity Report:</strong> Tracks skill acquisition rate per employee/department</li>
-        <li><strong>Succession Planning:</strong> Identifies potential successors based on skill overlap</li>
-    </ul>
-
-    <!-- Installation -->
-    <h3>📥 Installation & Configuration</h3>
-    <table class="tech-table">
-        <tr><th style="width: 30%;">1. Copy Module</th><td>Place folder in Odoo addons directory</td></tr>
-        <tr><th>2. Update Apps List</th><td>Restart server → Activate developer mode → Refresh Apps</td></tr>
-        <tr><th>3. Install</th><td>Search "Employee Skill Portfolio" → Click Install</td></tr>
-        <tr><th>4. Configure Groups</th><td>Settings → Users → Add users to "Skill / Manager" or "Skill / HR" groups</td></tr>
-        <tr><th>5. Access Portal</th><td>Go to /skills to view public directory</td></tr>
-    </table>
-
-    <!-- Why Choose -->
-    <h3>✅ Why Choose Employee Skill Portfolio?</h3>
-    <div class="features-grid">
-        <div class="feature-row">
-            <div class="feature-card"><div class="feature-icon">🎨</div><h4>Modern UI</h4><p>Glassmorphism design with floating particles, smooth animations, and responsive layout.</p></div>
-            <div class="feature-card"><div class="feature-icon">🔌</div><h4>Zero Config</h4><p>Install and go. Optional configurations for categories, tags, and security groups.</p></div>
-        </div>
-        <div class="feature-row">
-            <div class="feature-card"><div class="feature-icon">🌍</div><h4>Multi-Language</h4><p>English default, ready for Arabic/RTL translation.</p></div>
-            <div class="feature-card"><div class="feature-icon">🔐</div><h4>Secure</h4><p>Granular access rights (Employee, Manager, HR). Portal rules protect data.</p></div>
-        </div>
-    </div>
-
-    <!-- Support & Contact -->
-    <h3>📞 Support & Contact</h3>
-    <p>After purchase, you receive:</p>
-    <ul style="margin: 8px 0 16px 24px;">
-        <li>📧 <strong>12 months email support</strong> (response within 24 hours)</li>
-        <li>🔄 <strong>Free updates</strong> for 12 months (bug fixes, compatibility, minor features)</li>
-        <li>📚 <strong>Installation guide</strong> included in module documentation</li>
-        <li>🐛 <strong>Bug fixes</strong> prioritized within 72 hours</li>
-    </ul>
-    <p style="background: #f8fafc; padding: 16px; border-radius: 12px; border-left: 4px solid #667eea;">
-        <strong>📧 Contact:</strong> Use Odoo App Store ticket system or email: <a href="mailto:asmatullahwazir415@gmail.com">asmatullahwazir415@gmail.com</a><br>
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5" style="text-align: center;">
+    <h1 style="font-size: 38px; color: #0F172A; font-weight: 800; margin-bottom: 16px; line-height: 1.2;">
+        Employee Skill Portfolio – Complete Skill Management for Odoo 17 & 18
+    </h1>
+    <p style="font-weight: 500; font-size: 19px; color: #475569; max-width: 860px; margin: 0 auto 28px; line-height: 1.6;">
+        End-to-end Skill Management System built for modern organizations. Skill Inventory, Peer Endorsements, Certification Tracking, Skill Matrix, AI-Powered Recommendations, and a Beautiful Public Portal – all seamlessly integrated with Odoo 17 & 18.
     </p>
-
-    <!-- Call to Action -->
-    <div style="text-align: center; margin: 40px 0 20px;">
-        <a href="#" class="cta-button">🚀 Get Employee Skill Portfolio →</a>
-        <p style="font-size: 13px; color: #64748b; margin-top: 12px;">One-time payment · Lifetime access · 12 months support & updates</p>
+    <div style="margin-top: 24px;">
+        <a href="#odoo_view_tab1" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FFFFFF; border: 3px solid #0f766e; color: #0f766e; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #0f766e !important;">🖼️ View All Screenshots</strong>
+        </a>
+        <a href="#odoo_view_tab5" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #000000 !important;">🎥 Watch Video Walkthrough</strong>
+        </a>
+        <a href="https://yourwebsite.com/contact" target="_blank" class="d-inline-block px-4 py-3 mb-2" style="background-color: #0f766e; border: 3px solid #0a5a54; color: #FFFFFF; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);">
+            <strong style="color: #FFFFFF !important;">💬 Get Free Consultation</strong>
+        </a>
     </div>
-</div>
-<footer>
-    <p>© 2026 Employee Skill Portfolio — Developed for Odoo 17.0 and 18.0 | Glassmorphism Portal | AI-Ready Skill Analytics</p>
-    <p style="margin-top: 8px;">Odoo Proprietary License v1.0 — All rights reserved</p>
-</footer>
+</section>
+
+<!-- ==================== CORE ARCHITECTURAL CARDS ==================== -->
+
+<!-- 1. Skill Inventory -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #E0E7FF; color: #1E40AF; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📋
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Skill Inventory Management
+                </h2>
+                <span style="background: #FDF4FF; color: #86198F; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #F5D0FE;">
+                    CORE MODEL
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Comprehensive skill registry with support for multiple skill types, proficiency levels, and experience tracking. Each skill is linked to an employee with detailed metadata.
+        </p>
+        <div class="row" style="margin-top: 16px;">
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Skill Types</strong>
+                    <span style="font-size: 14px; color: #64748B;">Technical, Soft, Language, Certification, Tool, Domain, Methodology, Framework.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Proficiency Levels</strong>
+                    <span style="font-size: 14px; color: #64748B;">Novice, Beginner, Intermediate, Advanced, Expert (with years mapping).</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Skill Score</strong>
+                    <span style="font-size: 14px; color: #64748B;">Algorithmic scoring based on self, manager, endorsements, and experience.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f766e;">
+                    <strong style="color: #0F172A; display: block;">Categories & Tags</strong>
+                    <span style="font-size: 14px; color: #64748B;">Hierarchical categories and flexible tagging for organization.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Endorsement System -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #EFF6FF; color: #2563EB; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                👍
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Peer Endorsement System
+                </h2>
+                <span style="background: #EFF6FF; color: #1E40AF; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BFDBFE;">
+                    SOCIAL PROOF
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Enable employees to request and receive endorsements from colleagues, managers, and clients. Build credibility and trust through verified peer recognition.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Request Workflow:</strong> Send endorsement requests with personal messages.</li>
+            <li><strong>Relationship Types:</strong> Manager, Colleague, Client, Vendor, Mentor, Other.</li>
+            <li><strong>Rating System:</strong> Endorsers rate proficiency from 1 (Basic) to 5 (Expert).</li>
+            <li><strong>Visibility Control:</strong> Public, Internal Only, or Private endorsements.</li>
+            <li><strong>Anonymous Option:</strong> Allow anonymous endorsements for honest feedback.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 3. Certification Management -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FEF3C7; color: #D97706; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🎓
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Certification & Credential Tracking
+                </h2>
+                <span style="background: #FEF3C7; color: #B45309; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FDE68A;">
+                    CREDENTIALS
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Track professional certifications with expiry management, certificate verification, and timeline views. Never miss a renewal with automated expiry alerts.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Certification Details:</strong> Store ID, issuing organization, date, expiry, and URL.</li>
+            <li><strong>Expiry Management:</strong> Auto-calculate days until expiry and flag expired certificates.</li>
+            <li><strong>Timeline View:</strong> Visual timeline of all certifications in employee profile.</li>
+            <li><strong>File Attachment:</strong> Upload certificate PDFs or images directly.</li>
+            <li><strong>Verification Badge:</strong> Display verified status on portal and skill cards.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 4. Public Portal -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #DCFCE7; color: #166534; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🌐
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Public Skills Portal
+                </h2>
+                <span style="background: #DCFCE7; color: #166534; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BBF7D0;">
+                    PORTAL
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            A beautiful, responsive public portal showcasing all employee skills with glassmorphism design. Search, filter by category, and explore skills across the organization.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Employee Directory:</strong> Browse employees by department with skill counts and endorsements.</li>
+            <li><strong>Skill Search:</strong> Search skills, employees, or departments in real-time.</li>
+            <li><strong>Category Filters:</strong> Filter skills by category with count badges.</li>
+            <li><strong>Top Skills Widget:</strong> Display most endorsed skills across the organization.</li>
+            <li><strong>Glassmorphism UI:</strong> Modern design with floating particles and smooth animations.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 5. Skill Matrix & Analytics -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FCE7F3; color: #DB2777; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📊
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Skill Matrix & Advanced Analytics
+                </h2>
+                <span style="background: #FCE7F3; color: #9D174D; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FBCFE8;">
+                    INSIGHTS
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Visualize organizational skill coverage with heatmaps, gap analysis, and exportable reports. Make data-driven decisions about talent development.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Skill Heatmap:</strong> Visual representation of skill coverage by department.</li>
+            <li><strong>Gap Analysis:</strong> Identify missing skills required for roles.</li>
+            <li><strong>Excel/PDF Export:</strong> Export skill matrices for offline analysis.</li>
+            <li><strong>Skill Velocity:</strong> Track skill acquisition rates per employee.</li>
+            <li><strong>Succession Planning:</strong> Identify potential successors based on skill overlap.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 6. AI Recommendations -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #F3E8FF; color: #7E22CE; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🤖
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    AI-Powered Skill Recommendations
+                </h2>
+                <span style="background: #F3E8FF; color: #6B21A8; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #E9D5FF;">
+                    AI ENGINE
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Leverage collaborative filtering to suggest skills based on similar roles and high performers. Automatically identify skill gaps and recommend development paths.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Collaborative Filtering:</strong> Suggest skills based on colleagues in similar roles.</li>
+            <li><strong>Role-Based Gap Analysis:</strong> Compare against high performers in same job title.</li>
+            <li><strong>Confidence Scoring:</strong> Each recommendation includes a confidence score.</li>
+            <li><strong>Bulk Generation:</strong> Weekly cron job generates recommendations for all employees.</li>
+            <li><strong>Integration:</strong> Recommendations appear on employee detail pages.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 7. Training Programs -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #E0F2FE; color: #0369A1; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📚
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Training & Development Programs
+                </h2>
+                <span style="background: #E0F2FE; color: #0369A1; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BAE6FD;">
+                    LEARNING
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Link skills to training programs, track completions, and automate skill assignment upon course completion. Build a learning culture with structured development paths.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Training Catalog:</strong> Define online, classroom, workshop, certification, and on-the-job training.</li>
+            <li><strong>Skill Mapping:</strong> Link trainings to specific skills for targeted development.</li>
+            <li><strong>Provider Management:</strong> Track training providers and course URLs.</li>
+            <li><strong>Cost Tracking:</strong> Monitor training costs and budgets.</li>
+            <li><strong>Auto-Assignment:</strong> Option to auto-assign skills on training completion.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 8. Approval Workflow -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FEF2F2; color: #DC2626; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                ✅
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Multi-Level Approval Workflow
+                </h2>
+                <span style="background: #FEF2F2; color: #DC2626; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FECACA;">
+                    GOVERNANCE
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Ensure skill quality with a structured approval workflow. Skills go through draft, submission, HR review, manager approval, and verification before appearing on the portal.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>State Machine:</strong> Draft → Submitted → HR Review → Manager Approval → Technical Review → Approved → Rejected.</li>
+            <li><strong>Verification Levels:</strong> Self Declared, Peer Endorsed, Manager Verified, HR Certified, Externally Audited.</li>
+            <li><strong>Action Buttons:</strong> Submit, Approve, Reject, Verify, Archive from form view.</li>
+            <li><strong>Email Notifications:</strong> Alert approvers when skills are submitted.</li>
+            <li><strong>Audit Trail:</strong> Complete history of all changes and approvals.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== HIGHLIGHTED FEATURES CHECKLIST ==================== -->
+<section class="oe_container my-5">
+    <div class="d-flex mb-4 flex-column align-items-center" style="text-align: center;">
+        <h2 style="font-weight: 800; font-size: 32px; color: #0F172A; margin-bottom: 8px;">
+            🏆 Employee Skill Portfolio Feature Checklist
+        </h2>
+        <p style="font-weight: 500; font-size: 18px; color: #64748B;">
+            Comprehensive feature checklist powered by Employee Skill Portfolio for Odoo 17 & 18
+        </p>
+    </div>
+    <div class="row" style="font-size: 16px; font-weight: 600; color: #1E293B;">
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Complete Skill Inventory with 8 Skill Types</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>5 Proficiency Levels (Novice to Expert)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Peer Endorsement Request & Approval System</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Certification Tracking with Expiry Management</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Glassmorphism Public Portal</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Advanced Skill Score Algorithm (0-100)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Multi-Level Approval Workflow</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Skill Matrix & Gap Analysis</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>AI-Powered Skill Recommendations</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Training Programs with Skill Mapping</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Complete Change History Tracking</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>REST API for External Integrations</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Excel/PDF Export for Skill Matrix</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Email Notifications for Expiring Certifications</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Granular Security Groups (Employee, Manager, HR)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f766e; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Full Responsive Design (Mobile/Tablet/Desktop)</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== INTERACTIVE TABBED SECTION ==================== -->
+<section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="card-header shadow-sm p-0" style="font-weight: 700; font-size: 18px; color: #333333;">
+        <ul class="nav nav-tabs justify-content-center pt-3" id="myTab" role="tablist" style="background-color: #F1F5F9; border-bottom: 2px solid #0f766e; gap: 12px; margin: 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab" style="color: #0f766e; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FFFFFF; border: 2px solid #0f766e; border-bottom: 2px solid #FFFFFF; text-decoration: none; display: block;">
+                    🖼️ All Screenshots & Screens
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="detailed-tab" data-bs-toggle="tab" href="#odoo_view_tab2" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    📋 Detailed Functional Workflows
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#odoo_view_tab3" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    ⚙️ Backend & Configuration
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="portal-tab" data-bs-toggle="tab" href="#odoo_view_tab4" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    🌐 Public Portal View
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="video-tab" data-bs-toggle="tab" href="#odoo_view_tab5" role="tab" style="color: #000000; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FEF08A; border: 2px solid #000000; text-decoration: none; display: block;">
+                    🎥 Live Video Walkthrough & Demo
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="card-body tab-content text-center p-0" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: none; padding: 32px 16px;">
+
+        <!-- TAB 1: ALL SCREENSHOTS -->
+        <div class="tab-pane fade active show" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-4">
+
+                <!-- Screen 1: s1.png - Employee Skill Form -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📝 Screenshot 1: Employee Skill Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Create and manage skills with name, employee assignment, skill type selection (Technical, Soft, Language, Certification, Tool, etc.), category, and tags. Includes approval buttons (Approve/Reject) and endorsement view.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s1.png" alt="Employee Skill Form" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 2: s2.png - Request Endorsement -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                ✉️ Screenshot 2: Request Endorsement Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Employees can request endorsements from colleagues/managers. Includes endorser selection, personal message, relationship type, rating, and visibility settings (public/internal/private).
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s2.png" alt="Request Endorsement" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 3: s3.png - Portal Directory -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🌐 Screenshot 3: Team Skills Directory (Portal)
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Public-facing portal showing all employees with their skills. Includes search bar, statistics counters (total employees, skills, certifications, endorsements), and category filters.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s3.png" alt="Portal Directory" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 4: s4.png - Menu Structure -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📂 Screenshot 4: Skills Management Menu
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete menu structure: Dashboard, All Skills, All Endorsements, Skill Assessments, Training Programs, and Configuration (Categories & Tags). Easy access to all features.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s4.png" alt="Menu Structure" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 5: s5.png - Proficiency Details -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📊 Screenshot 5: Proficiency Details Tab
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Track years of experience, last used date, usage frequency, self rating, manager rating, and overall rating. Includes description, projects used, and key achievements.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s5.png" alt="Proficiency Details" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 6: s6.png - Endorsements Tab -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                ⭐ Screenshot 6: Endorsements Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                View all endorsements received for a skill. Shows endorser name, date, rating (stars), relationship, status (approved/pending), and comments. Add new endorsements inline.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s6.png" alt="Endorsements Tab" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 7: s7.png - Skill Tags -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🏷️ Screenshot 7: Skill Tags Configuration
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Configure tags for flexible skill categorization. Each tag has a name, color code, and active flag. Tags help in filtering and grouping skills across the organization.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s7.png" alt="Skill Tags" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 8: s8.png - Skill Categories -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📁 Screenshot 8: Skill Categories Hierarchy
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Hierarchical skill categories with parent-child relationships. Each category has a skill type, sequence, description, color, and icon. Organize skills logically.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s8.png" alt="Skill Categories" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 9: s9.png - Training Programs -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🎓 Screenshot 9: Training Programs Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Manage training courses linked to skills. Includes training name, type (online/classroom/workshop/certification), provider, duration, cost, course URL, and related skills.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s9.png" alt="Training Programs" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 10: s10.png - Skill Assessments -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📋 Screenshot 10: Skill Assessment - Gap Analysis
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Conduct skill gap analysis comparing required vs current levels. Includes assessment name, employee, assessor, assessment type, detailed skill lines, scores, gap calculation, and recommendations.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s10.png" alt="Skill Assessments" />
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAILED FUNCTIONAL WORKFLOWS -->
+        <div class="tab-pane fade" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Detailed Operational Workflows & System Architecture
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0f766e; margin-bottom: 16px;">
+                                📋 Skill Lifecycle Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Skill Creation:</strong> Employee or HR creates skill with name, type, and initial metadata.</li>
+                                <li><strong>Submission:</strong> Skill is submitted for approval workflow.</li>
+                                <li><strong>HR Review:</strong> HR reviews skill for accuracy and completeness.</li>
+                                <li><strong>Manager Approval:</strong> Manager approves skill and assigns proficiency level.</li>
+                                <li><strong>Technical Review:</strong> Optional technical review for specialized skills.</li>
+                                <li><strong>Verification:</strong> Skill is verified and marked as active.</li>
+                                <li><strong>Portal Display:</strong> Verified skills appear on public portal.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0D9488; margin-bottom: 16px;">
+                                ⭐ Endorsement Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Request Creation:</strong> Employee requests endorsement from colleague/manager.</li>
+                                <li><strong>Email Notification:</strong> Endorser receives email with request details.</li>
+                                <li><strong>Endorsement:</strong> Endorser submits rating, comment, and relationship type.</li>
+                                <li><strong>Approval:</strong> Endorsement is reviewed and approved by HR/Manager.</li>
+                                <li><strong>Visibility:</strong> Endorsement appears on skill card based on visibility settings.</li>
+                                <li><strong>Score Update:</strong> Skill score is recalculated with new endorsement.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0284C7; margin-bottom: 16px;">
+                                📄 Certification Renewal Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Certification Creation:</strong> Employee adds certification with expiry date.</li>
+                                <li><strong>Expiry Monitoring:</strong> System tracks days until expiry automatically.</li>
+                                <li><strong>Alert Generation:</strong> Email notifications sent 30, 60, and 90 days before expiry.</li>
+                                <li><strong>Renewal Action:</strong> Employee updates certification with new expiry date.</li>
+                                <li><strong>Verification:</strong> HR verifies renewed certification.</li>
+                                <li><strong>Portal Update:</strong> Certification timeline is updated in employee profile.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #7E22CE; margin-bottom: 16px;">
+                                🤖 AI Recommendation Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Data Collection:</strong> System analyzes all employee skills and job roles.</li>
+                                <li><strong>Collaborative Filtering:</strong> Identifies skill patterns among similar roles.</li>
+                                <li><strong>Recommendation Generation:</strong> Weekly cron job generates recommendations.</li>
+                                <li><strong>Gap Analysis:</strong> Compares employee skills against high performers.</li>
+                                <li><strong>Presentation:</strong> Recommendations appear on employee detail page.</li>
+                                <li><strong>Acceptance:</strong> Employee can accept or decline recommendations.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BACKEND & CONFIGURATION -->
+        <div class="tab-pane fade" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Enterprise Backend Configuration & Access Rights
+                </h2>
+                <div class="p-4 shadow-sm border mb-4" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Granular Security Groups Matrix
+                    </h3>
+                    <p style="font-size: 15px; color: #475569; line-height: 1.8;">
+                        The module defines 3 distinct security access groups inside Odoo 17 & 18 User Settings. Each role strictly controls what the logged-in user can view, create, edit, or export:
+                    </p>
+                    <table class="table border" style="width: 100%; margin-top: 16px; font-size: 15px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #F1F5F9; color: #0F172A; text-align: left;">
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Security Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Intended Staff Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Permissions & Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0284C7;">Skill / Employee</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">All Employees</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">View own skills, request endorsements, view public directory.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0D9488;">Skill / Manager</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Team Leads / Managers</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Approve skills, manage team skills, view endorsements.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #701A75;">Skill / HR</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">HR Directors / Administrators</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Complete administrative control over all skill data, configuration, reporting, and user management.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Automated Workflows & Business Logic
+                    </h3>
+                    <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                        <li><strong>Skill Score Algorithm:</strong> Self Rating (15%) + Manager Rating (25%) + Peer Endorsements (20%) + Experience (10%) + Certifications (15%) + Verification Level (10%) + Market Demand (5%).</li>
+                        <li><strong>Expiry Detection:</strong> Auto-flag certifications as expiring (30 days) or expired.</li>
+                        <li><strong>Email Notifications:</strong> Send alerts for skill submissions, approvals, expiring certifications, and endorsement requests.</li>
+                        <li><strong>Bulk Operations:</strong> Bulk verify, archive, or assign categories to multiple skills.</li>
+                        <li><strong>Change History:</strong> Track all changes to skills with audit trail.</li>
+                        <li><strong>REST API:</strong> Full API endpoints for external integrations.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: PUBLIC PORTAL VIEW -->
+        <div class="tab-pane fade" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Public Skills Portal & Employee Experience
+                </h2>
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px;" src="s3.png" alt="Public Portal" />
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 22px; font-weight: 700; color: #1E40AF; margin-bottom: 16px;">
+                                Empowering Employees with a Beautiful Portal
+                            </h3>
+                            <p style="font-size: 15px; color: #475569; line-height: 1.8; margin-bottom: 16px;">
+                                The module includes a dedicated public portal that provides:
+                            </p>
+                            <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                                <li><strong>Employee Directory:</strong> Browse all employees with their skills and endorsements.</li>
+                                <li><strong>Skill Discovery:</strong> Search skills, employees, or departments.</li>
+                                <li><strong>Category Filtering:</strong> Filter skills by category with real-time updates.</li>
+                                <li><strong>Top Skills Widget:</strong> See most endorsed skills across the organization.</li>
+                                <li><strong>Recent Certifications:</strong> Timeline of latest certifications.</li>
+                                <li><strong>Glassmorphism UI:</strong> Modern design with floating particles and smooth animations.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: VIDEO WALKTHROUGH -->
+        <div class="tab-pane fade" id="odoo_view_tab5" role="tabpanel">
+            <div class="container px-4 text-center">
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 3px solid #000000; border-radius: 16px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #FEF08A; border-bottom: 3px solid #000000; color: #000000; padding: 24px;">
+                            <h3 style="font-size: 28px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🎥 Complete Employee Skill Portfolio Video Walkthrough
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 10px 0 0; line-height: 1.6;">
+                                Interactive step-by-step video tour demonstrating Skill Inventory, Endorsements, Certifications, Skill Matrix, AI Recommendations, and Public Portal.
+                            </p>
+                        </div>
+                        <div class="panel-body p-5" style="background: #FFFFFF;">
+                            <div class="mx-auto" style="max-width: 920px; border: 4px solid #000000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #0F172A;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; background: #0F172A;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1; width: 90%;">
+                                        <div style="color: #FFFFFF; font-size: 24px; font-weight: 800; margin-bottom: 16px;">
+                                            🎥 Employee Skill Portfolio Video Walkthrough
+                                        </div>
+                                        <a href="https://yourwebsite.com/demo" target="_blank" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-size: 20px; font-weight: 800; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: inline-block;">
+                                            ▶️ Click Here to Play Video / Request Live Interactive Demo
+                                        </a>
+                                    </div>
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                                            title="Employee Skill Portfolio Odoo Video Demo"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-5">
+                                <a href="https://yourwebsite.com/contact" target="_blank" class="px-5 py-3" style="background-color: #0f766e; border: 3px solid #0a5a54; color: #FFFFFF; font-weight: 800; font-size: 20px; border-radius: 999px; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3); display: inline-flex; align-items: center;">
+                                    <strong style="color: #FFFFFF !important; font-size: 20px;">💬 Request Live 1-on-1 Video Demo with Our Team</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5">
+    <div class="p-5 shadow-sm text-center" style="background-color: #F8FAFC; color: #000000; border-radius: 16px; border: 3px solid #CBD5E1;">
+        <h2 style="font-size: 36px; font-weight: 800; margin-bottom: 14px; color: #000000;">
+            Looking for an experienced Odoo Developer?
+        </h2>
+        <p style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 auto 24px;">
+            We specialize in:
+        </p>
+
+        <div class="mx-auto text-left" style="max-width: 780px; background-color: #FFFFFF; border: 2px solid #E2E8F0; border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div class="row" style="text-align: left; font-size: 19px; font-weight: 700; color: #000000; line-height: 2.2;">
+                <div class="col-md-6">
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Enterprise Odoo Implementation</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Custom Odoo Module Development</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Skill Management & HR Solutions</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Third-Party API Integrations</div>
+                </div>
+                <div class="col-md-6">
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Migration & Upgrades</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Performance Optimization</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Technical Support & Maintenance</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Training & Consultation</div>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 22px; font-weight: 800; color: #000000; margin: 0 auto 28px;">
+            Get in touch today for fast and professional Odoo solutions.
+        </p>
+
+        <div class="d-flex justify-content-center flex-wrap" style="gap: 20px;">
+            <a href="https://wa.me/+966565815529" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
+            </a>
+            <a href="mailto:asmatullahwazir415@gmail.com" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 Email: asmatullahwazir415@gmail.com</strong>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Bootstrap JS for Tabs -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

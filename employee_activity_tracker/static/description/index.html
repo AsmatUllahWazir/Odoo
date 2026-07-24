@@ -3,352 +3,1007 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Employee Activity Tracker & Monitor - Full Odoo Activity Logging, Session Monitoring, and CEO Dashboard." />
-    <title>Employee Activity Tracker & Monitor - Odoo App Store</title>
-    <style>
-        /* ---- Modern Reset & Base ---- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            background: #f8fafc;
-            color: #1e293b;
-            padding: 2rem 1rem;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 20px 60px -15px rgba(0,0,0,0.15);
-            padding: 2.5rem;
-            transition: all 0.2s;
-        }
-        /* ---- Typography ---- */
-        h1, h2, h3 {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-        h1 { font-size: 2.8rem; color: #0f172a; margin-bottom: 0.5rem; }
-        .subtitle { font-size: 1.2rem; color: #475569; margin-bottom: 2rem; border-left: 4px solid #3b82f6; padding-left: 1.2rem; }
-        h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
-        h3 { font-size: 1.3rem; margin: 1.5rem 0 0.5rem; color: #1e293b; }
-        a { color: #2563eb; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        ul, ol { padding-left: 1.8rem; margin: 0.8rem 0; }
-        li { margin-bottom: 0.3rem; }
-        /* ---- Badges & Tags ---- */
-        .badge-group { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1rem 0 1.5rem; }
-        .badge {
-            background: #e2e8f0; color: #1e293b; padding: 0.3rem 1rem; border-radius: 40px;
-            font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em;
-        }
-        .badge-blue { background: #dbeafe; color: #1e40af; }
-        .badge-green { background: #dcfce7; color: #166534; }
-        .badge-orange { background: #ffedd5; color: #9a3412; }
-        .badge-red { background: #fee2e2; color: #991b1b; }
-        .badge-purple { background: #ede9fe; color: #5b21b6; }
-        .price-badge {
-            display: inline-block; background: #0f172a; color: white; padding: 0.4rem 1.8rem;
-            border-radius: 60px; font-weight: 700; font-size: 1.8rem; letter-spacing: -0.02em;
-            margin: 0.5rem 0 1rem;
-        }
-        .price-badge small { font-size: 1rem; font-weight: 400; }
-        /* ---- Grid & Cards ---- */
-        .feature-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem; margin: 1.5rem 0;
-        }
-        .feature-card {
-            background: #f1f5f9; border-radius: 16px; padding: 1.5rem;
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px -8px rgba(0,0,0,0.12); }
-        .feature-card .icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
-        .feature-card h4 { font-size: 1rem; font-weight: 600; color: #0f172a; }
-        .feature-card p { font-size: 0.9rem; color: #475569; margin: 0.3rem 0 0; }
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0; }
-        @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
-        /* ---- Tables ---- */
-        .features-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; }
-        .features-table th {
-            text-align: left; background: #f1f5f9; padding: 0.6rem 1rem;
-            font-weight: 600; color: #0f172a; border-radius: 8px 8px 0 0;
-        }
-        .features-table td { padding: 0.6rem 1rem; border-bottom: 1px solid #e2e8f0; }
-        .features-table tr:last-child td { border: none; }
-        .check { color: #16a34a; font-weight: 700; }
-        /* ---- Buttons ---- */
-        .btn {
-            display: inline-block; background: #0f172a; color: white; padding: 0.8rem 2.2rem;
-            border-radius: 60px; font-weight: 600; text-decoration: none; transition: background 0.2s;
-            border: none; cursor: pointer;
-        }
-        .btn:hover { background: #1e293b; text-decoration: none; }
-        .btn-primary { background: #2563eb; }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-outline { background: transparent; color: #2563eb; border: 2px solid #2563eb; }
-        .btn-outline:hover { background: #eff6ff; }
-        .cta-box {
-            background: #0f172a; color: white; border-radius: 24px; padding: 2.5rem;
-            text-align: center; margin: 2.5rem 0 1rem;
-        }
-        .cta-box h2 { color: white; border: none; margin: 0 0 0.5rem; }
-        .cta-box p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 1.5rem; }
-        .cta-box .btn-primary { background: #facc15; color: #0f172a; font-size: 1.2rem; }
-        .cta-box .btn-primary:hover { background: #fde047; }
-        hr { border: none; border-top: 2px solid #e2e8f0; margin: 2rem 0; }
-        .footer-note { text-align: center; color: #94a3b8; font-size: 0.9rem; margin-top: 2rem; }
-        /* ---- Responsive tweaks ---- */
-        @media (max-width: 600px) {
-            .container { padding: 1.5rem; }
-            h1 { font-size: 2rem; }
-            .price-badge { font-size: 1.4rem; }
-        }
-        .screenshot-placeholder {
-            background: #e2e8f0; border-radius: 16px; padding: 4rem 2rem; text-align: center;
-            color: #64748b; border: 2px dashed #94a3b8; margin: 1.5rem 0;
-            font-size: 1.1rem;
-        }
-        .screenshot-placeholder strong { color: #0f172a; }
-    </style>
+    <title>Employee Activity Tracker & Monitor – Complete Activity Logging & CEO Dashboard for Odoo 17</title>
+    <meta name="description" content="Complete Employee Activity Tracker & Monitor module for Odoo 17. Full activity logging, session monitoring, field change history, button tracking, real-time CEO dashboard, and security alerts." />
+    <meta name="keywords" content="odoo 17 activity tracker, employee monitoring odoo, session tracking odoo, audit log odoo, field change history odoo, ceo dashboard odoo, employee activity log" />
+    <meta name="author" content="Wazirz" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Employee Activity Tracker & Monitor – Complete Activity Logging & CEO Dashboard for Odoo 17" />
+    <meta property="og:description" content="Complete real-time employee activity tracking, session monitoring, audit logs, field change history, and CEO dashboard for Odoo 17." />
+    <meta property="og:image" content="banner.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Employee Activity Tracker & Monitor – Complete Activity Logging & CEO Dashboard for Odoo 17" />
+    <meta name="twitter:description" content="Complete real-time employee activity tracking, session monitoring, audit logs, field change history, and CEO dashboard." />
+    <meta name="twitter:image" content="banner.png" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Employee Activity Tracker & Monitor for Odoo 17",
+      "operatingSystem": "Odoo 17",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "35.00",
+        "priceCurrency": "USD"
+      },
+      "description": "Complete real-time employee activity tracking, session monitoring, audit logs, field change history, and CEO dashboard for Odoo 17.",
+      "author": {
+        "@type": "Person",
+        "name": "Wazirz",
+        "url": "https://yourwebsite.com"
+      }
+    }
+    </script>
 </head>
-<body>
-<div class="container">
+<body style="font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333333; background-color: #F8FAFC; margin: 0; padding: 0;">
 
-    <!-- ============================================================
-    HEADER
-    ============================================================ -->
-    <h2>🔍 Employee Activity Tracker &amp; Monitor</h2>
-    <div class="subtitle">
-        Complete real-time employee activity tracking, session monitoring, audit logs, field change history,
-        and CEO dashboard.
-    </div>
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container" style="padding-left: 2%; padding-right: 2%;">
+    <section class="oe_container d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0;">
+            <div class="d-flex align-items-center">
+                <span style="background: #0f172a; color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.5px;">
+                    🔍 Odoo 17 Ready
+                </span>
+                <span style="font-size: 18px; font-weight: 700; color: #1E293B; margin-left: 16px;">
+                    Activity Tracker Suite
+                </span>
+            </div>
+            <div class="d-flex align-items-center">
+                <div style="font-size: 15px; color: #475569; font-weight: 600; margin-right: 12px;">
+                    Supported Editions:
+                </div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #BFDBFE; margin-right: 8px;">
+                    Community
+                </span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #E9D5FF; margin-right: 16px;">
+                    Enterprise
+                </span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 6px; border: 1px solid #FDE68A;">
+                    $35 USD
+                </span>
+            </div>
+        </div>
+    </section>
+</section>
 
-    <div class="badge-group">
-        <span class="badge badge-blue">v17.0.1.0.0</span>
-<!--        <span class="badge badge-green">Odoo 17 • 18 • 19</span>-->
-        <span class="badge badge-green">Odoo 17</span>
-        <span class="badge badge-orange">HR / Security</span>
-        <span class="badge badge-purple">Enterprise Ready</span>
-        <span class="badge badge-red">⭐ Featured</span>
-    </div>
-
-<!--    <div style="margin: 1.5rem 0;">-->
-<!--        <span class="price-badge">€349 <small>one-time license</small></span>-->
-<!--        <br/>-->
-<!--        <a href="#" class="btn btn-primary" style="margin-top: 0.5rem;">🛒 Get This Module</a>-->
-<!--        <a href="#" class="btn btn-outline" style="margin-left: 0.8rem;">📖 View Documentation</a>-->
-<!--    </div>-->
-
-    <!-- ============================================================
-    OVERVIEW
-    ============================================================ -->
-    <h3>📋 Overview</h3>
-    <p>
-        <strong>Employee Activity Tracker &amp; Monitor</strong> is a complete, advanced activity tracking
-        and monitoring system for Odoo. It gives you unparalleled visibility into every action taken by your
-        users—from login to logout. Whether you are a <strong>CEO, HR Manager, Security Officer, or System Administrator</strong>,
-        this module helps you maintain security, improve productivity, and ensure compliance.
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5" style="text-align: center;">
+    <h1 style="font-size: 38px; color: #0F172A; font-weight: 800; margin-bottom: 16px; line-height: 1.2;">
+        Employee Activity Tracker &amp; Monitor – Complete Activity Logging &amp; CEO Dashboard
+    </h1>
+    <p style="font-weight: 500; font-size: 19px; color: #475569; max-width: 860px; margin: 0 auto 28px; line-height: 1.6;">
+        Complete real-time employee activity tracking, session monitoring, audit logs, field change history, and CEO dashboard for Odoo 17. Track every action, maintain security, and improve productivity.
     </p>
-    <p>
-        The module automatically tracks <strong>all CRUD operations</strong>, <strong>field-level changes</strong>
-        (old vs. new values), <strong>button clicks</strong>, <strong>menu/URL access</strong>, and
-        <strong>session details</strong> (IP, browser, OS, device type) with zero configuration required.
-        A beautiful <strong>real-time dashboard</strong> provides instant insights into who is online,
-        what they are doing, and any suspicious activity.
-    </p>
-
-    <!-- ============================================================
-    KEY FEATURES
-    ============================================================ -->
-    <h3>🚀 Key Features</h3>
-    <div class="feature-grid">
-        <div class="feature-card">
-            <span class="icon">🕒</span>
-            <h4>Session Lifecycle Management</h4>
-            <p>Track every login, logout, session duration, IP, browser, OS, device type, and idle status.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">📝</span>
-            <h4>Full Activity Audit Log</h4>
-            <p>Log all create, write, and delete operations across every model in your Odoo instance.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">🔎</span>
-            <h4>Field-Level Change Tracking</h4>
-            <p>See exactly what changed: old value → new value for every field update on every record.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">🖱️</span>
-            <h4>Button Click Tracking</h4>
-            <p>Track every significant button press (Confirm, Validate, Approve) and server action.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">📊</span>
-            <h4>Live CEO Dashboard</h4>
-            <p>Real-time stats: active users, idle users, activity breakdown, module usage, security alerts.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">🛡️</span>
-            <h4>Security &amp; Suspicious Activity</h4>
-            <p>Log failed logins, permission changes, developer mode toggles, and trigger alerts on suspicious behavior.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">📬</span>
-            <h4>Daily / Weekly Email Reports</h4>
-            <p>Automatically send summary reports to the CEO or administrator every day and every Monday.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">⚙️</span>
-            <h4>Fully Configurable</h4>
-            <p>Exclude models, set idle thresholds, define retention policies, and manage tracking options from a single settings panel.</p>
-        </div>
+    <div style="margin-top: 24px;">
+        <a href="#odoo_view_tab1" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FFFFFF; border: 3px solid #0f172a; color: #0f172a; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #0f172a !important;">🖼️ View All Screenshots</strong>
+        </a>
+        <a href="#odoo_view_tab5" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-right: 12px;">
+            <strong style="color: #000000 !important;">🎥 Watch Video Walkthrough</strong>
+        </a>
+        <a href="https://yourwebsite.com/contact" target="_blank" class="d-inline-block px-4 py-3 mb-2" style="background-color: #0f172a; border: 3px solid #1e293b; color: #FFFFFF; font-weight: 800; font-size: 18px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);">
+            <strong style="color: #FFFFFF !important;">💬 Get Free Consultation</strong>
+        </a>
     </div>
+</section>
 
-    <!-- ============================================================
-    DETAILED FEATURES TABLE
-    ============================================================ -->
-    <h3>📌 Detailed Feature List</h3>
-    <table class="features-table">
-        <thead>
-            <tr><th>Feature</th><th>Description</th></tr>
-        </thead>
-        <tbody>
-            <tr><td><strong>Session Tracking</strong></td><td>Login, logout, IP address, user agent, browser, OS, device type, session duration, idle detection.</td></tr>
-            <tr><td><strong>Global ORM Tracking</strong></td><td>Automatically tracks create, write, and unlink on every model. Zero configuration required.</td></tr>
-            <tr><td><strong>Field Change History</strong></td><td>Captures old and new values for every field change. Perfect for audit and compliance.</td></tr>
-            <tr><td><strong>Button &amp; Workflow Tracking</strong></td><td>Logs every button click and workflow action (e.g., Confirm Order, Validate Invoice).</td></tr>
-            <tr><td><strong>Menu &amp; View Access</strong></td><td>Records which menus, views (form, list, kanban), and reports users access.</td></tr>
-            <tr><td><strong>Real-Time Dashboard</strong></td><td>Active/idle/offline counters, activity breakdown, module usage chart, security alerts, top users.</td></tr>
-            <tr><td><strong>User Status &amp; Timeline</strong></td><td>See online status of users (green/yellow/gray) and a detailed timeline of their activities.</td></tr>
-            <tr><td><strong>Security &amp; Suspicious Activity</strong></td><td>Logs failed logins, password changes, group changes, developer mode. Alerts on brute-force attempts.</td></tr>
-            <tr><td><strong>Force Logout</strong></td><td>Administrators can forcefully terminate any active session from the session log or dashboard.</td></tr>
-            <tr><td><strong>Automated Email Reports</strong></td><td>Daily and weekly summary reports sent directly to a designated email address.</td></tr>
-            <tr><td><strong>Data Retention &amp; Cleanup</strong></td><td>Configurable log retention (default 365 days) with automated cron job cleanup.</td></tr>
-            <tr><td><strong>Multi-Company Support</strong></td><td>Fully compatible with Odoo's multi-company setup.</td></tr>
-        </tbody>
-    </table>
+<!-- ==================== CORE ARCHITECTURAL CARDS ==================== -->
 
-    <!-- ============================================================
-    WHY THIS MODULE
-    ============================================================ -->
-    <h3>💡 Why Choose This Module?</h3>
-    <div class="two-col">
-        <div>
-            <h3>🎯 For CEOs &amp; Managers</h3>
-            <ul>
-                <li>Get real-time visibility into your team's activity.</li>
-                <li>Identify productivity bottlenecks and top-performing users.</li>
-                <li>Receive daily/weekly reports without logging in.</li>
-            </ul>
-            <h3>🔐 For Security &amp; Compliance</h3>
-            <ul>
-                <li>Maintain a complete audit trail for ISO/GDPR compliance.</li>
-                <li>Detect and respond to suspicious activity (failed logins, IP anomalies).</li>
-                <li>Track who changed what, and when.</li>
-            </ul>
+<!-- 1. Session Lifecycle Management -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #E0E7FF; color: #1E40AF; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🕒
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Session Lifecycle Management
+                </h2>
+                <span style="background: #FDF4FF; color: #86198F; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #F5D0FE;">
+                    CORE ENGINE
+                </span>
+            </div>
         </div>
-        <div>
-            <h3>⚡ For System Administrators</h3>
-            <ul>
-                <li>Zero configuration — works out of the box with all modules.</li>
-                <li>Lightweight and optimized for performance (batch inserts, asynchronous logging).</li>
-                <li>Easily exclude high-traffic models to reduce noise.</li>
-            </ul>
-            <h3>👥 For HR &amp; Team Leads</h3>
-            <ul>
-                <li>Understand user adoption of Odoo features.</li>
-                <li>Identify training gaps based on module usage.</li>
-                <li>Review individual employee activity timelines.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    SCREENSHOTS
-    ============================================================ -->
-<!--    <h2>🖼️ Screenshots</h2>-->
-<!--    &lt;!&ndash; Replace the div below with actual <img> tags and remove the placeholder &ndash;&gt;-->
-<!--    <div class="screenshot-placeholder">-->
-<!--        <strong>📸 Live Dashboard</strong><br/>-->
-<!--        Real-time activity, session stats, module usage chart, and security alerts.-->
-<!--        <br/><span style="font-size:0.85rem;">(Add your actual screenshot here)</span>-->
-<!--    </div>-->
-<!--    <div class="screenshot-placeholder">-->
-<!--        <strong>📸 Field Change Log</strong><br/>-->
-<!--        Track old vs. new values for every field update.-->
-<!--        <br/><span style="font-size:0.85rem;">(Add your actual screenshot here)</span>-->
-<!--    </div>-->
-<!--    <div class="screenshot-placeholder">-->
-<!--        <strong>📸 User Timeline</strong><br/>-->
-<!--        Complete chronological activity history for any user.-->
-<!--        <br/><span style="font-size:0.85rem;">(Add your actual screenshot here)</span>-->
-<!--    </div>-->
-
-    <!-- ============================================================
-    COMPATIBILITY
-    ============================================================ -->
-    <h3>🔧 Technical Details</h3>
-    <ul>
-        <li><strong>Compatibility:</strong> Odoo 17 (Enterprise &amp; Community)</li>
-<!--        <li><strong>Compatibility:</strong> Odoo 17, 18, 19 (Enterprise &amp; Community)</li>-->
-        <li><strong>Dependencies:</strong> base, web, mail, hr, base_setup, base_automation</li>
-        <li><strong>Installation:</strong> Standard Odoo module installation. No extra libraries required.</li>
-        <li><strong>Performance:</strong> Optimized with batch inserts, asynchronous logging, and configurable exclusions.</li>
-        <li><strong>Support:</strong> Includes 3 months of free technical support and updates.</li>
-    </ul>
-
-    <!-- ============================================================
-    WHAT'S INCLUDED
-    ============================================================ -->
-    <h3>📦 What's Included</h3>
-    <ul>
-        <li><strong>Full Source Code</strong> – No obfuscation, open for customization.</li>
-        <li><strong>User &amp; Security Groups</strong> – Pre-configured user, manager, and admin roles.</li>
-        <li><strong>Dashboard &amp; Reports</strong> – Live dashboard and email reporting templates.</li>
-        <li><strong>Automated Cron Jobs</strong> – Session cleanup, retention policy, suspicious activity checks.</li>
-        <li><strong>Detailed Documentation</strong> – Installation and configuration guide included.</li>
-        <li><strong>3 Months Free Support</strong> – Direct email/chat support from the developer.</li>
-    </ul>
-
-    <!-- ============================================================
-    PRICING & CALL TO ACTION
-    ============================================================ -->
-    <div class="cta-box">
-        <h3>🚀 Ready to Track Every Action?</h3>
-        <p>
-            Get the <strong>Employee Activity Tracker &amp; Monitor</strong> module today and
-            gain complete visibility into your Odoo system.
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Track every login, logout, session duration, IP address, browser, operating system, device type, and idle status in real-time. Complete visibility into user sessions across your entire Odoo instance.
         </p>
-<!--        <a href="#" class="btn btn-primary">🛒 Buy Now – €349</a>-->
-<!--        <br/><br/>-->
-<!--        <a href="#" style="color: #94a3b8; font-size: 0.9rem;">Or <strong>Request a Demo</strong> / Contact Sales</a>-->
+        <div class="row" style="margin-top: 16px;">
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Session Tracking</strong>
+                    <span style="font-size: 14px; color: #64748B;">Login, logout, duration, and idle status.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">User Agent Details</strong>
+                    <span style="font-size: 14px; color: #64748B;">Browser, OS, device type, and version.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">IP & Location</strong>
+                    <span style="font-size: 14px; color: #64748B;">Track IP addresses for security auditing.</span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Force Logout</strong>
+                    <span style="font-size: 14px; color: #64748B;">Administrators can terminate any active session.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Full Activity Audit Log -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #EFF6FF; color: #2563EB; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📝
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Full Activity Audit Log
+                </h2>
+                <span style="background: #EFF6FF; color: #1E40AF; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BFDBFE;">
+                    AUDIT
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Automatically log all create, write, and delete operations across every model in your Odoo instance. Zero configuration required for complete audit trail.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Global ORM Tracking:</strong> Automatically tracks create, write, and unlink on every model.</li>
+            <li><strong>Field-Level Change History:</strong> Captures old and new values for every field change.</li>
+            <li><strong>Button & Workflow Tracking:</strong> Logs every button click and workflow action.</li>
+            <li><strong>Menu & View Access:</strong> Records which menus, views (form, list, kanban), and reports users access.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 3. Live CEO Dashboard -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FEF3C7; color: #D97706; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📊
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Live CEO Dashboard
+                </h2>
+                <span style="background: #FEF3C7; color: #B45309; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FDE68A;">
+                    DASHBOARD
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Real-time dashboard with active/idle/offline counters, activity breakdown, module usage chart, security alerts, and top users. Instant visibility into organizational activity.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Active User Counters:</strong> Real-time online, idle, and offline user status.</li>
+            <li><strong>Module Usage Analytics:</strong> See which modules are being used most.</li>
+            <li><strong>Security Alerts:</strong> Automatic detection of suspicious activity.</li>
+            <li><strong>Top Users:</strong> Identify most active employees by operation count.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 4. Security & Suspicious Activity -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #DCFCE7; color: #166534; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                🛡️
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Security & Suspicious Activity
+                </h2>
+                <span style="background: #DCFCE7; color: #166534; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #BBF7D0;">
+                    SECURITY
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Log failed logins, permission changes, developer mode toggles, and trigger alerts on suspicious behavior. Maintain ISO/GDPR compliance with complete audit trails.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Failed Login Tracking:</strong> Log all failed login attempts with IP and timestamp.</li>
+            <li><strong>Permission Changes:</strong> Track group and access right modifications.</li>
+            <li><strong>Developer Mode Toggles:</strong> Log when developer mode is enabled/disabled.</li>
+            <li><strong>Brute-Force Alerts:</strong> Automatic detection of multiple failed logins.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 5. Automated Email Reports -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #FCE7F3; color: #DB2777; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                📬
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Automated Email Reports
+                </h2>
+                <span style="background: #FCE7F3; color: #9D174D; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #FBCFE8;">
+                    REPORTING
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Automatically send daily and weekly summary reports to the CEO or administrator. Stay informed without logging into the system.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Daily Reports:</strong> Send daily activity summary to designated email.</li>
+            <li><strong>Weekly Reports:</strong> Weekly overview sent every Monday morning.</li>
+            <li><strong>Customizable Recipients:</strong> Set email recipients in configuration.</li>
+            <li><strong>Rich HTML Format:</strong> Beautiful, informative email templates.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 6. Fully Configurable -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 32px; background: #F3E8FF; color: #7E22CE; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800;">
+                ⚙️
+            </span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                    Fully Configurable
+                </h2>
+                <span style="background: #F3E8FF; color: #6B21A8; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #E9D5FF;">
+                    CONFIG
+                </span>
+            </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+            Exclude models, set idle thresholds, define retention policies, and manage tracking options from a single settings panel. Full control over what gets tracked.
+        </p>
+        <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+            <li><strong>Model Exclusions:</strong> Exclude high-traffic models to reduce noise.</li>
+            <li><strong>Idle Threshold:</strong> Set idle timeout in minutes (default: 15).</li>
+            <li><strong>Data Retention:</strong> Configurable log retention (default: 365 days).</li>
+            <li><strong>Auto-Cleanup:</strong> Automated cron job for log cleanup.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== HIGHLIGHTED FEATURES CHECKLIST ==================== -->
+<section class="oe_container my-5">
+    <div class="d-flex mb-4 flex-column align-items-center" style="text-align: center;">
+        <h2 style="font-weight: 800; font-size: 32px; color: #0F172A; margin-bottom: 8px;">
+            🏆 Employee Activity Tracker Feature Checklist
+        </h2>
+        <p style="font-weight: 500; font-size: 18px; color: #64748B;">
+            Comprehensive feature checklist powered by Employee Activity Tracker for Odoo 17
+        </p>
+    </div>
+    <div class="row" style="font-size: 16px; font-weight: 600; color: #1E293B;">
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Session Lifecycle Management (Login/Logout)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Full Activity Audit Log (CRUD Operations)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Field-Level Change History (Old vs New)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Button Click & Workflow Tracking</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Live CEO Dashboard</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Security & Suspicious Activity Alerts</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Automated Daily/Weekly Email Reports</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Force Logout (Administrator Action)</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Data Retention & Auto-Cleanup</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Multi-Company Support</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>User Status & Timeline Views</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="p-3 shadow-sm d-flex align-items-start" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; height: 100%;">
+                <span style="color: #0f172a; font-size: 20px; margin-right: 12px;">✔</span>
+                <span>Zero Configuration Required</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== INTERACTIVE TABBED SECTION ==================== -->
+<section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="card-header shadow-sm p-0" style="font-weight: 700; font-size: 18px; color: #333333;">
+        <ul class="nav nav-tabs justify-content-center pt-3" id="myTab" role="tablist" style="background-color: #F1F5F9; border-bottom: 2px solid #0f172a; gap: 12px; margin: 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab" style="color: #0f172a; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FFFFFF; border: 2px solid #0f172a; border-bottom: 2px solid #FFFFFF; text-decoration: none; display: block;">
+                    🖼️ All Screenshots & Screens
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="detailed-tab" data-bs-toggle="tab" href="#odoo_view_tab2" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    📋 Detailed Functional Workflows
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#odoo_view_tab3" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    ⚙️ Backend & Configuration
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="integration-tab" data-bs-toggle="tab" href="#odoo_view_tab4" role="tab" style="color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block;">
+                    🔗 Integrations & API
+                </a>
+            </li>
+            <li class="nav-item" style="margin-bottom: -2px;">
+                <a class="nav-link" id="video-tab" data-bs-toggle="tab" href="#odoo_view_tab5" role="tab" style="color: #000000; font-weight: 800; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #FEF08A; border: 2px solid #000000; text-decoration: none; display: block;">
+                    🎥 Live Video Walkthrough & Demo
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <!-- ============================================================
-    FOOTER
-    ============================================================ -->
-    <hr/>
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size:0.9rem; color: #64748b;">
-        <div>
-            <strong>Author:</strong>Wazirz<br/>
-<!--            <strong>Website:</strong> <a href="#">abcgio.com</a>-->
-        </div>
-        <div>
-            <strong>License:</strong> LGPL-3<br/>
-            <strong>Version:</strong> 17.0.1.0.0
-        </div>
-        <div>
-            <strong>Support:</strong> <a href="#">wazirfreelancer@gmail.com</a><br/>
-<!--            <strong>Docs:</strong> <a href="#">Documentation Link</a>-->
-        </div>
-    </div>
-    <div class="footer-note">
-        © 2026 Employee Activity Tracker &amp; Monitor. All rights reserved.
-    </div>
+    <!-- Tab Contents -->
+    <div class="card-body tab-content text-center p-0" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: none; padding: 32px 16px;">
 
-</div>
-<!-- End container -->
+        <!-- TAB 1: ALL SCREENSHOTS -->
+        <div class="tab-pane fade active show" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-4">
+
+                <!-- Screen 1: CEO Dashboard -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📊 Screenshot 1: Live CEO Dashboard
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Real-time dashboard showing active/idle/offline user counters, activity breakdown by type, module usage chart, security alerts, and top active users.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s1.png" alt="CEO Dashboard" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 2: Session Log -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🕒 Screenshot 2: Session Log
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete session log with login/logout timestamps, IP address, browser, OS, device type, session duration, and idle status.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s2.png" alt="Session Log" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 3: Field Change History -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🔎 Screenshot 3: Field Change History
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Detailed field-level change tracking showing old value → new value for every field update on every record. Perfect for audit and compliance.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s3.png" alt="Field Change History" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 4: Activity Log -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📝 Screenshot 4: Activity Log
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete activity audit log with all CRUD operations, button clicks, menu access, and user actions across every model.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s4.png" alt="Activity Log" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 5: User Timeline -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                👤 Screenshot 5: User Timeline
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete chronological activity history for any user. See every action, session, and field change in one unified timeline.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s5.png" alt="User Timeline" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 6: Configuration Panel -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                ⚙️ Screenshot 6: Configuration Panel
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Single settings panel to exclude models, set idle thresholds, define retention policies, and manage all tracking options.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="s6.png" alt="Configuration Panel" />
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAILED FUNCTIONAL WORKFLOWS -->
+        <div class="tab-pane fade" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Detailed Operational Workflows & System Architecture
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 16px;">
+                                🕒 Session Lifecycle Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Login Event:</strong> User logs in → Session record created with IP, user agent.</li>
+                                <li><strong>Activity Tracking:</strong> All user actions (CRUD, button clicks) logged during session.</li>
+                                <li><strong>Idle Detection:</strong> After configured idle threshold, status changes to Idle.</li>
+                                <li><strong>Logout Event:</strong> User logs out → Session ends with total duration.</li>
+                                <li><strong>Force Logout:</strong> Admin can terminate any active session.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #2563EB; margin-bottom: 16px;">
+                                📝 Activity Logging Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>User Action:</strong> User performs any operation (create/write/delete).</li>
+                                <li><strong>ORM Hook:</strong> System intercepts the operation and captures context.</li>
+                                <li><strong>Field Tracking:</strong> If write, captures old and new values for each field.</li>
+                                <li><strong>Log Creation:</strong> Activity log entry created with all details.</li>
+                                <li><strong>Async Insertion:</strong> Logs are inserted asynchronously for performance.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #D97706; margin-bottom: 16px;">
+                                🛡️ Security Alert Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Monitoring:</strong> System continuously monitors for suspicious events.</li>
+                                <li><strong>Detection:</strong> Failed logins, brute-force attempts, developer mode toggles.</li>
+                                <li><strong>Alert Creation:</strong> Security alert record created with severity level.</li>
+                                <li><strong>Notification:</strong> Admin notified via email or in-app notification.</li>
+                                <li><strong>Dashboard Display:</strong> Alerts displayed on CEO dashboard.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #7E22CE; margin-bottom: 16px;">
+                                📬 Email Reporting Workflow
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Schedule:</strong> Cron jobs run daily and weekly (Monday).</li>
+                                <li><strong>Data Collection:</strong> Gather activity stats, session data, alerts.</li>
+                                <li><strong>Report Generation:</strong> Create rich HTML email with charts and summaries.</li>
+                                <li><strong>Delivery:</strong> Email sent to configured recipients.</li>
+                                <li><strong>Logging:</strong> Report delivery logged for audit.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BACKEND & CONFIGURATION -->
+        <div class="tab-pane fade" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Enterprise Backend Configuration & Access Rights
+                </h2>
+                <div class="p-4 shadow-sm border mb-4" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Granular Security Groups Matrix
+                    </h3>
+                    <p style="font-size: 15px; color: #475569; line-height: 1.8;">
+                        The module defines 3 distinct security access groups inside Odoo 17 User Settings. Each role strictly controls what the logged-in user can view, create, edit, or export:
+                    </p>
+                    <table class="table border" style="width: 100%; margin-top: 16px; font-size: 15px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #F1F5F9; color: #0F172A; text-align: left;">
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Security Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Intended Staff Role</th>
+                                <th style="padding: 12px; border: 1px solid #CBD5E1;">Permissions & Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0f172a;">Activity User</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">All Employees</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">View own activity logs and session history.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0D9488;">Activity Manager</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Team Leads / Managers</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">View team activity, dashboard, and reports.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #701A75;">Activity Administrator</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">System Admins / Security Officers</td>
+                                <td style="padding: 12px; border: 1px solid #CBD5E1;">Complete administrative control over all logs, configuration, force logout, and user management.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        System Configuration Parameters
+                    </h3>
+                    <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                        <li><strong>Idle Threshold:</strong> Set idle timeout in minutes (default: 15).</li>
+                        <li><strong>Log Retention Days:</strong> Configure how long logs are kept (default: 365).</li>
+                        <li><strong>Excluded Models:</strong> List of models to exclude from tracking.</li>
+                        <li><strong>Report Recipients:</strong> Email addresses for daily/weekly reports.</li>
+                        <li><strong>Enable Suspicious Activity Alerts:</strong> Toggle security monitoring.</li>
+                        <li><strong>Enable Force Logout:</strong> Allow administrators to terminate sessions.</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 shadow-sm border mt-4" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin-bottom: 16px;">
+                        Key Data Models
+                    </h3>
+                    <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                        <li><strong>activity.log:</strong> Main activity log with user, model, operation, and timestamp.</li>
+                        <li><strong>field.change:</strong> Field-level changes with old and new values.</li>
+                        <li><strong>user.session:</strong> Session details with login/logout, IP, user agent.</li>
+                        <li><strong>security.alert:</strong> Suspicious activity alerts with severity levels.</li>
+                        <li><strong>activity.config:</strong> System configuration for tracking options.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: INTEGRATIONS & API -->
+        <div class="tab-pane fade" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Integrations & External APIs
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 16px;">
+                                🔗 Odoo Native Integrations
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>Web (web):</strong> Session tracking, user agent parsing.</li>
+                                <li><strong>Mail (mail):</strong> Email report templates and sending.</li>
+                                <li><strong>HR (hr):</strong> Employee information for activity logs.</li>
+                                <li><strong>Base Automation:</strong> Automated cron jobs for cleanup and reporting.</li>
+                                <li><strong>Multi-Company:</strong> Full support for multi-company setups.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0284C7; margin-bottom: 16px;">
+                                📡 External Integrations
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #475569; padding-left: 20px;">
+                                <li><strong>IP Geolocation:</strong> Optional integration for location tracking.</li>
+                                <li><strong>Email Services:</strong> Send reports via SMTP (Odoo mail integration).</li>
+                                <li><strong>Log Export:</strong> Export logs to CSV/Excel for external analysis.</li>
+                                <li><strong>SIEM Integration:</strong> Export logs to external security systems.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #7E22CE; margin-bottom: 16px;">
+                                API Endpoints (REST)
+                            </h3>
+                            <ul style="font-size: 15px; line-height: 2; color: #333333; padding-left: 20px;">
+                                <li><strong>GET /api/activity/logs:</strong> Retrieve activity logs with filters.</li>
+                                <li><strong>GET /api/activity/sessions:</strong> Get active and historical sessions.</li>
+                                <li><strong>GET /api/activity/dashboard:</strong> Real-time dashboard data.</li>
+                                <li><strong>POST /api/activity/force-logout/{user_id}:</strong> Force logout a user.</li>
+                                <li><strong>GET /api/activity/reports/daily:</strong> Generate daily report.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: VIDEO WALKTHROUGH -->
+        <div class="tab-pane fade" id="odoo_view_tab5" role="tabpanel">
+            <div class="container px-4 text-center">
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 3px solid #000000; border-radius: 16px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #FEF08A; border-bottom: 3px solid #000000; color: #000000; padding: 24px;">
+                            <h3 style="font-size: 28px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🎥 Complete Employee Activity Tracker Video Walkthrough
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 10px 0 0; line-height: 1.6;">
+                                Interactive step-by-step video tour demonstrating Session Tracking, Activity Logging, Field Change History, CEO Dashboard, Security Alerts, and Email Reports.
+                            </p>
+                        </div>
+                        <div class="panel-body p-5" style="background: #FFFFFF;">
+                            <div class="mx-auto" style="max-width: 920px; border: 4px solid #000000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #0F172A;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; background: #0F172A;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1; width: 90%;">
+                                        <div style="color: #FFFFFF; font-size: 24px; font-weight: 800; margin-bottom: 16px;">
+                                            🎥 Employee Activity Tracker Video Walkthrough
+                                        </div>
+                                        <a href="https://yourwebsite.com/demo" target="_blank" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-size: 20px; font-weight: 800; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: inline-block;">
+                                            ▶️ Click Here to Play Video / Request Live Interactive Demo
+                                        </a>
+                                    </div>
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                                            title="Employee Activity Tracker Odoo Video Demo"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-5">
+                                <a href="https://yourwebsite.com/contact" target="_blank" class="px-5 py-3" style="background-color: #0f172a; border: 3px solid #1e293b; color: #FFFFFF; font-weight: 800; font-size: 20px; border-radius: 999px; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3); display: inline-flex; align-items: center;">
+                                    <strong style="color: #FFFFFF !important; font-size: 20px;">💬 Request Live 1-on-1 Video Demo with Our Team</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TECHNICAL SPECIFICATIONS ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            ⚙️ Technical Specifications
+        </h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Odoo Version</strong>
+                    <span style="font-size: 14px; color: #64748B;">17.0 (Community & Enterprise)</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Dependencies</strong>
+                    <span style="font-size: 14px; color: #64748B;">base, web, mail, hr, base_setup, base_automation</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Performance</strong>
+                    <span style="font-size: 14px; color: #64748B;">Batch inserts, asynchronous logging, configurable exclusions</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Multi-Company</strong>
+                    <span style="font-size: 14px; color: #64748B;">✅ Yes</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Data Retention</strong>
+                    <span style="font-size: 14px; color: #64748B;">Configurable (default: 365 days) with auto-cleanup</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">Security Groups</strong>
+                    <span style="font-size: 14px; color: #64748B;">3 Levels: User, Manager, Administrator</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== DETAILED FEATURE TABLE ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            📌 Detailed Feature List
+        </h2>
+        <div class="table-wrapper" style="overflow-x: auto;">
+            <table class="comparison-table" style="width: 100%; border-collapse: collapse; min-width: 500px; border-radius: 12px; overflow: hidden;">
+                <thead>
+                    <tr style="background: #0f172a; color: white; font-weight: 600;">
+                        <th style="padding: 14px 20px; border: 1px solid #dee2e6; text-align: left;">Feature</th>
+                        <th style="padding: 14px 20px; border: 1px solid #dee2e6; text-align: left;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border: 1px solid #dee2e6;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Session Tracking</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Login, logout, IP address, user agent, browser, OS, device type, session duration, idle detection.</td></tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Global ORM Tracking</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Automatically tracks create, write, and unlink on every model. Zero configuration required.</td></tr>
+                    <tr style="border: 1px solid #dee2e6;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Field Change History</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Captures old and new values for every field change. Perfect for audit and compliance.</td></tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Button & Workflow Tracking</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Logs every button click and workflow action (e.g., Confirm Order, Validate Invoice).</td></tr>
+                    <tr style="border: 1px solid #dee2e6;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Menu & View Access</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Records which menus, views (form, list, kanban), and reports users access.</td></tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Real-Time Dashboard</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Active/idle/offline counters, activity breakdown, module usage chart, security alerts, top users.</td></tr>
+                    <tr style="border: 1px solid #dee2e6;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>User Status & Timeline</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">See online status of users (green/yellow/gray) and a detailed timeline of their activities.</td></tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Security & Suspicious Activity</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Logs failed logins, password changes, group changes, developer mode. Alerts on brute-force attempts.</td></tr>
+                    <tr style="border: 1px solid #dee2e6;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Force Logout</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Administrators can forcefully terminate any active session from the session log or dashboard.</td></tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Automated Email Reports</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Daily and weekly summary reports sent directly to a designated email address.</td></tr>
+                    <tr style="border: 1px solid #dee2e6;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Data Retention & Cleanup</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Configurable log retention (default 365 days) with automated cron job cleanup.</td></tr>
+                    <tr style="border: 1px solid #dee2e6; background: #f8f9fa;"><td style="padding: 14px 20px; border: 1px solid #dee2e6;"><strong>Multi-Company Support</strong></td><td style="padding: 14px 20px; border: 1px solid #dee2e6;">Fully compatible with Odoo's multi-company setup.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WHY CHOOSE ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            💡 Why Choose This Module?
+        </h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a; height: 100%;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0;">🎯 For CEOs & Managers</h3>
+                    <ul style="font-size: 14px; line-height: 2; color: #475569; padding-left: 20px;">
+                        <li>Get real-time visibility into your team's activity.</li>
+                        <li>Identify productivity bottlenecks and top-performing users.</li>
+                        <li>Receive daily/weekly reports without logging in.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a; height: 100%;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0;">🔐 For Security & Compliance</h3>
+                    <ul style="font-size: 14px; line-height: 2; color: #475569; padding-left: 20px;">
+                        <li>Maintain a complete audit trail for ISO/GDPR compliance.</li>
+                        <li>Detect and respond to suspicious activity (failed logins, IP anomalies).</li>
+                        <li>Track who changed what, and when.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a; height: 100%;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0;">⚡ For System Administrators</h3>
+                    <ul style="font-size: 14px; line-height: 2; color: #475569; padding-left: 20px;">
+                        <li>Zero configuration — works out of the box with all modules.</li>
+                        <li>Lightweight and optimized for performance.</li>
+                        <li>Easily exclude high-traffic models to reduce noise.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a; height: 100%;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0;">👥 For HR & Team Leads</h3>
+                    <ul style="font-size: 14px; line-height: 2; color: #475569; padding-left: 20px;">
+                        <li>Understand user adoption of Odoo features.</li>
+                        <li>Identify training gaps based on module usage.</li>
+                        <li>Review individual employee activity timelines.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WHAT'S INCLUDED ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            📦 What's Included in Your Purchase?
+        </h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">📦 Full Source Code</strong>
+                    <span style="font-size: 14px; color: #64748B;">No obfuscation, open for customization.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">👥 Security Groups</strong>
+                    <span style="font-size: 14px; color: #64748B;">Pre-configured user, manager, and admin roles.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">📊 Dashboard & Reports</strong>
+                    <span style="font-size: 14px; color: #64748B;">Live dashboard and email reporting templates.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">⏰ Automated Cron Jobs</strong>
+                    <span style="font-size: 14px; color: #64748B;">Session cleanup, retention policy, suspicious activity checks.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">📖 Detailed Documentation</strong>
+                    <span style="font-size: 14px; color: #64748B;">Installation and configuration guide included.</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div style="background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f172a;">
+                    <strong style="color: #0F172A; display: block;">💬 3 Months Free Support</strong>
+                    <span style="font-size: 14px; color: #64748B;">Direct email/chat support from the developer.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<section class="oe_container my-5">
+    <div class="p-5 text-center" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #FFFFFF; border-radius: 16px; border: 3px solid #facc15;">
+        <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 16px; color: #FFFFFF;">
+            🚀 Ready to Track Every Action?
+        </h2>
+        <p style="font-size: 18px; margin-bottom: 16px;">Get the Employee Activity Tracker & Monitor module today and gain complete visibility into your Odoo system.</p>
+        <div style="font-size: 48px; font-weight: 900; margin: 16px 0; color: #facc15;">
+            $35 USD
+        </div>
+        <p style="margin: 12px 0;">✅ 3 months free support ✅ Full source code ✅ Lifetime updates</p>
+        <a href="#" class="btn" style="display: inline-block; background: #facc15; color: #0f172a; font-size: 18px; font-weight: 700; padding: 14px 40px; border-radius: 40px; text-decoration: none; margin-top: 16px; border: none; transition: background 0.3s ease, transform 0.2s ease;">
+            🛒 Buy Now on Odoo App Store →
+        </a>
+        <p style="margin-top: 18px; font-size: 14px; opacity: 0.8;">After purchase, you'll receive an instant download link and installation guide.</p>
+    </div>
+</section>
+
+<!-- ==================== SUPPORT ==================== -->
+<section class="oe_container my-5">
+    <div class="p-4 shadow-sm text-center" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0;">
+        <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">
+            📞 Need Help?
+        </h2>
+        <div style="background: #F8FAFC; border-radius: 12px; padding: 24px;">
+            <p style="font-size: 18px; margin-bottom: 8px;">Before purchase:</p>
+            <div style="font-size: 22px; font-weight: 600; color: #0f172a;">wazirfreelancer@gmail.com</div>
+            <p style="margin-top: 16px; font-size: 16px;">After purchase: Use the Odoo App Store ticket system or email us directly.</p>
+            <p style="font-size: 15px; color: #4a5568;">Average response time: <strong>12-24 hours</strong> (Sunday-Thursday).</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5">
+    <div class="p-5 shadow-sm text-center" style="background-color: #F8FAFC; color: #000000; border-radius: 16px; border: 3px solid #CBD5E1;">
+        <h2 style="font-size: 36px; font-weight: 800; margin-bottom: 14px; color: #000000;">
+            Looking for an experienced Odoo Developer?
+        </h2>
+        <p style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 auto 24px;">
+            We specialize in:
+        </p>
+
+        <div class="mx-auto text-left" style="max-width: 780px; background-color: #FFFFFF; border: 2px solid #E2E8F0; border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div class="row" style="text-align: left; font-size: 19px; font-weight: 700; color: #000000; line-height: 2.2;">
+                <div class="col-md-6">
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Enterprise Odoo Implementation</div>
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Custom Odoo Module Development</div>
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Activity Tracking & Security Solutions</div>
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Third-Party API Integrations</div>
+                </div>
+                <div class="col-md-6">
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Odoo Migration & Upgrades</div>
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Performance Optimization</div>
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Technical Support & Maintenance</div>
+                    <div><span style="color: #0f172a; margin-right: 10px;">✔</span>Odoo Training & Consultation</div>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 22px; font-weight: 800; color: #000000; margin: 0 auto 28px;">
+            Get in touch today for fast and professional Odoo solutions.
+        </p>
+
+        <div class="d-flex justify-content-center flex-wrap" style="gap: 20px;">
+            <a href="https://wa.me/+966565815529" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
+            </a>
+            <a href="mailto:wazirfreelancer@gmail.com" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 Email: wazirfreelancer@gmail.com</strong>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Bootstrap JS for Tabs -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

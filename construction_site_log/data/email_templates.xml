@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Toolbox Talk Summary Email Template -->
+        <record id="email_template_toolbox_talk_summary" model="mail.template">
+            <field name="name">Toolbox Talk Summary</field>
+            <field name="model_id" ref="model_construction_toolbox_talk"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="email_to">${','.join(object.attendee_ids.mapped('user_id.partner_id.email'))}</field>
+            <field name="subject">Toolbox Talk Summary - ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #4CAF50;">Toolbox Talk Summary</h2>
+
+                    <div style="background-color: #f5f5f5; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                        <p><strong>Subject:</strong> ${object.name}</p>
+                        <p><strong>Date:</strong> ${object.date}</p>
+                        <p><strong>Presenter:</strong> ${object.presenter_id.name}</p>
+                        <p><strong>Duration:</strong> ${object.duration_hours} hours</p>
+                        <p><strong>Attendees:</strong> ${object.attendee_count}</p>
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <h3 style="color: #333;">Topic</h3>
+                        <p>${object.topic}</p>
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <h3 style="color: #333;">Key Points</h3>
+                        <p>${object.key_points or 'No key points recorded.'}</p>
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <h3 style="color: #333;">Feedback</h3>
+                        <p>${object.feedback or 'No feedback recorded.'}</p>
+                    </div>
+
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666;">
+                        <p>This is an automated notification from the Construction Site Log system.</p>
+                        <p>View full details: <a href="/web#id=${object.id}&amp;model=construction.toolbox.talk">Click here</a></p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- Daily Log Submitted Email Template -->
+        <record id="email_template_daily_log_submitted" model="mail.template">
+            <field name="name">Daily Log Submitted</field>
+            <field name="model_id" ref="model_construction_site_daily_log"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="email_to">${object.project_id.user_id.partner_id.email or ''}</field>
+            <field name="subject">Daily Log Submitted - ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #4CAF50;">Daily Log Submitted</h2>
+
+                    <div style="background-color: #e3f2fd; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                        <p><strong>Reference:</strong> ${object.name}</p>
+                        <p><strong>Project:</strong> ${object.project_id.name}</p>
+                        <p><strong>Date:</strong> ${object.date}</p>
+                        <p><strong>Supervisor:</strong> ${object.site_supervisor_id.name}</p>
+                        <p><strong>Total Workers:</strong> ${object.total_workers}</p>
+                        <p><strong>Risk Level:</strong> ${object.risk_level}</p>
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <p>The daily log has been submitted for your approval.</p>
+                        <p><a href="/web#id=${object.id}&amp;model=construction.site.daily.log" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Review Log</a></p>
+                    </div>
+
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666;">
+                        <p>This is an automated notification from the Construction Site Log system.</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- Daily Log Approved Email Template -->
+        <record id="email_template_daily_log_approved" model="mail.template">
+            <field name="name">Daily Log Approved</field>
+            <field name="model_id" ref="model_construction_site_daily_log"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="email_to">${object.site_supervisor_id.user_id.partner_id.email or ''}</field>
+            <field name="subject">Daily Log Approved - ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #4CAF50;">Daily Log Approved</h2>
+
+                    <div style="background-color: #e8f5e9; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                        <p><strong>Reference:</strong> ${object.name}</p>
+                        <p><strong>Project:</strong> ${object.project_id.name}</p>
+                        <p><strong>Date:</strong> ${object.date}</p>
+                        <p><strong>Approved By:</strong> ${object.approval_user_id.name or 'System'}</p>
+                        <p><strong>Approval Date:</strong> ${object.approval_date}</p>
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <p>Your daily log has been approved.</p>
+                        <p><a href="/web#id=${object.id}&amp;model=construction.site.daily.log" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">View Log</a></p>
+                    </div>
+
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666;">
+                        <p>This is an automated notification from the Construction Site Log system.</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

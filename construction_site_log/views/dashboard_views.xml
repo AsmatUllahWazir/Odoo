@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ConstructionDashboard" name="Construction Dashboard Template">
+        <div class="construction_dashboard">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="mb-4">
+                            <i class="fa fa-dashboard"/> Construction Dashboard
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Total Logs</h6>
+                                        <h2 class="mb-0">0</h2>
+                                    </div>
+                                    <i class="fa fa-clipboard fa-2x"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Pending Approval</h6>
+                                        <h2 class="mb-0">0</h2>
+                                    </div>
+                                    <i class="fa fa-clock-o fa-2x"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-white bg-danger mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Open Incidents</h6>
+                                        <h2 class="mb-0">0</h2>
+                                    </div>
+                                    <i class="fa fa-warning fa-2x"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-white bg-info mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Safety Observations</h6>
+                                        <h2 class="mb-0">0</h2>
+                                    </div>
+                                    <i class="fa fa-exclamation-triangle fa-2x"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Dashboard Action -->
+    <record id="action_construction_dashboard" model="ir.actions.act_window">
+        <field name="name">Construction Dashboard</field>
+        <field name="res_model">construction.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Welcome to your Construction Dashboard
+            </p>
+            <p>
+                View real-time statistics, safety metrics, and project progress at a glance.
+            </p>
+        </field>
+    </record>
+
+    <!-- Dashboard Form View -->
+    <record id="view_construction_dashboard_form" model="ir.ui.view">
+        <field name="name">construction.dashboard.form</field>
+        <field name="model">construction.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Construction Dashboard">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" options="{'no_create': True}"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <button name="action_refresh" string="Refresh" type="object" class="btn-primary"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Overview">
+                            <group string="Statistics">
+                                <group>
+                                    <field name="total_logs" widget="integer"/>
+                                    <field name="submitted_logs" widget="integer"/>
+                                    <field name="approved_logs" widget="integer"/>
+                                    <field name="completion_rate" widget="progressbar"/>
+                                </group>
+                                <group>
+                                    <field name="total_workers" widget="integer"/>
+                                    <field name="total_material_cost" widget="monetary"/>
+                                    <field name="safety_score" widget="progressbar"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Safety">
+                            <group string="Safety Statistics">
+                                <group>
+                                    <field name="total_observations" widget="integer"/>
+                                    <field name="open_observations" widget="integer"/>
+                                    <field name="critical_observations" widget="integer"/>
+                                </group>
+                                <group>
+                                    <field name="total_incidents" widget="integer"/>
+                                    <field name="open_incidents" widget="integer"/>
+                                    <field name="total_toolbox_talks" widget="integer"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Weekly Report Action -->
+    <record id="action_construction_weekly_report" model="ir.actions.act_window">
+        <field name="name">Weekly Reports</field>
+        <field name="res_model">construction.weekly.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Monthly Report Action -->
+    <record id="action_construction_monthly_report" model="ir.actions.act_window">
+        <field name="name">Monthly Reports</field>
+        <field name="res_model">construction.monthly.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Safety Report Action -->
+    <record id="action_construction_safety_report" model="ir.actions.act_window">
+        <field name="name">Safety Reports</field>
+        <field name="res_model">construction.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type':'safety'}</field>
+    </record>
+
+    <!-- Weekly Report Tree View -->
+    <record id="view_construction_weekly_report_tree" model="ir.ui.view">
+        <field name="name">construction.weekly.report.tree</field>
+        <field name="model">construction.weekly.report</field>
+        <field name="arch" type="xml">
+            <tree string="Weekly Reports">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="total_logs" sum="Total"/>
+                <field name="safety_score" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Weekly Report Form View -->
+    <record id="view_construction_weekly_report_form" model="ir.ui.view">
+        <field name="name">construction.weekly.report.form</field>
+        <field name="model">construction.weekly.report</field>
+        <field name="arch" type="xml">
+            <form string="Weekly Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="total_logs" readonly="1"/>
+                            <field name="safety_score" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Details">
+                            <group string="Statistics">
+                                <group>
+                                    <field name="total_observations" readonly="1"/>
+                                    <field name="total_incidents" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="total_toolbox_talks" readonly="1"/>
+                                    <field name="average_workers" readonly="1"/>
+                                    <field name="total_material_cost" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Summary">
+                            <field name="summary" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Monthly Report Tree View -->
+    <record id="view_construction_monthly_report_tree" model="ir.ui.view">
+        <field name="name">construction.monthly.report.tree</field>
+        <field name="model">construction.monthly.report</field>
+        <field name="arch" type="xml">
+            <tree string="Monthly Reports">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="month"/>
+                <field name="year"/>
+                <field name="total_logs" sum="Total"/>
+                <field name="safety_score" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Monthly Report Form View -->
+    <record id="view_construction_monthly_report_form" model="ir.ui.view">
+        <field name="name">construction.monthly.report.form</field>
+        <field name="model">construction.monthly.report</field>
+        <field name="arch" type="xml">
+            <form string="Monthly Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="month"/>
+                            <field name="year"/>
+                        </group>
+                        <group>
+                            <field name="total_logs" readonly="1"/>
+                            <field name="safety_score" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Details">
+                            <group string="Statistics">
+                                <group>
+                                    <field name="total_observations" readonly="1"/>
+                                    <field name="total_incidents" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="total_toolbox_talks" readonly="1"/>
+                                    <field name="average_workers" readonly="1"/>
+                                    <field name="total_material_cost" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Summary">
+                            <field name="summary" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

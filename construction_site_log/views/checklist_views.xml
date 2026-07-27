@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Checklist Template Action -->
+    <record id="action_construction_safety_checklist_template" model="ir.actions.act_window">
+        <field name="name">Checklist Templates</field>
+        <field name="res_model">construction.safety.checklist.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a checklist template
+            </p>
+            <p>
+                Create reusable safety checklists for different site activities.
+            </p>
+        </field>
+    </record>
+
+    <!-- Checklist Execution Action -->
+    <record id="action_construction_safety_checklist_execution" model="ir.actions.act_window">
+        <field name="name">Checklist Executions</field>
+        <field name="res_model">construction.safety.checklist.execution</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Execute a checklist
+            </p>
+            <p>
+                Perform safety checklists on site and record results.
+            </p>
+        </field>
+    </record>
+
+    <!-- Template Tree View -->
+    <record id="view_construction_safety_checklist_template_tree" model="ir.ui.view">
+        <field name="name">construction.safety.checklist.template.tree</field>
+        <field name="model">construction.safety.checklist.template</field>
+        <field name="arch" type="xml">
+            <tree string="Checklist Templates">
+                <field name="name"/>
+                <field name="category"/>
+                <field name="check_count" sum="Total Items"/>
+                <field name="active"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Template Form View -->
+    <record id="view_construction_safety_checklist_template_form" model="ir.ui.view">
+        <field name="name">construction.safety.checklist.template.form</field>
+        <field name="model">construction.safety.checklist.template</field>
+        <field name="arch" type="xml">
+            <form string="Checklist Template">
+                <header>
+                    <button name="action_copy_template" string="Duplicate Template" type="object" class="btn-secondary"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Checklist Name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="category"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="check_count" readonly="1"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" placeholder="Description of the checklist..."/>
+                        </page>
+
+                        <page string="Checklist Items">
+                            <field name="line_ids">
+                                <tree string="Checklist Items" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="description" placeholder="Item description..."/>
+                                    <field name="allowed_response"/>
+                                    <field name="requires_photo"/>
+                                    <field name="required"/>
+                                    <field name="weight"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Execution Tree View -->
+    <record id="view_construction_safety_checklist_execution_tree" model="ir.ui.view">
+        <field name="name">construction.safety.checklist.execution.tree</field>
+        <field name="model">construction.safety.checklist.execution</field>
+        <field name="arch" type="xml">
+            <tree string="Checklist Executions"
+                  decoration-success="result=='pass'"
+                  decoration-danger="result=='fail'"
+                  decoration-warning="result=='partial'">
+                <field name="name"/>
+                <field name="template_id"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="executed_by_id"/>
+                <field name="status" widget="label"/>
+                <field name="result" widget="label"/>
+                <field name="pass_rate" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Execution Form View -->
+    <record id="view_construction_safety_checklist_execution_form" model="ir.ui.view">
+        <field name="name">construction.safety.checklist.execution.form</field>
+        <field name="model">construction.safety.checklist.execution</field>
+        <field name="arch" type="xml">
+            <form string="Checklist Execution">
+                <header>
+                    <button name="action_start" string="Start" type="object" invisible="status != 'draft'" class="btn-primary"/>
+                    <button name="action_complete" string="Complete" type="object" invisible="status != 'in_progress'" class="btn-success"/>
+                    <button name="action_view_report" string="Print Report" type="object" invisible="status != 'completed'" class="btn-info"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Checklist Reference"/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="Passed" background_color="success" invisible="result != 'pass'"/>
+                        <widget name="web_ribbon" title="Failed" background_color="danger" invisible="result != 'fail'"/>
+                        <widget name="web_ribbon" title="Partial Pass" background_color="warning" invisible="result != 'partial'"/>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="template_id" readonly="status != 'draft'"/>
+                            <field name="project_id" readonly="status != 'draft'"/>
+                            <field name="daily_log_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="executed_by_id" readonly="status != 'draft'"/>
+                            <field name="status" widget="label"/>
+                            <field name="result" widget="label"/>
+                            <field name="pass_rate" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Checklist Items">
+                            <field name="execution_line_ids" readonly="status == 'completed'">
+                                <tree string="Checklist Items" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="description"/>
+                                    <field name="allowed_response" invisible="1"/>
+                                    <field name="required"/>
+                                    <field name="response_yes_no" invisible="allowed_response != 'yes_no'"/>
+                                    <field name="response_pass_fail" invisible="allowed_response != 'pass_fail'"/>
+                                    <field name="response_text" invisible="allowed_response != 'text'"/>
+<!--                                    <field name="photo_attachment_ids" widget="many2many_kanban" invisible="not requires_photo"/>-->
+                                    <field name="photo_attachment_ids" widget="many2many_kanban"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Summary">
+                            <group string="Results">
+                                <field name="pass_count" readonly="1"/>
+                                <field name="fail_count" readonly="1"/>
+                                <field name="na_count" readonly="1"/>
+                            </group>
+                            <group string="Notes">
+                                <field name="notes" placeholder="Additional notes..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Execution Search View -->
+    <record id="view_construction_safety_checklist_execution_search" model="ir.ui.view">
+        <field name="name">construction.safety.checklist.execution.search</field>
+        <field name="model">construction.safety.checklist.execution</field>
+        <field name="arch" type="xml">
+            <search string="Search Checklist Executions">
+                <field name="name"/>
+                <field name="template_id"/>
+                <field name="project_id"/>
+                <field name="status"/>
+                <field name="result"/>
+                <filter name="completed" string="Completed" domain="[('status','=','completed')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('status','=','in_progress')]"/>
+                <filter name="pass" string="Passed" domain="[('result','=','pass')]"/>
+                <filter name="fail" string="Failed" domain="[('result','=','fail')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_template" string="Template" context="{'group_by':'template_id'}"/>
+                    <filter name="group_by_project" string="Project" context="{'group_by':'project_id'}"/>
+                    <filter name="group_by_status" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="group_by_result" string="Result" context="{'group_by':'result'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

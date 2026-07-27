@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_construction_toolbox_talk" model="ir.actions.act_window">
+        <field name="name">Toolbox Talks</field>
+        <field name="res_model">construction.toolbox.talk</field>
+        <field name="view_mode">tree,form,kanban,calendar</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Conduct a toolbox talk
+            </p>
+            <p>
+                Record safety meetings, training sessions, and toolbox talks.
+            </p>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_construction_toolbox_talk_tree" model="ir.ui.view">
+        <field name="name">construction.toolbox.talk.tree</field>
+        <field name="model">construction.toolbox.talk</field>
+        <field name="arch" type="xml">
+            <tree string="Toolbox Talks" decoration-success="state=='completed'" decoration-info="state=='in_progress'" decoration-warning="state=='planned'" decoration-danger="state=='cancelled'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="topic"/>
+                <field name="presenter_id"/>
+                <field name="attendee_count" sum="Total Attendees"/>
+                <field name="duration_hours" sum="Total Hours"/>
+                <field name="state" widget="label"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_toolbox_talk_form" model="ir.ui.view">
+        <field name="name">construction.toolbox.talk.form</field>
+        <field name="model">construction.toolbox.talk</field>
+        <field name="arch" type="xml">
+            <form string="Toolbox Talk">
+                <header>
+                    <button name="action_start" string="Start" type="object" invisible="state != 'planned'" class="btn-primary"/>
+                    <button name="action_complete" string="Mark Complete" type="object" invisible="state not in ['planned','in_progress']" class="btn-success"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'" class="btn-danger"/>
+                    <button name="action_add_attendees" string="Add Attendees" type="object" invisible="state == 'completed'" class="btn-secondary"/>
+                    <button name="action_send_summary" string="Send Summary" type="object" invisible="state != 'completed'" class="btn-info"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Toolbox Talk Subject"/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="Completed" background_color="success" invisible="state != 'completed'"/>
+                        <widget name="web_ribbon" title="In Progress" background_color="warning" invisible="state != 'in_progress'"/>
+                        <widget name="web_ribbon" title="Cancelled" background_color="danger" invisible="state != 'cancelled'"/>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" options="{'no_create': True}"/>
+                            <field name="daily_log_id"/>
+                            <field name="date"/>
+                            <field name="duration_hours"/>
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="presenter_id"/>
+                            <field name="attendee_ids" widget="many2many_tags"/>
+                            <field name="attendee_count" readonly="1"/>
+                            <field name="signatory_count" readonly="1"/>
+                            <field name="state" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Topic &amp; Content">
+                            <group>
+                                <field name="topic" placeholder="Topic of the toolbox talk..." nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="key_points" placeholder="Key points discussed..."/>
+                                <field name="material_used" placeholder="Material used..."/>
+                            </group>
+                        </page>
+
+                        <page string="Signatories">
+                            <field name="signatories" placeholder="List of attendees and signatures..."/>
+                        </page>
+
+                        <page string="Feedback">
+                            <field name="feedback" placeholder="Feedback from attendees..."/>
+                        </page>
+
+                        <page string="Photos &amp; Documents">
+                            <group string="Photos">
+                                <field name="photo_attachment_ids" widget="many2many_kanban"/>
+                            </group>
+                            <group string="Documents">
+                                <field name="document_attachment_ids" widget="many2many_kanban"/>
+                            </group>
+                        </page>
+
+                        <page string="Notes">
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_toolbox_talk_search" model="ir.ui.view">
+        <field name="name">construction.toolbox.talk.search</field>
+        <field name="model">construction.toolbox.talk</field>
+        <field name="arch" type="xml">
+            <search string="Search Toolbox Talks">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="topic"/>
+                <field name="presenter_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <filter name="planned" string="Planned" domain="[('state','=','planned')]"/>
+                <filter name="completed" string="Completed" domain="[('state','=','completed')]"/>
+                <filter name="my_talks" string="My Talks" domain="[('presenter_id.user_id','=',uid)]"/>
+                <filter name="this_week" string="This Week" domain="[('date','&gt;=',(datetime.datetime.now() - datetime.timedelta(days=7)).strftime('%Y-%m-%d')),('date','&lt;=',datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_project" string="Project" context="{'group_by':'project_id'}"/>
+                    <filter name="group_by_date" string="Date" context="{'group_by':'date'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_by_presenter" string="Presenter" context="{'group_by':'presenter_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_construction_toolbox_talk_kanban" model="ir.ui.view">
+        <field name="name">construction.toolbox.talk.kanban</field>
+        <field name="model">construction.toolbox.talk</field>
+        <field name="arch" type="xml">
+            <kanban string="Toolbox Talks" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="topic"/>
+                <field name="presenter_id"/>
+                <field name="attendee_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <i class="fa fa-users fa-2x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <field name="date"/>
+                                </div>
+                                <div>
+                                    <field name="topic"/>
+                                </div>
+                                <div>
+                                    <field name="presenter_id"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-user"/> <field name="attendee_count"/> Attendees
+                                </div>
+                                <field name="state" widget="label" class="o_label"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_construction_toolbox_talk_calendar" model="ir.ui.view">
+        <field name="name">construction.toolbox.talk.calendar</field>
+        <field name="model">construction.toolbox.talk</field>
+        <field name="arch" type="xml">
+            <calendar string="Toolbox Talks" date_start="date" color="project_id" mode="month">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="presenter_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+</odoo>

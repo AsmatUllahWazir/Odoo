@@ -1,0 +1,39 @@
+/* Construction Portal Styles */
+.construction-dashboard {
+    .stat-card {
+        border-radius: 8px;
+        padding: 20px;
+        color: white;
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    }
+
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .bg-success-gradient {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .bg-warning-gradient {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .bg-danger-gradient {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .bg-info-gradient {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+}

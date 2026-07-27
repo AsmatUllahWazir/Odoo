@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_construction_site_daily_log" model="ir.actions.act_window">
+        <field name="name">Daily Logs</field>
+        <field name="res_model">construction.site.daily.log</field>
+        <field name="view_mode">tree,form,kanban,calendar,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first daily log
+            </p>
+            <p>
+                Record daily site activities, weather, manpower, materials, and safety observations.
+            </p>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_construction_site_daily_log_tree" model="ir.ui.view">
+        <field name="name">construction.site.daily.log.tree</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="arch" type="xml">
+            <tree string="Daily Logs"
+                  decoration-success="state in ['approved','locked']"
+                  decoration-info="state=='submitted'"
+                  decoration-warning="state=='draft'"
+                  decoration-danger="state=='locked' and risk_level in ['high','critical']">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="site_supervisor_id"/>
+                <field name="total_workers" sum="Total Workers"/>
+                <field name="risk_level" widget="label"/>
+                <field name="state" widget="label"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_site_daily_log_form" model="ir.ui.view">
+        <field name="name">construction.site.daily.log.form</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="arch" type="xml">
+            <form string="Daily Log">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve" string="Approve" type="object" invisible="state != 'submitted'" class="btn-success"/>
+                    <button name="action_lock" string="Lock" type="object" invisible="state != 'approved'" class="btn-warning"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object" invisible="state in ['submitted','approved']" class="btn-secondary"/>
+                    <button name="action_generate_report" string="Print Report" type="object" invisible="state not in ['approved','locked']" class="btn-info"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved" statusbar_colors='{"locked":"danger"}'/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Log Reference"/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_safety_observations" string="Safety Observations" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
+                            <div class="o_stat_info">
+                                <field name="safety_observation_count" widget="integer" class="o_stat_value"/>
+                                <span class="o_stat_text">Observations</span>
+                            </div>
+                        </button>
+                        <button name="action_view_incident_reports" string="Incident Reports" type="object" class="oe_stat_button" icon="fa-warning">
+                            <div class="o_stat_info">
+                                <field name="incident_report_count" widget="integer" class="o_stat_value"/>
+                                <span class="o_stat_text">Incidents</span>
+                            </div>
+                        </button>
+                        <button name="action_view_toolbox_talks" string="Toolbox Talks" type="object" class="oe_stat_button" icon="fa-users">
+                            <div class="o_stat_info">
+                                <field name="toolbox_talk_count" widget="integer" class="o_stat_value"/>
+                                <span class="o_stat_text">Toolbox Talks</span>
+                            </div>
+                        </button>
+                        <button name="action_view_checklists" string="Checklists" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                            <div class="o_stat_info">
+                                <field name="checklist_count" widget="integer" class="o_stat_value"/>
+                                <span class="o_stat_text">Checklists</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" options="{'no_create': True}" readonly="state in ['approved','locked']"/>
+                            <field name="date" readonly="state in ['approved','locked']"/>
+                            <field name="site_supervisor_id" readonly="state in ['approved','locked']"/>
+                            <field name="total_workers" readonly="1"/>
+                            <field name="risk_level" widget="label" invisible="state == 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="weather_condition" readonly="state in ['approved','locked']"/>
+                            <field name="temperature" readonly="state in ['approved','locked']"/>
+                            <field name="wind_speed" readonly="state in ['approved','locked']"/>
+                            <field name="rainfall" readonly="state in ['approved','locked']"/>
+                            <field name="weather_notes" placeholder="Weather notes..." readonly="state in ['approved','locked']"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="total_planned_hours" readonly="1"/>
+                            <field name="total_actual_hours" readonly="1"/>
+                            <field name="total_material_value" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="create_timesheet" readonly="state in ['approved','locked']"/>
+                            <field name="timesheet_created" readonly="1" invisible="not timesheet_created"/>
+                            <field name="create_inventory_move" readonly="state in ['approved','locked']"/>
+                            <field name="inventory_moves_created" readonly="1" invisible="not inventory_moves_created"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Manpower">
+                            <field name="manpower_line_ids" readonly="state in ['approved','locked']">
+                                <tree string="Manpower" editable="bottom">
+                                    <field name="category"/>
+                                    <field name="planned_workers"/>
+                                    <field name="actual_workers"/>
+                                    <field name="variance_workers" sum="Total"/>
+                                    <field name="planned_hours"/>
+                                    <field name="actual_hours"/>
+                                    <field name="variance_hours" sum="Total"/>
+                                    <field name="utilization_rate" widget="progressbar"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Materials">
+                            <field name="material_line_ids" readonly="state in ['approved','locked']">
+                                <tree string="Materials" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity_used"/>
+                                    <field name="unit"/>
+                                    <field name="source_location_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="total_value" sum="Total"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Work Progress">
+                            <field name="progress_line_ids" readonly="state in ['approved','locked']">
+                                <tree string="Work Progress" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="activity_description"/>
+                                    <field name="percentage_complete" widget="progressbar"/>
+                                    <field name="status" widget="label"/>
+                                    <field name="quantity_done"/>
+                                    <field name="quantity_unit"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Safety">
+                            <group>
+                                <group string="Safety Observations">
+                                    <field name="safety_observation_ids" readonly="1" nolabel="1">
+                                        <tree string="Safety Observations"
+                                              decoration-danger="severity in ['high','critical']"
+                                              decoration-warning="severity=='medium'"
+                                              decoration-success="status=='closed'">
+                                            <field name="name"/>
+                                            <field name="severity" widget="label"/>
+                                            <field name="location"/>
+                                            <field name="status" widget="label"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group string="Incident Reports">
+                                    <field name="incident_report_ids" readonly="1" nolabel="1">
+                                        <tree string="Incident Reports"
+                                              decoration-danger="severity in ['major','fatal']"
+                                              decoration-warning="severity=='moderate'"
+                                              decoration-success="status in ['resolved','closed']">
+                                            <field name="name"/>
+                                            <field name="incident_type"/>
+                                            <field name="severity" widget="label"/>
+                                            <field name="status" widget="label"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Toolbox Talks">
+                            <field name="toolbox_talk_ids" readonly="state in ['approved','locked']">
+                                <tree string="Toolbox Talks">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="topic"/>
+                                    <field name="attendee_count"/>
+                                    <field name="state" widget="label"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Photos &amp; Documents">
+                            <group string="Photos">
+                                <field name="photo_attachment_ids" widget="many2many_kanban" readonly="state in ['approved','locked']"/>
+                            </group>
+                            <group string="Documents">
+                                <field name="document_attachment_ids" widget="many2many_kanban" readonly="state in ['approved','locked']"/>
+                            </group>
+                        </page>
+
+                        <page string="Notes &amp; Details">
+                            <group>
+                                <field name="notes" placeholder="Additional notes..." readonly="state in ['approved','locked']"/>
+                            </group>
+                            <group string="Timeline">
+                                <field name="create_date" readonly="1"/>
+                                <field name="submitted_date" readonly="1" invisible="state == 'draft'"/>
+                                <field name="approval_date" readonly="1" invisible="state not in ['approved','locked']"/>
+                                <field name="locked_date" readonly="1" invisible="state != 'locked'"/>
+                                <field name="days_since_created" readonly="1"/>
+                                <field name="approval_days" readonly="1" invisible="state not in ['approved','locked']"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_site_daily_log_search" model="ir.ui.view">
+        <field name="name">construction.site.daily.log.search</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="arch" type="xml">
+            <search string="Search Daily Logs">
+                <field name="name" string="Log Reference"/>
+                <field name="project_id"/>
+                <field name="site_supervisor_id"/>
+                <field name="state"/>
+                <field name="date"/>
+                <field name="risk_level"/>
+                <field name="total_workers"/>
+                <filter name="my_logs" string="My Logs" domain="[('site_supervisor_id.user_id','=',uid)]"/>
+                <filter name="today" string="Today" domain="[('date','=',context_today)]"/>
+                <filter name="this_week" string="This Week" domain="[('date','&gt;=',(datetime.datetime.now() - datetime.timedelta(days=7)).strftime('%Y-%m-%d')),('date','&lt;=',datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                <filter name="pending_approval" string="Pending Approval" domain="[('state','=','submitted')]"/>
+                <filter name="high_risk" string="High Risk" domain="[('risk_level','in',['high','critical'])]"/>
+                <filter name="overdue" string="Overdue" domain="[('is_overdue','=',True)]"/>
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                <filter name="locked" string="Locked" domain="[('state','=','locked')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_project" string="Project" context="{'group_by':'project_id'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_by_date" string="Date" context="{'group_by':'date'}"/>
+                    <filter name="group_by_risk" string="Risk Level" context="{'group_by':'risk_level'}"/>
+                    <filter name="group_by_supervisor" string="Supervisor" context="{'group_by':'site_supervisor_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_construction_site_daily_log_kanban" model="ir.ui.view">
+        <field name="name">construction.site.daily.log.kanban</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="arch" type="xml">
+            <kanban string="Daily Logs" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="site_supervisor_id"/>
+                <field name="total_workers"/>
+                <field name="weather_condition"/>
+                <field name="risk_level"/>
+                <field name="safety_observation_count"/>
+                <field name="incident_report_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <i class="fa fa-clipboard fa-2x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <field name="project_id"/>
+                                </div>
+                                <div>
+                                    <field name="date"/>
+                                    <field name="site_supervisor_id"/>
+                                </div>
+                                <div>
+                                    <field name="total_workers" widget="integer" suffix="workers"/>
+                                </div>
+                                <div>
+                                    <field name="safety_observation_count" widget="integer" suffix="observations"/>
+                                    <field name="incident_report_count" widget="integer" suffix="incidents"/>
+                                </div>
+                                <field name="state" widget="label" class="o_label"/>
+                                <field name="risk_level" widget="label" class="o_label"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_construction_site_daily_log_calendar" model="ir.ui.view">
+        <field name="name">construction.site.daily.log.calendar</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="arch" type="xml">
+            <calendar string="Daily Logs" date_start="date" color="project_id" mode="month">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="site_supervisor_id"/>
+                <field name="state"/>
+                <field name="risk_level"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_construction_site_daily_log_pivot" model="ir.ui.view">
+        <field name="name">construction.site.daily.log.pivot</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="arch" type="xml">
+            <pivot string="Daily Logs">
+                <field name="date" interval="month"/>
+                <field name="project_id"/>
+                <field name="state"/>
+                <field name="risk_level"/>
+                <field name="total_workers" type="measure"/>
+                <field name="total_planned_hours" type="measure"/>
+                <field name="total_actual_hours" type="measure"/>
+                <field name="total_material_value" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+</odoo>

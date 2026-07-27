@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report Action -->
+    <record id="action_report_construction_daily_log" model="ir.actions.report">
+        <field name="name">Daily Log Report</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">construction_site_log.daily_log_report_template</field>
+        <field name="report_file">construction_site_log.daily_log_report_template</field>
+        <field name="binding_model_id" ref="model_construction_site_daily_log"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Daily Log - %s' % (object.name)</field>
+    </record>
+
+    <!-- Checklist Report Action -->
+    <record id="action_report_construction_checklist" model="ir.actions.report">
+        <field name="name">Checklist Report</field>
+        <field name="model">construction.safety.checklist.execution</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">construction_site_log.checklist_report_template</field>
+        <field name="report_file">construction_site_log.checklist_report_template</field>
+        <field name="binding_model_id" ref="model_construction_safety_checklist_execution"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Checklist - %s' % (object.name)</field>
+    </record>
+
+    <!-- Print Button in Form View -->
+    <record id="view_construction_site_daily_log_form_inherit_report" model="ir.ui.view">
+        <field name="name">construction.site.daily.log.form.report</field>
+        <field name="model">construction.site.daily.log</field>
+        <field name="inherit_id" ref="view_construction_site_daily_log_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_generate_report" string="Print Report" type="object" invisible="state not in ['approved','locked']" class="btn-secondary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,57 @@
+/* Construction Dashboard Styles */
+.construction_dashboard {
+    padding: 20px;
+
+    .card {
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .card-body {
+            padding: 20px;
+
+            .card-title {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 5px;
+                opacity: 0.8;
+            }
+
+            h2 {
+                font-size: 32px;
+                font-weight: 700;
+                margin: 0;
+            }
+
+            i {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .text-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .text-warning {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .text-danger {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .text-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .text-success {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="daily_log_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h2>Construction Daily Log Report</h2>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Reference:</strong> <span t-field="doc.name"/>
+                            <br/>
+                            <strong>Project:</strong> <span t-field="doc.project_id.name"/>
+                            <br/>
+                            <strong>Date:</strong> <span t-field="doc.date"/>
+                            <br/>
+                            <strong>Site Supervisor:</strong> <span t-field="doc.site_supervisor_id.name"/>
+                        </div>
+                        <div class="col-xs-6">
+                            <strong>Weather:</strong> <span t-field="doc.weather_condition"/>
+                            <br/>
+                            <strong>Temperature:</strong> <span t-field="doc.temperature"/> °C
+                            <br/>
+                            <strong>Wind Speed:</strong> <span t-field="doc.wind_speed"/> km/h
+                            <br/>
+                            <strong>Rainfall:</strong> <span t-field="doc.rainfall"/> mm
+                        </div>
+                    </div>
+
+                    <h4>Manpower</h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Planned Workers</th>
+                                <th>Actual Workers</th>
+                                <th>Planned Hours</th>
+                                <th>Actual Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.manpower_line_ids" t-as="line">
+                                <tr>
+                                    <td><span t-field="line.category"/></td>
+                                    <td><span t-field="line.planned_workers"/></td>
+                                    <td><span t-field="line.actual_workers"/></td>
+                                    <td><span t-field="line.planned_hours"/></td>
+                                    <td><span t-field="line.actual_hours"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <h4>Materials Used</h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.material_line_ids" t-as="line">
+                                <tr>
+                                    <td><span t-field="line.product_id.name"/></td>
+                                    <td><span t-field="line.quantity_used"/></td>
+                                    <td><span t-field="line.unit_price"/></td>
+                                    <td><span t-field="line.total_value"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <h4>Work Progress</h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>% Complete</th>
+                                <th>Quantity Done</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.progress_line_ids" t-as="line">
+                                <tr>
+                                    <td><span t-field="line.activity_description"/></td>
+                                    <td><span t-field="line.percentage_complete"/></td>
+                                    <td><span t-field="line.quantity_done"/> <span t-field="line.quantity_unit"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <h4>Safety Summary</h4>
+                    <p><strong>Safety Observations:</strong> <span t-field="doc.safety_observation_count"/></p>
+                    <p><strong>Incident Reports:</strong> <span t-field="doc.incident_report_count"/></p>
+                    <p><strong>Toolbox Talks:</strong> <span t-field="doc.toolbox_talk_count"/></p>
+
+                    <h4>Notes</h4>
+                    <p><span t-field="doc.notes"/></p>
+
+                    <div class="footer">
+                        <p>Generated on <span t-esc="time.strftime('%Y-%m-%d %H:%M:%S')"/></p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

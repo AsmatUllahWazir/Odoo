@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Request Changes Wizard -->
+    <record id="view_construction_daily_log_request_changes_wizard" model="ir.ui.view">
+        <field name="name">construction.daily.log.request.changes.wizard</field>
+        <field name="model">construction.daily.log.request.changes</field>
+        <field name="arch" type="xml">
+            <form string="Request Changes">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Request Changes</h1>
+                        <p class="text-muted">Request changes to the daily log</p>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="log_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Change Request Details">
+                        <field name="message" placeholder="Describe why changes are needed..." nolabel="1"/>
+                        <field name="changes_needed" placeholder="List specific changes required..." nolabel="1"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_send_request" string="Send Request" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Add Attendees Wizard -->
+    <record id="view_toolbox_talk_attendees_wizard" model="ir.ui.view">
+        <field name="name">toolbox.talk.attendees.wizard</field>
+        <field name="model">toolbox.talk.attendees.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Attendees">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Add Attendees</h1>
+                        <p class="text-muted">Add attendees to the toolbox talk</p>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="talk_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Select Attendees">
+                        <field name="attendee_ids" widget="many2many_tags" nolabel="1"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_add_attendees" string="Add Attendees" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Incident Authority Report Wizard - REMOVED the authority_id field with invalid domain -->
+    <record id="view_incident_authority_report_wizard" model="ir.ui.view">
+        <field name="name">incident.authority.report.wizard</field>
+        <field name="model">incident.authority.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Report to Authorities">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Report to Authorities</h1>
+                        <p class="text-muted">Submit incident report to regulatory authorities</p>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="incident_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Authority Details">
+                        <!-- REMOVED: authority_id field with invalid domain -->
+                        <field name="authority_name" required="1" placeholder="Enter authority name..."/>
+                        <field name="report_number" required="1" placeholder="Enter report number..."/>
+                        <field name="report_date" required="1"/>
+                    </group>
+
+                    <group string="Additional Information">
+                        <field name="description" placeholder="Additional information..."/>
+                    </group>
+
+                    <footer>
+                        <button name="action_submit_report" string="Submit Report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Report Wizard -->
+    <record id="view_construction_report_wizard" model="ir.ui.view">
+        <field name="name">construction.report.wizard</field>
+        <field name="model">construction.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Generate Report</h1>
+                        <p class="text-muted">Generate custom reports for construction activities</p>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="log_id" options="{'no_create': True}"/>
+                            <field name="report_type" required="1"/>
+                            <field name="format" required="1"/>
+                            <field name="language"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="include_photos"/>
+                            <field name="include_signatures"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button name="action_generate_report" string="Generate Report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

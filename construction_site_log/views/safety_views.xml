@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_construction_safety_observation" model="ir.actions.act_window">
+        <field name="name">Safety Observations</field>
+        <field name="res_model">construction.safety.observation</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Report a safety observation
+            </p>
+            <p>
+                Record and track safety observations, hazards, and near-misses on site.
+            </p>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_construction_safety_observation_tree" model="ir.ui.view">
+        <field name="name">construction.safety.observation.tree</field>
+        <field name="model">construction.safety.observation</field>
+        <field name="arch" type="xml">
+            <tree string="Safety Observations"
+                  decoration-danger="severity in ['high','critical']"
+                  decoration-warning="severity=='medium'"
+                  decoration-success="status=='closed'"
+                  decoration-info="is_overdue">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="severity" widget="label"/>
+                <field name="location"/>
+                <field name="status" widget="label"/>
+                <field name="responsible_person_id"/>
+                <field name="days_open" widget="integer" invisible="status != 'open'"/>
+                <field name="is_overdue" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_safety_observation_form" model="ir.ui.view">
+        <field name="name">construction.safety.observation.form</field>
+        <field name="model">construction.safety.observation</field>
+        <field name="arch" type="xml">
+            <form string="Safety Observation">
+                <header>
+                    <button name="action_mark_in_progress" string="Mark In Progress" type="object" invisible="status != 'open'" class="btn-primary"/>
+                    <button name="action_close" string="Close" type="object" invisible="status not in ['open','in_progress']" class="btn-success"/>
+                    <button name="action_assign_to_me" string="Assign to Me" type="object" invisible="status in ['closed']" class="btn-info"/>
+                    <button name="action_escalate" string="Escalate" type="object" invisible="severity == 'critical' or status == 'closed'" class="btn-warning"/>
+                    <button name="action_create_task" string="Create Task" type="object" invisible="status == 'closed'" class="btn-secondary"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Observation Reference"/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="Critical" background_color="danger" invisible="severity != 'critical'"/>
+                        <widget name="web_ribbon" title="Overdue" background_color="warning" invisible="not is_overdue"/>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" options="{'no_create': True}"/>
+                            <field name="daily_log_id"/>
+                            <field name="date"/>
+                            <field name="severity" widget="label"/>
+                            <field name="location"/>
+                            <field name="location_detailed" placeholder="Detailed location..."/>
+                        </group>
+                        <group>
+                            <field name="reported_by_id" readonly="1"/>
+                            <field name="responsible_person_id"/>
+                            <field name="verified_by_id"/>
+                            <field name="due_date"/>
+                            <field name="days_open" readonly="1" invisible="status == 'closed'"/>
+                            <field name="is_overdue" readonly="1" invisible="not is_overdue"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <field name="description" placeholder="Describe the safety observation..." nolabel="1" readonly="status == 'closed'"/>
+                            </group>
+                            <group>
+                                <field name="immediate_action" placeholder="Immediate action taken..." readonly="status == 'closed'"/>
+                                <field name="corrective_action" placeholder="Corrective action needed..." readonly="status == 'closed'"/>
+                            </group>
+                        </page>
+
+                        <page string="Photos &amp; Documents">
+                            <group string="Photos">
+                                <field name="photo_attachment_ids" widget="many2many_kanban" readonly="status == 'closed'"/>
+                            </group>
+                            <group string="Documents">
+                                <field name="document_attachment_ids" widget="many2many_kanban" readonly="status == 'closed'"/>
+                            </group>
+                        </page>
+
+                        <page string="History">
+                            <group string="Timeline">
+                                <field name="create_date" readonly="1"/>
+                                <field name="in_progress_date" readonly="1" invisible="status not in ['in_progress','closed']"/>
+                                <field name="closed_date" readonly="1" invisible="status != 'closed'"/>
+                            </group>
+                            <group string="Notes">
+                                <field name="notes" placeholder="Additional notes..." readonly="status == 'closed'"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_safety_observation_search" model="ir.ui.view">
+        <field name="name">construction.safety.observation.search</field>
+        <field name="model">construction.safety.observation</field>
+        <field name="arch" type="xml">
+            <search string="Search Safety Observations">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="location"/>
+                <field name="severity"/>
+                <field name="status"/>
+                <field name="responsible_person_id"/>
+                <filter name="open" string="Open" domain="[('status','=','open')]"/>
+                <filter name="high_risk" string="High Risk" domain="[('severity','in',['high','critical'])]"/>
+                <filter name="overdue" string="Overdue" domain="[('is_overdue','=',True)]"/>
+                <filter name="my_open" string="My Open" domain="[('responsible_person_id.user_id','=',uid),('status','in',['open','in_progress'])]"/>
+                <separator/>
+                <filter name="open_filter" string="Open" domain="[('status','=','open')]"/>
+                <filter name="in_progress_filter" string="In Progress" domain="[('status','=','in_progress')]"/>
+                <filter name="closed_filter" string="Closed" domain="[('status','=','closed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_project" string="Project" context="{'group_by':'project_id'}"/>
+                    <filter name="group_by_status" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="group_by_severity" string="Severity" context="{'group_by':'severity'}"/>
+                    <filter name="group_by_responsible" string="Responsible" context="{'group_by':'responsible_person_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_construction_safety_observation_kanban" model="ir.ui.view">
+        <field name="name">construction.safety.observation.kanban</field>
+        <field name="model">construction.safety.observation</field>
+        <field name="arch" type="xml">
+            <kanban string="Safety Observations" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="severity"/>
+                <field name="status"/>
+                <field name="location"/>
+                <field name="responsible_person_id"/>
+                <field name="days_open"/>
+                <field name="is_overdue"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <i class="fa fa-exclamation-triangle fa-2x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <field name="severity" widget="label"/>
+                                    <field name="status" widget="label"/>
+                                    <span t-if="record.is_overdue.raw_value" class="badge badge-danger">Overdue</span>
+                                </div>
+                                <div>
+                                    <field name="location"/>
+                                </div>
+                                <div>
+                                    <field name="responsible_person_id"/>
+                                </div>
+                                <div t-if="record.status.raw_value != 'closed'">
+                                    <small>Days Open: <field name="days_open"/></small>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

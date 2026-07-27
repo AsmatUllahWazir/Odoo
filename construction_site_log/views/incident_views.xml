@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_construction_incident_report" model="ir.actions.act_window">
+        <field name="name">Incident Reports</field>
+        <field name="res_model">construction.incident.report</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Report an incident
+            </p>
+            <p>
+                Document and investigate incidents including injuries, near-misses, and property damage.
+            </p>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_construction_incident_report_tree" model="ir.ui.view">
+        <field name="name">construction.incident.report.tree</field>
+        <field name="model">construction.incident.report</field>
+        <field name="arch" type="xml">
+            <tree string="Incident Reports"
+                  decoration-danger="severity in ['major','fatal']"
+                  decoration-warning="severity=='moderate'"
+                  decoration-success="status in ['resolved','closed']">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="incident_type"/>
+                <field name="severity" widget="label"/>
+                <field name="location"/>
+                <field name="status" widget="label"/>
+                <field name="investigation_lead_id"/>
+                <field name="days_to_resolve" widget="integer" invisible="status in ['draft','under_investigation']"/>
+                <field name="financial_impact" sum="Total Impact"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_incident_report_form" model="ir.ui.view">
+        <field name="name">construction.incident.report.form</field>
+        <field name="model">construction.incident.report</field>
+        <field name="arch" type="xml">
+            <form string="Incident Report">
+                <header>
+                    <button name="action_start_investigation" string="Start Investigation" type="object" invisible="status != 'draft'" class="btn-primary"/>
+                    <button name="action_resolve" string="Resolve" type="object" invisible="status != 'under_investigation'" class="btn-success"/>
+                    <button name="action_close" string="Close" type="object" invisible="status != 'resolved'" class="btn-warning"/>
+                    <button name="action_reopen" string="Reopen" type="object" invisible="status != 'closed'" class="btn-danger"/>
+                    <button name="action_create_follow_up_task" string="Create Follow-up Task" type="object" invisible="status in ['draft']" class="btn-secondary"/>
+                    <button name="action_report_to_authorities" string="Report to Authorities" type="object" invisible="status != 'under_investigation'" class="btn-info"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Incident Reference"/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="Fatal" background_color="danger" invisible="severity != 'fatal'"/>
+                        <widget name="web_ribbon" title="Major" background_color="warning" invisible="severity != 'major'"/>
+                        <widget name="web_ribbon" title="Reported to Authorities" background_color="info" invisible="not reported_to_authorities"/>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="project_id" options="{'no_create': True}"/>
+                            <field name="daily_log_id"/>
+                            <field name="date"/>
+                            <field name="time" widget="float_time"/>
+                            <field name="incident_type"/>
+                            <field name="severity" widget="label"/>
+                        </group>
+                        <group>
+                            <field name="location"/>
+                            <field name="reported_by_id" readonly="1"/>
+                            <field name="responsible_person_id"/>
+                            <field name="investigation_lead_id"/>
+                            <field name="reported_to_authorities"/>
+                            <field name="authority_report_number" invisible="not reported_to_authorities"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <field name="description" placeholder="Describe the incident..." nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="injured_person_ids" widget="many2many_tags"/>
+                                <field name="witness_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+
+                        <page string="Investigation">
+                            <group>
+                                <field name="investigation_start_date" readonly="1" invisible="status == 'draft'"/>
+                                <field name="root_cause" placeholder="Root cause analysis..."/>
+                                <field name="investigation_findings" placeholder="Investigation findings..."/>
+                            </group>
+                            <group>
+                                <field name="immediate_actions" placeholder="Immediate actions taken..."/>
+                                <field name="preventive_actions" placeholder="Preventive actions..."/>
+                            </group>
+                        </page>
+
+                        <page string="Financial">
+                            <group>
+                                <field name="financial_impact"/>
+                                <field name="currency_id"/>
+                                <field name="insurance_claim_number"/>
+                            </group>
+                            <group>
+                                <!-- REMOVED: regulatory_body_ids field with invalid domain -->
+                            </group>
+                        </page>
+
+                        <page string="Photos &amp; Documents">
+                            <group string="Photos">
+                                <field name="photo_attachment_ids" widget="many2many_kanban"/>
+                            </group>
+                            <group string="Documents">
+                                <field name="document_attachment_ids" widget="many2many_kanban"/>
+                            </group>
+                        </page>
+
+                        <page string="History">
+                            <group string="Timeline">
+                                <field name="create_date" readonly="1"/>
+                                <field name="investigation_start_date" readonly="1" invisible="status == 'draft'"/>
+                                <field name="resolution_date" readonly="1" invisible="status not in ['resolved','closed']"/>
+                                <field name="closed_date" readonly="1" invisible="status != 'closed'"/>
+                                <field name="days_to_resolve" readonly="1" invisible="status in ['draft','under_investigation']"/>
+                            </group>
+                            <group string="Notes">
+                                <field name="notes" placeholder="Additional notes..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_incident_report_search" model="ir.ui.view">
+        <field name="name">construction.incident.report.search</field>
+        <field name="model">construction.incident.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Incident Reports">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="incident_type"/>
+                <field name="severity"/>
+                <field name="status"/>
+                <field name="investigation_lead_id"/>
+                <filter name="open" string="Open" domain="[('status','in',['draft','under_investigation'])]"/>
+                <filter name="high_severity" string="High Severity" domain="[('severity','in',['major','fatal'])]"/>
+                <filter name="my_incidents" string="My Incidents" domain="[('investigation_lead_id.user_id','=',uid)]"/>
+                <filter name="reported_to_authorities" string="Reported to Authorities" domain="[('reported_to_authorities','=',True)]"/>
+                <separator/>
+                <filter name="draft_filter" string="Draft" domain="[('status','=','draft')]"/>
+                <filter name="investigation_filter" string="Under Investigation" domain="[('status','=','under_investigation')]"/>
+                <filter name="resolved_filter" string="Resolved" domain="[('status','=','resolved')]"/>
+                <filter name="closed_filter" string="Closed" domain="[('status','=','closed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_project" string="Project" context="{'group_by':'project_id'}"/>
+                    <filter name="group_by_status" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="group_by_type" string="Type" context="{'group_by':'incident_type'}"/>
+                    <filter name="group_by_severity" string="Severity" context="{'group_by':'severity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_construction_incident_report_pivot" model="ir.ui.view">
+        <field name="name">construction.incident.report.pivot</field>
+        <field name="model">construction.incident.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Incident Reports">
+                <field name="date" interval="month"/>
+                <field name="incident_type"/>
+                <field name="severity"/>
+                <field name="status"/>
+                <field name="financial_impact" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+</odoo>

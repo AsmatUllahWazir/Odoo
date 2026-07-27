@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_construction_site_log_root"
+              name="Construction"
+              sequence="100"/>
+
+    <!-- Daily Logs Menu -->
+    <menuitem id="menu_construction_site_daily_log"
+              name="Daily Logs"
+              parent="menu_construction_site_log_root"
+              sequence="10"/>
+
+    <menuitem id="menu_construction_site_daily_log_list"
+              name="All Daily Logs"
+              parent="menu_construction_site_daily_log"
+              action="action_construction_site_daily_log"
+              sequence="10"/>
+
+    <menuitem id="menu_construction_site_daily_log_my"
+              name="My Daily Logs"
+              parent="menu_construction_site_daily_log"
+              action="action_construction_site_daily_log"
+              sequence="20"
+              groups="construction_site_log.group_construction_site_worker"/>
+<!--              domain="[('site_supervisor_id.user_id','=',uid)]"/>-->
+
+    <menuitem id="menu_construction_site_daily_log_pending"
+              name="Pending Approval"
+              parent="menu_construction_site_daily_log"
+              action="action_construction_site_daily_log"
+              sequence="30"
+              groups="construction_site_log.group_construction_project_manager"/>
+<!--              domain="[('state','=','submitted')]"/>-->
+
+    <!-- Safety Menu -->
+    <menuitem id="menu_construction_safety"
+              name="Safety"
+              parent="menu_construction_site_log_root"
+              sequence="20"/>
+
+    <menuitem id="menu_construction_safety_observation"
+              name="Safety Observations"
+              parent="menu_construction_safety"
+              action="action_construction_safety_observation"
+              sequence="10"/>
+
+    <menuitem id="menu_construction_safety_observation_open"
+              name="Open Observations"
+              parent="menu_construction_safety"
+              action="action_construction_safety_observation"
+              sequence="15"/>
+<!--              domain="[('status','in',['open','in_progress'])]"/>-->
+
+    <menuitem id="menu_construction_incident_report"
+              name="Incident Reports"
+              parent="menu_construction_safety"
+              action="action_construction_incident_report"
+              sequence="20"/>
+
+    <menuitem id="menu_construction_incident_report_open"
+              name="Open Incidents"
+              parent="menu_construction_safety"
+              action="action_construction_incident_report"
+              sequence="25"/>
+<!--              domain="[('status','in',['draft','under_investigation'])]"/>-->
+
+    <menuitem id="menu_construction_toolbox_talk"
+              name="Toolbox Talks"
+              parent="menu_construction_safety"
+              action="action_construction_toolbox_talk"
+              sequence="30"/>
+
+    <menuitem id="menu_construction_toolbox_talk_upcoming"
+              name="Upcoming Talks"
+              parent="menu_construction_safety"
+              action="action_construction_toolbox_talk"
+              sequence="35"/>
+<!--              domain="[('state','in',['planned','in_progress'])]"/>-->
+
+    <!-- Checklist Menu -->
+    <menuitem id="menu_construction_checklist"
+              name="Checklists"
+              parent="menu_construction_safety"
+              sequence="40"/>
+
+    <menuitem id="menu_construction_checklist_template"
+              name="Checklist Templates"
+              parent="menu_construction_checklist"
+              action="action_construction_safety_checklist_template"
+              sequence="10"
+              groups="construction_site_log.group_construction_site_supervisor"/>
+
+    <menuitem id="menu_construction_checklist_execution"
+              name="Checklist Executions"
+              parent="menu_construction_checklist"
+              action="action_construction_safety_checklist_execution"
+              sequence="20"/>
+
+    <!-- Reports Menu -->
+    <menuitem id="menu_construction_reports"
+              name="Reports"
+              parent="menu_construction_site_log_root"
+              sequence="30"
+              groups="construction_site_log.group_construction_site_supervisor"/>
+
+    <menuitem id="menu_construction_dashboard"
+              name="Dashboard"
+              parent="menu_construction_reports"
+              action="action_construction_dashboard"
+              sequence="10"/>
+
+    <menuitem id="menu_construction_weekly_report"
+              name="Weekly Reports"
+              parent="menu_construction_reports"
+              action="action_construction_weekly_report"
+              sequence="20"/>
+
+    <menuitem id="menu_construction_monthly_report"
+              name="Monthly Reports"
+              parent="menu_construction_reports"
+              action="action_construction_monthly_report"
+              sequence="30"/>
+
+    <menuitem id="menu_construction_safety_report"
+              name="Safety Reports"
+              parent="menu_construction_reports"
+              action="action_construction_safety_report"
+              sequence="40"/>
+</odoo>

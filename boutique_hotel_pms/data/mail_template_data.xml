@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Reservation Confirmation Email Template -->
+        <record id="email_template_reservation_confirmation" model="mail.template">
+            <field name="name">Reservation Confirmation</field>
+            <field name="model_id" ref="model_hotel_reservation"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="email_to">${object.partner_id.email or ''}</field>
+            <field name="subject">Reservation Confirmation - ${object.name}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #2c3e50;">Reservation Confirmation</h2>
+    <p>Dear ${object.partner_id.name},</p>
+    <p>Thank you for choosing us. Your reservation has been confirmed.</p>
+
+    <h3 style="color: #3498db;">Reservation Details</h3>
+    <p><strong>Reservation Number:</strong> ${object.name}</p>
+    <p><strong>Check-in:</strong> ${object.check_in}</p>
+    <p><strong>Check-out:</strong> ${object.check_out}</p>
+    <p><strong>Nights:</strong> ${object.number_of_nights}</p>
+    <p><strong>Guests:</strong> ${object.adults} Adults, ${object.children} Children</p>
+
+    <h3 style="color: #3498db;">Rooms</h3>
+    <ul>
+        <t t-foreach="object.room_ids" t-as="room">
+            <li><t t-esc="room.room_number"/> - <t t-esc="room.room_type_id.name"/></li>
+        </t>
+    </ul>
+
+    <h3 style="color: #3498db;">Total Amount</h3>
+    <p style="font-size: 1.2em; font-weight: bold; color: #2c3e50;">
+        ${object.currency_id.symbol} ${object.total_amount}
+    </p>
+
+    <p>If you need to make any changes, please contact us.</p>
+    <p>We look forward to welcoming you!</p>
+</div>
+]]></field>
+        </record>
+
+        <!-- Folio Email Template -->
+        <record id="email_template_folio" model="mail.template">
+            <field name="name">Folio / Invoice</field>
+            <field name="model_id" ref="model_hotel_folio"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="email_to">${object.partner_id.email or ''}</field>
+            <field name="subject">Folio - ${object.name}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #2c3e50;">Folio / Invoice</h2>
+    <p>Dear ${object.partner_id.name},</p>
+    <p>Please find your folio/invoice for your recent stay.</p>
+
+    <h3 style="color: #3498db;">Folio Details</h3>
+    <p><strong>Folio Number:</strong> ${object.name}</p>
+    <p><strong>Check-in:</strong> ${object.check_in}</p>
+    <p><strong>Check-out:</strong> ${object.check_out}</p>
+
+    <h3 style="color: #3498db;">Summary</h3>
+    <p><strong>Room Charges:</strong> ${object.currency_id.symbol} ${object.room_charges}</p>
+    <p><strong>Extra Charges:</strong> ${object.currency_id.symbol} ${object.extra_charges}</p>
+    <p style="font-size: 1.2em; font-weight: bold; color: #2c3e50;">
+        <strong>Total:</strong> ${object.currency_id.symbol} ${object.total_amount}
+    </p>
+
+    <p>Thank you for your stay. We hope to see you again!</p>
+</div>
+]]></field>
+        </record>
+
+        <!-- Payment Receipt Template -->
+        <record id="email_template_payment_receipt" model="mail.template">
+            <field name="name">Payment Receipt</field>
+            <field name="model_id" ref="model_hotel_payment"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="email_to">${object.partner_id.email or ''}</field>
+            <field name="subject">Payment Receipt - ${object.name}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #2c3e50;">Payment Receipt</h2>
+    <p>Dear ${object.partner_id.name},</p>
+    <p>Thank you for your payment.</p>
+
+    <h3 style="color: #3498db;">Payment Details</h3>
+    <p><strong>Payment Reference:</strong> ${object.name}</p>
+    <p><strong>Amount:</strong> ${object.currency_id.symbol} ${object.amount}</p>
+    <p><strong>Payment Method:</strong> ${object.payment_method}</p>
+    <p><strong>Date:</strong> ${object.payment_date}</p>
+
+    <p>Thank you for choosing us!</p>
+</div>
+]]></field>
+        </record>
+
+        <!-- VIP Welcome Email Template -->
+        <record id="email_template_vip_welcome" model="mail.template">
+            <field name="name">VIP Welcome</field>
+            <field name="model_id" ref="model_hotel_guest"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="email_to">${object.partner_id.email or ''}</field>
+            <field name="subject">Welcome VIP Guest - ${object.partner_id.name}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #2c3e50;">Welcome VIP Guest!</h2>
+    <p>Dear ${object.partner_id.name},</p>
+    <p>We are delighted to welcome you as our valued VIP guest.</p>
+
+    <p>As a VIP guest, you are entitled to:</p>
+    <ul>
+        <li>Priority check-in/check-out</li>
+        <li>Complimentary room upgrade (subject to availability)</li>
+        <li>Welcome amenities in your room</li>
+        <li>Personalized service throughout your stay</li>
+    </ul>
+
+    <p>If there's anything we can do to make your stay more enjoyable, please don't hesitate to ask.</p>
+    <p>We look forward to serving you!</p>
+</div>
+]]></field>
+        </record>
+    </data>
+</odoo>

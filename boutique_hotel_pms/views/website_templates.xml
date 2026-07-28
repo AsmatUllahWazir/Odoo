@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Website Layout -->
+    <template id="website_hotel_layout" name="Hotel Layout">
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="hotel-header text-center mb-4">
+                        <h1 class="display-4">Welcome to Our Boutique Hotel</h1>
+                        <p class="lead">Experience luxury and comfort in the heart of the city</p>
+                    </div>
+                </div>
+            </div>
+            <t t-raw="0"/>
+        </div>
+    </template>
+
+    <!-- Home Page -->
+    <template id="website_hotel_home" name="Hotel Home">
+        <t t-call="boutique_hotel_pms.website_hotel_layout">
+            <!-- Hero Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="hero-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        padding: 60px 20px; border-radius: 15px; color: white; text-align: center;">
+                        <h1 class="display-3">Your Perfect Stay Awaits</h1>
+                        <p class="lead">Book directly and get the best rates guaranteed</p>
+                        <a href="/hotel/booking" class="btn btn-light btn-lg mt-3">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Types -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">Our Rooms</h2>
+                </div>
+                <t t-foreach="room_types" t-as="room">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title" t-field="room.name"/>
+                                <p class="card-text" t-field="room.description"/>
+                                <p><strong>Capacity:</strong> <span t-field="room.capacity"/> guests</p>
+                                <p><strong>Price:</strong> <span t-esc="room.currency_id.symbol"/> <span t-field="room.base_price"/> / night</p>
+                                <a t-attf-href="/hotel/room/#{room.id}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Amenities -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">Our Amenities</h2>
+                </div>
+                <t t-foreach="amenities" t-as="amenity">
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i t-attf-class="fa #{amenity.icon} fa-3x mb-2" t-if="amenity.icon"/>
+                                <h5 class="card-title" t-field="amenity.name"/>
+                                <p class="card-text" t-field="amenity.description"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Offers -->
+            <div class="row mt-5" t-if="offers">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">Special Offers</h2>
+                </div>
+                <t t-foreach="offers" t-as="offer">
+                    <div class="col-md-6 mb-3">
+                        <div class="card border-warning">
+                            <div class="card-body">
+                                <h5 class="card-title" t-field="offer.name"/>
+                                <p class="card-text" t-field="offer.description"/>
+                                <p><strong>Valid:</strong> <span t-field="offer.date_start"/> - <span t-field="offer.date_end"/></p>
+                                <span class="badge bg-warning">Special Offer</span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

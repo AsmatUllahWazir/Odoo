@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Security Groups -->
+    <data noupdate="0">
+        <!-- Owner group -->
+        <record id="group_hotel_owner" model="res.groups">
+            <field name="name">Owner</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+
+        <!-- Manager group -->
+        <record id="group_hotel_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('group_hotel_owner'))]"/>
+        </record>
+
+        <!-- Receptionist group -->
+        <record id="group_hotel_receptionist" model="res.groups">
+            <field name="name">Receptionist</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Housekeeping group -->
+        <record id="group_hotel_housekeeping" model="res.groups">
+            <field name="name">Housekeeping</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+    </data>
+</odoo>

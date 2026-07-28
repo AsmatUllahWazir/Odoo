@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Guest Tree View -->
+    <record id="view_hotel_guest_tree" model="ir.ui.view">
+        <field name="name">hotel.guest.tree</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <tree string="Guests" decoration-danger="is_blacklisted" decoration-success="is_vip">
+                <field name="partner_id"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="total_stays"/>
+                <field name="total_spent" sum="Total Spent"/>
+                <field name="last_visit"/>
+                <field name="loyalty_program"/>
+                <field name="is_vip" widget="boolean"/>
+                <field name="is_blacklisted" widget="boolean"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Guest Kanban View -->
+    <record id="view_hotel_guest_kanban" model="ir.ui.view">
+        <field name="name">hotel.guest.kanban</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="partner_id"/>
+                <field name="display_name"/>
+                <field name="total_stays"/>
+                <field name="total_spent"/>
+                <field name="last_visit"/>
+                <field name="is_vip"/>
+                <field name="is_blacklisted"/>
+                <field name="loyalty_program"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <span class="fa fa-user-circle fa-3x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="oe_kanban_card_header">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="partner_id"/>
+                                    </strong>
+                                    <t t-if="record.is_vip.raw_value">
+                                        <span class="badge badge-warning">VIP</span>
+                                    </t>
+                                    <t t-if="record.is_blacklisted.raw_value">
+                                        <span class="badge badge-danger">Blacklisted</span>
+                                    </t>
+                                </div>
+                                <div class="oe_kanban_card_content">
+                                    <div><span class="fa fa-envelope"/> <field name="email"/></div>
+                                    <div><span class="fa fa-phone"/> <field name="phone"/></div>
+                                    <div><span class="fa fa-bed"/> Stays: <field name="total_stays"/></div>
+                                    <div><span class="fa fa-money"/> Spent: <field name="total_spent"/></div>
+                                    <div><span class="fa fa-calendar"/> Last: <field name="last_visit"/></div>
+                                    <t t-if="record.loyalty_program.raw_value != 'none'">
+                                        <div><span class="fa fa-star"/> Loyalty: <field name="loyalty_program"/></div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Guest Form View -->
+    <record id="view_hotel_guest_form" model="ir.ui.view">
+        <field name="name">hotel.guest.form</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <form string="Guest">
+                <header>
+                    <button name="action_verify_id" type="object"
+                            string="Verify ID"
+                            class="btn-success"
+                            invisible="id_verified"/>
+                    <button name="action_toggle_blacklist" type="object"
+                            string="Blacklist"
+                            class="btn-danger"
+                            invisible="is_blacklisted"/>
+                    <button name="action_toggle_blacklist" type="object"
+                            string="Remove Blacklist"
+                            class="btn-warning"
+                            invisible="not is_blacklisted"/>
+                    <button name="action_toggle_vip" type="object"
+                            string="Set VIP"
+                            class="btn-warning"
+                            invisible="is_vip"/>
+                    <button name="action_toggle_vip" type="object"
+                            string="Remove VIP"
+                            class="btn-secondary"
+                            invisible="not is_vip"/>
+                    <button name="action_send_vip_welcome" type="object"
+                            string="Send VIP Welcome"
+                            class="btn-info"
+                            invisible="not is_vip"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="partner_id" placeholder="Guest Name..."/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_reservations" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <div class="o_stat_info">
+                                <field name="total_stays" widget="integer"/>
+                                <span class="o_stat_text">Total Stays</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reservations" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <div class="o_stat_info">
+                                <field name="total_spent" widget="monetary"/>
+                                <span class="o_stat_text">Total Spent</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reviews" type="object"
+                                class="oe_stat_button" icon="fa-star">
+                            <div class="o_stat_info">
+                                <field name="average_rating_given" widget="float"/>
+                                <span class="o_stat_text">Avg Rating</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reservations" type="object"
+                                class="oe_stat_button" icon="fa-bed">
+                            <div class="o_stat_info">
+                                <field name="preferred_room_type_id" widget="many2one"/>
+                                <span class="o_stat_text">Preferred Room</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <notebook>
+                        <page string="Personal Information">
+                            <group>
+                                <group>
+                                    <field name="first_name"/>
+                                    <field name="last_name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                    <field name="mobile"/>
+                                    <field name="birth_date"/>
+                                    <field name="gender"/>
+                                    <field name="nationality"/>
+                                    <field name="language"/>
+                                </group>
+                                <group>
+                                    <field name="emergency_contact_name"/>
+                                    <field name="emergency_contact_phone"/>
+                                    <field name="emergency_contact_relation"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="ID Documents">
+                            <group>
+                                <group>
+                                    <field name="id_document_type"/>
+                                    <field name="id_document_number"/>
+                                    <field name="id_document_issue_date"/>
+                                    <field name="id_document_expiry_date"/>
+                                    <field name="id_verified" widget="boolean"/>
+                                    <field name="id_verified_date" readonly="1"/>
+                                    <field name="id_verified_by" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="id_document_attachment" widget="image"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Preferences">
+                            <group>
+                                <group>
+                                    <field name="preferences" nolabel="1"
+                                           placeholder="Guest preferences..."/>
+                                    <field name="special_diet" nolabel="1"
+                                           placeholder="Dietary requirements..."/>
+                                    <field name="accessibility_needs" nolabel="1"
+                                           placeholder="Accessibility needs..."/>
+                                </group>
+                                <group>
+                                    <field name="smoking_preference"/>
+                                    <field name="bed_preference"/>
+                                    <field name="floor_preference"/>
+                                    <field name="room_type_preference_ids" widget="many2many_tags"/>
+                                    <field name="amenity_preference_ids" widget="many2many_tags"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Loyalty &amp; VIP">
+                            <group>
+                                <group>
+                                    <field name="loyalty_program"/>
+                                    <field name="loyalty_points"/>
+                                    <field name="loyalty_member_since"/>
+                                    <field name="membership_number"/>
+                                    <field name="is_vip" widget="boolean"/>
+                                    <field name="vip_level" invisible="not is_vip"/>
+                                    <field name="vip_notes" nolabel="1"
+                                           placeholder="VIP notes..."/>
+                                </group>
+                                <group>
+                                    <field name="membership_card" widget="image"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Security">
+                            <group>
+                                <group>
+                                    <field name="is_blacklisted" widget="boolean"/>
+                                    <field name="blacklist_reason" nolabel="1"
+                                           placeholder="Blacklist reason..."
+                                           invisible="not is_blacklisted"/>
+                                    <field name="blacklist_date" readonly="1"
+                                           invisible="not is_blacklisted"/>
+                                    <field name="blacklisted_by" readonly="1"
+                                           invisible="not is_blacklisted"/>
+                                </group>
+                                <group>
+                                    <field name="security_notes" nolabel="1"
+                                           placeholder="Security notes..."/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Statistics">
+                            <group col="2">
+                                <group>
+                                    <field name="total_stays" widget="integer"/>
+                                    <field name="total_nights" widget="integer"/>
+                                    <field name="total_spent" widget="monetary"/>
+                                    <field name="average_spend" widget="monetary"/>
+                                </group>
+                                <group>
+                                    <field name="last_visit"/>
+                                    <field name="first_visit"/>
+                                    <field name="preferred_room_type_id"/>
+                                    <field name="average_rating_given"/>
+                                    <field name="total_reviews"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Notes">
+                            <field name="notes" nolabel="1"
+                                   placeholder="General notes..."/>
+                            <field name="internal_notes" nolabel="1"
+                                   placeholder="Internal notes (staff only)..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Amenity Actions -->
+    <record id="action_hotel_amenity" model="ir.actions.act_window">
+        <field name="name">Amenities</field>
+        <field name="res_model">hotel.amenity</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Amenity Tree View -->
+    <record id="view_hotel_amenity_tree" model="ir.ui.view">
+        <field name="name">hotel.amenity.tree</field>
+        <field name="model">hotel.amenity</field>
+        <field name="arch" type="xml">
+            <tree string="Amenities">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="icon"/>
+                <field name="is_free"/>
+                <field name="price" sum="Total"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Amenity Form View -->
+    <record id="view_hotel_amenity_form" model="ir.ui.view">
+        <field name="name">hotel.amenity.form</field>
+        <field name="model">hotel.amenity</field>
+        <field name="arch" type="xml">
+            <form string="Amenity">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Amenity Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category"/>
+                            <field name="icon" placeholder="fa-icon"/>
+                            <field name="is_free"/>
+                            <field name="price" invisible="is_free"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="description" nolabel="1"
+                                   placeholder="Description..."/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Guest Actions -->
+    <record id="action_hotel_guest" model="ir.actions.act_window">
+        <field name="name">Guests</field>
+        <field name="res_model">hotel.guest</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage hotel guests and their preferences
+            </p>
+        </field>
+    </record>
+
+</odoo>

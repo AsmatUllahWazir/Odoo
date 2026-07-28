@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_hotel_occupancy">
+        <t t-call="web.html_container">
+            <div class="page" style="padding: 40px; font-family: Arial, sans-serif;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #2c3e50;">Occupancy Report</h1>
+                    <hr style="border: 1px solid #3498db;"/>
+                    <p style="font-size: 14px;">
+                        Period: <t t-esc="data.get('date_from') and format_date(data.get('date_from')) or ''"/>
+                        to <t t-esc="data.get('date_to') and format_date(data.get('date_to')) or ''"/>
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #2c3e50;">Summary</h3>
+                    <t t-set="occupancy_data"
+                       t-value="get_occupancy_data(data.get('date_from'), data.get('date_to'), data.get('room_type_id'))"/>
+
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding: 8px;"><strong>Total Days:</strong></td>
+                            <td style="padding: 8px;">
+                                <t t-esc="len(occupancy_data)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><strong>Average Occupancy:</strong></td>
+                            <td style="padding: 8px;">
+                                <t t-if="occupancy_data">
+                                    <t t-set="avg_occupancy"
+                                       t-value="sum([day.get('occupancy_rate', 0) for day in occupancy_data]) / len(occupancy_data)"/>
+                                    <t t-esc="round(avg_occupancy, 2)"/>%
+                                </t>
+                                <t t-else="">0.0%</t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><strong>Peak Occupancy:</strong></td>
+                            <td style="padding: 8px;">
+                                <t t-if="occupancy_data">
+                                    <t t-set="max_occupancy"
+                                       t-value="max([day.get('occupancy_rate', 0) for day in occupancy_data])"/>
+                                    <t t-esc="round(max_occupancy, 2)"/>%
+                                </t>
+                                <t t-else="">0.0%</t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><strong>Lowest Occupancy:</strong></td>
+                            <td style="padding: 8px;">
+                                <t t-if="occupancy_data">
+                                    <t t-set="min_occupancy"
+                                       t-value="min([day.get('occupancy_rate', 0) for day in occupancy_data])"/>
+                                    <t t-esc="round(min_occupancy, 2)"/>%
+                                </t>
+                                <t t-else="">0.0%</t>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #2c3e50;">Daily Occupancy</h3>
+                    <t t-if="occupancy_data">
+                        <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                            <thead style="background-color: #3498db; color: white;">
+                                <tr>
+                                    <th style="padding: 8px; text-align: left;">Date</th>
+                                    <th style="padding: 8px; text-align: center;">Occupied</th>
+                                    <th style="padding: 8px; text-align: center;">Total</th>
+                                    <th style="padding: 8px; text-align: center;">Occupancy %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="occupancy_data" t-as="day">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <t t-esc="format_date(day.get('date'))"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
+                                        <t t-esc="day.get('occupied', 0)"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
+                                        <t t-esc="day.get('total', 0)"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
+                                        <t t-esc="round(day.get('occupancy_rate', 0), 2)"/>%
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p>No data available for the selected period.</p>
+                    </t>
+                </div>
+
+                <div style="margin-top: 20px; text-align: center; font-size: 12px; color: #7f8c8d;">
+                    <p>Report generated on <t t-esc="format_date(fields.Date.today())"/></p>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="action_report_hotel_occupancy" model="ir.actions.report">
+        <field name="name">Occupancy Report</field>
+        <field name="model">hotel.reservation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">boutique_hotel_pms.report_hotel_occupancy</field>
+        <field name="report_file">boutique_hotel_pms.report_hotel_occupancy</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_hotel_reservation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="padding: 40px; font-family: Arial, sans-serif;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h1 style="color: #2c3e50;">Reservation Confirmation</h1>
+                        <hr style="border: 1px solid #3498db;"/>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="float: left; width: 50%;">
+                            <h3 style="color: #2c3e50;">Reservation Details</h3>
+                            <p><strong>Reservation Number:</strong> <span t-field="doc.name"/></p>
+                            <p><strong>Status:</strong> <span t-field="doc.state"/></p>
+                            <p><strong>Source:</strong> <span t-field="doc.source"/></p>
+                            <p><strong>Created:</strong> <span t-field="doc.create_date"/></p>
+                        </div>
+                        <div style="float: right; width: 50%; text-align: right;">
+                            <h3 style="color: #2c3e50;">Guest Information</h3>
+                            <p><strong>Name:</strong> <span t-field="doc.partner_id.name"/></p>
+                            <p><strong>Email:</strong> <span t-field="doc.partner_id.email"/></p>
+                            <p><strong>Phone:</strong> <span t-field="doc.partner_id.phone"/></p>
+                        </div>
+                    </div>
+
+                    <div style="clear: both; margin-bottom: 20px;">
+                        <h3 style="color: #2c3e50;">Stay Details</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="padding: 8px;"><strong>Check-in:</strong></td>
+                                <td style="padding: 8px;"><span t-field="doc.check_in"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><strong>Check-out:</strong></td>
+                                <td style="padding: 8px;"><span t-field="doc.check_out"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><strong>Nights:</strong></td>
+                                <td style="padding: 8px;"><span t-field="doc.number_of_nights"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><strong>Guests:</strong></td>
+                                <td style="padding: 8px;">
+                                    <span t-field="doc.adults"/> Adults,
+                                    <span t-field="doc.children"/> Children
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #2c3e50;">Rooms</h3>
+                        <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                            <thead style="background-color: #3498db; color: white;">
+                                <tr>
+                                    <th style="padding: 8px; text-align: left;">Room</th>
+                                    <th style="padding: 8px; text-align: left;">Type</th>
+                                    <th style="padding: 8px; text-align: right;">Price/Night</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.room_ids" t-as="room">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span t-field="room.room_number"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span t-field="room.room_type_id.name"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">
+                                        <span t-esc="doc.currency_id.symbol"/>
+                                        <span t-field="room.room_type_id.base_price"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #2c3e50;">Financial Summary</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="padding: 8px;"><strong>Room Charges:</strong></td>
+                                <td style="padding: 8px; text-align: right;">
+                                    <span t-esc="doc.currency_id.symbol"/>
+                                    <span t-field="doc.room_charges"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><strong>Extra Charges:</strong></td>
+                                <td style="padding: 8px; text-align: right;">
+                                    <span t-esc="doc.currency_id.symbol"/>
+                                    <span t-field="doc.extra_charges"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;"><strong>Discount:</strong></td>
+                                <td style="padding: 8px; text-align: right;">
+                                    -<span t-esc="doc.currency_id.symbol"/>
+                                    <span t-field="doc.discount_amount"/>
+                                </td>
+                            </tr>
+                            <tr style="font-weight: bold; font-size: 1.2em; border-top: 2px solid #3498db;">
+                                <td style="padding: 8px;">Total Amount:</td>
+                                <td style="padding: 8px; text-align: right;">
+                                    <span t-esc="doc.currency_id.symbol"/>
+                                    <span t-field="doc.total_amount"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px;">Paid Amount:</td>
+                                <td style="padding: 8px; text-align: right;">
+                                    <span t-esc="doc.currency_id.symbol"/>
+                                    <span t-field="doc.paid_amount"/>
+                                </td>
+                            </tr>
+                            <tr style="font-weight: bold; color: #e74c3c;">
+                                <td style="padding: 8px;">Balance Due:</td>
+                                <td style="padding: 8px; text-align: right;">
+                                    <span t-esc="doc.currency_id.symbol"/>
+                                    <span t-field="doc.balance_due"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div t-if="doc.notes or doc.special_requests" style="margin-bottom: 20px;">
+                        <h3 style="color: #2c3e50;">Notes</h3>
+                        <p><strong>Notes:</strong> <span t-field="doc.notes"/></p>
+                        <p><strong>Special Requests:</strong> <span t-field="doc.special_requests"/></p>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px; font-size: 12px; color: #7f8c8d;">
+                        <p>This is a system-generated confirmation. Please check all details carefully.</p>
+                        <p>Thank you for choosing us!</p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_hotel_reservation" model="ir.actions.report">
+        <field name="name">Reservation Confirmation</field>
+        <field name="model">hotel.reservation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">boutique_hotel_pms.report_hotel_reservation</field>
+        <field name="report_file">boutique_hotel_pms.report_hotel_reservation</field>
+        <field name="binding_model_id" ref="model_hotel_reservation"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

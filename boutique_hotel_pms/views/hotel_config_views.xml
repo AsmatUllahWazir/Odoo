@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Configuration Settings -->
+    <record id="view_hotel_config_settings" model="ir.ui.view">
+        <field name="name">hotel.config.settings.form</field>
+        <field name="model">hotel.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Hotel Configuration Settings</h1>
+                    </div>
+
+                    <group string="General Settings">
+                        <field name="company_name"/>
+                        <field name="company_website"/>
+                        <field name="company_email"/>
+                        <field name="company_phone"/>
+                        <field name="company_address"/>
+                    </group>
+
+                    <group string="Check-in / Check-out Settings" col="2">
+                        <group>
+                            <field name="default_checkin_time"/>
+                            <field name="default_checkout_time"/>
+                            <field name="early_checkin_allowed"/>
+                            <field name="late_checkout_allowed"/>
+                        </group>
+                        <group>
+                            <field name="early_checkin_charge" invisible="not early_checkin_allowed"/>
+                            <field name="late_checkout_charge" invisible="not late_checkout_allowed"/>
+                        </group>
+                    </group>
+
+                    <group string="Tax &amp; Financial Settings" col="2">
+                        <group>
+                            <field name="tax_percentage"/>
+                            <field name="service_charge_percentage"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Booking Settings" col="2">
+                        <group>
+                            <field name="min_advance_booking_days"/>
+                            <field name="max_advance_booking_days"/>
+                            <field name="cancellation_policy" nolabel="1"/>
+                        </group>
+                        <group>
+                            <field name="deposit_required"/>
+                            <field name="deposit_percentage" invisible="not deposit_required"/>
+                            <field name="deposit_amount" invisible="not deposit_required"/>
+                        </group>
+                    </group>
+
+                    <group string="Notification Settings" col="2">
+                        <group>
+                            <field name="send_confirmation_email"/>
+                            <field name="send_reminder_emails"/>
+                            <field name="reminder_days" invisible="not send_reminder_emails"/>
+                        </group>
+                        <group>
+                            <field name="send_folio_email"/>
+                            <field name="send_payment_receipt"/>
+                        </group>
+                    </group>
+
+                    <group string="Housekeeping Settings" col="2">
+                        <group>
+                            <field name="default_cleaning_time"/>
+                            <field name="inspection_required"/>
+                        </group>
+                    </group>
+
+                    <group string="Website Settings" col="2">
+                        <group>
+                            <field name="website_booking_enabled"/>
+                            <field name="website_booking_theme" invisible="not website_booking_enabled"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">hotel.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="res_id" eval="False"/>
+    </record>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_hotel_config_settings"
+              name="Settings"
+              parent="menu_hotel_configuration"
+              action="action_hotel_config_settings"
+              sequence="100"/>
+
+</odoo>

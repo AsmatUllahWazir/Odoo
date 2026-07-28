@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boutique & Small Hotel PMS | Complete Property Management for Odoo 17</title>
+    <meta name="description" content="Enterprise Boutique Hotel PMS for Odoo 17. Complete solution for Room Management, Reservations, Guest Management, Folio, Housekeeping, Services, Payments & Analytics." />
+    <meta name="keywords" content="odoo 17 hotel pms, boutique hotel management, small hotel pms, property management system, odoo hotel, odoo reservations, odoo guest management, odoo housekeeping" />
+    <meta name="author" content="Wazirz" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Boutique & Small Hotel PMS | Complete Property Management for Odoo 17" />
+    <meta property="og:description" content="All-in-one Odoo 17 solution for Boutique Hotels. Room Management, Reservations, Guest Management, Folio, Housekeeping, Services, Payments & Analytics." />
+    <meta property="og:image" content="banner.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Boutique & Small Hotel PMS | Complete Property Management for Odoo 17" />
+    <meta name="twitter:description" content="Complete Boutique Hotel PMS: Room Management, Reservations, Guest Management, Folio, Housekeeping, Services, Payments & Analytics." />
+    <meta name="twitter:image" content="banner.png" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Boutique & Small Hotel PMS for Odoo 17",
+      "operatingSystem": "Odoo 17",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "85.00",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "112"
+      },
+      "description": "Enterprise Boutique Hotel Property Management System featuring Room Management, Reservations, Guest Management with History, Folio and Billing, Housekeeping, Services, Payments, Channel Integration, and Executive Dashboards.",
+      "author": {
+        "@type": "Organization",
+        "name": "Wazirz",
+        "url": ""
+      }
+    }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333333;
+            background-color: #F8FAFC;
+            margin: 0;
+            padding: 0;
+        }
+        .oe_container {
+            padding-left: 2%;
+            padding-right: 2%;
+        }
+        .oe_spaced {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .shadow-sm {
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+        }
+        .card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            margin-bottom: 24px;
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 2px solid #CBD5E1;
+            background-color: #F1F5F9;
+        }
+        .card-body {
+            padding: 24px;
+        }
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 12px 16px 0;
+            background-color: #F1F5F9;
+            border-bottom: 2px solid #0f766e;
+        }
+        .nav-tabs .nav-item {
+            margin-bottom: -2px;
+        }
+        .nav-tabs .nav-link {
+            color: #475569;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            background: #E2E8F0;
+            border: 1px solid #CBD5E1;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s;
+        }
+        .nav-tabs .nav-link.active {
+            color: #0f766e;
+            background: #FFFFFF;
+            border: 2px solid #0f766e;
+            border-bottom: 2px solid #FFFFFF;
+        }
+        .nav-tabs .nav-link:hover {
+            background: #FFFFFF;
+        }
+        .tab-pane {
+            display: none;
+            padding: 32px 16px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-top: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        .btn-primary {
+            background-color: #0f766e;
+            border: 3px solid #0a5a54;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 18px;
+            border-radius: 8px;
+            padding: 12px 28px;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0a5a54;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 118, 110, 0.4);
+        }
+        .btn-secondary {
+            background-color: #FFFFFF;
+            border: 3px solid #0f766e;
+            color: #0f766e;
+            font-weight: 800;
+            font-size: 18px;
+            border-radius: 8px;
+            padding: 12px 28px;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover {
+            background-color: #f0fdfa;
+            transform: translateY(-2px);
+        }
+        .btn-gold {
+            background-color: #FEF08A;
+            border: 3px solid #000000;
+            color: #000000;
+            font-weight: 800;
+            font-size: 18px;
+            border-radius: 8px;
+            padding: 12px 28px;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        .btn-gold:hover {
+            background-color: #fde047;
+            transform: translateY(-2px);
+        }
+        .badge-teal {
+            background: #0f766e;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 14px;
+            padding: 6px 16px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+        .badge-blue {
+            background: #EFF6FF;
+            color: #1E40AF;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #BFDBFE;
+            display: inline-block;
+        }
+        .badge-purple {
+            background: #FDF4FF;
+            color: #86198F;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #F5D0FE;
+            display: inline-block;
+        }
+        .badge-yellow {
+            background: #FEF3C7;
+            color: #B45309;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #FDE68A;
+            display: inline-block;
+        }
+        .badge-green {
+            background: #DCFCE7;
+            color: #166534;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #BBF7D0;
+            display: inline-block;
+        }
+        .badge-pink {
+            background: #FCE7F3;
+            color: #9D174D;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #FBCFE8;
+            display: inline-block;
+        }
+        .badge-red {
+            background: #FEF2F2;
+            color: #DC2626;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #FECACA;
+            display: inline-block;
+        }
+        .feature-card {
+            background: #F8FAFC;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #0f766e;
+            margin-bottom: 12px;
+        }
+        .feature-card strong {
+            color: #0F172A;
+            display: block;
+        }
+        .feature-card span {
+            font-size: 14px;
+            color: #64748B;
+        }
+        .icon-box {
+            font-size: 32px;
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .icon-teal { background: #E0E7FF; color: #1E40AF; }
+        .icon-blue { background: #EFF6FF; color: #2563EB; }
+        .icon-yellow { background: #FEF3C7; color: #D97706; }
+        .icon-green { background: #DCFCE7; color: #166534; }
+        .icon-pink { background: #FCE7F3; color: #DB2777; }
+        .icon-purple { background: #F3E8FF; color: #7E22CE; }
+        .icon-sky { background: #E0F2FE; color: #0369A1; }
+        .icon-red { background: #FEF2F2; color: #DC2626; }
+        .icon-orange { background: #FFF7ED; color: #EA580C; }
+        .icon-indigo { background: #EEF2FF; color: #4F46E5; }
+
+        .checklist-item {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            height: 100%;
+            transition: all 0.2s;
+        }
+        .checklist-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        .checklist-item .check {
+            color: #0f766e;
+            font-size: 20px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .oe_container { padding-left: 4%; padding-right: 4%; }
+            .nav-tabs .nav-link { padding: 8px 16px; font-size: 14px; }
+            .tab-pane { padding: 16px 8px; }
+            .btn-primary, .btn-secondary, .btn-gold { font-size: 16px; padding: 10px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0; flex-wrap: wrap; gap: 12px;">
+            <div class="d-flex align-items-center flex-wrap" style="gap: 12px;">
+                <span style="background: #0f766e; color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.5px;">
+                    🏨 Odoo 17 Ready
+                </span>
+                <span style="font-size: 18px; font-weight: 700; color: #1E293B;">
+                    Boutique & Small Hotel PMS Suite
+                </span>
+            </div>
+            <div class="d-flex align-items-center flex-wrap" style="gap: 10px;">
+                <div style="font-size: 15px; color: #475569; font-weight: 600;">
+                    Supported Editions:
+                </div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #BFDBFE;">
+                    Community
+                </span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #E9D5FF;">
+                    Enterprise
+                </span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 6px; border: 1px solid #FDE68A;">
+                    USD $85.00
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5" style="text-align: center;">
+    <h1 style="font-size: 38px; color: #0F172A; font-weight: 800; margin-bottom: 16px; line-height: 1.2;">
+        Boutique & Small Hotel PMS – Complete Property Management for Odoo 17
+    </h1>
+    <p style="font-weight: 500; font-size: 19px; color: #475569; max-width: 900px; margin: 0 auto 28px; line-height: 1.6;">
+        A clean, modern, and easy-to-use Property Management System designed specifically for Boutique Hotels, Guesthouses, and Small Hotels (10–40 rooms). Focuses on simplicity, beautiful UI, fast setup, and essential daily operations without the complexity of large hotel systems.
+    </p>
+    <div style="margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+        <a href="#odoo_view_tab1" class="btn-secondary">🖼️ View All Screenshots</a>
+        <a href="#odoo_view_tab5" class="btn-gold">🎥 Watch Video Walkthrough</a>
+        <a href="https://yourwebsite.com/contact" target="_blank" class="btn-primary">💬 Get Free Consultation</a>
+    </div>
+</section>
+
+<!-- ==================== CORE ARCHITECTURAL CARDS ==================== -->
+
+<!-- 1. Room Types & Inventory -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-teal">🏠</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Room Types & Inventory Management
+                    </h2>
+                    <span class="badge-purple">CORE MODEL</span>
+                    <span class="badge-blue">CONFIGURATION</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete room inventory management with flexible room types, pricing models, and real-time availability tracking. Perfect for boutique hotels with diverse room categories.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Room Types</strong>
+                        <span>Standard, Deluxe, Suite, Penthouse with custom attributes.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Dynamic Pricing</strong>
+                        <span>Base price, weekend pricing, peak season, and off-peak rates.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Capacity Management</strong>
+                        <span>Adult and child capacity per room type with extra bed options.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Real-time Availability</strong>
+                        <span>Live room status with color-coded Kanban board.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Reservation Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-blue">📅</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Reservation Management System
+                    </h2>
+                    <span class="badge-purple">CORE WORKFLOW</span>
+                    <span class="badge-yellow">MAIN DOCUMENT</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                End-to-end reservation lifecycle with intelligent room allocation, date management, and automated state transitions. Supports multiple booking sources and room assignments.
+            </p>
+            <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+                <li><strong>Reservation Creation:</strong> Quick guest search, room selection, date picking with conflict detection.</li>
+                <li><strong>State Machine:</strong> Draft → Confirmed → Checked In → Checked Out → Cancelled / No Show.</li>
+                <li><strong>Room Allocation:</strong> Auto-assign available rooms with conflict prevention.</li>
+                <li><strong>Multi-room Booking:</strong> Support for groups and families booking multiple rooms.</li>
+                <li><strong>Source Tracking:</strong> Walk-in, Website, Phone, OTA, Corporate, Travel Agent.</li>
+                <li><strong>Calendar View:</strong> Visual occupancy calendar for easy planning.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Guest Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-yellow">👤</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Guest Management & History
+                    </h2>
+                    <span class="badge-purple">CORE MODEL</span>
+                    <span class="badge-green">CRM INTEGRATION</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Comprehensive guest profiles with stay history, preferences, loyalty tracking, and VIP management. Built on Odoo's partner model with extended hotel-specific fields.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Guest Profiles</strong>
+                        <span>Complete demographics with ID verification and document storage.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Stay History</strong>
+                        <span>Total stays, nights, spend, and preferred room types.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Preferences</strong>
+                        <span>Room preferences, dietary requirements, accessibility needs.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Loyalty & VIP</strong>
+                        <span>Loyalty program levels, points, and VIP status management.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Folio & Billing -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-green">📄</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Folio & Billing Engine
+                    </h2>
+                    <span class="badge-purple">BILLING</span>
+                    <span class="badge-yellow">FINANCIAL</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Comprehensive folio management with room charges, extra services, taxes, and payment tracking. Auto-generated on check-in with seamless payment integration.
+            </p>
+            <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+                <li><strong>Auto-generated Folio:</strong> Automatically created on guest check-in with room charges.</li>
+                <li><strong>Service Lines:</strong> Add extra services (breakfast, laundry, spa, minibar, transfer).</li>
+                <li><strong>Tax & Discount:</strong> Tax percentage, service charge, discount management.</li>
+                <li><strong>Payment Tracking:</strong> Multiple payment methods with receipt generation.</li>
+                <li><strong>Balance Management:</strong> Real-time balance due with payment status.</li>
+                <li><strong>PDF Invoice:</strong> Professional folio/invoice PDF generation.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Housekeeping Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-pink">🧹</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Housekeeping Management
+                    </h2>
+                    <span class="badge-purple">OPERATIONS</span>
+                    <span class="badge-green">TRACKING</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete housekeeping task management with room status tracking, cleaning schedules, quality inspection, and staff assignment.
+            </p>
+            <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+                <li><strong>Room Status:</strong> Available, Occupied, Dirty, Maintenance, Blocked, Reserved.</li>
+                <li><strong>Task Management:</strong> Cleaning, maintenance, inspection, deep cleaning, restocking.</li>
+                <li><strong>Staff Assignment:</strong> Assign tasks to housekeeping staff with priority levels.</li>
+                <li><strong>Quality Control:</strong> Inspection with quality rating and redo tracking.</li>
+                <li><strong>Supply Tracking:</strong> Track supplies used and additional supplies needed.</li>
+                <li><strong>Dashboard:</strong> Real-time housekeeping status board.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- 6. Service Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-purple">🛎️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Service Management
+                    </h2>
+                    <span class="badge-purple">CONFIGURATION</span>
+                    <span class="badge-yellow">ADD-ONS</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Comprehensive service catalog with pricing, availability, and booking management. Add services to guest folios during their stay.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>Service Catalog</strong>
+                        <span>Food & Beverage, Wellness, Transport, Recreation, Laundry.</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>Pricing Models</strong>
+                        <span>Fixed price, per person, per hour, per day.</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>Booking Management</strong>
+                        <span>Advance booking, time slots, availability tracking.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. Payment Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-sky">💳</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Payment Management
+                    </h2>
+                    <span class="badge-purple">FINANCIAL</span>
+                    <span class="badge-red">TRANSACTIONS</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete payment processing with multiple payment methods, transaction tracking, and automated receipt generation.
+            </p>
+            <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+                <li><strong>Payment Methods:</strong> Cash, Credit Card, Debit Card, Bank Transfer, Online Payment, Corporate Account, Loyalty Points.</li>
+                <li><strong>Payment Types:</strong> Deposit, Partial, Full, Refund, Adjustment.</li>
+                <li><strong>Transaction Tracking:</strong> Transaction ID, Authorization Code, Reference Number.</li>
+                <li><strong>Receipt Generation:</strong> Auto-send payment receipts via email.</li>
+                <li><strong>Card Management:</strong> Card type, last 4 digits, cardholder name.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- 8. Channel Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-indigo">🌐</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Channel & OTA Integration
+                    </h2>
+                    <span class="badge-purple">INTEGRATION</span>
+                    <span class="badge-blue">DISTRIBUTION</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Manage distribution channels and OTA integrations with commission tracking, auto-confirmation, and inventory sync capabilities.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Channel Types</strong>
+                        <span>OTA, GDS, Direct, Corporate, Travel Agent, Wholesale.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Commission Tracking</strong>
+                        <span>Percentage, fixed amount, or per booking commission.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Auto-Confirmation</strong>
+                        <span>Auto-confirm reservations from specific channels.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Inventory Sync</strong>
+                        <span>Real-time inventory sync with channel partners.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 9. Website Booking -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-orange">🌐</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Website Booking Form
+                    </h2>
+                    <span class="badge-purple">WEBSITE</span>
+                    <span class="badge-green">FRONTEND</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Beautiful, mobile-responsive booking form for direct guest bookings. Real-time availability check and instant confirmation.
+            </p>
+            <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+                <li><strong>Real-time Availability:</strong> Instant room availability check with date selection.</li>
+                <li><strong>Guest Registration:</strong> Guest information capture with auto-creation.</li>
+                <li><strong>Confirmation Email:</strong> Auto-send confirmation emails to guests.</li>
+                <li><strong>Mobile Responsive:</strong> Works perfectly on all devices.</li>
+                <li><strong>Theme Options:</strong> Multiple themes for your brand.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- 10. Reporting & Analytics -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center mb-3">
+                <div class="icon-box icon-red">📊</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Reporting & Executive Dashboards
+                    </h2>
+                    <span class="badge-purple">ANALYTICS</span>
+                    <span class="badge-red">INSIGHTS</span>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Comprehensive reporting suite with real-time dashboards, occupancy analytics, revenue tracking, and business intelligence.
+            </p>
+            <ul style="font-size: 16px; line-height: 2; color: #333333; margin-left: 20px;">
+                <li><strong>Reservation Report:</strong> PDF reservation confirmation with full details.</li>
+                <li><strong>Folio/Invoice Report:</strong> Professional PDF invoice with all charges.</li>
+                <li><strong>Occupancy Report:</strong> Daily, weekly, monthly occupancy analytics.</li>
+                <li><strong>Revenue Analytics:</strong> Revenue by room type, source, and time period.</li>
+                <li><strong>Dashboard Widgets:</strong> Real-time KPIs: occupancy rate, revenue, check-ins, housekeeping status.</li>
+                <li><strong>Charts & Graphs:</strong> Visual trends with Chart.js integration.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== HIGHLIGHTED FEATURES CHECKLIST ==================== -->
+<section class="oe_container my-5">
+    <div class="d-flex mb-4 flex-column align-items-center" style="text-align: center;">
+        <h2 style="font-weight: 800; font-size: 32px; color: #0F172A; margin-bottom: 8px;">
+            🏆 Boutique Hotel PMS Feature Checklist
+        </h2>
+        <p style="font-weight: 500; font-size: 18px; color: #64748B;">
+            Comprehensive operational checklist powered by Boutique Hotel PMS for Odoo 17
+        </p>
+    </div>
+    <div class="row" style="font-size: 16px; font-weight: 600; color: #1E293B;">
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Complete Room Types & Inventory Management</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Dynamic Pricing with Weekend & Seasonal Rates</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Reservation Management with Calendar View</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Automated Check-in / Check-out Workflow</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Guest Management with Stay History & Preferences</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Folio & Billing with Service Lines</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Housekeeping Task Management with Room Status</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Service Catalog with Booking Management</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Payment Processing with Receipt Generation</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Channel & OTA Integration with Commission Tracking</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Website Booking Form with Real-time Availability</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>PDF Reports: Reservation, Folio, Occupancy</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Executive Dashboard with Charts & KPIs</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Color-coded Room Status Kanban Board</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Guest History with Total Stays & Spending</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Security Groups: Owner, Manager, Receptionist, Housekeeping</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Email Notifications: Confirmation, Folio, Receipt</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Automatic Sequences for Reservations & Folios</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Conflict Prevention: No Double Booking</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Multi-language & Multi-company Ready</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Audit Trail with Chatter & Activity Tracking</span>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="checklist-item">
+                <span class="check">✔</span>
+                <span>Beautiful Odoo 17 UI with Modern Design</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== COMPLETE WORKFLOW SECTION ==================== -->
+<section class="oe_container my-5">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <h2 style="font-weight: 800; font-size: 32px; color: #0F172A; margin-bottom: 8px;">
+            🔄 Complete Hotel Operational Workflows
+        </h2>
+        <p style="font-weight: 500; font-size: 18px; color: #64748B;">
+            End-to-end workflows covering the entire guest journey from booking to check-out
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #EFF6FF; border-bottom-color: #2563EB;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #1E40AF; margin: 0;">
+                        📋 Reservation to Check-out Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Reservation Creation:</strong> Guest searches rooms → Selects dates → Chooses room type → Creates reservation (Draft).</li>
+                        <li><strong>Confirmation:</strong> Confirm reservation → Room status becomes Reserved → Send confirmation email.</li>
+                        <li><strong>Check-in:</strong> Guest arrives → Click Check-in → Room status becomes Occupied → Folio auto-created.</li>
+                        <li><strong>During Stay:</strong> Add extra services (breakfast, laundry, spa) → Services added to folio.</li>
+                        <li><strong>Check-out:</strong> Guest departs → Click Check-out → Room status becomes Dirty → Folio settled.</li>
+                        <li><strong>Housekeeping:</strong> Room cleaned → Status becomes Available → Ready for next booking.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #DCFCE7; border-bottom-color: #16A34A;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin: 0;">
+                        🧹 Housekeeping & Maintenance Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Status Detection:</strong> Room becomes Dirty after check-out or manual update.</li>
+                        <li><strong>Task Creation:</strong> Housekeeping task created with priority and assignment.</li>
+                        <li><strong>Task Assignment:</strong> Staff assigned → Task status becomes Assigned.</li>
+                        <li><strong>Cleaning:</strong> Staff starts cleaning → Status becomes In Progress.</li>
+                        <li><strong>Completion:</strong> Cleaning completed → Status becomes Completed → Room becomes Clean/Available.</li>
+                        <li><strong>Inspection:</strong> Supervisor inspects → Status becomes Inspected → Quality rating recorded.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #FEF3C7; border-bottom-color: #D97706;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #B45309; margin: 0;">
+                        💰 Folio & Payment Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Folio Creation:</strong> Auto-created on check-in with room charges.</li>
+                        <li><strong>Service Addition:</strong> Extra services added during stay (breakfast, spa, etc.).</li>
+                        <li><strong>Balance Tracking:</strong> Real-time balance due with payment status.</li>
+                        <li><strong>Payment Registration:</strong> Multiple payment methods (cash, card, online).</li>
+                        <li><strong>Folio Settlement:</strong> Settle folio at check-out → Generate invoice.</li>
+                        <li><strong>Receipt Generation:</strong> Auto-send payment receipt via email.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #FCE7F3; border-bottom-color: #DB2777;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #9D174D; margin: 0;">
+                        👤 Guest Journey & Loyalty Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Guest Registration:</strong> New guest created with all demographics and preferences.</li>
+                        <li><strong>Stay Recording:</strong> Each stay tracked with dates, nights, and spending.</li>
+                        <li><strong>History Building:</strong> Complete stay history with preferred room types.</li>
+                        <li><strong>Loyalty Points:</strong> Points accumulated based on stays and spending.</li>
+                        <li><strong>VIP Status:</strong> Automatic or manual VIP status based on history.</li>
+                        <li><strong>Personalization:</strong> Personalized service based on guest preferences.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== INTERACTIVE TABBED SECTION ==================== -->
+<section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="card-header shadow-sm p-0" style="font-weight: 700; font-size: 18px; color: #333333;">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab">
+                    🖼️ All Screenshots & Screens
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="detailed-tab" data-bs-toggle="tab" href="#odoo_view_tab2" role="tab">
+                    📋 Detailed Functional Workflows
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#odoo_view_tab3" role="tab">
+                    ⚙️ Backend & Configuration
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="security-tab" data-bs-toggle="tab" href="#odoo_view_tab4" role="tab">
+                    🔐 Security & Access Rights
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="video-tab" data-bs-toggle="tab" href="#odoo_view_tab5" role="tab">
+                    🎥 Live Video Walkthrough & Demo
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="tab-content">
+
+        <!-- TAB 1: ALL SCREENSHOTS -->
+        <div class="tab-pane active" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-4">
+
+                <!-- Screen 1: Dashboard -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📊 Screenshot 1: Executive Hotel Dashboard
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Real-time KPI dashboard with occupancy rate, revenue, check-ins, check-outs, and housekeeping status.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/01_hotel_dashboard.png" alt="Hotel Dashboard" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 2: Room Types -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🏠 Screenshot 2: Room Types Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Define room types with capacity, pricing, amenities, and features.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/02_room_types.png" alt="Room Types" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 3: Room Status Board -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🎨 Screenshot 3: Room Status Kanban Board
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Color-coded room status board for quick visual overview of property occupancy.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/03_room_kanban.png" alt="Room Kanban Board" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 4: Reservation Form -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📝 Screenshot 4: Reservation Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Create reservations with guest selection, room allocation, date picking, and source tracking.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/04_reservation_form.png" alt="Reservation Form" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 5: Reservation Calendar -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📅 Screenshot 5: Reservation Calendar View
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Visual calendar for easy reservation management and occupancy planning.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/05_calendar_view.png" alt="Calendar View" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 6: Guest Form -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                👤 Screenshot 6: Guest Management Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Complete guest profile with demographics, preferences, stay history, and loyalty status.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/06_guest_form.png" alt="Guest Form" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 7: Folio -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📄 Screenshot 7: Folio / Billing
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Guest folio with room charges, service lines, and payment tracking.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/07_folio.png" alt="Folio" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 8: Housekeeping -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🧹 Screenshot 8: Housekeeping Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Task management with assignment, priority, and status tracking.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/08_housekeeping.png" alt="Housekeeping" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 9: Services -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🛎️ Screenshot 9: Service Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Service catalog with pricing, categories, and availability.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/09_services.png" alt="Services" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 10: PDF Report -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                📄 Screenshot 10: PDF Folio / Invoice
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Professional PDF invoice with all charges, taxes, and payment details.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/10_pdf_folio.png" alt="PDF Folio" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 11: Configuration -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                ⚙️ Screenshot 11: Configuration Settings
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Hotel configuration with check-in/out times, tax rates, booking rules, and notification settings.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/11_configuration.png" alt="Configuration" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 12: Website Booking -->
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 1px solid #CBD5E1; border-radius: 12px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #000000; padding: 20px 24px;">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🌐 Screenshot 12: Website Booking Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0; line-height: 1.6;">
+                                Mobile-responsive booking form with real-time availability check.
+                            </p>
+                        </div>
+                        <div class="panel-body p-4" style="background: #F8FAFC;">
+                            <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 8px; border: 1px solid #E2E8F0;" src="screenshots/12_website_booking.png" alt="Website Booking" />
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAILED FUNCTIONAL WORKFLOWS -->
+        <div class="tab-pane" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Detailed Operational Workflows & System Architecture
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #EFF6FF; border-bottom-color: #2563EB;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #1E40AF; margin: 0;">
+                                    📋 Reservation Workflow
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                    <li><strong>Reservation Creation:</strong> Guest or receptionist creates reservation with dates and room selection.</li>
+                                    <li><strong>Conflict Check:</strong> System automatically checks for double booking conflicts.</li>
+                                    <li><strong>Confirmation:</strong> Reservation confirmed → Room status becomes Reserved.</li>
+                                    <li><strong>Pre-arrival:</strong> Send confirmation email with booking details.</li>
+                                    <li><strong>Check-in:</strong> Guest arrives → Room status becomes Occupied → Folio created.</li>
+                                    <li><strong>During Stay:</strong> Add services, manage guest requests, track expenses.</li>
+                                    <li><strong>Check-out:</strong> Guest departs → Room status becomes Dirty → Folio settled.</li>
+                                    <li><strong>Post Check-out:</strong> Send folio email → Room cleaned → Available for next booking.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #DCFCE7; border-bottom-color: #16A34A;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin: 0;">
+                                    🧹 Housekeeping Workflow
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                    <li><strong>Room Status Change:</strong> Room becomes Dirty after check-out.</li>
+                                    <li><strong>Task Creation:</strong> Housekeeping task auto-created or manually assigned.</li>
+                                    <li><strong>Priority Assignment:</strong> Set priority (Urgent/High/Normal/Low).</li>
+                                    <li><strong>Staff Assignment:</strong> Assign to available housekeeping staff.</li>
+                                    <li><strong>Task Start:</strong> Staff starts cleaning → Status becomes In Progress.</li>
+                                    <li><strong>Completion:</strong> Staff completes cleaning → Status becomes Completed.</li>
+                                    <li><strong>Inspection:</strong> Supervisor inspects → Quality rating recorded.</li>
+                                    <li><strong>Room Available:</strong> Room status becomes Available for next booking.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #FEF3C7; border-bottom-color: #D97706;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #B45309; margin: 0;">
+                                    💰 Financial & Billing Workflow
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                    <li><strong>Folio Creation:</strong> Auto-created on check-in with room charges.</li>
+                                    <li><strong>Service Addition:</strong> Staff adds services (breakfast, laundry, spa).</li>
+                                    <li><strong>Real-time Calculation:</strong> Total amount updates with each service added.</li>
+                                    <li><strong>Payment Registration:</strong> Multiple payment methods accepted.</li>
+                                    <li><strong>Balance Tracking:</strong> Real-time balance due monitoring.</li>
+                                    <li><strong>Folio Settlement:</strong> Settle at check-out → Generate invoice.</li>
+                                    <li><strong>Receipt Generation:</strong> Auto-send receipt to guest email.</li>
+                                    <li><strong>Accounting Integration:</strong> Seamless Odoo Accounting sync.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #FCE7F3; border-bottom-color: #DB2777;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #9D174D; margin: 0;">
+                                    👤 Guest Lifecycle Workflow
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                    <li><strong>Guest Creation:</strong> New guest registered with complete demographics.</li>
+                                    <li><strong>ID Verification:</strong> Document verification and storage.</li>
+                                    <li><strong>Preference Capture:</strong> Room preferences, dietary needs, accessibility.</li>
+                                    <li><strong>First Stay:</strong> First booking and stay experience.</li>
+                                    <li><strong>History Building:</strong> All stays, nights, and spending tracked.</li>
+                                    <li><strong>Loyalty Accumulation:</strong> Points earned based on stays and spending.</li>
+                                    <li><strong>VIP Status:</strong> Automatic VIP upgrade based on history.</li>
+                                    <li><strong>Personalized Service:</strong> Tailored experience based on preferences.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BACKEND & CONFIGURATION -->
+        <div class="tab-pane" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Enterprise Backend Configuration & Setup
+                </h2>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">
+                            ⚙️ Core Module Configuration
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Room Setup</strong>
+                                    <span>Define room types → Add individual rooms → Set pricing → Configure amenities.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Service Catalog</strong>
+                                    <span>Define services → Set pricing → Configure availability → Add to folios.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Channel Setup</strong>
+                                    <span>Add distribution channels → Configure commissions → Enable auto-confirmation.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Email Templates</strong>
+                                    <span>Configure confirmation, folio, receipt, and VIP welcome emails.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Sequence Numbers</strong>
+                                    <span>Auto-generated numbers for reservations and folios.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Tax & Financial</strong>
+                                    <span>Set tax rates, service charges, and currency preferences.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">
+                            🔧 Automated Business Rules
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                            <li><strong>Conflict Prevention:</strong> Automatic double booking prevention with validation.</li>
+                            <li><strong>Room Status Updates:</strong> Auto-update room status on check-in/check-out.</li>
+                            <li><strong>Folio Auto-creation:</strong> Auto-generate folio on check-in with room charges.</li>
+                            <li><strong>Payment Status:</strong> Auto-update payment status based on payments.</li>
+                            <li><strong>Email Notifications:</strong> Auto-send confirmation, folio, and receipt emails.</li>
+                            <li><strong>Sequence Generation:</strong> Auto-generate reservation and folio numbers.</li>
+                            <li><strong>Housekeeping Triggers:</strong> Auto-create housekeeping tasks on check-out.</li>
+                            <li><strong>Inventory Sync:</strong> Real-time room availability updates.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">
+                            📊 Reporting & Analytics Configuration
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Reservation Report</strong>
+                                    <span>Customizable PDF with guest details, room info, and financial summary.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Folio Invoice</strong>
+                                    <span>Professional invoice with room charges, services, taxes, and payment details.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Occupancy Report</strong>
+                                    <span>Daily, weekly, monthly occupancy analytics with trends.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SECURITY & ACCESS RIGHTS -->
+        <div class="tab-pane" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-4 text-left" style="text-align: left;">
+                <h2 style="font-size: 26px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Security Groups & Access Rights Matrix
+                </h2>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">
+                            🔐 Granular Security Groups
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 15px; color: #475569; line-height: 1.8; margin-bottom: 16px;">
+                            The module defines 4 distinct security access groups inside Odoo 17 User Settings. Each role strictly controls what the logged-in user can view, create, edit, or delete:
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table border" style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #F1F5F9; color: #0F172A; text-align: left;">
+                                        <th style="padding: 12px; border: 1px solid #CBD5E1;">Security Role</th>
+                                        <th style="padding: 12px; border: 1px solid #CBD5E1;">Intended Staff</th>
+                                        <th style="padding: 12px; border: 1px solid #CBD5E1;">Permissions & Capabilities</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0284C7;">Receptionist</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">Front Desk Staff</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">Create reservations, check-in/out guests, manage folios, add services, view guest profiles.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #0D9488;">Housekeeping</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">Cleaning Staff</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">View room status, manage cleaning tasks, update room status, track supplies.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #7E22CE;">Manager</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">Hotel Managers</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">Full access to all features: reservations, rooms, guests, folios, housekeeping, services, payments, channels, configuration, reports.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1; font-weight: 700; color: #DC2626;">Owner</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">Hotel Owners / Administrators</td>
+                                        <td style="padding: 12px; border: 1px solid #CBD5E1;">Complete administrative control including user management, system settings, and all data.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">
+                            🔒 Model-Level Access Control
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 15px; color: #475569; line-height: 1.8; margin-bottom: 16px;">
+                            Access control is implemented at the model level using Odoo's security framework:
+                        </p>
+                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                            <li><strong>Read Access:</strong> All groups have read access to relevant models.</li>
+                            <li><strong>Create Access:</strong> Receptionist, Manager, Owner can create reservations and guests.</li>
+                            <li><strong>Write Access:</strong> Limited to authorized roles for sensitive operations.</li>
+                            <li><strong>Delete Access:</strong> Restricted to Manager and Owner only.</li>
+                            <li><strong>Record Rules:</strong> Additional record-level security for multi-property setups.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: VIDEO WALKTHROUGH -->
+        <div class="tab-pane" id="odoo_view_tab5" role="tabpanel">
+            <div class="container px-4 text-center">
+                <section class="oe_container my-5">
+                    <div class="panel panel-primary shadow-sm" style="border: 3px solid #000000; border-radius: 16px; overflow: hidden;">
+                        <div class="panel-heading" style="background-color: #FEF08A; border-bottom: 3px solid #000000; color: #000000; padding: 24px;">
+                            <h3 style="font-size: 28px; font-weight: 800; margin: 0; color: #000000; line-height: 1.3;">
+                                🎥 Complete Boutique Hotel PMS Video Walkthrough & Live Demo
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 10px 0 0; line-height: 1.6;">
+                                Interactive step-by-step video tour demonstrating Room Management, Reservations, Guest Management, Folio, Housekeeping, Services, Payments & Analytics.
+                            </p>
+                        </div>
+                        <div class="panel-body p-5" style="background: #FFFFFF;">
+                            <div class="mx-auto" style="max-width: 920px; border: 4px solid #000000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #0F172A;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; background: #0F172A;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1; width: 90%;">
+                                        <div style="color: #FFFFFF; font-size: 24px; font-weight: 800; margin-bottom: 16px;">
+                                            🏨 Boutique Hotel PMS Video Walkthrough
+                                        </div>
+                                        <a href="https://yourwebsite.com/demo" target="_blank" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-size: 20px; font-weight: 800; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: inline-block;">
+                                            ▶️ Click Here to Play Video / Request Live Interactive Demo
+                                        </a>
+                                    </div>
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                                            title="Boutique Hotel PMS Odoo 17 Video Demo"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-5 flex-wrap" style="gap: 12px;">
+                                <a href="https://yourwebsite.com/contact" target="_blank" class="btn-primary">
+                                    💬 Request Live 1-on-1 Video Demo
+                                </a>
+                                <a href="https://yourwebsite.com/trial" target="_blank" class="btn-gold">
+                                    🚀 Get Free Trial Access
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5">
+    <div class="p-5 shadow-sm text-center" style="background-color: #F8FAFC; color: #000000; border-radius: 16px; border: 3px solid #CBD5E1;">
+        <h2 style="font-size: 36px; font-weight: 800; margin-bottom: 14px; color: #000000;">
+            Looking for an experienced Odoo Developer?
+        </h2>
+        <p style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 auto 24px;">
+            We specialize in:
+        </p>
+
+        <div class="mx-auto text-left" style="max-width: 780px; background-color: #FFFFFF; border: 2px solid #E2E8F0; border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div class="row" style="text-align: left; font-size: 18px; font-weight: 700; color: #000000; line-height: 2.4;">
+                <div class="col-md-6">
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Enterprise Odoo Implementation</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Custom Odoo Module Development</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>PMS / Hospitality Solutions</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Third-Party API Integrations</div>
+                </div>
+                <div class="col-md-6">
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Migration & Upgrades</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Performance Optimization</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Technical Support & Maintenance</div>
+                    <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Training & Consultation</div>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 22px; font-weight: 800; color: #000000; margin: 0 auto 28px;">
+            Get in touch today for fast and professional Odoo solutions.
+        </p>
+
+        <div class="d-flex justify-content-center flex-wrap" style="gap: 16px;">
+            <a href="https://wa.me/+966565815529" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
+            </a>
+            <a href="mailto:asmatullahwazir415@gmail.com" target="_blank" rel="noopener" class="px-4 py-3" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                <strong style="color: #000000 !important; font-size: 19px;">💬 Email: asmatullahwazir415@gmail.com</strong>
+            </a>
+        </div>
+
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 2px solid #E2E8F0;">
+            <p style="font-size: 14px; color: #64748B; margin: 0;">
+                © 2026 Boutique Hotel PMS. All rights reserved. | Odoo 17 Ready
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Bootstrap JS for Tabs -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Initialize Bootstrap tabs
+    document.addEventListener('DOMContentLoaded', function() {
+        var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'));
+        triggerTabList.forEach(function(triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function(event) {
+                event.preventDefault();
+                tabTrigger.show();
+            });
+        });
+    });
+</script>
+</body>
+</html>

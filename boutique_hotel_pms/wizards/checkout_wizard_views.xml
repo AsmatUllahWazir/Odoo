@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Checkout Wizard Form View -->
+    <record id="view_hotel_checkout_wizard_form" model="ir.ui.view">
+        <field name="name">hotel.checkout.wizard.form</field>
+        <field name="model">hotel.checkout.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Check-out">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Check-out</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="reservation_id" placeholder="Select Reservation..."/>
+                            <field name="check_out_actual"/>
+                            <field name="payment_method"/>
+                        </group>
+                        <group>
+                            <field name="total_amount" readonly="1" widget="monetary"/>
+                            <field name="balance_due" readonly="1" widget="monetary"
+                                   decoration-danger="balance_due > 0"/>
+                            <field name="extra_charges" widget="monetary"/>
+                            <field name="extra_charges_description" invisible="extra_charges == 0"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"
+                               placeholder="Check-out notes..."/>
+                    </group>
+                    <footer>
+                        <button name="action_check_out"
+                                string="Check Out"
+                                type="object"
+                                class="btn-info"/>
+                        <button string="Cancel"
+                                class="btn-secondary"
+                                special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

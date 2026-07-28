@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dashboard View -->
+    <record id="view_hotel_dashboard" model="ir.ui.view">
+        <field name="name">hotel.dashboard.form</field>
+        <field name="model">hotel.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Hotel Dashboard</h1>
+                    </div>
+
+                    <!-- Quick Stats Cards -->
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Total Rooms</h5>
+                                    <h2 class="card-text" id="total_rooms">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-success text-white">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Available</h5>
+                                    <h2 class="card-text" id="available_rooms">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-info text-white">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Occupied</h5>
+                                    <h2 class="card-text" id="occupied_rooms">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Today's Check-ins</h5>
+                                    <h2 class="card-text" id="today_checkins">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Occupancy Rate</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="occupancy_chart" height="200"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Revenue Trend</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="revenue_chart" height="200"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Today's Check-ins</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="today_checkins_list">
+                                        <p class="text-muted">Loading...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Today's Check-outs</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="today_checkouts_list">
+                                        <p class="text-muted">Loading...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Housekeeping Status -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Housekeeping Status</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-md-3">
+                                            <h3 class="text-danger" id="dirty_rooms">0</h3>
+                                            <span>Dirty Rooms</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h3 class="text-warning" id="cleaning_progress">0</h3>
+                                            <span>Cleaning In Progress</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h3 class="text-success" id="cleaned_today">0</h3>
+                                            <span>Cleaned Today</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h3 class="text-info" id="inspected_today">0</h3>
+                                            <span>Inspected</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Reservations -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Upcoming Reservations</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="upcoming_reservations">
+                                        <p class="text-muted">Loading...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dashboard Action -->
+    <record id="action_hotel_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">hotel.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Hotel Dashboard - Overview of your property
+            </p>
+        </field>
+    </record>
+
+</odoo>

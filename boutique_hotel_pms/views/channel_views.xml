@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Channel Actions -->
+    <record id="action_hotel_channel" model="ir.actions.act_window">
+        <field name="name">Channels</field>
+        <field name="res_model">hotel.channel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage distribution channels and OTAs
+            </p>
+        </field>
+    </record>
+
+    <!-- Channel Tree View -->
+    <record id="view_hotel_channel_tree" model="ir.ui.view">
+        <field name="name">hotel.channel.tree</field>
+        <field name="model">hotel.channel</field>
+        <field name="arch" type="xml">
+            <tree string="Channels" decoration-danger="sync_status=='failed'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="channel_type"/>
+                <field name="commission_rate"/>
+                <field name="active"/>
+                <field name="auto_confirm"/>
+                <field name="inventory_sync"/>
+                <field name="last_sync_date"/>
+                <field name="sync_status" widget="badge"
+                       decoration-success="sync_status=='success'"
+                       decoration-warning="sync_status in ['pending','in_progress']"
+                       decoration-danger="sync_status=='failed'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Channel Form View -->
+    <record id="view_hotel_channel_form" model="ir.ui.view">
+        <field name="name">hotel.channel.form</field>
+        <field name="model">hotel.channel</field>
+        <field name="arch" type="xml">
+            <form string="Channel">
+                <header>
+                    <button name="action_sync_inventory" type="object"
+                            string="Sync Inventory"
+                            class="btn-primary"
+                            invisible="not inventory_sync"/>
+                    <button name="action_view_reservations" type="object"
+                            string="View Reservations"
+                            class="btn-info"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Channel Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="channel_type"/>
+                            <field name="website"/>
+                            <field name="api_url"/>
+                            <field name="api_key" password="1"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="commission_rate"/>
+                            <field name="commission_model"/>
+                            <field name="commission_amount"
+                                   invisible="commission_model != 'fixed'"/>
+                            <field name="auto_confirm"/>
+                            <field name="auto_create_guest"/>
+                            <field name="auto_send_confirmation"/>
+                            <field name="inventory_sync"/>
+                            <field name="last_sync_date" readonly="1"/>
+                            <field name="sync_status"/>
+                        </group>
+                    </group>
+                    <group string="Description &amp; Notes">
+                        <field name="description" nolabel="1"
+                               placeholder="Description..."/>
+                        <field name="notes" nolabel="1"
+                               placeholder="Notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

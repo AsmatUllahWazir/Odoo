@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payment Actions -->
+    <record id="action_hotel_payment" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">hotel.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage hotel payments and transactions
+            </p>
+        </field>
+    </record>
+
+    <!-- Payment Tree View -->
+    <record id="view_hotel_payment_tree" model="ir.ui.view">
+        <field name="name">hotel.payment.tree</field>
+        <field name="model">hotel.payment</field>
+        <field name="arch" type="xml">
+            <tree string="Payments">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="reservation_id"/>
+                <field name="folio_id"/>
+                <field name="payment_date"/>
+                <field name="amount" sum="Total"/>
+                <field name="payment_method"/>
+                <field name="payment_type"/>
+                <field name="payment_status" widget="badge"
+                       decoration-success="payment_status in ['completed','authorized']"
+                       decoration-warning="payment_status in ['pending','draft']"
+                       decoration-danger="payment_status in ['failed','cancelled']"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Payment Form View -->
+    <record id="view_hotel_payment_form" model="ir.ui.view">
+        <field name="name">hotel.payment.form</field>
+        <field name="model">hotel.payment</field>
+        <field name="arch" type="xml">
+            <form string="Payment">
+                <header>
+                    <button name="action_complete" type="object"
+                            string="Complete"
+                            class="btn-success"
+                            invisible="payment_status != 'draft'"/>
+                    <button name="action_pending" type="object"
+                            string="Mark Pending"
+                            class="btn-warning"
+                            invisible="payment_status != 'draft'"/>
+                    <button name="action_authorize" type="object"
+                            string="Authorize"
+                            class="btn-primary"
+                            invisible="payment_status != 'pending'"/>
+                    <button name="action_fail" type="object"
+                            string="Mark Failed"
+                            class="btn-danger"
+                            invisible="payment_status not in ['pending','authorized']"/>
+                    <button name="action_refund" type="object"
+                            string="Refund"
+                            class="btn-warning"
+                            invisible="payment_status not in ['completed','authorized']"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancel"
+                            class="btn-danger"
+                            invisible="payment_status in ['completed','refunded']"/>
+                    <button name="action_send_receipt" type="object"
+                            string="Send Receipt"
+                            class="btn-info"
+                            invisible="payment_status != 'completed'"/>
+                    <field name="payment_status" widget="statusbar"
+                           statusbar_visible="draft,pending,authorized,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Payment Reference..."/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_reservation" type="object"
+                                class="oe_stat_button" icon="fa-calendar"
+                                invisible="not reservation_id">
+                            <div class="o_stat_info">
+                                <field name="reservation_id" widget="many2one"/>
+                                <span class="o_stat_text">Reservation</span>
+                            </div>
+                        </button>
+                        <button name="action_view_folio" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="not folio_id">
+                            <div class="o_stat_info">
+                                <field name="folio_id" widget="many2one"/>
+                                <span class="o_stat_text">Folio</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="reservation_id"/>
+                            <field name="folio_id"/>
+                            <field name="invoice_id"/>
+                            <field name="payment_date"/>
+                            <field name="amount"/>
+                            <field name="payment_method"/>
+                            <field name="payment_type"/>
+                            <field name="payment_status"/>
+                        </group>
+                        <group>
+                            <field name="card_type"
+                                   invisible="payment_method not in ['credit_card','debit_card']"/>
+                            <field name="card_last4"
+                                   invisible="payment_method not in ['credit_card','debit_card']"/>
+                            <field name="card_holder"
+                                   invisible="payment_method not in ['credit_card','debit_card']"/>
+                            <field name="transaction_id"/>
+                            <field name="authorization_code"/>
+                            <field name="reference"/>
+                            <field name="receipt_sent" widget="boolean"/>
+                            <field name="receipt_sent_date" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"
+                               placeholder="Notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

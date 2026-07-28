@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Room Type Tree View -->
+    <record id="view_hotel_room_type_tree" model="ir.ui.view">
+        <field name="name">hotel.room.type.tree</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <tree string="Room Types" decoration-muted="not active">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="capacity_adults"/>
+                <field name="capacity_children"/>
+                <field name="base_price" sum="Total Base Price"/>
+                <field name="total_rooms" sum="Total Rooms"/>
+                <field name="available_rooms" sum="Available"/>
+                <field name="occupancy_rate" widget="progressbar"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Room Type Kanban View -->
+    <record id="view_hotel_room_type_kanban" model="ir.ui.view">
+        <field name="name">hotel.room.type.kanban</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="base_price"/>
+                <field name="capacity_adults"/>
+                <field name="total_rooms"/>
+                <field name="available_rooms"/>
+                <field name="occupied_rooms"/>
+                <field name="occupancy_rate"/>
+                <field name="color"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <span class="fa fa-bed fa-2x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="oe_kanban_card_header">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="code"/> - <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="oe_kanban_card_content">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="fa fa-users"/> Capacity: <field name="capacity_adults"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="fa fa-money"/> Price: <field name="base_price"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-4">
+                                            <span class="badge badge-success">Available: <field name="available_rooms"/></span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="badge badge-primary">Occupied: <field name="occupied_rooms"/></span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="badge badge-warning">Dirty: <field name="dirty_rooms"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-1">
+                                        Occupancy: <field name="occupancy_rate" widget="progressbar"/>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_card_footer">
+                                    <span class="fa fa-building"/> Total Rooms: <field name="total_rooms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Room Type Form View -->
+    <record id="view_hotel_room_type_form" model="ir.ui.view">
+        <field name="name">hotel.room.type.form</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <form string="Room Type">
+                <header>
+                    <button name="toggle_active" type="object"
+                            class="btn-secondary"
+                            invisible="active"/>
+                    <button name="toggle_active" type="object"
+                            class="btn-danger"
+                            invisible="not active"/>
+                    <button name="action_view_rooms" type="object"
+                            string="View Rooms" class="btn-info"/>
+                    <button name="action_view_reservations" type="object"
+                            string="View Reservations" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Room Type Name..."/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_rooms" type="object"
+                                class="oe_stat_button" icon="fa-building">
+                            <div class="o_stat_info">
+                                <field name="total_rooms" widget="integer"/>
+                                <span class="o_stat_text">Total Rooms</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reservations" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <div class="o_stat_info">
+                                <field name="occupied_rooms" widget="integer"/>
+                                <span class="o_stat_text">Occupied</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reservations" type="object"
+                                class="oe_stat_button" icon="fa-line-chart">
+                            <div class="o_stat_info">
+                                <field name="occupancy_rate" widget="float"
+                                       options="{'precision': 1}"/>%
+                                <span class="o_stat_text">Occupancy Rate</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reservations" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <div class="o_stat_info">
+                                <field name="revenue_month" widget="monetary"/>
+                                <span class="o_stat_text">Monthly Revenue</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="code" placeholder="e.g., STD"/>
+                            <field name="capacity_adults" placeholder="2"/>
+                            <field name="capacity_children" placeholder="2"/>
+                            <field name="extra_bed_allowed"/>
+                            <field name="extra_bed_price" invisible="not extra_bed_allowed"/>
+                        </group>
+                        <group>
+                            <field name="base_price" placeholder="100.00"/>
+                            <field name="weekend_price"/>
+                            <field name="peak_price"/>
+                            <field name="off_peak_price"/>
+                            <field name="price_discount_percent"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                    <group string="Stay Requirements">
+                        <group>
+                            <field name="minimum_stay"/>
+                            <field name="maximum_stay"/>
+                        </group>
+                    </group>
+
+                    <group string="Description">
+                        <field name="description" nolabel="1"
+                               placeholder="Room type description..."/>
+                        <field name="description_website" nolabel="1"
+                               placeholder="Website description..."/>
+                    </group>
+
+                    <group string="Amenities &amp; Features">
+                        <field name="amenities_ids" widget="many2many_tags"/>
+                        <field name="feature_ids" widget="many2many_tags"/>
+                    </group>
+
+                    <group string="Photos" invisible="not image_ids">
+                        <field name="image_ids" widget="image_gallery"/>
+                        <field name="main_image" widget="image" class="oe_avatar"/>
+                    </group>
+
+                    <group string="Revenue Statistics" col="4">
+                        <group>
+                            <field name="revenue_today" widget="monetary"/>
+                            <field name="revenue_week" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="revenue_month" widget="monetary"/>
+                            <field name="revenue_year" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="average_daily_rate" widget="monetary"/>
+                            <field name="revenue_per_available_room" widget="monetary"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Room Tree View -->
+    <record id="view_hotel_room_tree" model="ir.ui.view">
+        <field name="name">hotel.room.tree</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <tree string="Rooms" decoration-muted="not active">
+                <field name="room_number"/>
+                <field name="floor"/>
+                <field name="room_type_id"/>
+                <field name="bed_type"/>
+                <field name="status" widget="badge"/>
+<!--                       decoration-success="status=='available'"-->
+<!--                       decoration-info="status=='occupied'"-->
+<!--                       decoration-warning="status in ['dirty','checkout']"-->
+<!--                       decoration-danger="status in ['maintenance','blocked']"-->
+<!--                       decoration-secondary="status=='reserved'"/>-->
+                <field name="is_available"/>
+                <field name="active" invisible="1"/>
+                <field name="current_reservation_id"/>
+                <button name="action_view_current_reservation" type="object"
+                        icon="fa-eye" help="View Current Reservation"
+                        invisible="not current_reservation_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Room Kanban View -->
+    <record id="view_hotel_room_kanban" model="ir.ui.view">
+        <field name="name">hotel.room.kanban</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" string="Room Status Board">
+                <field name="room_number"/>
+                <field name="status"/>
+                <field name="room_type_id"/>
+                <field name="floor"/>
+                <field name="display_name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <span class="fa fa-bed fa-2x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="oe_kanban_card_header">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="room_number"/>
+                                    </strong>
+                                </div>
+                                <div class="oe_kanban_card_content">
+                                    <div><span class="fa fa-building"/> <field name="room_type_id"/></div>
+                                    <div><span class="fa fa-level-up"/> Floor: <field name="floor"/></div>
+                                    <div class="o_field_widget o_field_badge">
+                                        <span class="badge" t-attf-class="#{record.status.raw_value == 'available' ? 'badge-success' : ''}
+                                            #{record.status.raw_value == 'occupied' ? 'badge-primary' : ''}
+                                            #{record.status.raw_value in ['dirty','checkout'] ? 'badge-warning' : ''}
+                                            #{record.status.raw_value in ['maintenance','blocked'] ? 'badge-danger' : ''}
+                                            #{record.status.raw_value == 'reserved' ? 'badge-secondary' : ''}">
+                                            <field name="status"/>
+                                        </span>
+                                    </div>
+                                    <t t-if="record.status.raw_value == 'occupied'">
+                                        <div class="mt-1 text-muted">
+                                            <span class="fa fa-user"/> <field name="current_reservation_id"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="oe_kanban_card_footer">
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       t-attf-href="#model=hotel.room&amp;id=#{record.id}">
+                                        <span class="fa fa-edit"/> Details
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-success"
+                                       t-attf-href="#model=hotel.reservation&amp;action=#{action_hotel_reservation.id}&amp;context=#{'default_room_ids': [record.id]}">
+                                        <span class="fa fa-plus"/> Book
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Room Form View -->
+    <record id="view_hotel_room_form" model="ir.ui.view">
+        <field name="name">hotel.room.form</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <form string="Room">
+                <header>
+                    <button name="action_set_status_available"
+                            type="object"
+                            string="Set Available"
+                            class="btn-success"
+                            invisible="status == 'available'"/>
+                    <button name="action_set_status_occupied"
+                            type="object"
+                            string="Set Occupied"
+                            class="btn-primary"
+                            invisible="status == 'occupied'"/>
+                    <button name="action_set_status_dirty"
+                            type="object"
+                            string="Set Dirty"
+                            class="btn-warning"
+                            invisible="status == 'dirty'"/>
+                    <button name="action_set_status_maintenance"
+                            type="object"
+                            string="Set Maintenance"
+                            class="btn-danger"
+                            invisible="status == 'maintenance'"/>
+                    <button name="action_set_status_blocked"
+                            type="object"
+                            string="Set Blocked"
+                            class="btn-secondary"
+                            invisible="status == 'blocked'"/>
+                    <button name="action_set_status_reserved"
+                            type="object"
+                            string="Set Reserved"
+                            class="btn-info"
+                            invisible="status == 'reserved'"/>
+                    <button name="action_create_housekeeping_task"
+                            type="object"
+                            string="Housekeeping Task"
+                            class="btn-secondary"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="available,occupied,dirty,maintenance,blocked,reserved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Room..."/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_current_reservation" type="object"
+                                class="oe_stat_button" icon="fa-calendar-check-o"
+                                invisible="not current_reservation_id">
+                            <div class="o_stat_info">
+                                <field name="current_reservation_id" widget="many2one"/>
+                                <span class="o_stat_text">Current Reservation</span>
+                            </div>
+                        </button>
+                        <button name="action_view_next_reservation" type="object"
+                                class="oe_stat_button" icon="fa-calendar-plus-o"
+                                invisible="not next_reservation_id">
+                            <div class="o_stat_info">
+                                <field name="next_reservation_id" widget="many2one"/>
+                                <span class="o_stat_text">Next Reservation</span>
+                            </div>
+                        </button>
+                        <button name="action_view_reservations" type="object"
+                                class="oe_stat_button" icon="fa-history">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">View All Reservations</span>
+                            </div>
+                        </button>
+                        <button name="action_view_housekeeping_tasks" type="object"
+                                class="oe_stat_button" icon="fa-tasks">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Housekeeping</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="room_number" placeholder="Room Number..."/>
+                            <field name="floor" placeholder="Floor..."/>
+                            <field name="building" placeholder="Building/Wing..."/>
+                            <field name="room_type_id"/>
+                            <field name="status" widget="badge"
+                                   decoration-success="status=='available'"
+                                   decoration-info="status in ['occupied','reserved']"
+                                   decoration-warning="status in ['dirty','checkout']"
+                                   decoration-danger="status in ['maintenance','blocked']"/>
+                            <field name="is_available"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="bed_type"/>
+                            <field name="bed_count"/>
+                            <field name="bedroom_count"/>
+                            <field name="bathroom_count"/>
+                            <field name="room_size"/>
+                            <field name="last_cleaned_date" readonly="1"/>
+                            <field name="last_maintenance_date"/>
+                            <field name="next_maintenance_date"/>
+                        </group>
+                    </group>
+
+                    <group string="Amenities" col="4">
+                        <field name="has_wifi"/>
+                        <field name="has_air_conditioning"/>
+                        <field name="has_heating"/>
+                        <field name="has_tv"/>
+                        <field name="has_cable_tv"/>
+                        <field name="has_telephone"/>
+                        <field name="has_private_bathroom"/>
+                        <field name="has_hairdryer"/>
+                        <field name="has_iron"/>
+                        <field name="has_safe"/>
+                        <field name="has_minibar"/>
+                        <field name="has_refrigerator"/>
+                        <field name="has_microwave"/>
+                        <field name="has_kitchen"/>
+                        <field name="has_coffee_machine"/>
+                        <field name="has_balcony"/>
+                        <field name="has_terrace"/>
+                        <field name="has_garden_view"/>
+                        <field name="has_city_view"/>
+                        <field name="has_sea_view"/>
+                        <field name="has_mountain_view"/>
+                        <field name="has_pool_view"/>
+                        <field name="is_accessible"/>
+                        <field name="is_smoke_free"/>
+                        <field name="is_pet_friendly"/>
+                        <field name="has_extra_bed"/>
+                        <field name="has_baby_cot"/>
+                    </group>
+
+                    <group string="Additional Amenities">
+                        <field name="amenities_ids" widget="many2many_tags"/>
+                    </group>
+
+                    <group string="Description &amp; Notes">
+                        <field name="description" nolabel="1"
+                               placeholder="Room description..."/>
+                        <field name="maintenance_notes" nolabel="1"
+                               placeholder="Maintenance notes..."/>
+                        <field name="cleaning_notes" nolabel="1"
+                               placeholder="Cleaning notes..."/>
+                    </group>
+
+                    <group string="Statistics" col="2">
+                        <group>
+                            <field name="total_occupancy_days" widget="integer"/>
+                            <field name="total_revenue" widget="monetary"/>
+                            <field name="average_daily_rate" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="occupancy_rate" widget="progressbar"/>
+                            <field name="total_maintenances" widget="integer"/>
+                            <field name="average_rating" widget="float"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Room Type Actions -->
+    <record id="action_hotel_room_type" model="ir.actions.act_window">
+        <field name="name">Room Types</field>
+        <field name="res_model">hotel.room.type</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define room types and categories for your hotel
+            </p>
+        </field>
+    </record>
+
+    <!-- Room Actions -->
+    <record id="action_hotel_room" model="ir.actions.act_window">
+        <field name="name">Rooms</field>
+        <field name="res_model">hotel.room</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage individual rooms and their status
+            </p>
+        </field>
+    </record>
+
+    <record id="action_hotel_room_kanban" model="ir.actions.act_window">
+        <field name="name">Room Status Board</field>
+        <field name="res_model">hotel.room</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_hotel_room_kanban"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Visual room status board
+            </p>
+        </field>
+    </record>
+
+</odoo>

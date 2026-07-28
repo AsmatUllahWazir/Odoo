@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="hotel_dashboard_template">
+        <div class="o_hotel_dashboard container-fluid p-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1 class="h3 mb-0">Hotel Dashboard</h1>
+                        <button class="btn btn-primary hotel-refresh-dashboard">
+                            <i class="fa fa-refresh"/> Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats Cards -->
+            <div class="row mb-3">
+                <div class="col-lg-3 col-md-6 mb-2">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center py-3">
+                            <h6 class="card-title text-uppercase mb-1">Total Rooms</h6>
+                            <h2 class="card-text mb-0" id="total_rooms">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-2">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center py-3">
+                            <h6 class="card-title text-uppercase mb-1">Available</h6>
+                            <h2 class="card-text mb-0" id="available_rooms">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-2">
+                    <div class="card bg-info text-white">
+                        <div class="card-body text-center py-3">
+                            <h6 class="card-title text-uppercase mb-1">Occupied</h6>
+                            <h2 class="card-text mb-0" id="occupied_rooms">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-2">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body text-center py-3">
+                            <h6 class="card-title text-uppercase mb-1">Today's Check-ins</h6>
+                            <h2 class="card-text mb-0" id="today_checkins">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="row mb-3">
+                <div class="col-md-6 mb-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Occupancy Rate</h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="occupancy_chart" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Revenue Trend</h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="revenue_chart" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="row mb-3">
+                <div class="col-md-6 mb-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Today's Check-ins</h6>
+                        </div>
+                        <div class="card-body" id="today_checkins_list">
+                            <p class="text-muted mb-0">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Today's Check-outs</h6>
+                        </div>
+                        <div class="card-body" id="today_checkouts_list">
+                            <p class="text-muted mb-0">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Housekeeping Status -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Housekeeping Status</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <h3 class="text-danger" id="dirty_rooms">0</h3>
+                                    <span>Dirty Rooms</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="text-warning" id="cleaning_progress">0</h3>
+                                    <span>Cleaning In Progress</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="text-success" id="cleaned_today">0</h3>
+                                    <span>Cleaned Today</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="text-info" id="inspected_today">0</h3>
+                                    <span>Inspected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Reservations -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Upcoming Reservations</h6>
+                        </div>
+                        <div class="card-body" id="upcoming_reservations">
+                            <p class="text-muted mb-0">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

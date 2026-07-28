@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Room Types -->
+        <record id="room_type_standard" model="hotel.room.type">
+            <field name="name">Standard</field>
+            <field name="code">STD</field>
+            <field name="capacity">2</field>
+            <field name="base_price">120.00</field>
+            <field name="description">Comfortable standard room with basic amenities.</field>
+        </record>
+
+        <record id="room_type_deluxe" model="hotel.room.type">
+            <field name="name">Deluxe</field>
+            <field name="code">DLX</field>
+            <field name="capacity">3</field>
+            <field name="base_price">180.00</field>
+            <field name="description">Spacious deluxe room with premium amenities.</field>
+        </record>
+
+        <record id="room_type_suite" model="hotel.room.type">
+            <field name="name">Suite</field>
+            <field name="code">STE</field>
+            <field name="capacity">4</field>
+            <field name="base_price">280.00</field>
+            <field name="description">Luxurious suite with separate living area.</field>
+        </record>
+
+        <!-- Rooms -->
+        <record id="room_101" model="hotel.room">
+            <field name="room_number">101</field>
+            <field name="floor">1</field>
+            <field name="room_type_id" ref="room_type_standard"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_102" model="hotel.room">
+            <field name="room_number">102</field>
+            <field name="floor">1</field>
+            <field name="room_type_id" ref="room_type_standard"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_103" model="hotel.room">
+            <field name="room_number">103</field>
+            <field name="floor">1</field>
+            <field name="room_type_id" ref="room_type_deluxe"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_104" model="hotel.room">
+            <field name="room_number">104</field>
+            <field name="floor">1</field>
+            <field name="room_type_id" ref="room_type_suite"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_201" model="hotel.room">
+            <field name="room_number">201</field>
+            <field name="floor">2</field>
+            <field name="room_type_id" ref="room_type_standard"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_202" model="hotel.room">
+            <field name="room_number">202</field>
+            <field name="floor">2</field>
+            <field name="room_type_id" ref="room_type_standard"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_203" model="hotel.room">
+            <field name="room_number">203</field>
+            <field name="floor">2</field>
+            <field name="room_type_id" ref="room_type_deluxe"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_204" model="hotel.room">
+            <field name="room_number">204</field>
+            <field name="floor">2</field>
+            <field name="room_type_id" ref="room_type_suite"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_301" model="hotel.room">
+            <field name="room_number">301</field>
+            <field name="floor">3</field>
+            <field name="room_type_id" ref="room_type_standard"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_302" model="hotel.room">
+            <field name="room_number">302</field>
+            <field name="floor">3</field>
+            <field name="room_type_id" ref="room_type_deluxe"/>
+            <field name="status">available</field>
+        </record>
+
+        <record id="room_303" model="hotel.room">
+            <field name="room_number">303</field>
+            <field name="floor">3</field>
+            <field name="room_type_id" ref="room_type_suite"/>
+            <field name="status">available</field>
+        </record>
+
+        <!-- Services -->
+        <record id="service_breakfast" model="hotel.service">
+            <field name="name">Breakfast</field>
+            <field name="code">BRKF</field>
+            <field name="price">15.00</field>
+            <field name="description">Continental breakfast buffet.</field>
+        </record>
+
+        <record id="service_laundry" model="hotel.service">
+            <field name="name">Laundry Service</field>
+            <field name="code">LAUN</field>
+            <field name="price">25.00</field>
+            <field name="description">Full laundry and dry cleaning service.</field>
+        </record>
+
+        <record id="service_spa" model="hotel.service">
+            <field name="name">Spa Treatment</field>
+            <field name="code">SPA</field>
+            <field name="price">75.00</field>
+            <field name="description">Relaxing spa and wellness treatments.</field>
+        </record>
+
+        <record id="service_transfer" model="hotel.service">
+            <field name="name">Airport Transfer</field>
+            <field name="code">TRAN</field>
+            <field name="price">50.00</field>
+            <field name="description">Private airport transfer service.</field>
+        </record>
+
+        <record id="service_minibar" model="hotel.service">
+            <field name="name">Minibar</field>
+            <field name="code">MINI</field>
+            <field name="price">20.00</field>
+            <field name="description">Minibar snacks and beverages.</field>
+        </record>
+
+        <!-- Amenities -->
+        <record id="amenity_wifi" model="hotel.amenity">
+            <field name="name">WiFi</field>
+            <field name="code">WIFI</field>
+            <field name="icon">fa-wifi</field>
+            <field name="description">High-speed wireless internet.</field>
+        </record>
+
+        <record id="amenity_ac" model="hotel.amenity">
+            <field name="name">Air Conditioning</field>
+            <field name="code">AC</field>
+            <field name="icon">fa-snowflake-o</field>
+            <field name="description">Individual climate control.</field>
+        </record>
+
+        <record id="amenity_tv" model="hotel.amenity">
+            <field name="name">TV</field>
+            <field name="code">TV</field>
+            <field name="icon">fa-television</field>
+            <field name="description">Flat-screen TV with cable channels.</field>
+        </record>
+
+        <record id="amenity_balcony" model="hotel.amenity">
+            <field name="name">Balcony</field>
+            <field name="code">BALC</field>
+            <field name="icon">fa-cubes</field>
+            <field name="description">Private balcony with views.</field>
+        </record>
+
+        <record id="amenity_minibar" model="hotel.amenity">
+            <field name="name">Minibar</field>
+            <field name="code">MINI</field>
+            <field name="icon">fa-fridge</field>
+            <field name="description">In-room minibar.</field>
+        </record>
+
+        <record id="amenity_safe" model="hotel.amenity">
+            <field name="name">Safe</field>
+            <field name="code">SAFE</field>
+            <field name="icon">fa-lock</field>
+            <field name="description">In-room safe.</field>
+        </record>
+
+        <record id="amenity_room_service" model="hotel.amenity">
+            <field name="name">Room Service</field>
+            <field name="code">RS</field>
+            <field name="icon">fa-cutlery</field>
+            <field name="description">24-hour room service.</field>
+        </record>
+    </data>
+</odoo>

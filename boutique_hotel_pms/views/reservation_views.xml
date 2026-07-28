@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Reservation Tree View -->
+    <record id="view_hotel_reservation_tree" model="ir.ui.view">
+        <field name="name">hotel.reservation.tree</field>
+        <field name="model">hotel.reservation</field>
+        <field name="arch" type="xml">
+            <tree string="Reservations" decoration-danger="state in ['cancelled','no_show']">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="room_ids" widget="many2many_tags"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="number_of_nights"/>
+                <field name="state" widget="badge"
+                       decoration-success="state in ['checked_in','checked_out']"
+                       decoration-warning="state=='confirmed'"
+                       decoration-danger="state in ['cancelled','no_show']"
+                       decoration-info="state=='draft'"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="balance_due" sum="Balance"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Reservation Calendar View -->
+    <record id="view_hotel_reservation_calendar" model="ir.ui.view">
+        <field name="name">hotel.reservation.calendar</field>
+        <field name="model">hotel.reservation</field>
+        <field name="arch" type="xml">
+            <calendar string="Reservations"
+                      date_start="check_in"
+                      date_stop="check_out"
+                      color="state">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Reservation Form View -->
+    <record id="view_hotel_reservation_form" model="ir.ui.view">
+        <field name="name">hotel.reservation.form</field>
+        <field name="model">hotel.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Reservation">
+                <header>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirm"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_check_in"
+                            type="object"
+                            string="Check-in"
+                            class="btn-success"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_check_out"
+                            type="object"
+                            string="Check-out"
+                            class="btn-info"
+                            invisible="state != 'checked_in'"/>
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel"
+                            class="btn-danger"
+                            invisible="state in ['checked_in','checked_out','cancelled']"/>
+                    <button name="action_no_show"
+                            type="object"
+                            string="No Show"
+                            class="btn-warning"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_send_confirmation_email"
+                            type="object"
+                            string="Send Email"
+                            class="btn-secondary"
+                            invisible="state == 'draft'"/>
+                    <button name="action_generate_invoice"
+                            type="object"
+                            string="Generate Invoice"
+                            class="btn-secondary"
+                            invisible="state not in ['checked_in','checked_out']"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,checked_in,checked_out"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Reservation Number..."/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_folio" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="not folio_id">
+                            <div class="o_stat_info">
+                                <field name="folio_id" widget="many2one"/>
+                                <span class="o_stat_text">Folio</span>
+                            </div>
+                        </button>
+                        <button name="action_view_payments" type="object"
+                                class="oe_stat_button" icon="fa-credit-card">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Payments</span>
+                            </div>
+                        </button>
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-file-pdf-o">
+<!--                                invisible="not invoice_ids">-->
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Invoices</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="partner_id" placeholder="Guest..."/>
+                            <field name="guest_ids" widget="many2many_tags"
+                                   placeholder="Additional guests..."/>
+                            <field name="room_ids" widget="many2many_tags"
+                                   placeholder="Select rooms..."/>
+                            <field name="source"/>
+                            <field name="source_channel_id" invisible="source != 'ota'"/>
+                            <field name="channel_reference" invisible="source != 'ota'"/>
+                        </group>
+                        <group>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                            <field name="number_of_nights" readonly="1"/>
+                            <field name="adults"/>
+                            <field name="children"/>
+                            <field name="infants"/>
+                            <field name="total_people" readonly="1"/>
+                            <field name="extra_bed_count"/>
+                            <field name="baby_cot_count"/>
+                        </group>
+                    </group>
+
+                    <group string="Financial" col="2">
+                        <group>
+                            <field name="base_price" readonly="1" widget="monetary"/>
+                            <field name="total_price" readonly="1" widget="monetary"/>
+                            <field name="discount_amount"/>
+                            <field name="discount_percentage"/>
+                            <field name="discount_reason" invisible="discount_amount == 0"/>
+                            <field name="tax_percentage"/>
+                            <field name="tax_amount" readonly="1" widget="monetary"/>
+                            <field name="room_charges" readonly="1" widget="monetary"/>
+                            <field name="extra_charges" readonly="1" widget="monetary"/>
+                            <field name="total_amount" readonly="1" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="paid_amount" widget="monetary"/>
+                            <field name="balance_due" readonly="1" widget="monetary"
+                                   decoration-danger="balance_due > 0"/>
+                            <field name="payment_due_date"/>
+                            <field name="payment_status"/>
+                        </group>
+                    </group>
+
+                    <group string="Notes &amp; Requests" col="2">
+                        <group>
+                            <field name="notes" nolabel="1"
+                                   placeholder="Additional notes..."/>
+                            <field name="special_requests" nolabel="1"
+                                   placeholder="Special requests..."/>
+                        </group>
+                        <group>
+                            <field name="internal_notes" nolabel="1"
+                                   placeholder="Internal notes (staff only)..."/>
+                            <field name="check_in_instructions" nolabel="1"
+                                   placeholder="Check-in instructions..."/>
+                            <field name="check_out_instructions" nolabel="1"
+                                   placeholder="Check-out instructions..."/>
+                        </group>
+                    </group>
+
+                    <group string="Timestamps" col="2">
+                        <group>
+                            <field name="created_by" readonly="1"/>
+                            <field name="created_date" readonly="1"/>
+                            <field name="last_modified_by" readonly="1"/>
+                            <field name="last_modified_date" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="check_in_actual" readonly="1"/>
+                            <field name="check_out_actual" readonly="1"/>
+                            <field name="cancellation_date" readonly="1"/>
+                            <field name="cancellation_reason" readonly="1"
+                                   invisible="state != 'cancelled'"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Reservation Actions -->
+    <record id="action_hotel_reservation" model="ir.actions.act_window">
+        <field name="name">Reservations</field>
+        <field name="res_model">hotel.reservation</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage reservations
+            </p>
+        </field>
+    </record>
+
+    <record id="action_hotel_reservation_calendar" model="ir.actions.act_window">
+        <field name="name">Calendar</field>
+        <field name="res_model">hotel.reservation</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="view_hotel_reservation_calendar"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View reservations on a calendar
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Housekeeping Actions -->
+    <record id="action_hotel_housekeeping" model="ir.actions.act_window">
+        <field name="name">Housekeeping</field>
+        <field name="res_model">hotel.housekeeping</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage housekeeping tasks and room cleaning
+            </p>
+        </field>
+    </record>
+
+    <!-- Housekeeping Tree View -->
+    <record id="view_hotel_housekeeping_tree" model="ir.ui.view">
+        <field name="name">hotel.housekeeping.tree</field>
+        <field name="model">hotel.housekeeping</field>
+        <field name="arch" type="xml">
+            <tree string="Housekeeping Tasks" decoration-danger="status in ['pending','on_hold']">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="task_type"/>
+                <field name="status" widget="badge"
+                       decoration-warning="status in ['pending','assigned','on_hold']"
+                       decoration-info="status in ['in_progress']"
+                       decoration-success="status in ['completed','inspected']"
+                       decoration-danger="status=='cancelled'"/>
+                <field name="priority" widget="badge"
+                       decoration-danger="priority=='urgent'"
+                       decoration-warning="priority=='high'"
+                       decoration-info="priority=='normal'"
+                       decoration-success="priority=='low'"/>
+                <field name="assigned_to"/>
+                <field name="scheduled_date"/>
+                <field name="completed_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Housekeeping Form View -->
+    <record id="view_hotel_housekeeping_form" model="ir.ui.view">
+        <field name="name">hotel.housekeeping.form</field>
+        <field name="model">hotel.housekeeping</field>
+        <field name="arch" type="xml">
+            <form string="Housekeeping Task">
+                <header>
+                    <button name="action_assign" type="object"
+                            string="Assign"
+                            class="btn-primary"
+                            invisible="status != 'pending'"/>
+                    <button name="action_start" type="object"
+                            string="Start"
+                            class="btn-success"
+                            invisible="status != 'assigned'"/>
+                    <button name="action_pause" type="object"
+                            string="Pause"
+                            class="btn-warning"
+                            invisible="status != 'in_progress'"/>
+                    <button name="action_resume" type="object"
+                            string="Resume"
+                            class="btn-info"
+                            invisible="status != 'on_hold'"/>
+                    <button name="action_complete" type="object"
+                            string="Complete"
+                            class="btn-success"
+                            invisible="status not in ['in_progress','assigned']"/>
+                    <button name="action_inspect" type="object"
+                            string="Inspect"
+                            class="btn-info"
+                            invisible="status != 'completed'"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancel"
+                            class="btn-danger"
+                            invisible="status in ['completed','inspected']"/>
+                    <button name="action_assign_to_me" type="object"
+                            string="Assign to Me"
+                            class="btn-secondary"
+                            invisible="status != 'pending'"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="pending,assigned,in_progress,on_hold,completed,inspected"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Task Reference..."/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_room" type="object"
+                                class="oe_stat_button" icon="fa-building">
+                            <div class="o_stat_info">
+                                <field name="room_id" widget="many2one"/>
+                                <span class="o_stat_text">Room</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="room_number" readonly="1"/>
+                            <field name="room_type_id" readonly="1"/>
+                            <field name="floor" readonly="1"/>
+                            <field name="task_type"/>
+                            <field name="status"/>
+                            <field name="priority"/>
+                        </group>
+                        <group>
+                            <field name="assigned_to"/>
+                            <field name="assigned_by" readonly="1"/>
+                            <field name="assignment_date" readonly="1"/>
+                            <field name="scheduled_date"/>
+                            <field name="scheduled_duration"/>
+                            <field name="start_date" readonly="1"/>
+                            <field name="completed_date" readonly="1"/>
+                            <field name="completion_duration" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Description &amp; Checklist">
+                        <field name="description" nolabel="1"
+                               placeholder="Task description..."/>
+                        <field name="checklist" nolabel="1"
+                               placeholder="Checklist items..."/>
+                    </group>
+
+                    <group string="Supplies &amp; Equipment" col="2">
+                        <group>
+                            <field name="supplies_used" nolabel="1"
+                                   placeholder="Supplies used..."/>
+                            <field name="additional_supplies_needed" nolabel="1"
+                                   placeholder="Supplies needed..."/>
+                        </group>
+                        <group>
+                            <field name="equipment_used" nolabel="1"
+                                   placeholder="Equipment used..."/>
+                        </group>
+                    </group>
+
+                    <group string="Quality Control"
+                           invisible="status not in ['completed','inspected']">
+                        <field name="inspected_by" readonly="1"/>
+                        <field name="inspection_date" readonly="1"/>
+                        <field name="quality_rating"/>
+                        <field name="requires_redo" widget="boolean"/>
+                        <field name="inspection_notes" nolabel="1"
+                               placeholder="Inspection notes..."/>
+                    </group>
+
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"
+                               placeholder="Notes..."/>
+                        <field name="internal_notes" nolabel="1"
+                               placeholder="Internal notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

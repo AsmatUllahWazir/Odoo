@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Folio Actions -->
+    <record id="action_hotel_folio" model="ir.actions.act_window">
+        <field name="name">Folios</field>
+        <field name="res_model">hotel.folio</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage guest folios and bills
+            </p>
+        </field>
+    </record>
+
+    <!-- Folio Tree View -->
+    <record id="view_hotel_folio_tree" model="ir.ui.view">
+        <field name="name">hotel.folio.tree</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <tree string="Folios" decoration-danger="balance_due > 0">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="reservation_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="number_of_nights"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='settled'"
+                       decoration-warning="state=='open'"
+                       decoration-info="state=='draft'"
+                       decoration-danger="state in ['cancelled','overdue']"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="paid_amount" sum="Paid"/>
+                <field name="balance_due" sum="Balance"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Folio Form View -->
+    <record id="view_hotel_folio_form" model="ir.ui.view">
+        <field name="name">hotel.folio.form</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <form string="Folio">
+                <header>
+                    <button name="action_open" type="object"
+                            string="Open"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_settle" type="object"
+                            string="Settle"
+                            class="btn-success"
+                            invisible="state != 'open'"/>
+                    <button name="action_register_payment" type="object"
+                            string="Register Payment"
+                            class="btn-info"
+                            invisible="state in ['settled','cancelled']"/>
+                    <button name="action_add_service" type="object"
+                            string="Add Service"
+                            class="btn-secondary"
+                            invisible="state in ['settled','cancelled']"/>
+                    <button name="action_print_folio" type="object"
+                            string="Print"
+                            class="btn-secondary"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,open,settled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Folio Number..."/>
+                        </h1>
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_reservation" type="object"
+                                class="oe_stat_button" icon="fa-calendar"
+                                invisible="not reservation_id">
+                            <div class="o_stat_info">
+                                <field name="reservation_id" widget="many2one"/>
+                                <span class="o_stat_text">Reservation</span>
+                            </div>
+                        </button>
+                        <button name="action_view_payments" type="object"
+                                class="oe_stat_button" icon="fa-credit-card">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Payments</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="reservation_id"/>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                            <field name="number_of_nights" readonly="1"/>
+                            <field name="date_opened" readonly="1"/>
+                            <field name="date_settled" readonly="1"
+                                   invisible="state != 'settled'"/>
+                        </group>
+                        <group>
+                            <field name="room_charges" readonly="1" widget="monetary"/>
+                            <field name="extra_charges" readonly="1" widget="monetary"/>
+                            <field name="discount_amount"/>
+                            <field name="service_charge"/>
+                            <field name="taxes" readonly="1" widget="monetary"/>
+                            <field name="total_amount" readonly="1" widget="monetary"/>
+                            <field name="paid_amount" widget="monetary"/>
+                            <field name="balance_due" readonly="1" widget="monetary"
+                                   decoration-danger="balance_due > 0"/>
+                            <field name="payment_status"/>
+                            <field name="payment_method"/>
+                        </group>
+                    </group>
+
+                    <group string="Services">
+                        <field name="service_line_ids" nolabel="1">
+                            <tree string="Services" editable="bottom"
+                                  decoration-success="status=='provided'"
+                                  decoration-info="status=='confirmed'"
+                                  decoration-warning="status=='draft'"
+                                  decoration-danger="status=='cancelled'">
+                                <field name="service_id"/>
+                                <field name="quantity"/>
+                                <field name="unit_price"/>
+                                <field name="total_price" readonly="1" sum="Total"/>
+                                <field name="date"/>
+                                <field name="status" widget="badge"/>
+                                <field name="notes"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"
+                               placeholder="Notes..."/>
+                        <field name="internal_notes" nolabel="1"
+                               placeholder="Internal notes (staff only)..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

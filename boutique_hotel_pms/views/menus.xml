@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_hotel_root"
+              name="Boutique Hotel"
+              sequence="10"
+              web_icon="boutique_hotel_pms,static/description/icon.png"/>
+
+    <!-- Dashboard Menu -->
+<!--    <menuitem id="menu_hotel_dashboard"-->
+<!--              name="Dashboard"-->
+<!--              parent="menu_hotel_root"-->
+<!--              action="action_hotel_dashboard_client"-->
+<!--              sequence="5"/>-->
+
+    <!-- Sub Menus -->
+    <menuitem id="menu_hotel_reservations"
+              name="Reservations"
+              parent="menu_hotel_root"
+              sequence="10"/>
+    <menuitem id="menu_hotel_rooms"
+              name="Rooms"
+              parent="menu_hotel_root"
+              sequence="20"/>
+    <menuitem id="menu_hotel_housekeeping"
+              name="Housekeeping"
+              parent="menu_hotel_root"
+              sequence="30"/>
+    <menuitem id="menu_hotel_folio"
+              name="Folios"
+              parent="menu_hotel_root"
+              sequence="40"/>
+    <menuitem id="menu_hotel_services"
+              name="Services"
+              parent="menu_hotel_root"
+              sequence="50"/>
+    <menuitem id="menu_hotel_guests"
+              name="Guests"
+              parent="menu_hotel_root"
+              sequence="60"/>
+    <menuitem id="menu_hotel_payments"
+              name="Payments"
+              parent="menu_hotel_root"
+              sequence="65"/>
+    <menuitem id="menu_hotel_channels"
+              name="Channels"
+              parent="menu_hotel_root"
+              sequence="67"/>
+    <menuitem id="menu_hotel_reports"
+              name="Reports"
+              parent="menu_hotel_root"
+              action="action_hotel_report_wizard"
+              sequence="68"/>
+    <menuitem id="menu_hotel_configuration"
+              name="Configuration"
+              parent="menu_hotel_root"
+              sequence="70"/>
+
+    <!-- Reservation Menus -->
+    <menuitem id="menu_hotel_reservation_all"
+              name="All Reservations"
+              parent="menu_hotel_reservations"
+              action="action_hotel_reservation"
+              sequence="10"/>
+    <menuitem id="menu_hotel_reservation_calendar"
+              name="Calendar"
+              parent="menu_hotel_reservations"
+              action="action_hotel_reservation_calendar"
+              sequence="20"/>
+
+    <!-- Room Menus -->
+    <menuitem id="menu_hotel_room_all"
+              name="All Rooms"
+              parent="menu_hotel_rooms"
+              action="action_hotel_room"
+              sequence="10"/>
+    <menuitem id="menu_hotel_room_kanban"
+              name="Room Status Board"
+              parent="menu_hotel_rooms"
+              action="action_hotel_room_kanban"
+              sequence="20"/>
+
+    <!-- Housekeeping Menus -->
+    <menuitem id="menu_hotel_housekeeping_all"
+              name="All Tasks"
+              parent="menu_hotel_housekeeping"
+              action="action_hotel_housekeeping"
+              sequence="10"/>
+
+    <!-- Folio Menus -->
+    <menuitem id="menu_hotel_folio_all"
+              name="All Folios"
+              parent="menu_hotel_folio"
+              action="action_hotel_folio"
+              sequence="10"/>
+
+    <!-- Service Menus -->
+    <menuitem id="menu_hotel_service_all"
+              name="Services"
+              parent="menu_hotel_services"
+              action="action_hotel_service"
+              sequence="10"/>
+
+    <!-- Guest Menus -->
+    <menuitem id="menu_hotel_guest_all"
+              name="All Guests"
+              parent="menu_hotel_guests"
+              action="action_hotel_guest"
+              sequence="10"/>
+
+    <!-- Payment Menus -->
+    <menuitem id="menu_hotel_payment_all"
+              name="All Payments"
+              parent="menu_hotel_payments"
+              action="action_hotel_payment"
+              sequence="10"/>
+
+    <!-- Channel Menus -->
+    <menuitem id="menu_hotel_channel_all"
+              name="All Channels"
+              parent="menu_hotel_channels"
+              action="action_hotel_channel"
+              sequence="10"/>
+
+    <!-- Configuration Menus -->
+    <menuitem id="menu_hotel_config_room_types"
+              name="Room Types"
+              parent="menu_hotel_configuration"
+              action="action_hotel_room_type"
+              sequence="10"/>
+    <menuitem id="menu_hotel_config_amenities"
+              name="Amenities"
+              parent="menu_hotel_configuration"
+              action="action_hotel_amenity"
+              sequence="20"/>
+</odoo>

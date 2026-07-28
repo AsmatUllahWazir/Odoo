@@ -1,0 +1,302 @@
+/* Boutique Hotel PMS Styles */
+
+// Variables
+$primary-color: #2c3e50;
+$secondary-color: #3498db;
+$success-color: #28a745;
+$warning-color: #ffc107;
+$danger-color: #dc3545;
+$info-color: #17a2b8;
+
+$font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+// Global Styles
+.hotel-container {
+    font-family: $font-family;
+    padding: 20px;
+}
+
+// Room Status Board
+.hotel-room-status-board {
+    .status-column {
+        min-height: 200px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        margin: 5px;
+
+        .column-header {
+            font-weight: bold;
+            padding: 8px;
+            border-bottom: 2px solid $secondary-color;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .room-card {
+            cursor: pointer;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+            .room-number {
+                font-weight: bold;
+                font-size: 1.1em;
+            }
+
+            .room-type {
+                font-size: 0.9em;
+                color: #6c757d;
+            }
+
+            .room-status {
+                font-size: 0.85em;
+                padding: 2px 8px;
+                border-radius: 12px;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+// Reservation Calendar
+.hotel-reservation-calendar {
+    .fc-event {
+        cursor: pointer;
+        border: none;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-size: 0.85em;
+
+        &.confirmed {
+            background-color: $warning-color;
+        }
+
+        &.checked-in {
+            background-color: $success-color;
+        }
+
+        &.checked-out {
+            background-color: $info-color;
+        }
+
+        &.cancelled {
+            background-color: $danger-color;
+            text-decoration: line-through;
+        }
+    }
+}
+
+// Dashboard Widgets
+.hotel-dashboard {
+    .widget {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .widget-header {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: $primary-color;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 300;
+            color: $secondary-color;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .stat-change {
+            font-size: 0.85em;
+
+            &.positive {
+                color: $success-color;
+            }
+
+            &.negative {
+                color: $danger-color;
+            }
+        }
+    }
+}
+
+// Housekeeping Board
+.hotel-housekeeping-board {
+    .task-card {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-left: 4px solid $secondary-color;
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .task-room {
+                font-weight: bold;
+                font-size: 1.1em;
+            }
+
+            .task-priority {
+                padding: 2px 10px;
+                border-radius: 12px;
+                font-size: 0.8em;
+
+                &.urgent {
+                    background: $danger-color;
+                    color: white;
+                }
+
+                &.high {
+                    background: $warning-color;
+                }
+
+                &.normal {
+                    background: $info-color;
+                    color: white;
+                }
+
+                &.low {
+                    background: $success-color;
+                    color: white;
+                }
+            }
+        }
+
+        .task-details {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .task-actions {
+            margin-top: 10px;
+
+            .btn {
+                margin-right: 5px;
+                padding: 4px 12px;
+                font-size: 0.85em;
+            }
+        }
+    }
+}
+
+// Folio/Invoice
+.hotel-folio {
+    .folio-header {
+        background: $primary-color;
+        color: white;
+        padding: 20px;
+        border-radius: 10px 10px 0 0;
+
+        .folio-number {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    }
+
+    .folio-body {
+        background: white;
+        padding: 20px;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+        .service-line {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .total-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid $primary-color;
+
+            .total-amount {
+                font-size: 1.8em;
+                font-weight: 600;
+                color: $primary-color;
+            }
+        }
+    }
+}
+
+// Responsive Styles
+@media (max-width: 768px) {
+    .hotel-room-status-board .status-column {
+        min-height: 150px;
+
+        .room-card {
+            padding: 8px;
+        }
+    }
+
+    .hotel-dashboard .widget .stat-value {
+        font-size: 1.8em;
+    }
+
+    .hotel-folio .folio-body .total-section .total-amount {
+        font-size: 1.4em;
+    }
+}
+
+// Animations
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hotel-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.hotel-pulse {
+    animation: pulse 2s infinite;
+}
+
+// Utilities
+.hotel-text-success { color: $success-color; }
+.hotel-text-danger { color: $danger-color; }
+.hotel-text-warning { color: $warning-color; }
+.hotel-text-info { color: $info-color; }
+
+.hotel-bg-success { background: $success-color; }
+.hotel-bg-danger { background: $danger-color; }
+.hotel-bg-warning { background: $warning-color; }
+.hotel-bg-info { background: $info-color; }

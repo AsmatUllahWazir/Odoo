@@ -106,6 +106,7 @@
         'static/src/xml/dashboard_templates.xml',
         'static/src/xml/shipment_templates.xml',
     ],
+    'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,
     'auto_install': False,

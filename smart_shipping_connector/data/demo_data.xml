@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Test Accounts -->
+    <record id="carrier_account_dhl_test" model="shipping.carrier.account">
+        <field name="name">DHL Test Account</field>
+        <field name="provider_id" ref="carrier_provider_dhl"/>
+        <field name="environment">sandbox</field>
+        <field name="account_number">TEST_DHL_001</field>
+        <field name="test_api_url">https://test.api.dhl.com/v1</field>
+        <field name="production_api_url">https://api.dhl.com/v1</field>
+        <field name="default_weight_uom">kg</field>
+        <field name="default_dimension_uom">cm</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="carrier_account_fedex_test" model="shipping.carrier.account">
+        <field name="name">FedEx Test Account</field>
+        <field name="provider_id" ref="carrier_provider_fedex"/>
+        <field name="environment">sandbox</field>
+        <field name="account_number">TEST_FEDEX_001</field>
+        <field name="test_api_url">https://test.api.fedex.com/v1</field>
+        <field name="production_api_url">https://api.fedex.com/v1</field>
+        <field name="default_weight_uom">lb</field>
+        <field name="default_dimension_uom">in</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="carrier_account_ups_test" model="shipping.carrier.account">
+        <field name="name">UPS Test Account</field>
+        <field name="provider_id" ref="carrier_provider_ups"/>
+        <field name="environment">sandbox</field>
+        <field name="account_number">TEST_UPS_001</field>
+        <field name="test_api_url">https://test.api.ups.com/v1</field>
+        <field name="production_api_url">https://api.ups.com/v1</field>
+        <field name="default_weight_uom">kg</field>
+        <field name="default_dimension_uom">cm</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Sample Rules -->
+    <record id="shipping_rule_sample" model="shipping.rule">
+        <field name="name">Domestic Ground for Small Packages</field>
+        <field name="active">True</field>
+        <field name="priority">10</field>
+        <field name="rule_type">combined</field>
+        <field name="condition_weight_min">0.0</field>
+        <field name="condition_weight_max">5.0</field>
+        <field name="condition_international">False</field>
+        <field name="condition_domestic">True</field>
+        <field name="action_carrier_provider_id" ref="carrier_provider_ups"/>
+        <field name="action_service_type">GROUND</field>
+        <field name="action_account_id" ref="carrier_account_ups_test"/>
+        <field name="action_delivery_days">3</field>
+        <field name="description">Automatically select UPS Ground for small packages under 5kg</field>
+    </record>
+
+    <record id="shipping_rule_international" model="shipping.rule">
+        <field name="name">International Express for Shipments Over 10kg</field>
+        <field name="active">True</field>
+        <field name="priority">20</field>
+        <field name="rule_type">combined</field>
+        <field name="condition_weight_min">10.0</field>
+        <field name="condition_weight_max">999999.0</field>
+        <field name="condition_international">True</field>
+        <field name="condition_domestic">False</field>
+        <field name="action_carrier_provider_id" ref="carrier_provider_dhl"/>
+        <field name="action_service_type">EXPRESS</field>
+        <field name="action_account_id" ref="carrier_account_dhl_test"/>
+        <field name="action_delivery_days">2</field>
+        <field name="description">Select DHL Express for international shipments over 10kg</field>
+    </record>
+
+    <!-- Sample Shipment -->
+    <record id="shipping_shipment_sample" model="shipping.shipment">
+        <field name="name">SHIP/2024/00001</field>
+        <field name="state">confirmed</field>
+        <field name="carrier_provider_id" ref="carrier_provider_dhl"/>
+        <field name="carrier_account_id" ref="carrier_account_dhl_test"/>
+        <field name="recipient_name">John Doe</field>
+        <field name="recipient_address">123 Main Street, New York, NY 10001</field>
+        <field name="recipient_phone">+1-555-123-4567</field>
+        <field name="recipient_email">john.doe@example.com</field>
+        <field name="total_weight">2.5</field>
+        <field name="total_packages">1</field>
+        <field name="shipping_cost">15.00</field>
+        <field name="declared_value">100.00</field>
+        <field name="is_international">False</field>
+        <field name="signature_required">True</field>
+        <field name="residential_delivery">True</field>
+    </record>
+</odoo>

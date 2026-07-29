@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Shipment Created Notification -->
+        <record id="mail_template_shipment_created" model="mail.template">
+            <field name="name">Shipment Created</field>
+            <field name="model_id" ref="model_shipping_shipment"/>
+            <field name="subject">Shipment Created - {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <![CDATA[
+                <div style="font-family: Arial, sans-serif;">
+                    <h3>Shipment Created</h3>
+                    <p>A new shipment has been created:</p>
+                    <ul>
+                        <li><strong>Reference:</strong> {{ object.name }}</li>
+                        <li><strong>Recipient:</strong> {{ object.recipient_name }}</li>
+                        <li><strong>Carrier:</strong> {{ object.carrier_provider_id.name }}</li>
+                        <li><strong>Created By:</strong> {{ object.create_uid.name or 'System' }}</li>
+                    </ul>
+                </div>
+                ]]>
+            </field>
+            <field name="email_from">{{ object.company_id.email or '' }}</field>
+            <field name="email_to">{{ object.create_uid.email or '' }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Label Generated Notification -->
+        <record id="mail_template_label_generated" model="mail.template">
+            <field name="name">Label Generated</field>
+            <field name="model_id" ref="model_shipping_shipment"/>
+            <field name="subject">Label Generated - {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <![CDATA[
+                <div style="font-family: Arial, sans-serif;">
+                    <h3>Shipping Label Generated</h3>
+                    <p>The shipping label has been generated for:</p>
+                    <ul>
+                        <li><strong>Reference:</strong> {{ object.name }}</li>
+                        <li><strong>Tracking Number:</strong> {{ object.tracking_number }}</li>
+                        <li><strong>Carrier:</strong> {{ object.carrier_provider_id.name }}</li>
+                    </ul>
+                    <p>Label is attached to this email.</p>
+                </div>
+                ]]>
+            </field>
+            <field name="email_from">{{ object.company_id.email or '' }}</field>
+            <field name="email_to">{{ object.create_uid.email or '' }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="attachment_ids" eval="[(4, ref('attachment_label_template'))]"/>
+        </record>
+    </data>
+</odoo>

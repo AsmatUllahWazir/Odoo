@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shipping Config Form View -->
+    <record id="view_shipping_config_form" model="ir.ui.view">
+        <field name="name">shipping.config.form</field>
+        <field name="model">shipping.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate_webhook_secret" type="object" string="Generate Webhook Secret"
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Shipping Configuration</h1>
+                        <group>
+                            <field name="company_id"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group string="Shipper Defaults">
+                                    <field name="default_shipper_name"/>
+                                    <field name="default_shipper_address"/>
+                                    <field name="default_shipper_phone"/>
+                                    <field name="default_shipper_email"/>
+                                </group>
+                                <group string="Default Carrier">
+                                    <field name="default_carrier_provider_id"/>
+                                    <field name="default_carrier_account_id" domain="[('provider_id','=',default_carrier_provider_id)]"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Default UoM">
+                                    <field name="default_weight_uom"/>
+                                    <field name="default_dimension_uom"/>
+                                    <field name="default_package_type"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notifications">
+                            <group>
+                                <group>
+                                    <field name="notify_on_label_generation"/>
+                                    <field name="notify_on_tracking_update"/>
+                                    <field name="notify_on_delivery"/>
+                                    <field name="notify_on_exception"/>
+                                </group>
+                                <group>
+                                    <field name="email_template_shipment_confirmation"/>
+                                    <field name="email_template_shipment_delivered"/>
+                                    <field name="email_template_tracking_updated"/>
+                                    <field name="email_template_return_approved"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Label Settings">
+                            <group>
+                                <group>
+                                    <field name="label_format"/>
+                                    <field name="label_page_size"/>
+                                    <field name="barcode_type"/>
+                                    <field name="include_barcode_in_label"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Tracking">
+                            <group>
+                                <group>
+                                    <field name="auto_update_tracking"/>
+                                    <field name="tracking_update_interval"/>
+                                    <field name="max_tracking_retries"/>
+                                </group>
+                                <group>
+                                    <field name="rate_shopping_timeout"/>
+                                    <field name="max_rates_to_show"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Returns">
+                            <group>
+                                <group>
+                                    <field name="return_window_days"/>
+                                    <field name="restocking_fee_percent"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Insurance &amp; COD">
+                            <group>
+                                <group>
+                                    <field name="default_insurance_amount"/>
+                                    <field name="insurance_rate_percent"/>
+                                </group>
+                                <group>
+                                    <field name="cod_fee"/>
+                                    <field name="cod_percent"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Integration">
+                            <group>
+                                <group>
+                                    <field name="enable_webhooks"/>
+                                    <field name="webhook_secret"/>
+                                    <field name="webhook_urls"/>
+                                </group>
+                                <group>
+                                    <field name="enable_api_logging"/>
+                                    <field name="api_log_retention_days"/>
+                                    <field name="enable_caching"/>
+                                    <field name="cache_timeout_minutes"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Config Action -->
+    <record id="action_shipping_config" model="ir.actions.act_window">
+        <field name="name">Shipping Settings</field>
+        <field name="res_model">shipping.config</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="binding_model_id" ref="base.model_res_company"/>
+    </record>
+</odoo>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rule Tree View -->
+    <record id="view_shipping_rule_tree" model="ir.ui.view">
+        <field name="name">shipping.rule.tree</field>
+        <field name="model">shipping.rule</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="active"/>
+                <field name="priority"/>
+                <field name="rule_type"/>
+                <field name="condition_weight_min"/>
+                <field name="condition_weight_max"/>
+                <field name="action_carrier_provider_id"/>
+                <field name="match_count"/>
+                <field name="last_match_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Rule Form View -->
+    <record id="view_shipping_rule_form" model="ir.ui.view">
+        <field name="name">shipping.rule.form</field>
+        <field name="model">shipping.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="toggle_active" type="object" class="btn-secondary"
+                            invisible="active" string="Activate"/>
+                    <button name="toggle_active" type="object" class="btn-danger"
+                            invisible="not active" string="Deactivate"/>
+                    <button name="action_test_rule" type="object" string="Test Rule"
+                            class="btn-primary"/>
+                    <button name="action_view_matches" type="object" string="View Matches"
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Rule Name..."/>
+                        </h1>
+                        <group>
+                            <field name="active"/>
+                            <field name="priority"/>
+                            <field name="rule_type"/>
+                            <field name="match_count"/>
+                            <field name="last_match_date"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Conditions">
+                            <group>
+                                <group string="Weight Conditions">
+                                    <field name="condition_weight_min"/>
+                                    <field name="condition_weight_max"/>
+                                    <field name="condition_weight_inclusive"/>
+                                </group>
+                                <group string="Value Conditions">
+                                    <field name="condition_value_min"/>
+                                    <field name="condition_value_max"/>
+                                    <field name="currency_id"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Destination Conditions">
+                                    <field name="condition_country_ids" widget="many2many_tags"/>
+                                    <field name="condition_country_group_ids" widget="many2many_tags"/>
+                                    <field name="condition_state_ids" widget="many2many_tags"/>
+                                    <field name="condition_zip_prefix"/>
+                                    <field name="condition_zip_range_start"/>
+                                    <field name="condition_zip_range_end"/>
+                                </group>
+                                <group string="Shipment Type">
+                                    <field name="condition_international"/>
+                                    <field name="condition_domestic"/>
+                                    <field name="condition_min_packages"/>
+                                    <field name="condition_max_packages"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Product Conditions">
+                                    <field name="condition_product_ids" widget="many2many_tags"/>
+                                    <field name="condition_product_category_ids" widget="many2many_tags"/>
+                                    <field name="condition_product_tags" widget="many2many_tags"/>
+                                </group>
+                                <group string="Time Conditions">
+                                    <field name="condition_days_of_week"/>
+                                    <field name="condition_time_start"/>
+                                    <field name="condition_time_end"/>
+                                </group>
+                            </group>
+<!--                            <group string="Rule Conditions" invisible="1">-->
+<!--                                <field name="condition_ids">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="condition_type"/>-->
+<!--                                        <field name="operator"/>-->
+<!--                                        <field name="value_float"/>-->
+<!--                                        <field name="value_int"/>-->
+<!--                                        <field name="value_char"/>-->
+<!--                                        <field name="active"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </group>-->
+                        </page>
+                        <page string="Actions">
+                            <group>
+                                <group>
+                                    <field name="action_carrier_provider_id" required="1"/>
+                                    <field name="action_carrier_service_id"/>
+                                    <field name="action_service_type"/>
+                                    <field name="action_account_id"/>
+                                </group>
+                                <group>
+                                    <field name="action_override_cost"/>
+                                    <field name="action_cost_multiplier"/>
+                                    <field name="action_cost_adjustment"/>
+                                    <field name="action_delivery_days"/>
+                                    <field name="action_delivery_date"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="action_require_signature"/>
+                                    <field name="action_insurance_required"/>
+                                    <field name="action_insurance_amount"/>
+                                </group>
+                                <group>
+                                    <field name="action_cod"/>
+                                    <field name="action_cod_amount"/>
+                                    <field name="action_discount_percent"/>
+                                    <field name="action_promotion_code"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="action_notify_customer"/>
+                                    <field name="action_email_template_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Rule Condition Tree View -->
+    <record id="view_shipping_rule_condition_tree" model="ir.ui.view">
+        <field name="name">shipping.rule.condition.tree</field>
+        <field name="model">shipping.rule.condition</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name"/>
+                <field name="condition_type"/>
+                <field name="operator"/>
+                <field name="value_float"/>
+                <field name="value_int"/>
+                <field name="value_char"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Rule Condition Form View -->
+    <record id="view_shipping_rule_condition_form" model="ir.ui.view">
+        <field name="name">shipping.rule.condition.form</field>
+        <field name="model">shipping.rule.condition</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Rule Condition</h1>
+                    </div>
+                    <group>
+                        <field name="rule_id"/>
+                        <field name="sequence"/>
+                        <field name="condition_type" required="1"/>
+                        <field name="operator" required="1"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Values">
+                        <field name="value_float" invisible="condition_type in ['country','state','zip_prefix','product','product_category','product_tag','day_of_week']"/>
+                        <field name="value_int" invisible="condition_type in ['country','state','zip_prefix','product','product_category','product_tag','day_of_week']"/>
+                        <field name="value_char" invisible="condition_type in ['weight_min','weight_max','value_min','value_max','min_packages','max_packages','time_range']"/>
+                        <field name="value_float2" string="Second Value" invisible="operator != 'between'"/>
+                        <field name="value_m2m_ids" string="Countries" invisible="condition_type != 'country'"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Rule Search View -->
+    <record id="view_shipping_rule_search" model="ir.ui.view">
+        <field name="name">shipping.rule.search</field>
+        <field name="model">shipping.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="action_carrier_provider_id"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_carrier" string="Carrier" context="{'group_by':'action_carrier_provider_id'}"/>
+                    <filter name="group_type" string="Rule Type" context="{'group_by':'rule_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_shipping_rule" model="ir.actions.act_window">
+        <field name="name">Shipping Rules</field>
+        <field name="res_model">shipping.rule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create intelligent shipping rules for automatic carrier selection
+            </p>
+        </field>
+    </record>
+
+    <record id="action_shipping_rule_condition" model="ir.actions.act_window">
+        <field name="name">Rule Conditions</field>
+        <field name="res_model">shipping.rule.condition</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- My Shipments Portal Page -->
+    <template id="portal_my_shipments" name="My Shipments" page="True">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h1>My Shipments</h1>
+                            <a href="/shipping/track" class="btn btn-primary">
+                                <i class="fa fa-search"/> Track Shipment
+                            </a>
+                        </div>
+                        <hr/>
+
+                        <t t-if="shipments">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Reference</th>
+                                            <th>Carrier</th>
+                                            <th>Tracking Number</th>
+                                            <th>Status</th>
+                                            <th>Delivery Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="shipments" t-as="shipment">
+                                            <td><t t-out="shipment.name"/></td>
+                                            <td><t t-out="shipment.carrier_provider_id.name"/></td>
+                                            <td>
+                                                <t t-out="shipment.tracking_number or 'N/A'"/>
+                                                <t t-if="shipment.tracking_url">
+                                                    <a t-attf-href="#{shipment.tracking_url}" target="_blank" class="ml-1">
+                                                        <i class="fa fa-external-link text-muted"/>
+                                                    </a>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <span class="badge" t-attf-class="#{shipment.state == 'delivered' and 'badge-success' or shipment.state == 'exception' and 'badge-danger' or 'badge-warning'}">
+                                                    <t t-out="shipment.get_tracking_status_display()"/>
+                                                </span>
+                                            </td>
+                                            <td><t t-out="shipment.delivery_date or 'Pending'"/></td>
+                                            <td>
+                                                <a t-attf-href="/shipping/shipment/#{shipment.id}" class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-eye"/> View
+                                                </a>
+                                                <t t-if="shipment.label_pdf">
+                                                    <a t-attf-href="data:application/pdf;base64,#{shipment.label_pdf}"
+                                                       target="_blank" class="btn btn-sm btn-success">
+                                                        <i class="fa fa-file-pdf-o"/> Label
+                                                    </a>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+                        <t t-if="not shipments">
+                            <div class="alert alert-info">
+                                <i class="fa fa-info-circle"/> You have no shipments at this time.
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Shipment Detail Portal Page -->
+    <template id="portal_shipment_detail" name="Shipment Detail" page="True">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h1>
+                                Shipment: <t t-out="shipment.name"/>
+                            </h1>
+                            <a href="/my/shipments" class="btn btn-secondary">
+                                <i class="fa fa-arrow-left"/> Back to Shipments
+                            </a>
+                        </div>
+                        <hr/>
+
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <!-- Status Card -->
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <strong>Shipment Status</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="progress mb-3" style="height: 20px;">
+                                            <div class="progress-bar"
+                                                 t-attf-class="#{shipment.state == 'delivered' and 'bg-success' or shipment.state == 'exception' and 'bg-danger' or 'bg-primary'}"
+                                                 t-attf-style="width: #{shipment.state == 'delivered' and '100%' or shipment.state in ['shipped','in_transit','out_for_delivery'] and '75%' or shipment.state in ['processing','label_generated'] and '50%' or shipment.state in ['confirmed'] and '25%' or '10%'}">
+                                                <t t-out="shipment.get_tracking_status_display()"/>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center">
+                                            <div class="col-3">
+                                                <small class="text-muted">Created</small>
+                                                <div><t t-out="format_date(shipment.create_date)"/></div>
+                                            </div>
+                                            <div class="col-3">
+                                                <small class="text-muted">Shipped</small>
+                                                <div><t t-out="format_date(shipment.shipped_date)"/></div>
+                                            </div>
+                                            <div class="col-3">
+                                                <small class="text-muted">Expected</small>
+                                                <div><t t-out="format_date(shipment.delivery_date)"/></div>
+                                            </div>
+                                            <div class="col-3">
+                                                <small class="text-muted">Delivered</small>
+                                                <div><t t-out="format_date(shipment.delivered_date)"/></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Shipment Details Card -->
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <strong>Shipment Details</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <td><strong>Reference</strong></td>
+                                                <td><t t-out="shipment.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Carrier</strong></td>
+                                                <td><t t-out="shipment.carrier_provider_id.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Service Type</strong></td>
+                                                <td><t t-out="shipment.service_type or 'Standard'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Tracking Number</strong></td>
+                                                <td>
+                                                    <t t-out="shipment.tracking_number or 'N/A'"/>
+                                                    <t t-if="shipment.tracking_url">
+                                                        <a t-attf-href="#{shipment.tracking_url}" target="_blank" class="ml-1">
+                                                            <i class="fa fa-external-link"/>
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Weight</strong></td>
+                                                <td><t t-out="shipment.total_weight or 0.0"/> kg</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Packages</strong></td>
+                                                <td><t t-out="shipment.total_packages or 0"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Shipping Cost</strong></td>
+                                                <td>
+                                                    <t t-out="format_currency(shipment.shipping_cost, shipment.currency_id)"/>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="shipment.is_international">
+                                                <td><strong>International</strong></td>
+                                                <td><span class="badge badge-info">Yes</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <!-- Delivery Information Card -->
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <strong>Delivery Information</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5>Recipient</h5>
+                                        <p>
+                                            <t t-out="shipment.recipient_name"/><br/>
+                                            <t t-out="shipment.recipient_address"/><br/>
+                                            <t t-out="shipment.recipient_phone or ''"/><br/>
+                                            <t t-out="shipment.recipient_email or ''"/>
+                                        </p>
+                                        <h5>Shipper</h5>
+                                        <p>
+                                            <t t-out="shipment.shipper_name or shipment.company_id.name"/><br/>
+                                            <t t-out="shipment.shipper_address or shipment.company_id.street"/>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tracking History Card -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Tracking History</strong>
+                                        <t t-if="shipment.tracking_number">
+                                            <a t-attf-href="/shipping/tracking/update/#{shipment.tracking_number}"
+                                               class="btn btn-sm btn-primary float-right" data-ajax="true">
+                                                <i class="fa fa-refresh"/> Update
+                                            </a>
+                                        </t>
+                                    </div>
+                                    <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                                        <t t-if="tracking_events">
+                                            <ul class="list-unstyled timeline">
+                                                <li t-foreach="tracking_events" t-as="event"
+                                                    t-attf-class="#{event.is_delivered and 'timeline-delivered' or event.is_exception and 'timeline-exception' or 'timeline-item'}"
+                                                    style="border-left: 3px solid #ccc; padding-left: 10px; margin-bottom: 10px;">
+                                                    <div>
+                                                        <strong><t t-out="format_date(event.event_date)"/></strong>
+                                                        <span class="badge float-right"
+                                                              t-attf-class="#{event.is_delivered and 'badge-success' or event.is_exception and 'badge-danger' or 'badge-info'}">
+                                                            <t t-out="event.status_description or 'Status Update'"/>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <t t-out="event.description or event.status_description"/>
+                                                        <t t-if="event.location">
+                                                            <br/><small class="text-muted">
+                                                                <i class="fa fa-map-marker"/> <t t-out="event.location"/>
+                                                            </small>
+                                                        </t>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </t>
+                                        <t t-if="not tracking_events">
+                                            <p class="text-muted text-center">
+                                                <i class="fa fa-info-circle"/> No tracking events available yet.
+                                            </p>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Packages Section -->
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Packages</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <t t-if="packages">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Package</th>
+                                                            <th>Type</th>
+                                                            <th>Weight (kg)</th>
+                                                            <th>Dimensions (cm)</th>
+                                                            <th>Tracking Number</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr t-foreach="packages" t-as="package">
+                                                            <td><t t-out="package.name"/></td>
+                                                            <td><t t-out="package.package_type or 'Standard'"/></td>
+                                                            <td><t t-out="package.weight"/></td>
+                                                            <td>
+                                                                <t t-out="package.length or 0"/> x
+                                                                <t t-out="package.width or 0"/> x
+                                                                <t t-out="package.height or 0"/>
+                                                            </td>
+                                                            <td><t t-out="package.tracking_number or 'N/A'"/></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </t>
+                                        <t t-if="not packages">
+                                            <p class="text-muted text-center">No packages defined.</p>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Label Section -->
+                        <t t-if="shipment.label_pdf">
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <strong>Shipping Label</strong>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <a t-attf-href="data:application/pdf;base64,#{shipment.label_pdf}"
+                                               target="_blank" class="btn btn-success">
+                                                <i class="fa fa-file-pdf-o"/> View Label
+                                            </a>
+                                            <a t-attf-href="data:application/pdf;base64,#{shipment.label_pdf}"
+                                               download="#{shipment.label_filename or 'shipping_label.pdf'}"
+                                               class="btn btn-primary">
+                                                <i class="fa fa-download"/> Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Public Tracking Form -->
+    <template id="tracking_form" name="Track Your Shipment" page="True">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="card" style="margin-top: 50px;">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="mb-0">
+                                    <i class="fa fa-truck"/> Track Your Shipment
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="/shipping/track" method="get" class="form">
+                                    <div class="form-group">
+                                        <label>Enter Tracking Number</label>
+                                        <input type="text" name="tracking_number" class="form-control form-control-lg"
+                                               placeholder="e.g., 1Z999AA10123456784" required="required"/>
+                                        <small class="form-text text-muted">
+                                            Enter your tracking number to get real-time shipment status.
+                                        </small>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        <i class="fa fa-search"/> Track Shipment
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Tracking Not Found -->
+    <template id="tracking_not_found" name="Tracking Not Found" page="True">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="card" style="margin-top: 50px;">
+                            <div class="card-header bg-danger text-white">
+                                <h4 class="mb-0">
+                                    <i class="fa fa-exclamation-circle"/> Tracking Not Found
+                                </h4>
+                            </div>
+                            <div class="card-body text-center">
+                                <i class="fa fa-search fa-4x text-muted mb-3"/>
+                                <p class="lead">No shipment found with tracking number:</p>
+                                <p><strong><t t-out="tracking_number"/></strong></p>
+                                <hr/>
+                                <a href="/shipping/track" class="btn btn-primary">
+                                    <i class="fa fa-arrow-left"/> Try Again
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Public Tracking Results -->
+    <template id="public_tracking" name="Public Tracking" page="True">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card" style="margin-top: 20px;">
+                            <div class="card-header bg-success text-white">
+                                <h4 class="mb-0">
+                                    <i class="fa fa-truck"/> Shipment Tracking
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Shipment Details</h5>
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <td><strong>Tracking Number</strong></td>
+                                                <td><t t-out="shipment.tracking_number"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Status</strong></td>
+                                                <td>
+                                                    <span class="badge" t-attf-class="#{shipment.state == 'delivered' and 'badge-success' or shipment.state == 'exception' and 'badge-danger' or 'badge-warning'}">
+                                                        <t t-out="shipment.get_tracking_status_display()"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Carrier</strong></td>
+                                                <td><t t-out="shipment.carrier_provider_id.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Service</strong></td>
+                                                <td><t t-out="shipment.service_type or 'Standard'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Destination</strong></td>
+                                                <td><t t-out="shipment.recipient_address"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Expected Delivery</strong></td>
+                                                <td><t t-out="shipment.delivery_date or 'Pending'"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Tracking History</h5>
+                                        <div style="max-height: 350px; overflow-y: auto;">
+                                            <t t-if="tracking_events">
+                                                <ul class="list-unstyled timeline">
+                                                    <li t-foreach="tracking_events" t-as="event"
+                                                        t-attf-class="#{event.is_delivered and 'timeline-delivered' or event.is_exception and 'timeline-exception' or 'timeline-item'}"
+                                                        style="border-left: 3px solid #ccc; padding-left: 10px; margin-bottom: 10px;">
+                                                        <div>
+                                                            <strong><t t-out="format_date(event.event_date)"/></strong>
+                                                            <span class="badge float-right"
+                                                                  t-attf-class="#{event.is_delivered and 'badge-success' or event.is_exception and 'badge-danger' or 'badge-info'}">
+                                                                <t t-out="event.status_description"/>
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <t t-out="event.description or event.status_description"/>
+                                                            <t t-if="event.location">
+                                                                <br/><small class="text-muted">
+                                                                    <i class="fa fa-map-marker"/> <t t-out="event.location"/>
+                                                                </small>
+                                                            </t>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </t>
+                                            <t t-if="not tracking_events">
+                                                <p class="text-muted text-center">
+                                                    <i class="fa fa-info-circle"/> No tracking events available yet.
+                                                </p>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="/shipping/track" class="btn btn-secondary">
+                                        <i class="fa fa-search"/> Track Another
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

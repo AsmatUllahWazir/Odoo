@@ -1,0 +1,84 @@
+.shipping-dashboard {
+    .o_stat_info {
+        margin-bottom: 20px;
+
+        .o_stat_info_row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .o_stat_info_card {
+            flex: 1;
+            min-width: 150px;
+            margin: 5px 10px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                transform: translateY(-2px);
+            }
+
+            .o_stat_info_value {
+                font-size: 28px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .o_stat_info_label {
+                font-size: 14px;
+                color: #666;
+            }
+        }
+    }
+
+    .card {
+        margin-bottom: 20px;
+
+        .card-header {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 15px;
+            min-height: 100px;
+        }
+    }
+}
+
+.timeline {
+    .timeline-item {
+        border-left-color: #007bff;
+
+        &.timeline-delivered {
+            border-left-color: #28a745;
+        }
+
+        &.timeline-exception {
+            border-left-color: #dc3545;
+        }
+    }
+}
+
+.badge {
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+.table-responsive {
+    .table {
+        margin-bottom: 0;
+
+        th {
+            background: #f8f9fa;
+        }
+    }
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="customs_declaration_report"
+        model="shipping.customs.declaration"
+        string="Customs Declaration"
+        report_type="qweb-pdf"
+        name="smart_shipping_connector.customs_declaration"
+        file="smart_shipping_connector.customs_declaration"
+        attachment_use="False"
+        paperformat="smart_shipping_connector.paperformat_customs_declaration"
+        print_report_name="'Customs Declaration - %s' % (object.name)"
+    />
+
+    <template id="customs_declaration">
+        <t t-call="web.html_container">
+            <div class="page" style="padding: 20px; font-family: Arial, sans-serif;">
+                <div class="oe_structure">
+                    <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px;">
+                        <h1 style="margin: 0;">CUSTOMS DECLARATION</h1>
+                        <p style="font-size: 12px; margin: 5px 0;">CN 23 - Customs Declaration Form</p>
+                    </div>
+
+                    <table style="width: 100%; font-size: 10px; margin-bottom: 15px;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px; vertical-align: top;">
+                                <strong>SENDER:</strong><br/>
+                                <t t-out="docs.shipment_id.shipper_name or docs.company_id.name"/><br/>
+                                <t t-out="docs.shipment_id.shipper_address or docs.company_id.street"/><br/>
+                                <t t-out="docs.shipment_id.shipper_phone or docs.company_id.phone"/>
+                            </td>
+                            <td style="width: 50%; padding: 5px; vertical-align: top;">
+                                <strong>RECIPIENT:</strong><br/>
+                                <t t-out="docs.shipment_id.recipient_name"/><br/>
+                                <t t-out="docs.shipment_id.recipient_address"/><br/>
+                                <t t-out="docs.shipment_id.recipient_phone or ''"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; font-size: 9px; border-collapse: collapse; margin-bottom: 15px;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: left;">Description</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: center;">HS Code</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: center;">Qty</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: center;">Weight (kg)</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: right;">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs.item_ids" t-as="item">
+                                <td style="padding: 4px; border: 1px solid #ddd;">
+                                    <t t-out="item.description"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="item.hs_code"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="item.quantity"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="item.weight or 0.0"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: right;">
+                                    <t t-out="format_currency(item.value, item.currency_id)"/>
+                                </td>
+                            </tr>
+                            <tr t-if="not docs.item_ids">
+                                <td colspan="5" style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    No items defined
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-weight: bold; background: #f9f9f9;">
+                                <td colspan="2" style="padding: 4px; border: 1px solid #ddd; text-align: right;">TOTALS:</td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="docs.total_quantity or 0"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="docs.total_weight or 0.0"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: right;">
+                                    <t t-out="format_currency(docs.total_value, docs.currency_id)"/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <table style="width: 100%; font-size: 9px; margin-bottom: 15px;">
+                        <tr>
+                            <td style="width: 50%; padding: 3px;">
+                                <strong>Declaration Number:</strong><br/>
+                                <t t-out="docs.declaration_number or docs.name"/>
+                            </td>
+                            <td style="width: 50%; padding: 3px;">
+                                <strong>Country of Origin:</strong><br/>
+                                <t t-out="docs.country_of_origin.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px;">
+                                <strong>Country of Destination:</strong><br/>
+                                <t t-out="docs.country_of_destination.name"/>
+                            </td>
+                            <td style="padding: 3px;">
+                                <strong>Declaration Date:</strong><br/>
+                                <t t-out="format_date(docs.declaration_date)"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px; text-align: center; font-size: 9px;">
+                        <p>I hereby certify that the information on this declaration is true and correct.</p>
+                        <table style="width: 100%; margin-top: 10px;">
+                            <tr>
+                                <td style="width: 50%;">
+                                    <strong>Signature:</strong> ___________________________
+                                </td>
+                                <td style="width: 50%;">
+                                    <strong>Date:</strong> <t t-out="format_date(fields.Date.today())"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

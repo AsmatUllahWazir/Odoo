@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Carrier Provider Tree View -->
+    <record id="view_shipping_carrier_provider_tree" model="ir.ui.view">
+        <field name="name">shipping.carrier.provider.tree</field>
+        <field name="model">shipping.carrier.provider</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="api_type"/>
+                <field name="carrier_type"/>
+                <field name="active"/>
+                <field name="shipment_count" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Carrier Provider Form View -->
+    <record id="view_shipping_carrier_provider_form" model="ir.ui.view">
+        <field name="name">shipping.carrier.provider.form</field>
+        <field name="model">shipping.carrier.provider</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="toggle_active" type="object" class="btn-secondary"
+                            invisible="active" string="Activate"/>
+                    <button name="toggle_active" type="object" class="btn-danger"
+                            invisible="not active" string="Deactivate"/>
+                    <button name="action_test_connection" type="object" string="Test Connection"
+                            class="btn-primary"/>
+                    <button name="action_view_shipments" type="object" string="View Shipments"
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Carrier Name..."/>
+                        </h1>
+                        <group>
+                            <field name="code"/>
+                            <field name="api_type"/>
+                            <field name="carrier_type"/>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="website" widget="url"/>
+                                    <field name="contact_person"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="support_phone"/>
+                                    <field name="support_email"/>
+                                    <field name="emergency_phone"/>
+                                </group>
+                                <group>
+                                    <field name="description"/>
+                                    <field name="notes"/>
+                                </group>
+                            </group>
+                            <group string="Address">
+                                <field name="street"/>
+                                <field name="street2"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                                <field name="zip"/>
+                            </group>
+                        </page>
+                        <page string="Features">
+                            <group>
+                                <group string="Supported Features">
+                                    <field name="supports_label_generation"/>
+                                    <field name="supports_tracking"/>
+                                    <field name="supports_rate_shopping"/>
+                                    <field name="supports_returns"/>
+                                    <field name="supports_cod"/>
+                                    <field name="supports_insurance"/>
+                                    <field name="supports_international"/>
+                                    <field name="supports_multi_package"/>
+                                    <field name="supports_saturday_delivery"/>
+                                    <field name="supports_residential"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Accounts">
+                            <field name="account_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="environment"/>
+                                    <field name="is_default"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Statistics">
+                            <group>
+                                <group>
+                                    <field name="shipment_count"/>
+                                    <field name="total_shipments_cost"/>
+                                </group>
+                                <group>
+                                    <field name="average_cost"/>
+                                    <field name="currency_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Custom Fields">
+                            <field name="custom_fields" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Carrier Provider Search View -->
+    <record id="view_shipping_carrier_provider_search" model="ir.ui.view">
+        <field name="name">shipping.carrier.provider.search</field>
+        <field name="model">shipping.carrier.provider</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="api_type"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_api_type" string="API Type" context="{'group_by':'api_type'}"/>
+                    <filter name="group_carrier_type" string="Carrier Type" context="{'group_by':'carrier_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Carrier Service Tree View -->
+    <record id="view_shipping_carrier_service_tree" model="ir.ui.view">
+        <field name="name">shipping.carrier.service.tree</field>
+        <field name="model">shipping.carrier.service</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="provider_id"/>
+                <field name="service_type"/>
+                <field name="min_delivery_days"/>
+                <field name="max_delivery_days"/>
+                <field name="base_rate"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Carrier Service Form View -->
+    <record id="view_shipping_carrier_service_form" model="ir.ui.view">
+        <field name="name">shipping.carrier.service.form</field>
+        <field name="model">shipping.carrier.service</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="toggle_active" type="object" class="btn-secondary"
+                            invisible="active" string="Activate"/>
+                    <button name="toggle_active" type="object" class="btn-danger"
+                            invisible="not active" string="Deactivate"/>
+                    <button name="action_view_shipments" type="object" string="View Shipments"
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Service Name..."/>
+                        </h1>
+                        <group>
+                            <field name="code"/>
+                            <field name="provider_id" required="1"/>
+                            <field name="service_type"/>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="description"/>
+                                    <field name="delivery_time"/>
+                                    <field name="min_delivery_days"/>
+                                    <field name="max_delivery_days"/>
+                                </group>
+                                <group>
+                                    <field name="api_service_code"/>
+                                    <field name="api_service_name"/>
+                                    <field name="usage_count"/>
+                                    <field name="notes"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Pricing">
+                            <group>
+                                <group>
+                                    <field name="base_rate"/>
+                                    <field name="fuel_surcharge_percent"/>
+                                    <field name="currency_id"/>
+                                </group>
+                                <group>
+                                    <field name="residential_surcharge"/>
+                                    <field name="saturday_surcharge"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Restrictions">
+                            <group>
+                                <group>
+                                    <field name="min_weight"/>
+                                    <field name="max_weight"/>
+                                    <field name="max_length"/>
+                                    <field name="max_width"/>
+                                    <field name="max_height"/>
+                                    <field name="max_volume"/>
+                                </group>
+                                <group>
+                                    <field name="country_ids" widget="many2many_tags"/>
+                                    <field name="country_group_ids" widget="many2many_tags"/>
+                                    <field name="excluded_country_ids" widget="many2many_tags"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Features">
+                            <group>
+                                <group>
+                                    <field name="is_international"/>
+                                    <field name="requires_customs"/>
+                                    <field name="supports_cod"/>
+                                    <field name="supports_insurance"/>
+                                </group>
+                                <group>
+                                    <field name="requires_signature"/>
+                                    <field name="supports_saturday"/>
+                                    <field name="supports_residential"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Carrier Service Search View -->
+    <record id="view_shipping_carrier_service_search" model="ir.ui.view">
+        <field name="name">shipping.carrier.service.search</field>
+        <field name="model">shipping.carrier.service</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="provider_id"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <filter name="international" string="International" domain="[('is_international','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_provider" string="Provider" context="{'group_by':'provider_id'}"/>
+                    <filter name="group_service_type" string="Service Type" context="{'group_by':'service_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_shipping_carrier_provider" model="ir.actions.act_window">
+        <field name="name">Carrier Providers</field>
+        <field name="res_model">shipping.carrier.provider</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage shipping carrier providers
+            </p>
+        </field>
+    </record>
+
+    <record id="action_shipping_carrier_service" model="ir.actions.act_window">
+        <field name="name">Carrier Services</field>
+        <field name="res_model">shipping.carrier.service</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

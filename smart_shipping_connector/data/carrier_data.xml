@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- DHL Provider -->
+    <record id="carrier_provider_dhl" model="shipping.carrier.provider">
+        <field name="name">DHL</field>
+        <field name="code">DHL</field>
+        <field name="api_type">dhl</field>
+        <field name="carrier_type">express</field>
+        <field name="website">https://www.dhl.com</field>
+        <field name="support_phone">1-800-225-5345</field>
+        <field name="description">DHL International Express Shipping</field>
+        <field name="active">True</field>
+        <field name="supports_label_generation">True</field>
+        <field name="supports_tracking">True</field>
+        <field name="supports_rate_shopping">True</field>
+        <field name="supports_returns">True</field>
+        <field name="supports_international">True</field>
+        <field name="supports_multi_package">True</field>
+    </record>
+
+    <!-- FedEx Provider -->
+    <record id="carrier_provider_fedex" model="shipping.carrier.provider">
+        <field name="name">FedEx</field>
+        <field name="code">FEDEX</field>
+        <field name="api_type">fedex</field>
+        <field name="carrier_type">express</field>
+        <field name="website">https://www.fedex.com</field>
+        <field name="support_phone">1-800-463-3339</field>
+        <field name="description">FedEx Express and Ground Shipping</field>
+        <field name="active">True</field>
+        <field name="supports_label_generation">True</field>
+        <field name="supports_tracking">True</field>
+        <field name="supports_rate_shopping">True</field>
+        <field name="supports_returns">True</field>
+        <field name="supports_international">True</field>
+        <field name="supports_multi_package">True</field>
+    </record>
+
+    <!-- UPS Provider -->
+    <record id="carrier_provider_ups" model="shipping.carrier.provider">
+        <field name="name">UPS</field>
+        <field name="code">UPS</field>
+        <field name="api_type">ups</field>
+        <field name="carrier_type">standard</field>
+        <field name="website">https://www.ups.com</field>
+        <field name="support_phone">1-800-742-5877</field>
+        <field name="description">UPS Ground and Express Shipping</field>
+        <field name="active">True</field>
+        <field name="supports_label_generation">True</field>
+        <field name="supports_tracking">True</field>
+        <field name="supports_rate_shopping">True</field>
+        <field name="supports_returns">True</field>
+        <field name="supports_international">True</field>
+        <field name="supports_multi_package">True</field>
+    </record>
+
+    <!-- DHL Service Levels -->
+    <record id="carrier_service_dhl_express" model="shipping.carrier.service">
+        <field name="name">Express Worldwide</field>
+        <field name="code">DHL_EXP</field>
+        <field name="provider_id" ref="carrier_provider_dhl"/>
+        <field name="service_type">international</field>
+        <field name="min_delivery_days">2</field>
+        <field name="max_delivery_days">3</field>
+        <field name="is_international">True</field>
+        <field name="requires_customs">True</field>
+        <field name="supports_insurance">True</field>
+        <field name="requires_signature">True</field>
+        <field name="active">True</field>
+        <field name="api_service_code">EXP</field>
+    </record>
+
+    <record id="carrier_service_dhl_economy" model="shipping.carrier.service">
+        <field name="name">Economy Select</field>
+        <field name="code">DHL_ECO</field>
+        <field name="provider_id" ref="carrier_provider_dhl"/>
+        <field name="service_type">economy</field>
+        <field name="min_delivery_days">5</field>
+        <field name="max_delivery_days">7</field>
+        <field name="is_international">True</field>
+        <field name="requires_customs">True</field>
+        <field name="active">True</field>
+        <field name="api_service_code">ECO</field>
+    </record>
+
+    <!-- FedEx Service Levels -->
+    <record id="carrier_service_fedex_express" model="shipping.carrier.service">
+        <field name="name">Express</field>
+        <field name="code">FEDEX_EXP</field>
+        <field name="provider_id" ref="carrier_provider_fedex"/>
+        <field name="service_type">next_day</field>
+        <field name="min_delivery_days">1</field>
+        <field name="max_delivery_days">2</field>
+        <field name="supports_insurance">True</field>
+        <field name="requires_signature">True</field>
+        <field name="active">True</field>
+        <field name="api_service_code">EXP</field>
+    </record>
+
+    <record id="carrier_service_fedex_ground" model="shipping.carrier.service">
+        <field name="name">Ground</field>
+        <field name="code">FEDEX_GND</field>
+        <field name="provider_id" ref="carrier_provider_fedex"/>
+        <field name="service_type">standard</field>
+        <field name="min_delivery_days">3</field>
+        <field name="max_delivery_days">5</field>
+        <field name="supports_insurance">True</field>
+        <field name="active">True</field>
+        <field name="api_service_code">GND</field>
+    </record>
+
+    <!-- UPS Service Levels -->
+    <record id="carrier_service_ups_ground" model="shipping.carrier.service">
+        <field name="name">Ground</field>
+        <field name="code">UPS_GND</field>
+        <field name="provider_id" ref="carrier_provider_ups"/>
+        <field name="service_type">ground</field>
+        <field name="min_delivery_days">3</field>
+        <field name="max_delivery_days">5</field>
+        <field name="supports_insurance">True</field>
+        <field name="active">True</field>
+        <field name="api_service_code">GND</field>
+    </record>
+
+    <record id="carrier_service_ups_express" model="shipping.carrier.service">
+        <field name="name">Express</field>
+        <field name="code">UPS_EXP</field>
+        <field name="provider_id" ref="carrier_provider_ups"/>
+        <field name="service_type">next_day</field>
+        <field name="min_delivery_days">1</field>
+        <field name="max_delivery_days">2</field>
+        <field name="supports_insurance">True</field>
+        <field name="requires_signature">True</field>
+        <field name="active">True</field>
+        <field name="api_service_code">EXP</field>
+    </record>
+</odoo>

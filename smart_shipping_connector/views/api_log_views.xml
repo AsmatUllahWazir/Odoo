@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- API Log Tree View -->
+    <record id="view_shipping_api_log_tree" model="ir.ui.view">
+        <field name="name">shipping.api.log.tree</field>
+        <field name="model">shipping.api.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="create_uid"/>
+                <field name="endpoint"/>
+                <field name="method"/>
+                <field name="response_code"/>
+                <field name="status" widget="badge"/>
+                <field name="response_time_ms"/>
+                <field name="carrier_provider_id"/>
+                <field name="request_timestamp"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- API Log Form View -->
+    <record id="view_shipping_api_log_form" model="ir.ui.view">
+        <field name="name">shipping.api.log.form</field>
+        <field name="model">shipping.api.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_retry" type="object" string="Retry"
+                            class="btn-primary" invisible="status != 'error'"/>
+                    <button name="action_view_shipment" type="object" string="View Shipment"
+                            class="btn-secondary" invisible="not shipment_id"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Log Reference..."/>
+                        </h1>
+                        <group>
+                            <field name="status"/>
+                            <field name="carrier_provider_id"/>
+                            <field name="carrier_account_id"/>
+                            <field name="response_code"/>
+                            <field name="response_time_ms"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Request">
+                            <group>
+                                <group>
+                                    <field name="endpoint"/>
+                                    <field name="method"/>
+                                    <field name="request_timestamp"/>
+                                </group>
+                                <group>
+                                    <field name="shipment_id"/>
+                                    <field name="return_id"/>
+                                    <field name="ip_address"/>
+                                    <field name="user_agent"/>
+                                </group>
+                            </group>
+                            <group string="Headers">
+                                <field name="request_headers" nolabel="1"/>
+                            </group>
+                            <group string="Body">
+                                <field name="request_body" nolabel="1"/>
+                            </group>
+                        </page>
+                        <page string="Response">
+                            <group>
+                                <field name="response_timestamp"/>
+                                <field name="status"/>
+                            </group>
+                            <group string="Headers">
+                                <field name="response_headers" nolabel="1"/>
+                            </group>
+                            <group string="Body">
+                                <field name="response_body" nolabel="1"/>
+                            </group>
+                        </page>
+                        <page string="Error">
+                            <group>
+                                <field name="error_message"/>
+                                <field name="error_traceback"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- API Log Search View -->
+    <record id="view_shipping_api_log_search" model="ir.ui.view">
+        <field name="name">shipping.api.log.search</field>
+        <field name="model">shipping.api.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="endpoint"/>
+                <field name="carrier_provider_id"/>
+                <field name="shipment_id"/>
+                <filter name="status" string="Status" domain="[]" context="{'group_by':'status'}"/>
+                <filter name="success" string="Success" domain="[('status','=','success')]"/>
+                <filter name="error" string="Errors" domain="[('status','=','error')]"/>
+                <filter name="timeout" string="Timeout" domain="[('status','=','timeout')]"/>
+                <filter name="method" string="Method" domain="[]" context="{'group_by':'method'}"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="group_carrier" string="Carrier" context="{'group_by':'carrier_provider_id'}"/>
+                    <filter name="group_method" string="Method" context="{'group_by':'method'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_shipping_api_log" model="ir.actions.act_window">
+        <field name="name">API Logs</field>
+        <field name="res_model">shipping.api.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View API call logs for debugging
+            </p>
+        </field>
+    </record>
+</odoo>

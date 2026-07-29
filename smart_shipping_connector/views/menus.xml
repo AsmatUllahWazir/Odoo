@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_shipping_root"
+              name="Shipping"
+              sequence="80"
+              web_icon="smart_shipping_connector,static/description/icon.png"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_shipping_dashboard"
+              name="Dashboard"
+              parent="menu_shipping_root"
+              action="action_shipping_dashboard"
+              sequence="5"/>
+
+    <!-- Shipments -->
+    <menuitem id="menu_shipping_shipments"
+              name="Shipments"
+              parent="menu_shipping_root"
+              sequence="10"/>
+
+    <menuitem id="menu_shipping_shipment_list"
+              name="All Shipments"
+              parent="menu_shipping_shipments"
+              action="action_shipping_shipment"
+              sequence="10"/>
+
+    <menuitem id="menu_shipping_shipment_create"
+              name="Create Shipment"
+              parent="menu_shipping_shipments"
+              action="action_shipping_shipment"
+              sequence="20"
+              groups="group_shipping_manager"/>
+
+    <menuitem id="menu_shipping_packages"
+              name="Packages"
+              parent="menu_shipping_shipments"
+              action="action_shipping_shipment_package"
+              sequence="30"/>
+
+    <menuitem id="menu_shipping_routes"
+              name="Routes"
+              parent="menu_shipping_shipments"
+              action="action_shipping_shipment_route"
+              sequence="40"/>
+
+    <!-- Returns -->
+    <menuitem id="menu_shipping_returns"
+              name="Returns"
+              parent="menu_shipping_root"
+              action="action_shipping_return"
+              sequence="15"/>
+
+    <menuitem id="menu_shipping_return_items"
+              name="Return Items"
+              parent="menu_shipping_returns"
+              action="action_shipping_return_item"
+              sequence="10"/>
+
+    <!-- Carriers -->
+    <menuitem id="menu_shipping_carriers"
+              name="Carriers"
+              parent="menu_shipping_root"
+              sequence="20"/>
+
+    <menuitem id="menu_shipping_carrier_providers"
+              name="Carrier Providers"
+              parent="menu_shipping_carriers"
+              action="action_shipping_carrier_provider"
+              sequence="10"/>
+
+    <menuitem id="menu_shipping_carrier_accounts"
+              name="Carrier Accounts"
+              parent="menu_shipping_carriers"
+              action="action_shipping_carrier_account"
+              sequence="20"/>
+
+    <menuitem id="menu_shipping_carrier_services"
+              name="Carrier Services"
+              parent="menu_shipping_carriers"
+              action="action_shipping_carrier_service"
+              sequence="30"/>
+
+    <!-- Rules -->
+    <menuitem id="menu_shipping_rules"
+              name="Shipping Rules"
+              parent="menu_shipping_root"
+              action="action_shipping_rule"
+              sequence="30"/>
+
+    <!-- Tracking -->
+    <menuitem id="menu_shipping_tracking"
+              name="Tracking Events"
+              parent="menu_shipping_root"
+              action="action_shipping_tracking_event"
+              sequence="40"/>
+
+    <!-- Customs -->
+    <menuitem id="menu_shipping_customs"
+              name="Customs"
+              parent="menu_shipping_root"
+              action="action_shipping_customs_declaration"
+              sequence="45"/>
+
+    <!-- Insurance -->
+    <menuitem id="menu_shipping_insurance"
+              name="Insurance"
+              parent="menu_shipping_root"
+              sequence="50"/>
+
+    <menuitem id="menu_shipping_insurance_policies"
+              name="Insurance Policies"
+              parent="menu_shipping_insurance"
+              action="action_shipping_insurance_policy"
+              sequence="10"/>
+
+    <menuitem id="menu_shipping_insurance_claims"
+              name="Insurance Claims"
+              parent="menu_shipping_insurance"
+              action="action_shipping_insurance_claim"
+              sequence="20"/>
+
+    <!-- Reports -->
+    <menuitem id="menu_shipping_reports"
+              name="Reports"
+              parent="menu_shipping_root"
+              sequence="60"/>
+
+<!--    <menuitem id="menu_shipping_manifest"-->
+<!--              name="Export Manifest"-->
+<!--              parent="menu_shipping_reports"-->
+<!--              action="action_shipping_export_manifest"-->
+<!--              sequence="10"/>-->
+
+    <!-- Configuration -->
+    <menuitem id="menu_shipping_configuration"
+              name="Configuration"
+              parent="menu_shipping_root"
+              sequence="100"/>
+
+    <menuitem id="menu_shipping_config"
+              name="Shipping Settings"
+              parent="menu_shipping_configuration"
+              action="action_shipping_config"
+              sequence="10"
+              groups="group_shipping_manager"/>
+
+    <menuitem id="menu_shipping_api_logs"
+              name="API Logs"
+              parent="menu_shipping_configuration"
+              action="action_shipping_api_log"
+              sequence="20"
+              groups="group_shipping_admin"/>
+
+    <menuitem id="menu_shipping_notifications"
+              name="Notifications"
+              parent="menu_shipping_configuration"
+              action="action_shipping_notification"
+              sequence="30"
+              groups="group_shipping_manager"/>
+
+    <menuitem id="menu_shipping_rate_history"
+              name="Rate Request History"
+              parent="menu_shipping_configuration"
+              action="action_shipping_rate_request_history"
+              sequence="40"
+              groups="group_shipping_admin"/>
+</odoo>

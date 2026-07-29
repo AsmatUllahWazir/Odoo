@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shipment Tree View -->
+    <record id="view_shipping_shipment_tree" model="ir.ui.view">
+        <field name="name">shipping.shipment.tree</field>
+        <field name="model">shipping.shipment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="carrier_provider_id"/>
+                <field name="tracking_number"/>
+                <field name="state" widget="badge"/>
+                <field name="recipient_name"/>
+                <field name="total_weight"/>
+                <field name="shipping_cost" sum="Total"/>
+                <field name="create_date"/>
+                <field name="priority" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Shipment Form View -->
+    <record id="view_shipping_shipment_form" model="ir.ui.view">
+        <field name="name">shipping.shipment.form</field>
+        <field name="model">shipping.shipment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,label_generated,shipped,delivered"/>
+                    <button name="action_confirm_shipment" type="object" string="Confirm"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_get_rates" type="object" string="Get Rates"
+                            class="btn-secondary" invisible="state not in ['draft','confirmed']"/>
+                    <button name="action_generate_label" type="object" string="Generate Label"
+                            class="btn-primary" invisible="state not in ['confirmed','processing']"/>
+                    <button name="action_mark_shipped" type="object" string="Mark Shipped"
+                            class="btn-primary" invisible="state not in ['label_generated']"/>
+                    <button name="action_mark_in_transit" type="object" string="In Transit"
+                            class="btn-primary" invisible="state != 'shipped'"/>
+                    <button name="action_mark_delivered" type="object" string="Delivered"
+                            class="btn-success" invisible="state not in ['in_transit','out_for_delivery']"/>
+                    <button name="action_mark_exception" type="object" string="Exception"
+                            class="btn-danger" invisible="state in ['delivered','cancelled']"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            class="btn-danger" invisible="state in ['delivered','cancelled']"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Shipment Reference..."/>
+                        </h1>
+                        <group>
+                            <field name="state"/>
+                            <field name="priority"/>
+                            <field name="carrier_provider_id" required="1"/>
+                            <field name="carrier_account_id" required="1" domain="[('provider_id','=',carrier_provider_id)]"/>
+                            <field name="carrier_service_id" domain="[('provider_id','=',carrier_provider_id)]"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Shipment Details">
+                            <group>
+                                <group string="Recipient Information">
+                                    <field name="recipient_name" required="1"/>
+                                    <field name="recipient_company"/>
+                                    <field name="recipient_address" required="1"/>
+                                    <field name="recipient_address2"/>
+                                    <field name="recipient_city"/>
+                                    <field name="recipient_state_id"/>
+                                    <field name="recipient_country_id"/>
+                                    <field name="recipient_zip"/>
+                                    <field name="recipient_phone"/>
+                                    <field name="recipient_email"/>
+                                    <field name="recipient_tax_id"/>
+                                </group>
+                                <group string="Shipper Information">
+                                    <field name="shipper_name"/>
+                                    <field name="shipper_company"/>
+                                    <field name="shipper_address"/>
+                                    <field name="shipper_address2"/>
+                                    <field name="shipper_city"/>
+                                    <field name="shipper_state_id"/>
+                                    <field name="shipper_country_id"/>
+                                    <field name="shipper_zip"/>
+                                    <field name="shipper_phone"/>
+                                    <field name="shipper_email"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Service Information">
+                                    <field name="service_type"/>
+                                    <field name="service_description"/>
+                                    <field name="tracking_number"/>
+                                    <field name="tracking_url" widget="url"/>
+                                    <field name="alternative_tracking_numbers"/>
+                                </group>
+                                <group string="Package Information">
+                                    <field name="total_weight"/>
+                                    <field name="total_volume" readonly="1"/>
+                                    <field name="total_packages"/>
+                                    <field name="declared_value"/>
+                                    <field name="declared_currency_id"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Delivery Options">
+                                    <field name="signature_required"/>
+                                    <field name="saturday_delivery"/>
+                                    <field name="residential_delivery"/>
+                                    <field name="hold_at_location"/>
+                                    <field name="hold_location" invisible="not hold_at_location"/>
+                                    <field name="delivery_instructions"/>
+                                </group>
+                                <group string="International">
+                                    <field name="is_international" readonly="1"/>
+                                    <field name="customs_declaration_id"/>
+                                    <field name="customs_info"/>
+                                    <field name="export_type"/>
+                                    <field name="incoterm"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Financial">
+                            <group>
+                                <group>
+                                    <field name="shipping_cost"/>
+                                    <field name="base_cost"/>
+                                    <field name="fuel_surcharge"/>
+                                    <field name="residential_surcharge"/>
+                                    <field name="saturday_surcharge"/>
+                                    <field name="total_charges" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="insurance_cost"/>
+                                    <field name="insurance_amount"/>
+                                    <field name="cod_fee"/>
+                                    <field name="cod_amount"/>
+                                    <field name="other_charges"/>
+                                    <field name="currency_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Dates">
+                            <group>
+                                <group>
+                                    <field name="pickup_date"/>
+                                    <field name="pickup_ready_date"/>
+                                    <field name="shipped_date"/>
+                                    <field name="in_transit_date"/>
+                                </group>
+                                <group>
+                                    <field name="out_for_delivery_date"/>
+                                    <field name="delivery_date"/>
+                                    <field name="committed_date"/>
+                                    <field name="delivered_date"/>
+                                    <field name="exception_date"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="days_in_transit" readonly="1"/>
+                                <field name="delivered_late" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Packages">
+                            <field name="package_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="weight"/>
+                                    <field name="length"/>
+                                    <field name="width"/>
+                                    <field name="height"/>
+                                    <field name="package_type"/>
+                                    <field name="tracking_number"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Tracking">
+                            <field name="tracking_event_ids">
+                                <tree>
+                                    <field name="event_date"/>
+                                    <field name="status_description"/>
+                                    <field name="location"/>
+                                    <field name="city"/>
+                                    <field name="is_delivered"/>
+                                    <field name="is_exception"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="last_tracking_status"/>
+                                <field name="last_tracking_date"/>
+                            </group>
+                        </page>
+                        <page string="Label">
+                            <field name="label_pdf" widget="binary"/>
+                            <field name="label_filename"/>
+                            <field name="label_format"/>
+                            <field name="label_generated_date"/>
+                        </page>
+                        <page string="Rates">
+                            <field name="rate_ids">
+                                <tree>
+                                    <field name="service_name"/>
+                                    <field name="carrier_provider_id"/>
+                                    <field name="total_cost"/>
+                                    <field name="delivery_days"/>
+                                    <field name="is_selected"/>
+                                    <field name="is_recommended"/>
+                                </tree>
+                            </field>
+                            <field name="selected_rate_id"/>
+                        </page>
+                        <page string="References">
+                            <group>
+                                <group>
+                                    <field name="sale_order_id"/>
+                                    <field name="stock_picking_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="purchase_order_id"/>
+                                </group>
+                                <group>
+                                    <field name="return_ids">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="state"/>
+                                            <field name="return_type"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <group>
+                                <field name="notes"/>
+                                <field name="internal_notes"/>
+                                <field name="tags" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        <page string="Route">
+                            <field name="route_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="location"/>
+                                    <field name="location_type"/>
+                                    <field name="arrival_date"/>
+                                    <field name="departure_date"/>
+                                    <field name="status"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Shipment Search View -->
+    <record id="view_shipping_shipment_search" model="ir.ui.view">
+        <field name="name">shipping.shipment.search</field>
+        <field name="model">shipping.shipment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="tracking_number"/>
+                <field name="recipient_name"/>
+                <field name="recipient_email"/>
+                <field name="carrier_provider_id"/>
+                <filter name="state" string="State" domain="[]" context="{'group_by':'state'}"/>
+                <filter name="pending" string="Pending" domain="[('state','in',['draft','confirmed','processing'])]"/>
+                <filter name="in_transit" string="In Transit" domain="[('state','in',['shipped','in_transit','out_for_delivery'])]"/>
+                <filter name="delivered" string="Delivered" domain="[('state','=','delivered')]"/>
+                <filter name="exception" string="Exception" domain="[('state','=','exception')]"/>
+                <filter name="international" string="International" domain="[('is_international','=',True)]"/>
+                <filter name="domestic" string="Domestic" domain="[('is_international','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_carrier" string="Carrier" context="{'group_by':'carrier_provider_id'}"/>
+                    <filter name="group_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_recipient" string="Recipient" context="{'group_by':'recipient_name'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by':'create_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Shipment Action -->
+    <record id="action_shipping_shipment" model="ir.actions.act_window">
+        <field name="name">Shipments</field>
+        <field name="res_model">shipping.shipment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage shipping shipments
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shipment Record Rules -->
+    <record id="shipment_company_rule" model="ir.rule">
+        <field name="name">Shipment: Multi-Company</field>
+        <field name="model_id" ref="model_shipping_shipment"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Return Record Rules -->
+    <record id="return_company_rule" model="ir.rule">
+        <field name="name">Return: Multi-Company</field>
+        <field name="model_id" ref="model_shipping_return"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Carrier Provider Record Rules -->
+    <record id="carrier_provider_company_rule" model="ir.rule">
+        <field name="name">Carrier Provider: Multi-Company</field>
+        <field name="model_id" ref="model_shipping_carrier_provider"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Shipping User - Read Only Access to Sensitive Data -->
+    <record id="shipping_user_shipment_rule" model="ir.rule">
+        <field name="name">Shipping User: Own Company Shipments</field>
+        <field name="model_id" ref="model_shipping_shipment"/>
+        <field name="groups" eval="[(4, ref('group_shipping_user'))]"/>
+        <field name="domain_force">[('company_id', '=', user.company_id.id)]</field>
+    </record>
+
+    <!-- Shipping Manager - Full Access -->
+    <record id="shipping_manager_shipment_rule" model="ir.rule">
+        <field name="name">Shipping Manager: All Shipments</field>
+        <field name="model_id" ref="model_shipping_shipment"/>
+        <field name="groups" eval="[(4, ref('group_shipping_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

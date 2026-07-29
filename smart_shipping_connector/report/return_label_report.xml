@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="return_label_report"
+        model="shipping.return"
+        string="Return Label"
+        report_type="qweb-pdf"
+        name="smart_shipping_connector.return_label"
+        file="smart_shipping_connector.return_label"
+        attachment_use="False"
+        paperformat="smart_shipping_connector.paperformat_return_label"
+        print_report_name="'Return Label - %s' % (object.name)"
+    />
+
+    <template id="return_label">
+        <t t-call="web.html_container">
+            <div class="page" style="width: 4in; height: 6in; margin: 0; padding: 15px; font-family: Arial, sans-serif;">
+                <div class="oe_structure">
+                    <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 8px; margin-bottom: 10px;">
+                        <h2 style="margin: 0; font-size: 14px;">RETURN SHIPPING LABEL</h2>
+                    </div>
+
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <div style="background: #f5f5f5; padding: 10px; border: 1px solid #ddd;">
+                            <p style="font-size: 12px; font-weight: bold; margin: 0;">RMA Number</p>
+                            <p style="font-size: 16px; font-weight: bold; margin: 5px 0;">
+                                <t t-out="docs.rma_number or docs.name"/>
+                            </p>
+                            <div style="width: 150px; height: 40px; background: #fff; margin: 8px auto; border: 1px solid #ddd;">
+                                <p style="text-align: center; line-height: 40px; color: #999; font-size: 10px;">BARCODE</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table style="width: 100%; font-size: 9px; margin-bottom: 10px;">
+                        <tr>
+                            <td style="width: 50%; padding: 2px; vertical-align: top;">
+                                <strong>RETURN TO:</strong><br/>
+                                <t t-out="docs.return_address_name or docs.company_id.name"/><br/>
+                                <t t-out="docs.return_address or docs.company_id.street"/><br/>
+                                <t t-out="docs.return_city or docs.company_id.city"/>
+                            </td>
+                            <td style="width: 50%; padding: 2px; vertical-align: top;">
+                                <strong>FROM:</strong><br/>
+                                <t t-out="docs.customer_id.name"/><br/>
+                                <t t-out="docs.return_address or 'Customer Address'"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; font-size: 8px; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><strong>Return Ref:</strong></td>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><t t-out="docs.name"/></td>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><strong>Date:</strong></td>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><t t-out="format_date(docs.request_date)"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><strong>Carrier:</strong></td>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><t t-out="docs.carrier_provider_id.name"/></td>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><strong>Weight:</strong></td>
+                            <td style="padding: 2px; border: 1px solid #ddd;"><t t-out="docs.weight or 0.0"/> kg</td>
+                        </tr>
+                    </table>
+
+                    <div style="margin-top: 10px; text-align: center; font-size: 7px; color: #666; border-top: 1px solid #ddd; padding-top: 8px;">
+                        <p style="margin: 2px 0;">Return Label for <t t-out="docs.name"/></p>
+                        <p style="margin: 2px 0;">Generated on <t t-out="format_date(fields.Datetime.now())"/></p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

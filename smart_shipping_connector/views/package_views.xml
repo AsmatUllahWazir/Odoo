@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Package Tree View -->
+    <record id="view_shipping_package_tree" model="ir.ui.view">
+        <field name="name">shipping.package.tree</field>
+        <field name="model">shipping.shipment.package</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="shipment_id"/>
+                <field name="weight" sum="Total Weight"/>
+                <field name="length"/>
+                <field name="width"/>
+                <field name="height"/>
+                <field name="volume"/>
+                <field name="package_type"/>
+                <field name="tracking_number"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Package Form View -->
+    <record id="view_shipping_package_form" model="ir.ui.view">
+        <field name="name">shipping.package.form</field>
+        <field name="model">shipping.shipment.package</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Package Name..."/>
+                        </h1>
+                        <group>
+                            <field name="shipment_id" required="1"/>
+                            <field name="state" widget="statusbar"/>
+                            <field name="sequence"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="weight" required="1"/>
+                                    <field name="length"/>
+                                    <field name="width"/>
+                                    <field name="height"/>
+                                    <field name="package_type" required="1"/>
+                                    <field name="package_material"/>
+                                </group>
+                                <group>
+                                    <field name="volume" readonly="1"/>
+                                    <field name="dimensional_weight" readonly="1"/>
+                                    <field name="chargeable_weight" readonly="1"/>
+                                    <field name="tracking_number"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Content">
+                            <group>
+                                <field name="description"/>
+                                <field name="declared_value"/>
+                                <field name="content_type"/>
+                                <field name="content_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        <page string="Handling">
+                            <group>
+                                <field name="handling_instructions"/>
+                                <field name="fragile"/>
+                                <field name="hazardous"/>
+                                <field name="temperature_sensitive"/>
+                                <field name="temperature_range"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Package Search View -->
+    <record id="view_shipping_package_search" model="ir.ui.view">
+        <field name="name">shipping.package.search</field>
+        <field name="model">shipping.shipment.package</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="tracking_number"/>
+                <field name="shipment_id"/>
+                <filter name="state" string="State" domain="[]" context="{'group_by':'state'}"/>
+                <filter name="package_type" string="Type" domain="[]" context="{'group_by':'package_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_shipping_package" model="ir.actions.act_window">
+        <field name="name">Packages</field>
+        <field name="res_model">shipping.shipment.package</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

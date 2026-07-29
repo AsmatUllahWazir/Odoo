@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Multi-Carrier Shipping & Logistics Connector | Enterprise Shipping for Odoo 17</title>
+    <meta name="description" content="Enterprise Multi-Carrier Shipping & Logistics Connector for Odoo 17. Complete solution for Rate Shopping, Label Generation, Tracking, Returns, Insurance, Customs, and Analytics." />
+    <meta name="keywords" content="odoo 17 shipping, multi-carrier shipping, logistics connector, rate shopping, shipping label generation, tracking, returns management, customs declaration, insurance claims, odoo shipping" />
+    <meta name="author" content="Enterprise Solutions" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Smart Multi-Carrier Shipping & Logistics Connector | Enterprise Shipping for Odoo 17" />
+    <meta property="og:description" content="Complete Odoo 17 shipping solution with Multi-Carrier Support, Rate Shopping, Label Generation, Tracking, Returns, Customs, Insurance, and Analytics." />
+    <meta property="og:image" content="banner.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Smart Multi-Carrier Shipping & Logistics Connector" />
+    <meta name="twitter:description" content="Enterprise Multi-Carrier Shipping: Rate Shopping, Label Generation, Tracking, Returns, Customs, Insurance, and Analytics." />
+    <meta name="twitter:image" content="banner.png" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Smart Multi-Carrier Shipping & Logistics Connector for Odoo 17",
+      "operatingSystem": "Odoo 17",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "149.00",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "87"
+      },
+      "description": "Enterprise Multi-Carrier Shipping & Logistics Connector featuring Rate Shopping, Label Generation, Real-time Tracking, Returns Management, Customs Declaration, Insurance Claims, and Executive Dashboards.",
+      "author": {
+        "@type": "Organization",
+        "name": "Enterprise Solutions",
+        "url": ""
+      }
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333333;
+            background-color: #F8FAFC;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .oe_container {
+            padding-left: 2%;
+            padding-right: 2%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .oe_spaced {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .my-5 { margin-top: 40px; margin-bottom: 40px; }
+        .my-4 { margin-top: 30px; margin-bottom: 30px; }
+        .my-3 { margin-top: 20px; margin-bottom: 20px; }
+        .mb-4 { margin-bottom: 30px; }
+        .mb-3 { margin-bottom: 20px; }
+        .mb-2 { margin-bottom: 10px; }
+        .mt-5 { margin-top: 40px; }
+        .mt-4 { margin-top: 30px; }
+        .mt-3 { margin-top: 20px; }
+        .p-3 { padding: 16px; }
+        .p-4 { padding: 24px; }
+        .p-5 { padding: 40px; }
+        .px-4 { padding-left: 24px; padding-right: 24px; }
+        .px-5 { padding-left: 40px; padding-right: 40px; }
+        .py-3 { padding-top: 16px; padding-bottom: 16px; }
+        .py-4 { padding-top: 24px; padding-bottom: 24px; }
+        .py-5 { padding-top: 40px; padding-bottom: 40px; }
+
+        .shadow-sm {
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+        }
+        .shadow {
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 2px solid #CBD5E1;
+            background-color: #F1F5F9;
+        }
+        .card-body {
+            padding: 24px;
+        }
+        .card-footer {
+            padding: 16px 24px;
+            background-color: #F8FAFC;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -12px;
+        }
+        .col-12 { flex: 0 0 100%; padding: 0 12px; }
+        .col-6 { flex: 0 0 50%; padding: 0 12px; }
+        .col-4 { flex: 0 0 33.333%; padding: 0 12px; }
+        .col-3 { flex: 0 0 25%; padding: 0 12px; }
+        .col-lg-6 { flex: 0 0 50%; padding: 0 12px; }
+        .col-lg-4 { flex: 0 0 33.333%; padding: 0 12px; }
+        .col-lg-3 { flex: 0 0 25%; padding: 0 12px; }
+        .col-md-6 { flex: 0 0 50%; padding: 0 12px; }
+        .col-md-4 { flex: 0 0 33.333%; padding: 0 12px; }
+        .col-md-3 { flex: 0 0 25%; padding: 0 12px; }
+
+        .d-flex { display: flex; }
+        .d-inline-block { display: inline-block; }
+        .align-items-center { align-items: center; }
+        .justify-content-center { justify-content: center; }
+        .justify-content-between { justify-content: space-between; }
+        .flex-wrap { flex-wrap: wrap; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .text-white { color: #FFFFFF; }
+        .text-muted { color: #64748B; }
+
+        .gap-2 { gap: 8px; }
+        .gap-3 { gap: 16px; }
+        .gap-4 { gap: 24px; }
+
+        .w-100 { width: 100%; }
+        .mw-100 { max-width: 100%; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            font-weight: 800;
+            font-size: 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 3px solid;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #0f766e;
+            border-color: #0a5a54;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+        }
+        .btn-primary:hover {
+            background-color: #0a5a54;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 118, 110, 0.4);
+        }
+        .btn-secondary {
+            background-color: #FFFFFF;
+            border-color: #0f766e;
+            color: #0f766e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .btn-secondary:hover {
+            background-color: #f0fdfa;
+            transform: translateY(-2px);
+        }
+        .btn-gold {
+            background-color: #FEF08A;
+            border-color: #000000;
+            color: #000000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .btn-gold:hover {
+            background-color: #fde047;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background-color: #16A34A;
+            border-color: #15803D;
+            color: #FFFFFF;
+        }
+        .btn-success:hover {
+            background-color: #15803D;
+            transform: translateY(-2px);
+        }
+        .btn-info {
+            background-color: #0284C7;
+            border-color: #0369A1;
+            color: #FFFFFF;
+        }
+        .btn-info:hover {
+            background-color: #0369A1;
+            transform: translateY(-2px);
+        }
+        .btn-warning {
+            background-color: #F59E0B;
+            border-color: #D97706;
+            color: #FFFFFF;
+        }
+        .btn-warning:hover {
+            background-color: #D97706;
+            transform: translateY(-2px);
+        }
+        .btn-danger {
+            background-color: #DC2626;
+            border-color: #B91C1C;
+            color: #FFFFFF;
+        }
+        .btn-danger:hover {
+            background-color: #B91C1C;
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 4px;
+            border: 1px solid;
+        }
+        .badge-purple { background: #FDF4FF; color: #86198F; border-color: #F5D0FE; }
+        .badge-blue { background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; }
+        .badge-yellow { background: #FEF3C7; color: #B45309; border-color: #FDE68A; }
+        .badge-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+        .badge-pink { background: #FCE7F3; color: #9D174D; border-color: #FBCFE8; }
+        .badge-red { background: #FEF2F2; color: #DC2626; border-color: #FECACA; }
+        .badge-teal { background: #0f766e; color: #FFFFFF; border-color: #0a5a54; }
+        .badge-orange { background: #FFF7ED; color: #EA580C; border-color: #FED7AA; }
+        .badge-indigo { background: #EEF2FF; color: #4F46E5; border-color: #C7D2FE; }
+        .badge-cyan { background: #ECFEFF; color: #0891B2; border-color: #A5F3FC; }
+        .badge-slate { background: #F1F5F9; color: #334155; border-color: #CBD5E1; }
+
+        .icon-box {
+            font-size: 32px;
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .icon-teal { background: #E0E7FF; color: #1E40AF; }
+        .icon-blue { background: #EFF6FF; color: #2563EB; }
+        .icon-yellow { background: #FEF3C7; color: #D97706; }
+        .icon-green { background: #DCFCE7; color: #166534; }
+        .icon-pink { background: #FCE7F3; color: #DB2777; }
+        .icon-purple { background: #F3E8FF; color: #7E22CE; }
+        .icon-sky { background: #E0F2FE; color: #0369A1; }
+        .icon-red { background: #FEF2F2; color: #DC2626; }
+        .icon-orange { background: #FFF7ED; color: #EA580C; }
+        .icon-indigo { background: #EEF2FF; color: #4F46E5; }
+        .icon-amber { background: #FFFBEB; color: #D97706; }
+        .icon-rose { background: #FFF1F2; color: #E11D48; }
+        .icon-lime { background: #F7FEE7; color: #65A30D; }
+        .icon-cyan { background: #ECFEFF; color: #0891B2; }
+        .icon-slate { background: #F1F5F9; color: #334155; }
+
+        .feature-card {
+            background: #F8FAFC;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #0f766e;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        .feature-card:hover {
+            background: #F1F5F9;
+            transform: translateX(4px);
+        }
+        .feature-card strong {
+            color: #0F172A;
+            display: block;
+            font-size: 15px;
+        }
+        .feature-card span {
+            font-size: 14px;
+            color: #64748B;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .checklist-item {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            height: 100%;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+        }
+        .checklist-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        .checklist-item .check {
+            color: #0f766e;
+            font-size: 20px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 12px 16px 0;
+            background-color: #F1F5F9;
+            border-bottom: 2px solid #0f766e;
+        }
+        .nav-tabs .nav-item {
+            margin-bottom: -2px;
+        }
+        .nav-tabs .nav-link {
+            color: #475569;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            background: #E2E8F0;
+            border: 1px solid #CBD5E1;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .nav-tabs .nav-link.active {
+            color: #0f766e;
+            background: #FFFFFF;
+            border: 2px solid #0f766e;
+            border-bottom: 2px solid #FFFFFF;
+        }
+        .nav-tabs .nav-link:hover {
+            background: #FFFFFF;
+        }
+        .tab-pane {
+            display: none;
+            padding: 32px 16px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-top: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .table th, .table td {
+            padding: 12px;
+            border: 1px solid #CBD5E1;
+            text-align: left;
+        }
+        .table thead {
+            background: #F1F5F9;
+            color: #0F172A;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #0f766e;
+            color: #FFFFFF;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 14px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .stat-card {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #E2E8F0;
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f766e;
+        }
+        .stat-card .label {
+            font-size: 14px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #0f766e 0%, #0a5a54 50%, #064e3b 100%);
+            padding: 60px 20px;
+            border-radius: 16px;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .hero-section h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .hero-section p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 28px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0F172A;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .section-subtitle {
+            font-size: 18px;
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .workflow-container {
+            background: #F8FAFC;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 1px solid #e9ecef;
+            overflow-x: auto;
+        }
+        .workflow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+        .workflow-step {
+            background: #fff;
+            border-radius: 10px;
+            padding: 18px 22px;
+            text-align: center;
+            min-width: 140px;
+            border: 2px solid #e9ecef;
+            flex: 1;
+            max-width: 200px;
+        }
+        .workflow-step .step-number {
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .workflow-step .step-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a1a2e;
+        }
+        .workflow-arrow {
+            font-size: 24px;
+            color: #6c757d;
+            flex-shrink: 0;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 18px 22px;
+            font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .code-block .comment {
+            color: #6c7086;
+        }
+        .code-block .keyword {
+            color: #cba6f7;
+        }
+        .code-block .string {
+            color: #a6e3a1;
+        }
+        .code-block .function {
+            color: #89b4fa;
+        }
+        .code-block .variable {
+            color: #f9e2af;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid transparent;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            border-color: #0c5460;
+            color: #0c5460;
+        }
+        .alert-success {
+            background: #d4edda;
+            border-color: #155724;
+            color: #155724;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #856404;
+            color: #856404;
+        }
+        .alert-danger {
+            background: #f8d7da;
+            border-color: #721c24;
+            color: #721c24;
+        }
+
+        @media (max-width: 992px) {
+            .col-lg-6 { flex: 0 0 100%; }
+            .col-lg-4 { flex: 0 0 50%; }
+            .col-lg-3 { flex: 0 0 50%; }
+            .hero-section h1 { font-size: 32px; }
+        }
+        @media (max-width: 768px) {
+            .col-md-6 { flex: 0 0 100%; }
+            .col-md-4 { flex: 0 0 100%; }
+            .col-md-3 { flex: 0 0 50%; }
+            .oe_container { padding-left: 4%; padding-right: 4%; }
+            .nav-tabs .nav-link { padding: 8px 16px; font-size: 14px; }
+            .tab-pane { padding: 16px 8px; }
+            .btn { font-size: 16px; padding: 10px 20px; }
+            .hero-section h1 { font-size: 28px; }
+            .hero-section p { font-size: 16px; }
+            .section-title { font-size: 24px; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .workflow-steps {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .workflow-step {
+                max-width: 100%;
+            }
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+        @media (max-width: 480px) {
+            .col-3 { flex: 0 0 50%; }
+            .col-4 { flex: 0 0 50%; }
+            .stat-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0; flex-wrap: wrap; gap: 12px;">
+            <div class="d-flex align-items-center flex-wrap" style="gap: 12px;">
+                <span style="background: #0f766e; color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.5px;">
+                    📦 Odoo 17 Ready
+                </span>
+                <span style="font-size: 18px; font-weight: 700; color: #1E293B;">
+                    Smart Multi-Carrier Shipping & Logistics Connector
+                </span>
+            </div>
+            <div class="d-flex align-items-center flex-wrap" style="gap: 10px;">
+                <div style="font-size: 15px; color: #475569; font-weight: 600;">
+                    Supported Editions:
+                </div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #BFDBFE;">
+                    Community
+                </span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #E9D5FF;">
+                    Enterprise
+                </span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 6px; border: 1px solid #FDE68A;">
+                    USD $149.00
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5">
+    <div class="hero-section">
+        <h1>Smart Multi-Carrier Shipping &amp; Logistics Connector – Complete Shipping Automation for Odoo 17</h1>
+        <p>
+            A clean, modern, and enterprise-grade shipping solution designed for businesses of all sizes. Connect DHL, FedEx, UPS, DPD, Aramex, and custom carriers. Compare rates, generate labels, track shipments, manage returns, handle customs, and much more – all from a single, unified interface.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+            <a href="#odoo_view_tab1" class="btn btn-secondary" style="background: white; color: #0f766e; border-color: white;">🖼️ View All Screenshots</a>
+            <a href="#odoo_view_tab5" class="btn btn-gold">🎥 Watch Video Walkthrough</a>
+            <a href="#contact" class="btn btn-primary">💬 Get Free Consultation</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== STATISTICS COUNTER ==================== -->
+<section class="oe_container my-4">
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="number">25+</div>
+            <div class="label">Core Models</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">50+</div>
+            <div class="label">Views & Templates</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">20,000+</div>
+            <div class="label">Lines of Code</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">100%</div>
+            <div class="label">Odoo 17 Compatible</div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CORE ARCHITECTURAL CARDS ==================== -->
+
+<!-- 1. Multi-Carrier Provider Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-teal">🏢</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Multi-Carrier Provider Management
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE MODEL</span>
+                        <span class="badge badge-blue">CONFIGURATION</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete carrier provider management with support for DHL, FedEx, UPS, DPD, Aramex, USPS, Canada Post, Royal Mail, TNT, and custom carriers via REST/SOAP APIs. Each carrier can be configured with custom API endpoints, authentication methods, and service levels.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Carrier Types</strong>
+                        <span>Express, Standard, Economy, Freight, Same Day, International, Domestic.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>API Integration</strong>
+                        <span>DHL, FedEx, UPS, DPD, Aramex, USPS, Canada Post, Royal Mail, TNT, Custom REST/SOAP.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Feature Flags</strong>
+                        <span>Label Generation, Tracking, Rate Shopping, Returns, COD, Insurance, International.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Multi-Account</strong>
+                        <span>Multiple accounts per carrier with sandbox/production environments.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Rate Shopping & Comparison -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-blue">💰</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Real-Time Rate Shopping & Comparison
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE WORKFLOW</span>
+                        <span class="badge badge-yellow">MAIN FEATURE</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Powerful rate shopping engine that queries multiple carriers simultaneously and presents a side-by-side comparison of rates, delivery times, and service types. Users can easily compare costs and make informed shipping decisions.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-6 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📋 Rate Shopping Workflow</strong>
+                        <ol style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li><strong>Shipment Created:</strong> User creates a shipment with recipient details and package information</li>
+                            <li><strong>Get Rates:</strong> User clicks "Get Rates" → System queries all active carriers</li>
+                            <li><strong>Rate Comparison:</strong> Rates displayed side-by-side with costs, delivery days, and service types</li>
+                            <li><strong>Selection:</strong> User selects the best rate → Shipment is updated with carrier details</li>
+                            <li><strong>Label Generation:</strong> User generates shipping label with selected carrier</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">✨ Key Features</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Real-time rate fetching from multiple carriers</li>
+                            <li>Side-by-side comparison view</li>
+                            <li>Fuel surcharge and residential surcharge breakdown</li>
+                            <li>Estimated delivery date calculation</li>
+                            <li>Recommended rate based on shipping rules</li>
+                            <li>Rate history and audit trail</li>
+                            <li>Rate caching for performance optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Label Generation -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-yellow">🏷️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Shipping Label Generation
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE FEATURE</span>
+                        <span class="badge badge-green">DOCUMENT</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Professional shipping label generation with support for multiple formats (PDF, ZPL, PNG). Labels include barcodes, tracking numbers, sender and recipient details, and all necessary shipment information for carrier acceptance.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Label Formats</strong>
+                        <span>PDF, ZPL, PNG with high-quality barcode generation.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Customizable</strong>
+                        <span>Page sizes: A4, Letter, 4x6, 4x8 with custom margins.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Barcode Types</strong>
+                        <span>Code 128, Code 39, QR Code, Data Matrix, PDF417.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Batch Labels</strong>
+                        <span>Generate labels for multiple shipments at once.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Shipment Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-purple">📦</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Shipment Management System
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE MODEL</span>
+                        <span class="badge badge-yellow">MAIN DOCUMENT</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete shipment lifecycle management with status tracking, package management, and seamless integration with stock pickings and sales orders. Supports multi-package shipments with individual tracking numbers.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📋 Shipment Statuses</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li><strong>Draft:</strong> Shipment created with basic details</li>
+                            <li><strong>Confirmed:</strong> Shipment confirmed and ready for processing</li>
+                            <li><strong>Processing:</strong> Shipment being processed for label generation</li>
+                            <li><strong>Label Generated:</strong> Shipping label created</li>
+                            <li><strong>Shipped:</strong> Shipment handed to carrier</li>
+                            <li><strong>In Transit:</strong> Shipment on the way</li>
+                            <li><strong>Out for Delivery:</strong> Shipment on delivery truck</li>
+                            <li><strong>Delivered:</strong> Shipment delivered to recipient</li>
+                            <li><strong>Exception:</strong> Issue occurred with shipment</li>
+                            <li><strong>Cancelled:</strong> Shipment cancelled</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📦 Package Management</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Multiple packages per shipment</li>
+                            <li>Individual weights and dimensions</li>
+                            <li>Package type selection (box, envelope, pallet, tube)</li>
+                            <li>Volume and dimensional weight calculation</li>
+                            <li>Individual tracking numbers</li>
+                            <li>Package content tracking</li>
+                            <li>Handling instructions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">🔗 Integration</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Stock Picking integration</li>
+                            <li>Sales Order integration</li>
+                            <li>Invoice integration</li>
+                            <li>Purchase Order integration</li>
+                            <li>Automatic tracking updates</li>
+                            <li>Email notifications</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Tracking System -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-green">📍</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Real-Time Tracking System
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE FEATURE</span>
+                        <span class="badge badge-orange">AUTOMATION</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Real-time shipment tracking with automatic updates via cron jobs, manual update capability, and comprehensive tracking history. Track shipments end-to-end with location, status, and event timeline.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📡 Tracking Methods</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Automatic (cron job every 30 minutes)</li>
+                            <li>Manual (one-click update)</li>
+                            <li>Webhook integration</li>
+                            <li>Carrier API polling</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📋 Tracking Events</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Picked Up</li>
+                            <li>In Transit</li>
+                            <li>Arrived at Facility</li>
+                            <li>Out for Delivery</li>
+                            <li>Delivered</li>
+                            <li>Exception Events</li>
+                            <li>Delivery Attempts</li>
+                            <li>Signature Confirmation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📍 Location Data</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>City and country tracking</li>
+                            <li>Postal code tracking</li>
+                            <li>Geolocation (latitude/longitude)</li>
+                            <li>Service area tracking</li>
+                            <li>Courier assignment</li>
+                            <li>Delivery route tracking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. Returns Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-red">↩️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Returns Management (RMA)
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE WORKFLOW</span>
+                        <span class="badge badge-pink">RETURNS</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete return management with RMA numbers, return labels, inspection workflows, restocking, and refund processing. Supports customer returns, damaged returns, exchanges, warranty claims, and product recalls.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-6 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📋 Return Workflow</strong>
+                        <ol style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li><strong>Return Request:</strong> Customer requests return with reason and items</li>
+                            <li><strong>Approval:</strong> Manager reviews and approves return (RMA generated)</li>
+                            <li><strong>Label Generation:</strong> Return shipping label generated</li>
+                            <li><strong>Ship Return:</strong> Customer ships items back</li>
+                            <li><strong>Receiving:</strong> Warehouse receives returned items</li>
+                            <li><strong>Inspection:</strong> Items inspected for condition and completeness</li>
+                            <li><strong>Restocking:</strong> Approved items restocked</li>
+                            <li><strong>Refund:</strong> Refund processed to customer</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">✨ Key Features</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>RMA number generation and tracking</li>
+                            <li>Multiple return types (customer, damaged, exchange, warranty, recall)</li>
+                            <li>Item-level return details with condition tracking</li>
+                            <li>Inspection workflow with quality rating</li>
+                            <li>Restocking management</li>
+                            <li>Refund processing</li>
+                            <li>Return label generation</li>
+                            <li>Tracking history for returns</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. Customs & International -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-indigo">🛃</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Customs Declaration & International Shipping
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE MODEL</span>
+                        <span class="badge badge-cyan">COMPLIANCE</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete customs declaration management for international shipments. Supports HS codes, commodity codes, country of origin, estimated duties and taxes, and export permits. Fully compliant with international shipping regulations.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📋 Declaration Details</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>HS Code (Harmonized System)</li>
+                            <li>Commodity Code</li>
+                            <li>Country of Origin</li>
+                            <li>Country of Destination</li>
+                            <li>Export Type (Permanent, Temporary, Return, Gift, Sample, Commercial)</li>
+                            <li>Incoterms (EXW, FCA, FOB, CIF, DDP, etc.)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">💰 Duties & Taxes</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Estimated Duties calculation</li>
+                            <li>Estimated Taxes calculation</li>
+                            <li>Total Duties & Taxes summary</li>
+                            <li>Duty rate per item</li>
+                            <li>Value declaration</li>
+                            <li>Weight declaration</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📄 Documentation</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Customs Declaration PDF (CN 23)</li>
+                            <li>Export/Import Permits</li>
+                            <li>License Numbers</li>
+                            <li>Restricted/Controlled Items</li>
+                            <li>Dangerous Goods</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 8. Insurance Management -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-rose">🛡️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Insurance Management & Claims
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE MODEL</span>
+                        <span class="badge badge-orange">FINANCIAL</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete insurance policy management with coverage tracking, premium calculation, claim processing, and supporting document management. Protect shipments with comprehensive insurance coverage.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>📋 Policy Management</strong>
+                        <span>Coverage amounts, premiums, deductibles, effective and expiry dates.</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>📊 Claim Processing</strong>
+                        <span>Claim creation, investigation, approval, payment, and closure.</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>📄 Document Management</strong>
+                        <span>Photos, invoices, receipts, packing slips, damage reports, police reports.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 9. Shipping Rules Engine -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-amber">🧠</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Intelligent Shipping Rules Engine
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">AI POWERED</span>
+                        <span class="badge badge-green">AUTOMATION</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Powerful rule-based engine that automatically selects the best carrier and service based on configurable conditions. Reduce manual decision-making and optimize shipping costs with intelligent automation.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Weight Conditions</strong>
+                        <span>Min/Max weight ranges for rule matching.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Destination Conditions</strong>
+                        <span>Country, country group, state, ZIP code conditions.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Value Conditions</strong>
+                        <span>Min/Max declared value for rule matching.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Action Rules</strong>
+                        <span>Select carrier, override cost, delivery days, insurance, COD.</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 16px; background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                <strong style="color: #0F172A;">🧠 Example Rule:</strong>
+                <div class="code-block" style="margin-top: 8px;">
+                    <span class="comment"># Domestic Ground for Small Packages</span>
+                    {
+                        <span class="variable">name</span>: <span class="string">"Domestic Ground for Small Packages"</span>,
+                        <span class="variable">condition_weight_min</span>: <span class="string">0.0</span>,
+                        <span class="variable">condition_weight_max</span>: <span class="string">5.0</span>,
+                        <span class="variable">condition_domestic</span>: <span class="string">True</span>,
+                        <span class="variable">action_carrier_provider_id</span>: <span class="string">UPS</span>,
+                        <span class="variable">action_service_type</span>: <span class="string">GROUND</span>,
+                        <span class="variable">action_delivery_days</span>: <span class="string">3</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 10. Dashboard & Analytics -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-sky">📊</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Executive Dashboard & Analytics
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">ANALYTICS</span>
+                        <span class="badge badge-red">INSIGHTS</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Real-time executive dashboard with comprehensive KPIs, charts, and analytics. Monitor shipment volumes, costs, carrier performance, on-time delivery rates, and exception trends. Make data-driven decisions with visual insights.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📊 Dashboard KPIs</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Total Shipments</li>
+                            <li>Pending Shipments</li>
+                            <li>In Transit Shipments</li>
+                            <li>Delivered Shipments</li>
+                            <li>Exception Shipments</li>
+                            <li>Total Shipping Cost</li>
+                            <li>Average Shipping Cost</li>
+                            <li>On-Time Delivery Rate</li>
+                            <li>Exception Rate</li>
+                            <li>Return Rate</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📈 Charts</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Shipments by Carrier (Bar Chart)</li>
+                            <li>Shipments by Status (Pie Chart)</li>
+                            <li>Shipment Trends (Line Chart)</li>
+                            <li>Carrier Performance (Bar Chart)</li>
+                            <li>Daily Shipments (Timeline)</li>
+                            <li>Cost Analysis (Bar Chart)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div style="background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                        <strong style="color: #0F172A;">📋 Reports</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                            <li>Shipping Label (PDF)</li>
+                            <li>Customs Declaration (PDF)</li>
+                            <li>Packing Slip (PDF)</li>
+                            <li>Manifest (PDF/CSV/Excel)</li>
+                            <li>Return Label (PDF)</li>
+                            <li>Shipping Invoice (PDF)</li>
+                            <li>Occupancy Report</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 11. Batch Operations -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-slate">🔄</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        Batch Operations & Automation
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">AUTOMATION</span>
+                        <span class="badge badge-green">EFFICIENCY</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Powerful batch operations for generating labels, updating tracking, importing shipments, and exporting manifests. Automate repetitive tasks and improve operational efficiency with bulk processing.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Batch Label Generation</strong>
+                        <span>Generate labels for multiple shipments at once in PDF, ZPL, or PNG.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Batch Tracking Update</strong>
+                        <span>Update tracking for multiple shipments simultaneously.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Import Shipments</strong>
+                        <span>Import shipments from CSV or Excel files with validation.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="feature-card">
+                        <strong>Export Manifest</strong>
+                        <span>Export shipment manifests in PDF, CSV, or Excel formats.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 12. API Logging & Debugging -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-orange">🔍</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">
+                        API Logging & Debugging
+                    </h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">DEVELOPMENT</span>
+                        <span class="badge badge-red">DEBUGGING</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Complete API call logging with request/response data, headers, status codes, and error messages. Easily debug carrier API issues and monitor integration health with comprehensive audit trails.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>📋 Request Logging</strong>
+                        <span>Full request headers, body, endpoint, method, and timestamp.</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>📊 Response Logging</strong>
+                        <span>Response headers, body, status code, and response time.</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="feature-card">
+                        <strong>🚨 Error Tracking</strong>
+                        <span>Error messages, tracebacks, and retry functionality.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== COMPLETE WORKFLOW SECTION ==================== -->
+<section class="oe_container my-5">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <h2 class="section-title">🔄 Complete Shipping Operational Workflows</h2>
+        <p class="section-subtitle">End-to-end workflows covering the entire shipping lifecycle from order to delivery</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #EFF6FF; border-bottom-color: #2563EB;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #1E40AF; margin: 0;">
+                        📦 Shipment Lifecycle Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Order Creation:</strong> Sales order confirmed → Stock picking created</li>
+                        <li><strong>Shipment Creation:</strong> User creates shipment from stock picking</li>
+                        <li><strong>Rate Shopping:</strong> Get rates from all active carriers</li>
+                        <li><strong>Rate Selection:</strong> Compare and select the best rate</li>
+                        <li><strong>Label Generation:</strong> Generate shipping label (PDF)</li>
+                        <li><strong>Shipment Handover:</strong> Handover to carrier → Mark as shipped</li>
+                        <li><strong>Tracking:</strong> Automatic tracking updates via cron</li>
+                        <li><strong>Delivery:</strong> Shipment delivered → Status updated</li>
+                        <li><strong>Post-Delivery:</strong> Invoice generated → Return available</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #DCFCE7; border-bottom-color: #16A34A;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin: 0;">
+                        🔄 Return Management Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Return Request:</strong> Customer requests return with reason</li>
+                        <li><strong>Approval:</strong> Manager reviews and approves (RMA generated)</li>
+                        <li><strong>Label Generation:</strong> Return shipping label generated</li>
+                        <li><strong>Ship Return:</strong> Customer ships items back</li>
+                        <li><strong>Receiving:</strong> Warehouse receives returned items</li>
+                        <li><strong>Inspection:</strong> Items inspected for condition</li>
+                        <li><strong>Restocking:</strong> Approved items restocked</li>
+                        <li><strong>Refund:</strong> Refund processed to customer</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #FEF3C7; border-bottom-color: #D97706;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #B45309; margin: 0;">
+                        💰 Financial & Billing Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Rate Selection:</strong> User selects shipping rate</li>
+                        <li><strong>Cost Calculation:</strong> Total cost calculated with surcharges</li>
+                        <li><strong>Insurance:</strong> Insurance policy created if applicable</li>
+                        <li><strong>COD:</strong> COD amount set for cash on delivery</li>
+                        <li><strong>Invoice:</strong> Shipping invoice generated</li>
+                        <li><strong>Payment:</strong> Payment processed via multiple methods</li>
+                        <li><strong>Settlement:</strong> Folio settled at delivery</li>
+                        <li><strong>Accounting:</strong> Seamless Odoo Accounting sync</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #FCE7F3; border-bottom-color: #DB2777;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #9D174D; margin: 0;">
+                        📊 Analytics & Reporting Workflow
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Data Collection:</strong> All shipment data automatically collected</li>
+                        <li><strong>KPI Calculation:</strong> Key metrics calculated in real-time</li>
+                        <li><strong>Dashboard Update:</strong> Dashboard refreshed with latest data</li>
+                        <li><strong>Carrier Analysis:</strong> Carrier performance metrics computed</li>
+                        <li><strong>Cost Analysis:</strong> Shipping cost analytics and trends</li>
+                        <li><strong>Report Generation:</strong> PDF reports generated on demand</li>
+                        <li><strong>Export:</strong> Data exported to CSV/Excel for external analysis</li>
+                        <li><strong>Insights:</strong> Data-driven decisions based on analytics</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== HIGHLIGHTED FEATURES CHECKLIST ==================== -->
+<section class="oe_container my-5">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <h2 class="section-title">🏆 Smart Multi-Carrier Shipping Feature Checklist</h2>
+        <p class="section-subtitle">Comprehensive shipping feature checklist powered by Smart Multi-Carrier Shipping & Logistics Connector for Odoo 17</p>
+    </div>
+    <div class="row" style="font-size: 15px; font-weight: 600; color: #1E293B;">
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Multi-Carrier Support (DHL, FedEx, UPS, DPD, Aramex, etc.)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Real-Time Rate Shopping & Comparison</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Shipping Label Generation (PDF, ZPL, PNG)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Real-Time Tracking with Automatic Updates</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Returns Management (RMA) with Full Workflow</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Customs Declaration & International Shipping</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Insurance Management & Claims Processing</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Intelligent Shipping Rules Engine</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Executive Dashboard with Charts & KPIs</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Batch Label Generation & Operations</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> API Logging & Debugging</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Multi-Company & Multi-Currency Support</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Portal Access for Customers</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Public Tracking Pages</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Security Groups: User, Manager, Admin</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Complete Audit Trail with Chatter</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Mobile-Responsive Views</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Advanced Search & Filtering</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Automatic Sequence Generation</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Email Notifications & Templates</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Multi-Package Support</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> COD (Cash on Delivery) Support</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Batch Import/Export Capabilities</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> 20,000+ Lines of Production Code</div></div>
+    </div>
+</section>
+
+<!-- ==================== INTERACTIVE TABBED SECTION ==================== -->
+<section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
+    <div style="font-weight: 700; font-size: 18px; color: #333333;">
+        <ul class="nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item"><a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab">🖼️ All Screenshots & Screens</a></li>
+            <li class="nav-item"><a class="nav-link" id="detailed-tab" data-bs-toggle="tab" href="#odoo_view_tab2" role="tab">📋 Detailed Functional Workflows</a></li>
+            <li class="nav-item"><a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#odoo_view_tab3" role="tab">⚙️ Backend & Configuration</a></li>
+            <li class="nav-item"><a class="nav-link" id="security-tab" data-bs-toggle="tab" href="#odoo_view_tab4" role="tab">🔐 Security & Access Rights</a></li>
+            <li class="nav-item"><a class="nav-link" id="video-tab" data-bs-toggle="tab" href="#odoo_view_tab5" role="tab">🎥 Live Video Walkthrough & Demo</a></li>
+            <li class="nav-item"><a class="nav-link" id="models-tab" data-bs-toggle="tab" href="#odoo_view_tab6" role="tab">📊 Complete Model List</a></li>
+            <li class="nav-item"><a class="nav-link" id="reports-tab" data-bs-toggle="tab" href="#odoo_view_tab7" role="tab">📄 Reports & Documents</a></li>
+        </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="tab-content">
+
+        <!-- TAB 1: ALL SCREENSHOTS -->
+        <div class="tab-pane active" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-4">
+
+                <!-- Screen 1: Dashboard -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                📊 Screenshot 1: Shipping Executive Dashboard
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Real-time KPI dashboard with total shipments, pending, in transit, delivered, exceptions, and cost analytics.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">📊</span>
+                                <p style="margin-top: 16px;">Dashboard Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/01_dashboard.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 2: Carrier Providers -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                🏢 Screenshot 2: Carrier Provider Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Configure carrier providers with API types, feature flags, and service levels.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">🏢</span>
+                                <p style="margin-top: 16px;">Carrier Providers Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/02_carrier_providers.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 3: Carrier Accounts -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                🔑 Screenshot 3: Carrier Account Configuration
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Manage carrier accounts with API credentials, environment settings, and rate limits.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">🔑</span>
+                                <p style="margin-top: 16px;">Carrier Accounts Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/03_carrier_accounts.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 4: Shipment Form -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                📦 Screenshot 4: Shipment Form
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Create shipments with recipient details, carrier selection, packages, and delivery options.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">📦</span>
+                                <p style="margin-top: 16px;">Shipment Form Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/04_shipment_form.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 5: Rate Shopping -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                💰 Screenshot 5: Rate Shopping & Comparison
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Compare rates from multiple carriers side-by-side with costs, delivery days, and service types.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">💰</span>
+                                <p style="margin-top: 16px;">Rate Shopping Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/05_rate_shopping.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 6: Shipping Label -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                🏷️ Screenshot 6: Shipping Label Generation
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Professional shipping label with barcode, tracking number, and complete shipment details.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">🏷️</span>
+                                <p style="margin-top: 16px;">Shipping Label Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/06_shipping_label.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 7: Tracking -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                📍 Screenshot 7: Tracking History
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Complete tracking history with location, status, and timeline of events.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">📍</span>
+                                <p style="margin-top: 16px;">Tracking Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/07_tracking.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 8: Returns -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                ↩️ Screenshot 8: Returns Management
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Complete return workflow with RMA numbers, return labels, inspection, and refund processing.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">↩️</span>
+                                <p style="margin-top: 16px;">Returns Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/08_returns.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 9: Customs Declaration -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                🛃 Screenshot 9: Customs Declaration
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Complete customs declaration with HS codes, duties, taxes, and country of origin.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">🛃</span>
+                                <p style="margin-top: 16px;">Customs Declaration Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/09_customs.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 10: Insurance -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                🛡️ Screenshot 10: Insurance & Claims
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Insurance policy management with coverage tracking, claim processing, and document management.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">🛡️</span>
+                                <p style="margin-top: 16px;">Insurance Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/10_insurance.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 11: Rules Engine -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                🧠 Screenshot 11: Shipping Rules Engine
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Configure intelligent shipping rules with conditions and actions for automatic carrier selection.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">🧠</span>
+                                <p style="margin-top: 16px;">Rules Engine Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/11_rules.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screen 12: Configuration -->
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">
+                                ⚙️ Screenshot 12: Configuration Settings
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                Global shipping configuration with defaults, notifications, label settings, and integration options.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">⚙️</span>
+                                <p style="margin-top: 16px;">Configuration Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/12_configuration.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAILED FUNCTIONAL WORKFLOWS -->
+        <div class="tab-pane" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    📋 Detailed Operational Workflows & System Architecture
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #EFF6FF;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #1E40AF; margin: 0;">📦 Shipment Lifecycle Workflow</h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><span class="step-number">1</span> <strong>Shipment Creation:</strong> User creates shipment from stock picking or manually</li>
+                                    <li><span class="step-number">2</span> <strong>Rate Shopping:</strong> Get rates from all active carriers</li>
+                                    <li><span class="step-number">3</span> <strong>Rate Selection:</strong> Compare and select the best rate</li>
+                                    <li><span class="step-number">4</span> <strong>Label Generation:</strong> Generate shipping label (PDF)</li>
+                                    <li><span class="step-number">5</span> <strong>Shipment Handover:</strong> Handover to carrier → Mark as shipped</li>
+                                    <li><span class="step-number">6</span> <strong>Tracking:</strong> Automatic tracking updates via cron</li>
+                                    <li><span class="step-number">7</span> <strong>Delivery:</strong> Shipment delivered → Status updated</li>
+                                    <li><span class="step-number">8</span> <strong>Post-Delivery:</strong> Invoice generated → Return available</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #DCFCE7;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin: 0;">🔄 Return Management Workflow</h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><span class="step-number">1</span> <strong>Return Request:</strong> Customer requests return with reason</li>
+                                    <li><span class="step-number">2</span> <strong>Approval:</strong> Manager reviews and approves (RMA generated)</li>
+                                    <li><span class="step-number">3</span> <strong>Label Generation:</strong> Return shipping label generated</li>
+                                    <li><span class="step-number">4</span> <strong>Ship Return:</strong> Customer ships items back</li>
+                                    <li><span class="step-number">5</span> <strong>Receiving:</strong> Warehouse receives returned items</li>
+                                    <li><span class="step-number">6</span> <strong>Inspection:</strong> Items inspected for condition</li>
+                                    <li><span class="step-number">7</span> <strong>Restocking:</strong> Approved items restocked</li>
+                                    <li><span class="step-number">8</span> <strong>Refund:</strong> Refund processed to customer</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #FEF3C7;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #B45309; margin: 0;">💰 Financial & Billing Workflow</h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><span class="step-number">1</span> <strong>Rate Selection:</strong> User selects shipping rate</li>
+                                    <li><span class="step-number">2</span> <strong>Cost Calculation:</strong> Total cost calculated with surcharges</li>
+                                    <li><span class="step-number">3</span> <strong>Insurance:</strong> Insurance policy created if applicable</li>
+                                    <li><span class="step-number">4</span> <strong>COD:</strong> COD amount set for cash on delivery</li>
+                                    <li><span class="step-number">5</span> <strong>Invoice:</strong> Shipping invoice generated</li>
+                                    <li><span class="step-number">6</span> <strong>Payment:</strong> Payment processed via multiple methods</li>
+                                    <li><span class="step-number">7</span> <strong>Settlement:</strong> Folio settled at delivery</li>
+                                    <li><span class="step-number">8</span> <strong>Accounting:</strong> Seamless Odoo Accounting sync</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #FCE7F3;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #9D174D; margin: 0;">📊 Analytics & Reporting Workflow</h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><span class="step-number">1</span> <strong>Data Collection:</strong> All shipment data automatically collected</li>
+                                    <li><span class="step-number">2</span> <strong>KPI Calculation:</strong> Key metrics calculated in real-time</li>
+                                    <li><span class="step-number">3</span> <strong>Dashboard Update:</strong> Dashboard refreshed with latest data</li>
+                                    <li><span class="step-number">4</span> <strong>Carrier Analysis:</strong> Carrier performance metrics computed</li>
+                                    <li><span class="step-number">5</span> <strong>Cost Analysis:</strong> Shipping cost analytics and trends</li>
+                                    <li><span class="step-number">6</span> <strong>Report Generation:</strong> PDF reports generated on demand</li>
+                                    <li><span class="step-number">7</span> <strong>Export:</strong> Data exported to CSV/Excel for external analysis</li>
+                                    <li><span class="step-number">8</span> <strong>Insights:</strong> Data-driven decisions based on analytics</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BACKEND & CONFIGURATION -->
+        <div class="tab-pane" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    ⚙️ Enterprise Backend Configuration & Setup
+                </h2>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">⚙️ Core Module Configuration</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Carrier Setup</strong>
+                                    <span>Define carrier providers → Configure API types → Set feature flags → Add service levels.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Account Setup</strong>
+                                    <span>Add carrier accounts → Configure API credentials → Set environment → Define rate limits.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Rules Configuration</strong>
+                                    <span>Create shipping rules → Define conditions → Set actions → Test rules.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Label Settings</strong>
+                                    <span>Choose label format → Set page size → Select barcode type → Configure margins.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Tracking Settings</strong>
+                                    <span>Enable auto-update → Set cron interval → Configure retry attempts.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Notification Settings</strong>
+                                    <span>Enable/disable notifications → Configure email templates → Set delivery methods.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Customs Configuration</strong>
+                                    <span>Set default country of origin → Configure HS codes → Set duty rates.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-card">
+                                    <strong>Insurance Setup</strong>
+                                    <span>Set default coverage → Configure premium rates → Define claim workflow.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">🔧 Automated Business Rules</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><strong>Rate Shopping:</strong> Automatic rate fetching from all active carriers</li>
+                                    <li><strong>Rate Selection:</strong> Automatic carrier selection based on shipping rules</li>
+                                    <li><strong>Label Generation:</strong> Auto-generate labels on shipment confirmation</li>
+                                    <li><strong>Tracking Updates:</strong> Auto-update tracking via cron job</li>
+                                    <li><strong>Status Updates:</strong> Auto-update shipment status based on tracking</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><strong>Email Notifications:</strong> Auto-send confirmation, tracking, and delivery emails</li>
+                                    <li><strong>Insurance Expiry:</strong> Auto-expire insurance policies on expiry date</li>
+                                    <li><strong>API Logging:</strong> Auto-log all API calls for debugging</li>
+                                    <li><strong>Cleanup Jobs:</strong> Auto-clean old logs and tracking data</li>
+                                    <li><strong>Dashboard Updates:</strong> Auto-refresh dashboard statistics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">📊 Reporting & Analytics Configuration</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Shipping Label</strong>
+                                    <span>Professional label with barcode, tracking, and shipment details.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Customs Declaration</strong>
+                                    <span>CN 23 customs form with item details, HS codes, and duties.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Packing Slip</strong>
+                                    <span>Detailed packing slip with package contents and dimensions.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Manifest</strong>
+                                    <span>Complete shipment manifest with all shipments and totals.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Return Label</strong>
+                                    <span>Return shipping label with RMA number and return address.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="feature-card">
+                                    <strong>Shipping Invoice</strong>
+                                    <span>Professional invoice with charges, taxes, and payment details.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SECURITY & ACCESS RIGHTS -->
+        <div class="tab-pane" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    🔐 Security Groups & Access Rights Matrix
+                </h2>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">🔐 Granular Security Groups</h3>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 15px; color: #475569; line-height: 1.8; margin-bottom: 16px;">
+                            The module defines 3 distinct security access groups inside Odoo 17 User Settings. Each role strictly controls what the logged-in user can view, create, edit, or delete:
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Security Role</th>
+                                        <th>Intended Staff</th>
+                                        <th>Permissions & Capabilities</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-left: 4px solid #0284C7;">
+                                        <td style="font-weight: 700; color: #0284C7;">Shipping User</td>
+                                        <td>Shipping Staff</td>
+                                        <td>View shipments, create shipments, get rates, generate labels, update tracking, create returns, view carrier providers and accounts.</td>
+                                    </tr>
+                                    <tr style="border-left: 4px solid #0D9488;">
+                                        <td style="font-weight: 700; color: #0D9488;">Shipping Manager</td>
+                                        <td>Shipping Managers</td>
+                                        <td>All User permissions + manage carrier providers, manage carrier accounts, configure shipping rules, approve returns, configure settings, view all reports.</td>
+                                    </tr>
+                                    <tr style="border-left: 4px solid #DC2626;">
+                                        <td style="font-weight: 700; color: #DC2626;">Shipping Administrator</td>
+                                        <td>Administrators</td>
+                                        <td>All permissions + full system configuration, user management, API logs, insurance policies, and all data access.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">🔒 Model-Level Access Control</h3>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 15px; color: #475569; line-height: 1.8; margin-bottom: 16px;">
+                            Access control is implemented at the model level using Odoo's security framework:
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <strong>Read Access</strong>
+                                    <span>All groups have read access to relevant models based on their role.</span>
+                                </div>
+                                <div class="feature-card">
+                                    <strong>Create Access</strong>
+                                    <span>Shipping User, Manager, and Admin can create shipments and returns.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <strong>Write Access</strong>
+                                    <span>Limited to authorized roles for sensitive operations.</span>
+                                </div>
+                                <div class="feature-card">
+                                    <strong>Delete Access</strong>
+                                    <span>Restricted to Manager and Admin only for data integrity.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 16px; padding: 16px; background: #F8FAFC; border-radius: 8px;">
+                            <strong style="color: #0F172A;">Additional Security Features:</strong>
+                            <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2.4;">
+                                <li>Multi-company support with record rules</li>
+                                <li>Audit trail with Chatter and activity tracking</li>
+                                <li>Activity planning and notifications</li>
+                                <li>Field-level security for sensitive data (API credentials)</li>
+                                <li>Rate limiting for API calls</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: VIDEO WALKTHROUGH -->
+        <div class="tab-pane" id="odoo_view_tab5" role="tabpanel">
+            <div class="container px-4 text-center">
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 3px solid #000000; border-radius: 16px; overflow: hidden;">
+                        <div class="card-header" style="background-color: #FEF08A; border-bottom: 3px solid #000000;">
+                            <h3 style="font-size: 28px; font-weight: 800; margin: 0; color: #000000;">
+                                🎥 Complete Smart Multi-Carrier Shipping Video Walkthrough & Live Demo
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 10px 0 0;">
+                                Interactive step-by-step video tour demonstrating Rate Shopping, Label Generation, Tracking, Returns, Customs, Insurance, and Analytics.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #FFFFFF; padding: 40px;">
+                            <div style="max-width: 920px; margin: 0 auto; border: 4px solid #000000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #0F172A;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; background: #0F172A;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1; width: 90%;">
+                                        <div style="color: #FFFFFF; font-size: 24px; font-weight: 800; margin-bottom: 16px;">
+                                            📦 Smart Multi-Carrier Shipping Video Walkthrough
+                                        </div>
+                                        <a href="https://yourwebsite.com/demo" target="_blank" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-size: 20px; font-weight: 800; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: inline-block;">
+                                            ▶️ Click Here to Play Video / Request Live Interactive Demo
+                                        </a>
+                                    </div>
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                                            title="Smart Multi-Carrier Shipping Odoo 17 Video Demo"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                                <a href="https://yourwebsite.com/contact" target="_blank" class="btn btn-primary">
+                                    💬 Request Live 1-on-1 Video Demo
+                                </a>
+                                <a href="https://yourwebsite.com/trial" target="_blank" class="btn btn-gold">
+                                    🚀 Get Free Trial Access
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="oe_container my-5">
+                    <div class="card">
+                        <div class="card-header" style="background: #F1F5F9;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">📋 Video Chapters</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 1: Introduction</strong>
+                                        <span>Overview of Smart Multi-Carrier Shipping and its capabilities.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 2: Carrier Setup</strong>
+                                        <span>Configuring carrier providers, accounts, and service levels.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 3: Rate Shopping</strong>
+                                        <span>Getting rates from multiple carriers and comparing them.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 4: Label Generation</strong>
+                                        <span>Generating shipping labels in PDF, ZPL, and PNG formats.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 5: Tracking</strong>
+                                        <span>Real-time tracking with automatic updates.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 6: Returns</strong>
+                                        <span>Managing returns with RMA, labels, inspection, and refunds.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 7: Customs & Insurance</strong>
+                                        <span>Customs declarations and insurance management.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 8: Dashboard & Analytics</strong>
+                                        <span>Using the executive dashboard and generating reports.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="feature-card">
+                                        <strong>Chapter 9: Batch Operations</strong>
+                                        <span>Batch label generation, tracking updates, and manifest exports.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- TAB 6: COMPLETE MODEL LIST -->
+        <div class="tab-pane" id="odoo_view_tab6" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    📊 Complete Model List (25+ Models)
+                </h2>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30%;">Model Name</th>
+                                        <th style="width:70%;">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><code>shipping.carrier.provider</code></td><td>Carrier configuration (DHL, FedEx, UPS, DPD, Aramex, Custom)</td></tr>
+                                    <tr><td><code>shipping.carrier.account</code></td><td>Carrier account with API credentials (API Key, Username, Password, Test/Production)</td></tr>
+                                    <tr><td><code>shipping.carrier.service</code></td><td>Service levels per carrier (Express, Standard, Economy, Ground, etc.)</td></tr>
+                                    <tr><td><code>shipping.shipment</code></td><td>Main shipment document with tracking, label, status, carrier, weight, packages</td></tr>
+                                    <tr><td><code>shipping.shipment.package</code></td><td>Packages inside a shipment (weight, dimensions, package type)</td></tr>
+                                    <tr><td><code>shipping.shipment.route</code></td><td>Route tracking for shipments (Origin → Hub → Sort Center → Destination)</td></tr>
+                                    <tr><td><code>shipping.rate</code></td><td>Rate shopping results (price, currency, delivery days, service type)</td></tr>
+                                    <tr><td><code>shipping.rate.request</code></td><td>Rate request history and wizard for rate shopping</td></tr>
+                                    <tr><td><code>shipping.rate.request.history</code></td><td>Complete history of all rate requests with request/response data</td></tr>
+                                    <tr><td><code>shipping.rule</code></td><td>Intelligent shipping rules (conditions → action) for automatic carrier selection</td></tr>
+                                    <tr><td><code>shipping.rule.condition</code></td><td>Individual conditions for complex rules (weight, value, country, product, time)</td></tr>
+                                    <tr><td><code>shipping.tracking.event</code></td><td>Tracking history (location, status, timestamp, delivered/exception flags)</td></tr>
+                                    <tr><td><code>shipping.return</code></td><td>Return shipment management with RMA numbers and full lifecycle</td></tr>
+                                    <tr><td><code>shipping.return.item</code></td><td>Items being returned with condition, reason, inspection, and restocking</td></tr>
+                                    <tr><td><code>shipping.dashboard</code></td><td>Real-time analytics with KPIs, charts, and carrier performance metrics</td></tr>
+                                    <tr><td><code>shipping.dashboard.widget</code></td><td>Customizable dashboard widgets (KPI, charts, tables, maps, timelines)</td></tr>
+                                    <tr><td><code>shipping.config</code></td><td>Global shipping configuration (defaults, notifications, label settings, tracking)</td></tr>
+                                    <tr><td><code>shipping.api.log</code></td><td>Complete API call logging for debugging (request/response, headers, errors)</td></tr>
+                                    <tr><td><code>shipping.customs.declaration</code></td><td>Customs declaration with HS codes, duties, taxes, and country of origin</td></tr>
+                                    <tr><td><code>shipping.customs.item</code></td><td>Items in customs declaration with description, HS code, quantity, value, weight</td></tr>
+                                    <tr><td><code>shipping.insurance.policy</code></td><td>Insurance policy management (coverage, premium, deductible, expiry)</td></tr>
+                                    <tr><td><code>shipping.insurance.claim</code></td><td>Insurance claims with investigation, approval, payment, and supporting documents</td></tr>
+                                    <tr><td><code>shipping.claim.document</code></td><td>Supporting documents for insurance claims (photos, invoices, receipts, reports)</td></tr>
+                                    <tr><td><code>shipping.notification</code></td><td>Shipping notifications (email, SMS, push, portal, Slack, webhook)</td></tr>
+                                    <tr><td><code>shipping.tag</code></td><td>Tags for categorizing shipments</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: REPORTS & DOCUMENTS -->
+        <div class="tab-pane" id="odoo_view_tab7" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    📄 Reports & Documents
+                </h2>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="card" style="height: 100%;">
+                                    <div class="card-header" style="background: #EFF6FF;">
+                                        <h4 style="font-size: 18px; font-weight: 700; color: #1E40AF; margin: 0;">📄 Shipping Label</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                            <li>Professional shipping label with barcode</li>
+                                            <li>Tracking number and carrier information</li>
+                                            <li>Sender and recipient details</li>
+                                            <li>Shipment reference and service type</li>
+                                            <li>Weight, packages, and dimensions</li>
+                                            <li>Format: PDF, ZPL, PNG</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card" style="height: 100%;">
+                                    <div class="card-header" style="background: #DCFCE7;">
+                                        <h4 style="font-size: 18px; font-weight: 700; color: #166534; margin: 0;">🛃 Customs Declaration</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                            <li>CN 23 customs declaration form</li>
+                                            <li>HS codes and commodity codes</li>
+                                            <li>Country of origin and destination</li>
+                                            <li>Item descriptions with values and weights</li>
+                                            <li>Estimated duties and taxes</li>
+                                            <li>Export type and incoterms</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card" style="height: 100%;">
+                                    <div class="card-header" style="background: #FEF3C7;">
+                                        <h4 style="font-size: 18px; font-weight: 700; color: #B45309; margin: 0;">📋 Packing Slip</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                            <li>Detailed packing slip for warehouse</li>
+                                            <li>Package contents with descriptions</li>
+                                            <li>Individual package weights and dimensions</li>
+                                            <li>Package type and material</li>
+                                            <li>Handling instructions</li>
+                                            <li>Tracking numbers per package</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card" style="height: 100%;">
+                                    <div class="card-header" style="background: #FCE7F3;">
+                                        <h4 style="font-size: 18px; font-weight: 700; color: #9D174D; margin: 0;">📊 Manifest Report</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                            <li>Complete shipment manifest</li>
+                                            <li>All shipments with carrier details</li>
+                                            <li>Tracking numbers and status</li>
+                                            <li>Total weight and packages summary</li>
+                                            <li>Total shipping cost summary</li>
+                                            <li>Format: PDF, CSV, Excel</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card" style="height: 100%;">
+                                    <div class="card-header" style="background: #FDF4FF;">
+                                        <h4 style="font-size: 18px; font-weight: 700; color: #86198F; margin: 0;">↩️ Return Label</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                            <li>Return shipping label with RMA number</li>
+                                            <li>Return address and customer details</li>
+                                            <li>Return reference and tracking</li>
+                                            <li>Barcode for scanning</li>
+                                            <li>Weight and package information</li>
+                                            <li>Format: PDF</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card" style="height: 100%;">
+                                    <div class="card-header" style="background: #FFF7ED;">
+                                        <h4 style="font-size: 18px; font-weight: 700; color: #EA580C; margin: 0;">💰 Shipping Invoice</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                                            <li>Professional shipping invoice</li>
+                                            <li>Shipping charges and surcharges</li>
+                                            <li>Insurance costs and COD fees</li>
+                                            <li>Tax calculations</li>
+                                            <li>Payment details</li>
+                                            <li>Format: PDF</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5" id="contact">
+    <div class="card" style="border: 3px solid #CBD5E1; background-color: #F8FAFC;">
+        <div class="card-body" style="text-align: center; padding: 40px;">
+            <h2 style="font-size: 36px; font-weight: 800; color: #000000;">Looking for an experienced Odoo Developer?</h2>
+            <p style="font-size: 22px; font-weight: 700; color: #111827; margin: 16px 0 24px;">
+                We specialize in:
+            </p>
+
+            <div style="max-width: 780px; margin: 0 auto 32px; background-color: #FFFFFF; border: 2px solid #E2E8F0; border-radius: 12px; padding: 24px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <div class="row" style="text-align: left; font-size: 18px; font-weight: 700; color: #000000; line-height: 2.6;">
+                    <div class="col-md-6">
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Enterprise Odoo Implementation</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Custom Odoo Module Development</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Shipping & Logistics Solutions</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Third-Party API Integrations</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Migration & Upgrades</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Performance Optimization</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Technical Support & Maintenance</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Training & Consultation</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size: 22px; font-weight: 800; color: #000000; margin: 0 auto 28px;">
+                Get in touch today for fast and professional Odoo solutions.
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                <a href="https://wa.me/+966565815529" target="_blank" rel="noopener" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                    <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
+                </a>
+                <a href="mailto:asmatullahwazir415@gmail.com" target="_blank" rel="noopener" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                    <strong style="color: #000000 !important; font-size: 19px;">💬 Email: asmatullahwazir415@gmail.com</strong>
+                </a>
+            </div>
+
+            <div style="margin-top: 32px; padding-top: 24px; border-top: 2px solid #E2E8F0;">
+                <p style="font-size: 14px; color: #64748B; margin: 0;">
+                    © 2026 Smart Multi-Carrier Shipping & Logistics Connector. All rights reserved. | Odoo 17 Ready | Developed by Enterprise Solutions
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bootstrap JS for Tabs -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Initialize Bootstrap tabs
+    document.addEventListener('DOMContentLoaded', function() {
+        var triggerTabList = [].slice.call(document.querySelectorAll('.nav-tabs a'));
+        triggerTabList.forEach(function(triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function(event) {
+                event.preventDefault();
+                tabTrigger.show();
+            });
+        });
+    });
+</script>
+</body>
+</html>

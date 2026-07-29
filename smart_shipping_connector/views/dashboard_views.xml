@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboard Form View -->
+    <record id="view_shipping_dashboard_form" model="ir.ui.view">
+        <field name="name">shipping.dashboard.form</field>
+        <field name="model">shipping.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Shipping Dashboard">
+                <header>
+                    <button name="action_refresh" type="object" string="Refresh" class="btn-secondary"/>
+                    <button name="action_export_report" type="object" string="Export Report" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Shipping Dashboard</h1>
+                    </div>
+
+                    <!-- KPI Cards Row 1 -->
+                    <div class="o_stat_info">
+                        <div class="o_stat_info_row">
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="total_shipments"/></div>
+                                <div class="o_stat_info_label">Total Shipments</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value text-warning"><field name="pending_shipments"/></div>
+                                <div class="o_stat_info_label">Pending</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value text-primary"><field name="in_transit_shipments"/></div>
+                                <div class="o_stat_info_label">In Transit</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value text-success"><field name="delivered_shipments"/></div>
+                                <div class="o_stat_info_label">Delivered</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value text-danger"><field name="exception_shipments"/></div>
+                                <div class="o_stat_info_label">Exceptions</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI Cards Row 2 -->
+                    <div class="o_stat_info">
+                        <div class="o_stat_info_row">
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="total_returns"/></div>
+                                <div class="o_stat_info_label">Total Returns</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value text-warning"><field name="pending_returns"/></div>
+                                <div class="o_stat_info_label">Pending Returns</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value text-success"><field name="completed_returns"/></div>
+                                <div class="o_stat_info_label">Completed Returns</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="average_delivery_days"/></div>
+                                <div class="o_stat_info_label">Avg Delivery (Days)</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="on_time_delivery_rate"/>%</div>
+                                <div class="o_stat_info_label">On-Time Rate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI Cards Row 3 -->
+                    <div class="o_stat_info">
+                        <div class="o_stat_info_row">
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="total_shipping_cost"/></div>
+                                <div class="o_stat_info_label">Total Shipping Cost</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="average_shipping_cost"/></div>
+                                <div class="o_stat_info_label">Avg Shipping Cost</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="exception_rate"/>%</div>
+                                <div class="o_stat_info_label">Exception Rate</div>
+                            </div>
+                            <div class="o_stat_info_card">
+                                <div class="o_stat_info_value"><field name="return_rate"/>%</div>
+                                <div class="o_stat_info_label">Return Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dashboard Widget Tree View -->
+    <record id="view_shipping_dashboard_widget_tree" model="ir.ui.view">
+        <field name="name">shipping.dashboard.widget.tree</field>
+        <field name="model">shipping.dashboard.widget</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="dashboard_id"/>
+                <field name="widget_type"/>
+                <field name="width"/>
+                <field name="height"/>
+                <field name="data_source"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Dashboard Widget Form View -->
+    <record id="view_shipping_dashboard_widget_form" model="ir.ui.view">
+        <field name="name">shipping.dashboard.widget.form</field>
+        <field name="model">shipping.dashboard.widget</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Widget Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="dashboard_id" required="1"/>
+                            <field name="widget_type" required="1"/>
+                            <field name="data_source" required="1"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="width"/>
+                            <field name="height"/>
+                            <field name="sequence"/>
+                            <field name="color_scheme"/>
+                            <field name="auto_refresh"/>
+                            <field name="refresh_interval" invisible="not auto_refresh"/>
+                        </group>
+                    </group>
+                    <group string="Configuration">
+                        <field name="config" nolabel="1" placeholder="{'key': 'value'}"/>
+                    </group>
+                    <group string="Custom Query" invisible="data_source != 'custom'">
+                        <field name="custom_query" nolabel="1"/>
+                    </group>
+                    <group string="Filters">
+                        <field name="filter_domain" placeholder="[('field','operator','value')]"/>
+                        <field name="filter_date_range"/>
+                        <field name="date_field" invisible="not filter_date_range"/>
+                    </group>
+                    <group string="Visibility">
+                        <field name="group_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dashboard Search View -->
+    <record id="view_shipping_dashboard_search" model="ir.ui.view">
+        <field name="name">shipping.dashboard.search</field>
+        <field name="model">shipping.dashboard</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="company" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_shipping_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">shipping.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_shipping_dashboard_form"/>
+        <field name="target">current</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View shipping statistics and analytics
+            </p>
+        </field>
+    </record>
+
+    <record id="action_shipping_dashboard_widget" model="ir.actions.act_window">
+        <field name="name">Dashboard Widgets</field>
+        <field name="res_model">shipping.dashboard.widget</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

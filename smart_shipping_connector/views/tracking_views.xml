@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tracking Event Tree View -->
+    <record id="view_shipping_tracking_event_tree" model="ir.ui.view">
+        <field name="name">shipping.tracking.event.tree</field>
+        <field name="model">shipping.tracking.event</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="tracking_number"/>
+                <field name="event_date"/>
+                <field name="status_description"/>
+                <field name="location"/>
+                <field name="city"/>
+                <field name="country"/>
+                <field name="is_delivered"/>
+                <field name="is_exception"/>
+                <button name="action_view_shipment" type="object" string="View Shipment" class="btn-secondary"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Tracking Event Form View -->
+    <record id="view_shipping_tracking_event_form" model="ir.ui.view">
+        <field name="name">shipping.tracking.event.form</field>
+        <field name="model">shipping.tracking.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Tracking Event</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="shipment_id"/>
+                            <field name="return_id"/>
+                            <field name="tracking_number"/>
+                        </group>
+                        <group>
+                            <field name="event_date"/>
+                            <field name="status_description"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="event_code"/>
+                            <field name="status_code"/>
+                            <field name="location"/>
+                            <field name="city"/>
+                            <field name="state"/>
+                            <field name="country"/>
+                            <field name="postal_code"/>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                            <field name="is_delivered"/>
+                            <field name="is_exception"/>
+                            <field name="is_signature_required"/>
+                            <field name="signed_by"/>
+                            <field name="service_area"/>
+                            <field name="courier"/>
+                            <field name="courier_id"/>
+                        </group>
+                    </group>
+                    <group string="Raw Data">
+                        <field name="raw_data" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tracking Event Search View -->
+    <record id="view_shipping_tracking_event_search" model="ir.ui.view">
+        <field name="name">shipping.tracking.event.search</field>
+        <field name="model">shipping.tracking.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="tracking_number"/>
+                <field name="status_description"/>
+                <field name="location"/>
+                <field name="shipment_id"/>
+                <filter name="delivered" string="Delivered" domain="[('is_delivered','=',True)]"/>
+                <filter name="exception" string="Exception" domain="[('is_exception','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by':'status_description'}"/>
+                    <filter name="group_location" string="Location" context="{'group_by':'location'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by':'event_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_shipping_tracking_event" model="ir.actions.act_window">
+        <field name="name">Tracking Events</field>
+        <field name="res_model">shipping.tracking.event</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View shipment tracking history
+            </p>
+        </field>
+    </record>
+</odoo>

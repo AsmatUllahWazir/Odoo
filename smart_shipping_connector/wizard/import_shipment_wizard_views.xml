@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shipping_import_shipment_wizard" model="ir.ui.view">
+        <field name="name">shipping.import.shipment.wizard</field>
+        <field name="model">shipping.import.shipment.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Import Shipments</h1>
+                    </div>
+                    <group>
+                        <field name="file_data" widget="binary" filename="file_name" required="1"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="file_type"/>
+                        <field name="import_type"/>
+                        <field name="dry_run"/>
+                    </group>
+                    <group string="Preview" invisible="not preview_data">
+                        <field name="preview_data" nolabel="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_preview" type="object" string="Preview" class="btn-secondary"/>
+                        <button name="action_import" type="object" string="Import" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

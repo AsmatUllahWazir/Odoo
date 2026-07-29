@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shipping_export_manifest_wizard" model="ir.ui.view">
+        <field name="name">shipping.export.manifest.wizard</field>
+        <field name="model">shipping.export.manifest.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Export Manifest</h1>
+                    </div>
+                    <group>
+                        <field name="shipment_ids" widget="many2many_tags" options="{'no_create': True}" required="1"/>
+                        <field name="manifest_type"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group string="Options">
+                        <field name="include_details"/>
+                        <field name="include_cost"/>
+                        <field name="include_tracking"/>
+                        <field name="output_format"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate_manifest" type="object" string="Generate Manifest" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

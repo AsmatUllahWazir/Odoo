@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="packing_slip_report"
+        model="shipping.shipment"
+        string="Packing Slip"
+        report_type="qweb-pdf"
+        name="smart_shipping_connector.packing_slip"
+        file="smart_shipping_connector.packing_slip"
+        attachment_use="False"
+        paperformat="smart_shipping_connector.paperformat_packing_slip"
+        print_report_name="'Packing Slip - %s' % (object.name)"
+    />
+
+    <template id="packing_slip">
+        <t t-call="web.html_container">
+            <div class="page" style="padding: 20px; font-family: Arial, sans-serif;">
+                <div class="oe_structure">
+                    <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px;">
+                        <h1 style="margin: 0;">PACKING SLIP</h1>
+                    </div>
+
+                    <table style="width: 100%; font-size: 10px; margin-bottom: 15px;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px; vertical-align: top;">
+                                <strong>SHIP FROM:</strong><br/>
+                                <t t-out="docs.shipper_name or docs.company_id.name"/><br/>
+                                <t t-out="docs.shipper_address or docs.company_id.street"/><br/>
+                                <t t-out="docs.shipper_phone or docs.company_id.phone"/>
+                            </td>
+                            <td style="width: 50%; padding: 5px; vertical-align: top;">
+                                <strong>SHIP TO:</strong><br/>
+                                <t t-out="docs.recipient_name"/><br/>
+                                <t t-out="docs.recipient_address"/><br/>
+                                <t t-out="docs.recipient_phone or ''"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; font-size: 9px; border-collapse: collapse; margin-bottom: 15px;">
+                        <tr>
+                            <td style="padding: 4px;"><strong>Shipment Reference:</strong></td>
+                            <td style="padding: 4px;"><t t-out="docs.name"/></td>
+                            <td style="padding: 4px;"><strong>Date:</strong></td>
+                            <td style="padding: 4px;"><t t-out="format_date(docs.create_date)"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px;"><strong>Carrier:</strong></td>
+                            <td style="padding: 4px;"><t t-out="docs.carrier_provider_id.name"/></td>
+                            <td style="padding: 4px;"><strong>Service:</strong></td>
+                            <td style="padding: 4px;"><t t-out="docs.service_type or 'Standard'"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px;"><strong>Tracking Number:</strong></td>
+                            <td style="padding: 4px;"><t t-out="docs.tracking_number or 'N/A'"/></td>
+                            <td style="padding: 4px;"><strong>Weight:</strong></td>
+                            <td style="padding: 4px;"><t t-out="docs.total_weight or 0.0"/> kg</td>
+                        </tr>
+                    </table>
+
+                    <h3 style="margin: 10px 0; font-size: 12px;">Package Contents</h3>
+                    <table style="width: 100%; font-size: 9px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: left;">Package</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: left;">Type</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: center;">Weight (kg)</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: center;">Dimensions (cm)</th>
+                                <th style="padding: 4px; border: 1px solid #ddd; text-align: center;">Tracking</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs.package_ids" t-as="package">
+                                <td style="padding: 4px; border: 1px solid #ddd;">
+                                    <t t-out="package.name"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd;">
+                                    <t t-out="package.package_type or 'Standard'"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="package.weight"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="package.length or 0"/> x
+                                    <t t-out="package.width or 0"/> x
+                                    <t t-out="package.height or 0"/>
+                                </td>
+                                <td style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    <t t-out="package.tracking_number or 'N/A'"/>
+                                </td>
+                            </tr>
+                            <tr t-if="not docs.package_ids">
+                                <td colspan="5" style="padding: 4px; border: 1px solid #ddd; text-align: center;">
+                                    No packages defined
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px; text-align: center; font-size: 9px; color: #666;">
+                        <p>Thank you for your business!</p>
+                        <p>Generated on <t t-out="format_date(fields.Datetime.now())"/></p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

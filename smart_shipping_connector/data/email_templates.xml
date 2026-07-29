@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Shipment Confirmation Email -->
+        <record id="email_template_shipment_confirmation" model="mail.template">
+            <field name="name">Shipment Confirmation</field>
+            <field name="model_id" ref="model_shipping_shipment"/>
+            <field name="subject">Shipment Confirmation - {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <![CDATA[
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Shipment Confirmation</h2>
+                    <p>Dear {{ object.recipient_name or 'Customer' }},</p>
+                    <p>Your shipment has been confirmed. Here are the details:</p>
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Shipment Reference:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Carrier:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.carrier_provider_id.name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Service:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.service_type or 'Standard' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Tracking Number:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.tracking_number or 'Not yet available' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Expected Delivery:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.delivery_date or 'To be confirmed' }}</td>
+                        </tr>
+                    </table>
+                    <p>You can track your shipment using the tracking number above.</p>
+                    <p>Thank you for choosing our shipping services!</p>
+                    <p style="margin-top: 30px; color: #666; font-size: 12px;">
+                        This is an automated message. Please do not reply to this email.
+                    </p>
+                </div>
+                ]]>
+            </field>
+            <field name="lang">{{ object.partner_id.lang or 'en_US' }}</field>
+            <field name="email_from">{{ object.company_id.email or '' }}</field>
+            <field name="email_to">{{ object.recipient_email or '' }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Shipment Delivered Email -->
+        <record id="email_template_shipment_delivered" model="mail.template">
+            <field name="name">Shipment Delivered</field>
+            <field name="model_id" ref="model_shipping_shipment"/>
+            <field name="subject">Shipment Delivered - {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <![CDATA[
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Shipment Delivered</h2>
+                    <p>Dear {{ object.recipient_name or 'Customer' }},</p>
+                    <p>Your shipment has been successfully delivered.</p>
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Shipment Reference:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Tracking Number:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.tracking_number }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Delivered Date:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.delivered_date }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Signed By:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.signed_by or 'N/A' }}</td>
+                        </tr>
+                    </table>
+                    <p>Thank you for choosing our shipping services!</p>
+                    <p style="margin-top: 30px; color: #666; font-size: 12px;">
+                        This is an automated message. Please do not reply to this email.
+                    </p>
+                </div>
+                ]]>
+            </field>
+            <field name="lang">{{ object.partner_id.lang or 'en_US' }}</field>
+            <field name="email_from">{{ object.company_id.email or '' }}</field>
+            <field name="email_to">{{ object.recipient_email or '' }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Return Approval Email -->
+        <record id="email_template_return_approved" model="mail.template">
+            <field name="name">Return Approved</field>
+            <field name="model_id" ref="model_shipping_return"/>
+            <field name="subject">Return Approved - {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <![CDATA[
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Return Request Approved</h2>
+                    <p>Dear {{ object.customer_id.name or 'Customer' }},</p>
+                    <p>Your return request has been approved. Please follow the instructions below:</p>
+                    <p><strong>Return Reference:</strong> {{ object.name }}</p>
+                    <p><strong>RMA Number:</strong> {{ object.rma_number or 'N/A' }}</p>
+                    <p><strong>Instructions:</strong></p>
+                    <ul>
+                        <li>Pack the items securely</li>
+                        <li>Include the RMA number inside the package</li>
+                        <li>Ship to the address provided below</li>
+                    </ul>
+                    <p><strong>Return Address:</strong></p>
+                    <p>{{ object.return_address or object.company_id.street or '' }}</p>
+                    <p>Thank you for your cooperation.</p>
+                    <p style="margin-top: 30px; color: #666; font-size: 12px;">
+                        This is an automated message. Please do not reply to this email.
+                    </p>
+                </div>
+                ]]>
+            </field>
+            <field name="lang">{{ object.customer_id.lang or 'en_US' }}</field>
+            <field name="email_from">{{ object.company_id.email or '' }}</field>
+            <field name="email_to">{{ object.customer_id.email or '' }}</field>
+            <field name="partner_to">{{ object.customer_id.id }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Tracking Update Email -->
+        <record id="email_template_tracking_updated" model="mail.template">
+            <field name="name">Tracking Updated</field>
+            <field name="model_id" ref="model_shipping_shipment"/>
+            <field name="subject">Tracking Update - {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <![CDATA[
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Tracking Update</h2>
+                    <p>Dear {{ object.recipient_name or 'Customer' }},</p>
+                    <p>There is a new tracking update for your shipment.</p>
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Shipment Reference:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Tracking Number:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.tracking_number }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Current Status:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.last_tracking_status or 'In Transit' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Last Update:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.last_tracking_date or 'N/A' }}</td>
+                        </tr>
+                    </table>
+                    <p>You can track your shipment using the link below:</p>
+                    <p><a href="{{ object.tracking_url or '#' }}" target="_blank">Track your shipment</a></p>
+                    <p style="margin-top: 30px; color: #666; font-size: 12px;">
+                        This is an automated message. Please do not reply to this email.
+                    </p>
+                </div>
+                ]]>
+            </field>
+            <field name="lang">{{ object.partner_id.lang or 'en_US' }}</field>
+            <field name="email_from">{{ object.company_id.email or '' }}</field>
+            <field name="email_to">{{ object.recipient_email or '' }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

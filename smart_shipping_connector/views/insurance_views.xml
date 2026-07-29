@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Insurance Policy Tree View -->
+    <record id="view_shipping_insurance_policy_tree" model="ir.ui.view">
+        <field name="name">shipping.insurance.policy.tree</field>
+        <field name="model">shipping.insurance.policy</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="shipment_id"/>
+                <field name="insurance_provider"/>
+                <field name="policy_number"/>
+                <field name="coverage_amount"/>
+                <field name="premium"/>
+                <field name="state" widget="badge"/>
+                <field name="effective_date"/>
+                <field name="expiry_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Insurance Policy Form View -->
+    <record id="view_shipping_insurance_policy_form" model="ir.ui.view">
+        <field name="name">shipping.insurance.policy.form</field>
+        <field name="model">shipping.insurance.policy</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,claimed,expired"/>
+                    <button name="action_activate" type="object" string="Activate"
+                            class="btn-success" invisible="state != 'draft'"/>
+                    <button name="action_expire" type="object" string="Expire"
+                            class="btn-warning" invisible="state != 'active'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            class="btn-danger" invisible="state in ['claimed','expired','cancelled']"/>
+                    <button name="action_view_claims" type="object" string="View Claims"
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Policy Reference..."/>
+                        </h1>
+                        <group>
+                            <field name="state"/>
+                            <field name="policy_number"/>
+                            <field name="insurance_provider"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="shipment_id" required="1"/>
+                                    <field name="coverage_amount" required="1"/>
+                                    <field name="premium" required="1"/>
+                                    <field name="deductible"/>
+                                </group>
+                                <group>
+                                    <field name="effective_date" required="1"/>
+                                    <field name="expiry_date" required="1"/>
+                                    <field name="currency_id"/>
+                                    <field name="coverage_type"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="perils_covered"/>
+                                <field name="exclusions"/>
+                            </group>
+                        </page>
+                        <page string="Claims">
+                            <field name="claim_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="claim_date"/>
+                                    <field name="claim_type"/>
+                                    <field name="claim_amount"/>
+                                    <field name="approved_amount"/>
+                                    <field name="status" widget="badge"/>
+                                </tree>
+                            </field>
+                            <field name="claim_count" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Insurance Claim Tree View -->
+    <record id="view_shipping_insurance_claim_tree" model="ir.ui.view">
+        <field name="name">shipping.insurance.claim.tree</field>
+        <field name="model">shipping.insurance.claim</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="policy_id"/>
+                <field name="shipment_id"/>
+                <field name="claim_date"/>
+                <field name="claim_type"/>
+                <field name="claim_amount"/>
+                <field name="approved_amount"/>
+                <field name="status" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Insurance Claim Form View -->
+    <record id="view_shipping_insurance_claim_form" model="ir.ui.view">
+        <field name="name">shipping.insurance.claim.form</field>
+        <field name="model">shipping.insurance.claim</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,submitted,investigating,approved,paid"/>
+                    <button name="action_submit" type="object" string="Submit"
+                            class="btn-primary" invisible="status != 'draft'"/>
+                    <button name="action_investigate" type="object" string="Investigate"
+                            class="btn-info" invisible="status != 'submitted'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-success" invisible="status not in ['submitted','investigating']"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            class="btn-danger" invisible="status not in ['submitted','investigating']"/>
+                    <button name="action_pay" type="object" string="Pay"
+                            class="btn-primary" invisible="status != 'approved'"/>
+                    <button name="action_close" type="object" string="Close"
+                            class="btn-secondary" invisible="status in ['paid','closed']"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Claim Reference..."/>
+                        </h1>
+                        <group>
+                            <field name="status"/>
+                            <field name="claim_type"/>
+                            <field name="claim_subtype"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="policy_id" required="1"/>
+                                    <field name="shipment_id" readonly="1"/>
+                                    <field name="claim_date"/>
+                                    <field name="incident_date" required="1"/>
+                                </group>
+                                <group>
+                                    <field name="claim_amount" required="1"/>
+                                    <field name="approved_amount"/>
+                                    <field name="paid_amount"/>
+                                    <field name="currency_id"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="description" required="1"/>
+                                <field name="resolution"/>
+                            </group>
+                        </page>
+                        <page string="Investigation">
+                            <group>
+                                <field name="investigator_id"/>
+                                <field name="investigation_date"/>
+                                <field name="investigation_notes"/>
+                            </group>
+                        </page>
+                        <page string="Payment">
+                            <group>
+                                <field name="payment_date"/>
+                                <field name="payment_method"/>
+                                <field name="payment_reference"/>
+                            </group>
+                        </page>
+                        <page string="Documents">
+                            <field name="document_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="document_type"/>
+                                    <field name="document" widget="binary"/>
+                                    <field name="filename"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Rejection">
+                            <group>
+                                <field name="rejection_reason"/>
+                                <field name="rejection_date"/>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <group>
+                                <field name="notes"/>
+                                <field name="internal_notes"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Claim Document Tree View -->
+    <record id="view_shipping_claim_document_tree" model="ir.ui.view">
+        <field name="name">shipping.claim.document.tree</field>
+        <field name="model">shipping.claim.document</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="claim_id"/>
+                <field name="document_type"/>
+                <field name="filename"/>
+                <field name="uploaded_date"/>
+                <field name="uploaded_by"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Claim Document Form View -->
+    <record id="view_shipping_claim_document_form" model="ir.ui.view">
+        <field name="name">shipping.claim.document.form</field>
+        <field name="model">shipping.claim.document</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Document Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="claim_id" required="1"/>
+                        <field name="document_type" required="1"/>
+                        <field name="document" widget="binary" required="1"/>
+                        <field name="filename"/>
+                        <field name="description"/>
+                        <field name="uploaded_date" readonly="1"/>
+                        <field name="uploaded_by" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Insurance Search Views -->
+    <record id="view_shipping_insurance_policy_search" model="ir.ui.view">
+        <field name="name">shipping.insurance.policy.search</field>
+        <field name="model">shipping.insurance.policy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="policy_number"/>
+                <field name="insurance_provider"/>
+                <field name="shipment_id"/>
+                <filter name="active" string="Active" domain="[('state','=','active')]"/>
+                <filter name="expired" string="Expired" domain="[('state','=','expired')]"/>
+                <filter name="claimed" string="Claimed" domain="[('state','=','claimed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_provider" string="Provider" context="{'group_by':'insurance_provider'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_shipping_insurance_claim_search" model="ir.ui.view">
+        <field name="name">shipping.insurance.claim.search</field>
+        <field name="model">shipping.insurance.claim</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="policy_id"/>
+                <field name="shipment_id"/>
+                <filter name="status" string="Status" domain="[]" context="{'group_by':'status'}"/>
+                <filter name="claim_type" string="Type" domain="[]" context="{'group_by':'claim_type'}"/>
+                <filter name="pending" string="Pending" domain="[('status','in',['draft','submitted','investigating'])]"/>
+                <filter name="approved" string="Approved" domain="[('status','=','approved')]"/>
+                <filter name="paid" string="Paid" domain="[('status','=','paid')]"/>
+                <filter name="rejected" string="Rejected" domain="[('status','=','rejected')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_shipping_insurance_policy" model="ir.actions.act_window">
+        <field name="name">Insurance Policies</field>
+        <field name="res_model">shipping.insurance.policy</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage shipping insurance policies
+            </p>
+        </field>
+    </record>
+
+    <record id="action_shipping_insurance_claim" model="ir.actions.act_window">
+        <field name="name">Insurance Claims</field>
+        <field name="res_model">shipping.insurance.claim</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_shipping_claim_document" model="ir.actions.act_window">
+        <field name="name">Claim Documents</field>
+        <field name="res_model">shipping.claim.document</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

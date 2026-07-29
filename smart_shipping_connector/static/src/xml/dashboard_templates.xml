@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="shipping_dashboard_kpi">
+        <div class="o_stat_info">
+            <div class="o_stat_info_row">
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value"><t t-esc="total_shipments or 0"/></div>
+                    <div class="o_stat_info_label">Total Shipments</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value text-warning"><t t-esc="pending_shipments or 0"/></div>
+                    <div class="o_stat_info_label">Pending</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value text-primary"><t t-esc="in_transit_shipments or 0"/></div>
+                    <div class="o_stat_info_label">In Transit</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value text-success"><t t-esc="delivered_shipments or 0"/></div>
+                    <div class="o_stat_info_label">Delivered</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value text-danger"><t t-esc="exception_shipments or 0"/></div>
+                    <div class="o_stat_info_label">Exceptions</div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="shipping_dashboard_return_kpi">
+        <div class="o_stat_info">
+            <div class="o_stat_info_row">
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value"><t t-esc="total_returns or 0"/></div>
+                    <div class="o_stat_info_label">Total Returns</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value text-warning"><t t-esc="pending_returns or 0"/></div>
+                    <div class="o_stat_info_label">Pending Returns</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value text-success"><t t-esc="completed_returns or 0"/></div>
+                    <div class="o_stat_info_label">Completed Returns</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value text-danger"><t t-esc="rejected_returns or 0"/></div>
+                    <div class="o_stat_info_label">Rejected Returns</div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="shipping_dashboard_financial">
+        <div class="o_stat_info">
+            <div class="o_stat_info_row">
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value"><t t-esc="format_currency(total_shipping_cost, currency)"/></div>
+                    <div class="o_stat_info_label">Total Shipping Cost</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value"><t t-esc="format_currency(average_shipping_cost, currency)"/></div>
+                    <div class="o_stat_info_label">Avg Shipping Cost</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value"><t t-esc="on_time_delivery_rate or 0"/>%</div>
+                    <div class="o_stat_info_label">On-Time Delivery Rate</div>
+                </div>
+                <div class="o_stat_info_card">
+                    <div class="o_stat_info_value"><t t-esc="exception_rate or 0"/>%</div>
+                    <div class="o_stat_info_label">Exception Rate</div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

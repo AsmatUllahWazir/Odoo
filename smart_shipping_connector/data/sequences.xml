@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shipment Sequence -->
+    <record id="seq_shipping_shipment" model="ir.sequence">
+        <field name="name">Shipping Shipment</field>
+        <field name="code">shipping.shipment</field>
+        <field name="prefix">SHIP/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Return Sequence -->
+    <record id="seq_shipping_return" model="ir.sequence">
+        <field name="name">Shipping Return</field>
+        <field name="code">shipping.return</field>
+        <field name="prefix">RET/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- RMA Sequence -->
+    <record id="seq_shipping_rma" model="ir.sequence">
+        <field name="name">RMA Number</field>
+        <field name="code">shipping.rma</field>
+        <field name="prefix">RMA/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Rate Request Sequence -->
+    <record id="seq_shipping_rate_request" model="ir.sequence">
+        <field name="name">Shipping Rate Request</field>
+        <field name="code">shipping.rate.request</field>
+        <field name="prefix">RATE/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Rate Request History Sequence -->
+    <record id="seq_shipping_rate_request_history" model="ir.sequence">
+        <field name="name">Rate Request History</field>
+        <field name="code">shipping.rate.request.history</field>
+        <field name="prefix">RRH/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Customs Declaration Sequence -->
+    <record id="seq_shipping_customs_declaration" model="ir.sequence">
+        <field name="name">Customs Declaration</field>
+        <field name="code">shipping.customs.declaration</field>
+        <field name="prefix">CUST/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Insurance Policy Sequence -->
+    <record id="seq_shipping_insurance_policy" model="ir.sequence">
+        <field name="name">Insurance Policy</field>
+        <field name="code">shipping.insurance.policy</field>
+        <field name="prefix">INS/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Insurance Claim Sequence -->
+    <record id="seq_shipping_insurance_claim" model="ir.sequence">
+        <field name="name">Insurance Claim</field>
+        <field name="code">shipping.insurance.claim</field>
+        <field name="prefix">CLAIM/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- API Log Sequence -->
+    <record id="seq_shipping_api_log" model="ir.sequence">
+        <field name="name">API Log</field>
+        <field name="code">shipping.api.log</field>
+        <field name="prefix">API/%(year)s/</field>
+        <field name="padding">8</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

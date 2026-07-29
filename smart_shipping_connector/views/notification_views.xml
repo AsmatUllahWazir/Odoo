@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Notification Tree View -->
+    <record id="view_shipping_notification_tree" model="ir.ui.view">
+        <field name="name">shipping.notification.tree</field>
+        <field name="model">shipping.notification</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="subject"/>
+                <field name="notification_type"/>
+                <field name="partner_id"/>
+                <field name="delivery_method"/>
+                <field name="state" widget="badge"/>
+                <field name="priority"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Notification Form View -->
+    <record id="view_shipping_notification_form" model="ir.ui.view">
+        <field name="name">shipping.notification.form</field>
+        <field name="model">shipping.notification</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send" type="object" string="Send Now"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_mark_read" type="object" string="Mark Read"
+                            class="btn-secondary" invisible="state != 'sent'"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="subject" placeholder="Notification Subject..."/>
+                        </h1>
+                        <group>
+                            <field name="notification_type"/>
+                            <field name="state"/>
+                            <field name="priority"/>
+                            <field name="delivery_method"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="partner_id" required="1"/>
+                                    <field name="shipment_id"/>
+                                    <field name="return_id"/>
+                                </group>
+                                <group>
+                                    <field name="email_to" invisible="delivery_method != 'email'"/>
+                                    <field name="phone_to" invisible="delivery_method != 'sms'"/>
+                                    <field name="email_template_id" invisible="delivery_method != 'email'"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="body" nolabel="1"/>
+                            </group>
+                        </page>
+                        <page string="Delivery Status">
+                            <group>
+                                <group>
+                                    <field name="sent_date"/>
+                                    <field name="read_date"/>
+                                </group>
+                                <group>
+                                    <field name="delivery_error"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Notification Search View -->
+    <record id="view_shipping_notification_search" model="ir.ui.view">
+        <field name="name">shipping.notification.search</field>
+        <field name="model">shipping.notification</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subject"/>
+                <field name="partner_id"/>
+                <field name="shipment_id"/>
+                <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                <filter name="notification_type" string="Type" domain="[]" context="{'group_by':'notification_type'}"/>
+                <filter name="sent" string="Sent" domain="[('state','=','sent')]"/>
+                <filter name="failed" string="Failed" domain="[('state','=','failed')]"/>
+                <filter name="unread" string="Unread" domain="[('state','in',['draft','sent'])]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by':'state'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by':'notification_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_shipping_notification" model="ir.actions.act_window">
+        <field name="name">Notifications</field>
+        <field name="res_model">shipping.notification</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

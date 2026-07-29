@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Stock Picking Form View -->
+    <record id="view_stock_picking_shipping_form" model="ir.ui.view">
+        <field name="name">stock.picking.shipping.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Add buttons in the header after existing buttons -->
+            <xpath expr="//header/button[last()]" position="after">
+                <button name="action_create_shipment" type="object" string="Create Shipment"
+                        class="btn-primary" invisible="shipment_id"/>
+                <button name="action_view_shipment" type="object" string="View Shipment"
+                        class="btn-secondary" invisible="not shipment_id"/>
+            </xpath>
+
+            <!-- Add smart button in button_box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_shipment" type="object"
+                        class="oe_stat_button" icon="fa-truck"
+                        invisible="not shipment_id">
+                    <div class="o_stat_info">
+                        <field name="shipment_id" widget="statinfo"/>
+                        <span class="o_stat_text">Shipping</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <!-- Add shipping information after the partner note -->
+            <xpath expr="//field[@name='note']" position="after">
+                <group string="Shipping Information" invisible="not shipment_id">
+                    <field name="shipment_id"/>
+                    <field name="has_shipping" invisible="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree View Extension -->
+    <record id="view_stock_picking_shipping_tree" model="ir.ui.view">
+        <field name="name">stock.picking.shipping.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="shipment_id"/>
+                <field name="has_shipping"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

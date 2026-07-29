@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="shipment_actions">
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm btn-get-rates" data-shipment-id="shipment_id">
+                <i class="fa fa-search"/> Get Rates
+            </button>
+            <button class="btn btn-success btn-sm btn-generate-label" data-shipment-id="shipment_id">
+                <i class="fa fa-tag"/> Generate Label
+            </button>
+            <button class="btn btn-info btn-sm btn-update-tracking" data-shipment-id="shipment_id">
+                <i class="fa fa-refresh"/> Update Tracking
+            </button>
+            <button class="btn btn-secondary btn-sm btn-view-tracking" data-shipment-id="shipment_id">
+                <i class="fa fa-history"/> View Tracking
+            </button>
+            <button class="btn btn-warning btn-sm btn-create-return" data-shipment-id="shipment_id">
+                <i class="fa fa-reply"/> Create Return
+            </button>
+        </div>
+    </template>
+
+    <template id="shipment_status_badge">
+        <t t-if="state == 'draft'">
+            <span class="badge badge-secondary">Draft</span>
+        </t>
+        <t t-elif="state == 'confirmed'">
+            <span class="badge badge-info">Confirmed</span>
+        </t>
+        <t t-elif="state in ['processing', 'label_generated']">
+            <span class="badge badge-warning">Processing</span>
+        </t>
+        <t t-elif="state in ['shipped', 'in_transit', 'out_for_delivery']">
+            <span class="badge badge-primary">In Transit</span>
+        </t>
+        <t t-elif="state == 'delivered'">
+            <span class="badge badge-success">Delivered ✓</span>
+        </t>
+        <t t-elif="state == 'exception'">
+            <span class="badge badge-danger">Exception ⚠</span>
+        </t>
+        <t t-elif="state == 'cancelled'">
+            <span class="badge badge-dark">Cancelled ✗</span>
+        </t>
+        <t t-else="">
+            <span class="badge badge-secondary"><t t-out="state or 'Unknown'"/></span>
+        </t>
+    </template>
+
+    <template id="shipment_tracking_timeline">
+        <div class="tracking-timeline">
+            <t t-if="events">
+                <ul class="list-unstyled timeline">
+                    <li t-foreach="events" t-as="event"
+                        t-attf-class="#{event.is_delivered and 'timeline-delivered' or 'timeline-item'}"
+                        style="border-left: 3px solid #ccc; padding-left: 10px; margin-bottom: 10px;">
+                        <div>
+                            <strong><t t-esc="format_date(event.event_date)"/></strong>
+                            <span class="badge float-right"
+                                  t-attf-class="#{event.is_delivered and 'badge-success' or 'badge-info'}">
+                                <t t-esc="event.status_description or 'Status Update'"/>
+                            </span>
+                        </div>
+                        <div>
+                            <t t-esc="event.description or event.status_description"/>
+                            <t t-if="event.location">
+                                <br/><small class="text-muted">
+                                    <i class="fa fa-map-marker"/> <t t-esc="event.location"/>
+                                </small>
+                            </t>
+                        </div>
+                    </li>
+                </ul>
+            </t>
+            <t t-if="not events">
+                <p class="text-muted text-center">
+                    <i class="fa fa-info-circle"/> No tracking events available.
+                </p>
+            </t>
+        </div>
+    </template>
+
+    <template id="shipment_package_list">
+        <div class="package-list">
+            <t t-if="packages">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Package</th>
+                                <th>Type</th>
+                                <th>Weight (kg)</th>
+                                <th>Dimensions (cm)</th>
+                                <th>Tracking</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="packages" t-as="package">
+                                <td><t t-esc="package.name"/></td>
+                                <td><t t-esc="package.package_type or 'Standard'"/></td>
+                                <td><t t-esc="package.weight"/></td>
+                                <td>
+                                    <t t-esc="package.length or 0"/> x
+                                    <t t-esc="package.width or 0"/> x
+                                    <t t-esc="package.height or 0"/>
+                                </td>
+                                <td><t t-esc="package.tracking_number or 'N/A'"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            <t t-if="not packages">
+                <p class="text-muted">No packages defined.</p>
+            </t>
+        </div>
+    </template>
+</odoo>

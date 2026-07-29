@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="shipping_invoice_report"
+        model="shipping.shipment"
+        string="Shipping Invoice"
+        report_type="qweb-pdf"
+        name="smart_shipping_connector.shipping_invoice"
+        file="smart_shipping_connector.shipping_invoice"
+        attachment_use="False"
+        paperformat="smart_shipping_connector.paperformat_packing_slip"
+        print_report_name="'Shipping Invoice - %s' % (object.name)"
+    />
+
+    <template id="shipping_invoice">
+        <t t-call="web.html_container">
+            <div class="page" style="padding: 30px; font-family: Arial, sans-serif;">
+                <div class="oe_structure">
+                    <div style="border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px;">
+                        <div style="float: left; width: 50%;">
+                            <h1 style="margin: 0;">SHIPPING INVOICE</h1>
+                            <p style="margin: 5px 0; font-size: 12px;">
+                                <t t-out="docs.company_id.name"/>
+                            </p>
+                        </div>
+                        <div style="float: right; width: 50%; text-align: right;">
+                            <p style="margin: 2px 0; font-size: 12px;"><strong>Invoice #:</strong> <t t-out="docs.name"/></p>
+                            <p style="margin: 2px 0; font-size: 12px;"><strong>Date:</strong> <t t-out="format_date(docs.create_date)"/></p>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+
+                    <table style="width: 100%; font-size: 11px; margin-bottom: 20px;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px; vertical-align: top;">
+                                <strong>Bill To:</strong><br/>
+                                <t t-out="docs.recipient_name"/><br/>
+                                <t t-out="docs.recipient_address"/><br/>
+                                <t t-out="docs.recipient_phone or ''"/>
+                            </td>
+                            <td style="width: 50%; padding: 5px; vertical-align: top;">
+                                <strong>Ship To:</strong><br/>
+                                <t t-out="docs.recipient_name"/><br/>
+                                <t t-out="docs.recipient_address"/><br/>
+                                <t t-out="docs.recipient_phone or ''"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; font-size: 10px; border-collapse: collapse; margin-bottom: 20px;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="padding: 6px; border: 1px solid #ddd; text-align: left;">Description</th>
+                                <th style="padding: 6px; border: 1px solid #ddd; text-align: center;">Qty</th>
+                                <th style="padding: 6px; border: 1px solid #ddd; text-align: right;">Rate</th>
+                                <th style="padding: 6px; border: 1px solid #ddd; text-align: right;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 6px; border: 1px solid #ddd;">
+                                    Shipping Service - <t t-out="docs.service_type or 'Standard'"/>
+                                    <br/><small><t t-out="docs.carrier_provider_id.name"/></small>
+                                </td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">1</td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                    <t t-out="format_currency(docs.shipping_cost, docs.currency_id)"/>
+                                </td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                    <t t-out="format_currency(docs.shipping_cost, docs.currency_id)"/>
+                                </td>
+                            </tr>
+                            <t t-if="docs.insurance_cost">
+                                <tr>
+                                    <td style="padding: 6px; border: 1px solid #ddd;">Insurance</td>
+                                    <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">1</td>
+                                    <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                        <t t-out="format_currency(docs.insurance_cost, docs.currency_id)"/>
+                                    </td>
+                                    <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                        <t t-out="format_currency(docs.insurance_cost, docs.currency_id)"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-weight: bold; background: #f9f9f9;">
+                                <td colspan="3" style="padding: 6px; border: 1px solid #ddd; text-align: right;">Total:</td>
+                                <td style="padding: 6px; border: 1px solid #ddd; text-align: right;">
+                                    <t t-out="format_currency(docs.shipping_cost + docs.insurance_cost, docs.currency_id)"/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div style="font-size: 10px; color: #666; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+                        <p><strong>Tracking Number:</strong> <t t-out="docs.tracking_number or 'N/A'"/></p>
+                        <t t-if="docs.tracking_url">
+                            <p><strong>Track:</strong> <a t-attf-href="#{docs.tracking_url}" target="_blank"><t t-out="docs.tracking_url"/></a></p>
+                        </t>
+                        <p style="margin-top: 10px;">Thank you for your business!</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

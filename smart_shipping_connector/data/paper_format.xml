@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Shipping Label Paper Format -->
+        <record id="paperformat_shipping_label" model="report.paperformat">
+            <field name="name">Shipping Label (4x6)</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">152.4</field>
+            <field name="page_width">101.6</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+        </record>
+
+        <!-- Customs Declaration Paper Format -->
+        <record id="paperformat_customs_declaration" model="report.paperformat">
+            <field name="name">Customs Declaration (A4)</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">15</field>
+            <field name="margin_right">15</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+        </record>
+
+        <!-- Packing Slip Paper Format -->
+        <record id="paperformat_packing_slip" model="report.paperformat">
+            <field name="name">Packing Slip (Letter)</field>
+            <field name="default" eval="False"/>
+            <field name="format">US_Letter</field>
+            <field name="page_height">279.4</field>
+            <field name="page_width">215.9</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+        </record>
+
+        <!-- Return Label Paper Format -->
+        <record id="paperformat_return_label" model="report.paperformat">
+            <field name="name">Return Label (4x6)</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">152.4</field>
+            <field name="page_width">101.6</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+        </record>
+
+        <!-- Manifest Paper Format -->
+        <record id="paperformat_manifest" model="report.paperformat">
+            <field name="name">Manifest (A4)</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">15</field>
+            <field name="margin_right">15</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Return Tree View -->
+    <record id="view_shipping_return_tree" model="ir.ui.view">
+        <field name="name">shipping.return.tree</field>
+        <field name="model">shipping.return</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="rma_number"/>
+                <field name="return_type"/>
+                <field name="customer_id"/>
+                <field name="state" widget="badge"/>
+                <field name="tracking_number"/>
+                <field name="total_value"/>
+                <field name="request_date"/>
+                <field name="days_open"/>
+                <field name="is_late" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Return Form View -->
+    <record id="view_shipping_return_form" model="ir.ui.view">
+        <field name="name">shipping.return.form</field>
+        <field name="model">shipping.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,label_generated,shipped,received,completed"/>
+                    <button name="action_request_approval" type="object" string="Request Approval"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-success" invisible="state != 'requested'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            class="btn-danger" invisible="state != 'requested'"/>
+                    <button name="action_generate_label" type="object" string="Generate Label"
+                            class="btn-primary" invisible="state not in ['approved']"/>
+                    <button name="action_mark_shipped" type="object" string="Mark Shipped"
+                            class="btn-primary" invisible="state not in ['label_generated']"/>
+                    <button name="action_mark_received" type="object" string="Receive"
+                            class="btn-success" invisible="state != 'shipped'"/>
+                    <button name="action_inspect" type="object" string="Inspect"
+                            class="btn-info" invisible="state != 'received'"/>
+                    <button name="action_complete" type="object" string="Complete"
+                            class="btn-primary" invisible="state != 'inspected'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            class="btn-danger" invisible="state in ['completed','cancelled']"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Return Reference..."/>
+                        </h1>
+                        <group>
+                            <field name="return_type"/>
+                            <field name="rma_number"/>
+                            <field name="state"/>
+                            <field name="priority"/>
+                            <field name="user_id"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Return Details">
+                            <group>
+                                <group string="Customer Information">
+                                    <field name="customer_id" required="1"/>
+                                    <field name="original_shipment_id" options="{'no_create': True}"/>
+                                    <field name="sale_order_id" options="{'no_create': True}"/>
+                                </group>
+                                <group string="Return Information">
+                                    <field name="reason" required="1"/>
+                                    <field name="description"/>
+                                    <field name="notes"/>
+                                    <field name="internal_notes"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Items">
+                                    <field name="item_ids">
+                                        <tree editable="bottom">
+                                            <field name="product_id" required="1"/>
+                                            <field name="quantity" required="1"/>
+                                            <field name="price"/>
+                                            <field name="reason"/>
+                                            <field name="condition"/>
+                                            <field name="exchange_product_id"/>
+                                            <field name="subtotal" sum="Total"/>
+                                            <field name="state" widget="badge"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group string="Totals">
+                                    <field name="total_items"/>
+                                    <field name="total_quantity"/>
+                                    <field name="total_value"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Shipping">
+                            <group>
+                                <group>
+                                    <field name="carrier_provider_id" required="1"/>
+                                    <field name="carrier_account_id" required="1"/>
+                                    <field name="carrier_service_id"/>
+                                    <field name="service_type"/>
+                                </group>
+                                <group>
+                                    <field name="tracking_number"/>
+                                    <field name="tracking_url" widget="url"/>
+                                    <field name="weight"/>
+                                    <field name="package_type"/>
+                                    <field name="length"/>
+                                    <field name="width"/>
+                                    <field name="height"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Financial">
+                            <group>
+                                <group>
+                                    <field name="return_cost"/>
+                                    <field name="shipping_charge"/>
+                                    <field name="handling_fee"/>
+                                    <field name="restocking_fee"/>
+                                    <field name="restocking_fee_percent"/>
+                                    <field name="total_charge"/>
+                                </group>
+                                <group>
+                                    <field name="refund_amount"/>
+                                    <field name="currency_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Return Address">
+                            <group>
+                                <group>
+                                    <field name="return_address_name"/>
+                                    <field name="return_address"/>
+                                    <field name="return_city"/>
+                                </group>
+                                <group>
+                                    <field name="return_state_id"/>
+                                    <field name="return_country_id"/>
+                                    <field name="return_zip"/>
+                                    <field name="return_phone"/>
+                                    <field name="return_email"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Tracking">
+                            <field name="tracking_event_ids">
+                                <tree>
+                                    <field name="event_date"/>
+                                    <field name="status_description"/>
+                                    <field name="location"/>
+                                    <field name="is_delivered"/>
+                                    <field name="is_exception"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Label">
+                            <field name="label_pdf" widget="binary"/>
+                            <field name="label_filename"/>
+                            <field name="label_generated_date"/>
+                        </page>
+                        <page string="Dates">
+                            <group>
+                                <group>
+                                    <field name="request_date"/>
+                                    <field name="approval_date"/>
+                                    <field name="shipped_date"/>
+                                </group>
+                                <group>
+                                    <field name="received_date"/>
+                                    <field name="inspected_date"/>
+                                    <field name="completed_date"/>
+                                    <field name="rejected_date"/>
+                                    <field name="rma_expiry_date"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="days_open" readonly="1"/>
+                                <field name="is_late" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Return Item Tree View -->
+    <record id="view_shipping_return_item_tree" model="ir.ui.view">
+        <field name="name">shipping.return.item.tree</field>
+        <field name="model">shipping.return.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="return_id"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="price"/>
+                <field name="subtotal" sum="Total"/>
+                <field name="reason"/>
+                <field name="condition"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Return Item Form View -->
+    <record id="view_shipping_return_item_form" model="ir.ui.view">
+        <field name="name">shipping.return.item.form</field>
+        <field name="model">shipping.return.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Return Item</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="return_id" required="1"/>
+                            <field name="product_id" required="1"/>
+                            <field name="quantity" required="1"/>
+                            <field name="price"/>
+                        </group>
+                        <group>
+                            <field name="subtotal" readonly="1"/>
+                            <field name="currency_id"/>
+                            <field name="state" widget="statusbar"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason" required="1"/>
+                        <field name="reason_notes"/>
+                        <field name="condition" required="1"/>
+                        <field name="condition_notes"/>
+                    </group>
+                    <group string="Exchange">
+                        <field name="exchange_product_id"/>
+                        <field name="exchange_quantity"/>
+                        <field name="exchange_reason"/>
+                    </group>
+                    <group string="Inspection">
+                        <field name="inspected"/>
+                        <field name="inspected_by"/>
+                        <field name="inspection_date"/>
+                        <field name="inspection_result"/>
+                        <field name="inspection_notes"/>
+                    </group>
+                    <group string="Restocking">
+                        <field name="restock_quantity"/>
+                        <field name="restock_date"/>
+                        <field name="restock_notes"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Return Search View -->
+    <record id="view_shipping_return_search" model="ir.ui.view">
+        <field name="name">shipping.return.search</field>
+        <field name="model">shipping.return</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="rma_number"/>
+                <field name="tracking_number"/>
+                <field name="customer_id"/>
+                <filter name="state" string="State" domain="[]" context="{'group_by':'state'}"/>
+                <filter name="return_type" string="Type" domain="[]" context="{'group_by':'return_type'}"/>
+                <filter name="pending" string="Pending" domain="[('state','in',['draft','requested','approved'])]"/>
+                <filter name="completed" string="Completed" domain="[('state','=','completed')]"/>
+                <filter name="late" string="Late" domain="[('is_late','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by':'return_type'}"/>
+                    <filter name="group_customer" string="Customer" context="{'group_by':'customer_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_shipping_return" model="ir.actions.act_window">
+        <field name="name">Returns</field>
+        <field name="res_model">shipping.return</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage customer returns and exchanges
+            </p>
+        </field>
+    </record>
+
+    <record id="action_shipping_return_item" model="ir.actions.act_window">
+        <field name="name">Return Items</field>
+        <field name="res_model">shipping.return.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

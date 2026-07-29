@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Server Actions -->
+    <record id="action_update_tracking" model="ir.actions.server">
+        <field name="name">Update Tracking</field>
+        <field name="model_id" ref="model_shipping_shipment"/>
+        <field name="state">code</field>
+        <field name="code">
+            for shipment in records:
+                shipment.action_update_tracking()
+        </field>
+    </record>
+
+    <record id="action_generate_labels" model="ir.actions.server">
+        <field name="name">Generate Labels</field>
+        <field name="model_id" ref="model_shipping_shipment"/>
+        <field name="state">code</field>
+        <field name="code">
+            for shipment in records:
+                shipment.action_generate_label()
+        </field>
+    </record>
+
+    <record id="action_mark_shipped" model="ir.actions.server">
+        <field name="name">Mark Shipped</field>
+        <field name="model_id" ref="model_shipping_shipment"/>
+        <field name="state">code</field>
+        <field name="code">
+            for shipment in records:
+                shipment.action_mark_shipped()
+        </field>
+    </record>
+
+    <record id="action_mark_delivered" model="ir.actions.server">
+        <field name="name">Mark Delivered</field>
+        <field name="model_id" ref="model_shipping_shipment"/>
+        <field name="state">code</field>
+        <field name="code">
+            for shipment in records:
+                shipment.action_mark_delivered()
+        </field>
+    </record>
+
+    <!-- Import Shipment Action -->
+    <record id="action_shipping_import_shipment" model="ir.actions.act_window">
+        <field name="name">Import Shipments</field>
+        <field name="res_model">shipping.import.shipment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_shipping_shipment"/>
+        <field name="binding_view_types">tree,form</field>
+    </record>
+
+    <!-- Export Manifest Action -->
+<!--    <record id="action_shipping_export_manifest" model="ir.actions.act_window">-->
+<!--        <field name="name">Export Manifest</field>-->
+<!--        <field name="res_model">shipping.export.manifest.wizard</field>-->
+<!--        <field name="view_mode">form</field>-->
+<!--        <field name="target">new</field>-->
+<!--        <field name="binding_model_id" ref="model_shipping_shipment"/>-->
+<!--        <field name="binding_view_types">tree,form</field>-->
+<!--    </record>-->
+
+    <!-- Batch Label Action -->
+    <record id="action_shipping_batch_label" model="ir.actions.act_window">
+        <field name="name">Batch Generate Labels</field>
+        <field name="res_model">shipping.batch.label.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_shipping_shipment"/>
+        <field name="binding_view_types">tree</field>
+    </record>
+
+    <!-- Tracking Update Action -->
+    <record id="action_shipping_tracking_update" model="ir.actions.act_window">
+        <field name="name">Update Tracking</field>
+        <field name="res_model">shipping.tracking.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_shipping_shipment"/>
+        <field name="binding_view_types">tree</field>
+    </record>
+
+    <!-- Shipping Config Action -->
+    <record id="action_shipping_config" model="ir.actions.act_window">
+        <field name="name">Shipping Settings</field>
+        <field name="res_model">shipping.config</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="binding_model_id" ref="base.model_res_company"/>
+    </record>
+
+    <!-- API Log Action -->
+    <record id="action_shipping_api_log" model="ir.actions.act_window">
+        <field name="name">API Logs</field>
+        <field name="res_model">shipping.api.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View API call logs for debugging
+            </p>
+        </field>
+    </record>
+
+    <!-- Dashboard Client Action -->
+    <record id="action_shipping_dashboard_client" model="ir.actions.client">
+        <field name="name">Shipping Dashboard</field>
+        <field name="tag">shipping_dashboard</field>
+        <field name="target">current</field>
+    </record>
+</odoo>

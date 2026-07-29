@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_shipping_tracking_update_wizard" model="ir.ui.view">
+        <field name="name">shipping.tracking.update.wizard</field>
+        <field name="model">shipping.tracking.update.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Update Tracking</h1>
+                    </div>
+                    <group>
+                        <field name="shipment_ids" widget="many2many_tags" options="{'no_create': True}" required="1"/>
+                        <field name="force_update"/>
+                        <field name="notes"/>
+                    </group>
+                    <footer>
+                        <button name="action_update_tracking" type="object" string="Update Tracking" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

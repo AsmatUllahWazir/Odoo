@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Customs Declaration Tree View -->
+    <record id="view_shipping_customs_declaration_tree" model="ir.ui.view">
+        <field name="name">shipping.customs.declaration.tree</field>
+        <field name="model">shipping.customs.declaration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="shipment_id"/>
+                <field name="declaration_type"/>
+                <field name="declaration_number"/>
+                <field name="country_of_origin"/>
+                <field name="country_of_destination"/>
+                <field name="total_value"/>
+                <field name="state" widget="badge"/>
+                <field name="declaration_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Customs Declaration Form View -->
+    <record id="view_shipping_customs_declaration_form" model="ir.ui.view">
+        <field name="name">shipping.customs.declaration.form</field>
+        <field name="model">shipping.customs.declaration</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,prepared,submitted,cleared,released"/>
+                    <button name="action_submit" type="object" string="Submit"
+                            class="btn-primary" invisible="state != 'prepared'"/>
+                    <button name="action_clear" type="object" string="Clear"
+                            class="btn-success" invisible="state not in ['submitted','in_process']"/>
+                    <button name="action_release" type="object" string="Release"
+                            class="btn-primary" invisible="state != 'cleared'"/>
+                    <button name="action_hold" type="object" string="Hold"
+                            class="btn-warning" invisible="state in ['released','rejected']"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            class="btn-danger" invisible="state == 'released'"/>
+                    <button name="action_generate_pdf" type="object" string="PDF"
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Declaration Reference..."/>
+                        </h1>
+                        <group>
+                            <field name="declaration_type"/>
+                            <field name="state"/>
+                            <field name="declaration_number"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="shipment_id" required="1"/>
+                                    <field name="declaration_date"/>
+                                    <field name="customs_authority" required="1"/>
+                                    <field name="customs_office"/>
+                                    <field name="customs_officer"/>
+                                </group>
+                                <group>
+                                    <field name="country_of_origin" required="1"/>
+                                    <field name="country_of_destination" required="1"/>
+                                    <field name="tariff_code"/>
+                                    <field name="commodity_code"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="item_ids">
+                                    <tree editable="bottom">
+                                        <field name="description" required="1"/>
+                                        <field name="hs_code" required="1"/>
+                                        <field name="quantity"/>
+                                        <field name="unit_value"/>
+                                        <field name="value" sum="Total"/>
+                                        <field name="country_of_origin"/>
+                                        <field name="unit_weight"/>
+                                        <field name="weight" sum="Weight"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="total_value" readonly="1"/>
+                                    <field name="total_weight" readonly="1"/>
+                                    <field name="total_quantity" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="currency_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Duties &amp; Taxes">
+                            <group>
+                                <group>
+                                    <field name="estimated_duties"/>
+                                    <field name="estimated_taxes"/>
+                                    <field name="total_duties_taxes" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="permit_number"/>
+                                    <field name="permit_expiry"/>
+                                    <field name="license_number"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Restrictions">
+                            <group>
+                                <field name="is_restricted"/>
+                                <field name="is_controlled"/>
+                                <field name="is_dangerous"/>
+                                <field name="additional_info"/>
+                                <field name="notes"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Customs Item Tree View -->
+    <record id="view_shipping_customs_item_tree" model="ir.ui.view">
+        <field name="name">shipping.customs.item.tree</field>
+        <field name="model">shipping.customs.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="description"/>
+                <field name="hs_code"/>
+                <field name="quantity"/>
+                <field name="unit_value"/>
+                <field name="value" sum="Total"/>
+                <field name="country_of_origin"/>
+                <field name="unit_weight"/>
+                <field name="weight" sum="Weight"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Customs Item Form View -->
+    <record id="view_shipping_customs_item_form" model="ir.ui.view">
+        <field name="name">shipping.customs.item.form</field>
+        <field name="model">shipping.customs.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Customs Item</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="declaration_id" required="1"/>
+                            <field name="sequence"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="description" required="1"/>
+                            <field name="hs_code" required="1"/>
+                            <field name="commodity_code"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="quantity" required="1"/>
+                            <field name="uom_id" required="1"/>
+                            <field name="unit_value" required="1"/>
+                            <field name="value" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="unit_weight"/>
+                            <field name="weight" readonly="1"/>
+                            <field name="country_of_origin" required="1"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="is_dangerous"/>
+                        <field name="is_restricted"/>
+                        <field name="is_controlled"/>
+                        <field name="requires_license"/>
+                        <field name="license_number"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Customs Search View -->
+    <record id="view_shipping_customs_declaration_search" model="ir.ui.view">
+        <field name="name">shipping.customs.declaration.search</field>
+        <field name="model">shipping.customs.declaration</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="declaration_number"/>
+                <field name="shipment_id"/>
+                <filter name="state" string="State" domain="[]" context="{'group_by':'state'}"/>
+                <filter name="declaration_type" string="Type" domain="[]" context="{'group_by':'declaration_type'}"/>
+                <filter name="pending" string="Pending" domain="[('state','in',['draft','prepared','submitted'])]"/>
+                <filter name="cleared" string="Cleared" domain="[('state','=','cleared')]"/>
+                <filter name="released" string="Released" domain="[('state','=','released')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="State" context="{'group_by':'state'}"/>
+                    <filter name="group_origin" string="Origin" context="{'group_by':'country_of_origin'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_shipping_customs_declaration" model="ir.actions.act_window">
+        <field name="name">Customs Declarations</field>
+        <field name="res_model">shipping.customs.declaration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage customs declarations for international shipments
+            </p>
+        </field>
+    </record>
+
+    <record id="action_shipping_customs_item" model="ir.actions.act_window">
+        <field name="name">Customs Items</field>
+        <field name="res_model">shipping.customs.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

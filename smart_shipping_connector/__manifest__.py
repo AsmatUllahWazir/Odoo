@@ -26,8 +26,8 @@
         * Multi-company support
         * Security groups: User, Manager, Admin
     """,
-    'author': 'Enterprise Solutions',
-    'website': 'https://www.enterprise-solutions.com',
+    'author': 'Wazirz',
+    'website': '',
     'depends': [
         'base',
         'mail',

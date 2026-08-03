@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="base.res_config_settings_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//form" position="inside">
-                    <app data-string="Agriculture" string="Agriculture" name="agriculture_management" groups="agriculture_management.group_farm_manager">
+                    <app data-string="Agriculture" string="Agriculture" name="agriculture_management" groups="agriculture_management_suite.group_farm_manager">
                         <block title="Farm Management" name="agriculture_management_setting_container">
                             <setting id="agriculture_enabled" string="Enable Agriculture Features" help="Activate the agriculture management suite.">
                                 <field name="agriculture_enabled"/>

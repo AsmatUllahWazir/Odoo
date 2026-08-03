@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Agriculture & Farm Management Suite',
-    'version': '1.0.0',
+    'version': '17.0.1.0.0',
     'category': 'Agriculture',
     'summary': 'Complete farm management: crops, seasons, inputs, harvest, equipment, and P&L tracking.',
     'description': """

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_report_farm_season" model="ir.actions.report">
+            <field name="name">Season Report</field>
+            <field name="model">farm.season</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">agriculture_management.report_farm_season</field>
+            <field name="report_file">agriculture_management.report_farm_season</field>
+            <field name="print_report_name">'Season Report - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_farm_season"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

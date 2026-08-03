@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_farm_disease_tree" model="ir.ui.view">
+            <field name="name">farm.disease.pest.tree</field>
+            <field name="model">farm.disease.pest</field>
+            <field name="arch" type="xml">
+                <tree string="Disease/Pest Incidents" decoration-danger="severity=='critical'" decoration-warning="severity=='high'">
+                    <field name="name"/>
+                    <field name="detection_date"/>
+                    <field name="incident_type"/>
+                    <field name="common_name"/>
+                    <field name="field_id"/>
+                    <field name="severity"/>
+                    <field name="state"/>
+                    <field name="estimated_financial_loss" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_farm_disease_form" model="ir.ui.view">
+            <field name="name">farm.disease.pest.form</field>
+            <field name="model">farm.disease.pest</field>
+            <field name="arch" type="xml">
+                <form string="Disease/Pest Incident">
+                    <header>
+                        <button name="action_set_treating" string="Start Treatment" type="object" class="oe_highlight" invisible="state not in ['detected']"/>
+                        <button name="action_set_resolved" string="Mark Resolved" type="object" class="oe_highlight" invisible="state not in ['detected', 'treating', 'monitoring']"/>
+                        <button name="action_escalate" string="Escalate" type="object" invisible="state not in ['detected', 'treating', 'monitoring']"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="incident_type"/>
+                                <field name="common_name"/>
+                                <field name="scientific_name"/>
+                                <field name="severity"/>
+                                <field name="detection_date"/>
+                                <field name="resolved_date"/>
+                            </group>
+                            <group>
+                                <field name="season_id"/>
+                                <field name="cultivation_id"/>
+                                <field name="field_id"/>
+                                <field name="affected_area_percent"/>
+                            </group>
+                        </group>
+                        <group string="Symptoms">
+                            <field name="symptoms"/>
+                        </group>
+                        <group string="Treatment">
+                            <group>
+                                <field name="treatment_applied"/>
+                                <field name="treatment_date"/>
+                                <field name="treatment_cost"/>
+                                <field name="treatment_effective"/>
+                            </group>
+                        </group>
+                        <group string="Economic Impact">
+                            <field name="estimated_yield_loss_percent"/>
+                            <field name="estimated_financial_loss"/>
+                        </group>
+                        <group string="Attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_farm_disease" model="ir.actions.act_window">
+            <field name="name">Disease &amp; Pest</field>
+            <field name="res_model">farm.disease.pest</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

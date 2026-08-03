@@ -1,0 +1,6 @@
+.o_farm_dashboard_kanban .oe_kanban_card {
+    border-left: 4px solid #4CAF50;
+}
+.o_farm_dashboard_kanban .oe_kanban_card.danger {
+    border-left-color: #f44336;
+}

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Farm Field Tree -->
+        <record id="view_farm_field_tree" model="ir.ui.view">
+            <field name="name">farm.field.tree</field>
+            <field name="model">farm.field</field>
+            <field name="arch" type="xml">
+                <tree string="Fields" decoration-muted="state=='fallow'" decoration-success="state=='active'">
+                    <field name="code"/>
+<!--                    <field name="field_id" invisible="1"/>-->
+                    <field name="company_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="total_area"/>
+                    <field name="usable_area"/>
+                    <field name="soil_type"/>
+                    <field name="current_crop_id" optional="show"/>
+                    <field name="state" widget="badge" decoration-info="state=='active'" decoration-warning="state=='preparation'"/>
+                    <field name="cultivation_count" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Farm Field Form -->
+        <record id="view_farm_field_form" model="ir.ui.view">
+            <field name="name">farm.field.form</field>
+            <field name="model">farm.field</field>
+            <field name="arch" type="xml">
+                <form string="Field">
+                    <header>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_cultivations" type="object" class="oe_stat_button" icon="fa-seedling">
+                                <field name="cultivation_count" widget="statinfo" string="Cultivations"/>
+                            </button>
+                            <button name="action_view_harvests" type="object" class="oe_stat_button" icon="fa-truck">
+                                <field name="total_harvested_qty" widget="statinfo" string="Total Harvest (kg)"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="e.g., North Field Block A"/>
+                            </h1>
+                            <h2 class="oe_inline">
+                                <field name="code" class="oe_inline" readonly="1"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group string="Location">
+                                <field name="company_id" invisible="1"/>
+<!--                                <field name="field_id" invisible="1"/>-->
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="farm_location_id"/>
+                                <field name="country_id"/>
+                                <field name="state_id"/>
+                                <field name="city"/>
+                                <field name="address"/>
+                            </group>
+                            <group string="GIS Coordinates">
+                                <field name="latitude"/>
+                                <field name="longitude"/>
+                                <field name="elevation"/>
+                                <field name="geo_polygon" widget="text" placeholder="Paste GeoJSON polygon here..."/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Physical Characteristics">
+                                <field name="total_area"/>
+                                <field name="usable_area"/>
+                                <field name="soil_type"/>
+                                <field name="soil_ph"/>
+                                <field name="soil_texture"/>
+                            </group>
+                            <group string="Irrigation">
+                                <field name="irrigation_available"/>
+                                <field name="irrigation_type" invisible="not irrigation_available"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Cultivations">
+                                <field name="cultivation_ids" mode="tree">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="crop_id"/>
+                                        <field name="planting_date"/>
+                                        <field name="planted_area"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notes">
+                                <field name="message_ids" widget="mail_thread"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Farm Field Search -->
+        <record id="view_farm_field_search" model="ir.ui.view">
+            <field name="name">farm.field.search</field>
+            <field name="model">farm.field</field>
+            <field name="arch" type="xml">
+                <search string="Search Fields">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="soil_type"/>
+                    <filter name="active_fields" string="Active" domain="[('state', '=', 'active')]"/>
+                    <filter name="fallow_fields" string="Fallow" domain="[('state', '=', 'fallow')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_soil" string="Soil Type" context="{'group_by': 'soil_type'}"/>
+                        <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                        <filter name="group_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Farm Field Kanban -->
+        <record id="view_farm_field_kanban" model="ir.ui.view">
+            <field name="name">farm.field.kanban</field>
+            <field name="model">farm.field</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="total_area"/>
+                    <field name="current_crop_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                    <div><field name="code"/></div>
+                                    <div>Area: <field name="total_area"/> ha</div>
+                                    <div>Soil: <field name="soil_type"/></div>
+                                    <div>Status: <field name="state" widget="badge"/></div>
+                                    <div t-if="record.current_crop_id.raw_value">
+                                        Current: <field name="current_crop_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_farm_field" model="ir.actions.act_window">
+            <field name="name">Fields</field>
+            <field name="res_model">farm.field</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_farm_field_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first field
+                </p>
+                <p>
+                    Define your farm parcels with GIS coordinates, soil data, and irrigation info.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

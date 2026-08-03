@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_farm_crop_tree" model="ir.ui.view">
+            <field name="name">farm.crop.tree</field>
+            <field name="model">farm.crop</field>
+            <field name="arch" type="xml">
+                <tree string="Crops">
+                    <field name="name"/>
+                    <field name="scientific_name"/>
+                    <field name="category"/>
+                    <field name="typical_yield_per_ha"/>
+                    <field name="growing_period_days"/>
+                    <field name="cultivation_count"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_farm_crop_form" model="ir.ui.view">
+            <field name="name">farm.crop.form</field>
+            <field name="model">farm.crop</field>
+            <field name="arch" type="xml">
+                <form string="Crop">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_cultivations" type="object" class="oe_stat_button" icon="fa-seedling">
+                                <field name="cultivation_count" widget="statinfo" string="Cultivations"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                            <h3><field name="scientific_name" placeholder="Scientific name..."/></h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="category"/>
+                                <field name="planting_season"/>
+                                <field name="growing_period_days"/>
+                                <field name="uom_id"/>
+                            </group>
+                            <group>
+                                <field name="typical_yield_per_ha"/>
+                                <field name="sale_price_per_kg"/>
+                                <field name="water_requirement_mm"/>
+                                <field name="fertilizer_requirement_kg_ha"/>
+                            </group>
+                        </group>
+                        <group string="Product Link">
+                            <field name="product_tmpl_id"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_farm_crop_search" model="ir.ui.view">
+            <field name="name">farm.crop.search</field>
+            <field name="model">farm.crop</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="scientific_name"/>
+                    <filter name="cereals" string="Cereals" domain="[('category', '=', 'cereal')]"/>
+                    <filter name="vegetables" string="Vegetables" domain="[('category', '=', 'vegetable')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                        <filter name="group_season" string="Planting Season" context="{'group_by': 'planting_season'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_farm_crop" model="ir.actions.act_window">
+            <field name="name">Crops</field>
+            <field name="res_model">farm.crop</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_farm_crop_search"/>
+        </record>
+    </data>
+</odoo>

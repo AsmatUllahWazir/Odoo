@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_res_config_settings_agriculture" model="ir.ui.view">
+            <field name="name">res.config.settings.agriculture</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="Agriculture" string="Agriculture" name="agriculture_management" groups="agriculture_management.group_farm_manager">
+                        <block title="Farm Management" name="agriculture_management_setting_container">
+                            <setting id="agriculture_enabled" string="Enable Agriculture Features" help="Activate the agriculture management suite.">
+                                <field name="agriculture_enabled"/>
+                            </setting>
+                            <setting id="enable_traceability" string="Full Harvest Traceability" help="Generate unique traceability codes for all harvests.">
+                                <field name="enable_traceability"/>
+                            </setting>
+                            <setting id="enable_phi_tracking" string="PHI Compliance Tracking" help="Track pre-harvest intervals for chemical applications.">
+                                <field name="enable_phi_tracking"/>
+                            </setting>
+                            <setting id="auto_stock_moves" string="Auto Stock Moves" help="Automatically create inventory moves for inputs and harvests.">
+                                <field name="auto_create_stock_moves"/>
+                            </setting>
+                        </block>
+                        <block title="Weather Integration" name="weather_settings">
+                            <setting id="weather_api" string="Weather API" help="Configure external weather data provider.">
+                                <field name="weather_api_provider"/>
+                                <div class="content-group" invisible="not weather_api_provider">
+                                    <div class="mt16">
+                                        <label for="weather_api_key" class="o_form_label col-lg-3"/>
+                                        <field name="weather_api_key" password="True"/>
+                                    </div>
+                                </div>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

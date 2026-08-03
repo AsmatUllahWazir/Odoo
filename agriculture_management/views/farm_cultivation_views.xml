@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_farm_cultivation_tree" model="ir.ui.view">
+            <field name="name">farm.cultivation.tree</field>
+            <field name="model">farm.cultivation</field>
+            <field name="arch" type="xml">
+                <tree string="Cultivations" decoration-muted="state=='failed'" decoration-success="state=='harvested'">
+                    <field name="name"/>
+                    <field name="season_id"/>
+                    <field name="field_id"/>
+                    <field name="crop_id"/>
+                    <field name="planting_date"/>
+                    <field name="planted_area"/>
+                    <field name="state" widget="badge"/>
+                    <field name="expected_yield_kg" optional="show"/>
+                    <field name="actual_yield_kg" optional="show"/>
+                    <field name="yield_variance_percent" widget="percentage" optional="show" decoration-success="yield_variance_percent &gt; 0" decoration-danger="yield_variance_percent &lt; 0"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_farm_cultivation_form" model="ir.ui.view">
+            <field name="name">farm.cultivation.form</field>
+            <field name="model">farm.cultivation</field>
+            <field name="arch" type="xml">
+                <form string="Cultivation">
+                    <header>
+                        <button name="action_set_planted" string="Mark Planted" type="object" class="oe_highlight" invisible="state not in ['planned']"/>
+                        <button name="action_set_growing" string="Mark Growing" type="object" class="oe_highlight" invisible="state not in ['planted', 'germination']"/>
+                        <button name="action_create_harvest" string="Record Harvest" type="object" class="oe_highlight" invisible="state not in ['growing', 'flowering', 'maturity']"/>
+                        <button name="action_set_harvested" string="Mark Harvested" type="object" invisible="state not in ['maturity']"/>
+                        <button name="action_set_failed" string="Mark Failed" type="object" invisible="state not in ['planned', 'planted', 'germination', 'growing', 'flowering', 'maturity']"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="season_id"/>
+                                <field name="field_id"/>
+                                <field name="crop_id"/>
+                                <field name="planting_date"/>
+                                <field name="expected_harvest_date" readonly="1"/>
+                                <field name="actual_harvest_date" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="planted_area"/>
+                                <field name="seed_variety"/>
+                                <field name="seed_lot_id"/>
+                                <field name="seed_quantity_kg"/>
+                                <field name="budget_cost"/>
+                                <field name="actual_cost" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Yield Performance">
+                            <group>
+                                <field name="expected_yield_kg"/>
+                                <field name="actual_yield_kg"/>
+                            </group>
+                            <group>
+                                <field name="yield_variance_percent" widget="percentage" decoration-success="yield_variance_percent &gt; 0" decoration-danger="yield_variance_percent &lt; 0"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Input Applications">
+                                <field name="input_ids"/>
+                            </page>
+                            <page string="Harvests">
+                                <field name="harvest_ids"/>
+                            </page>
+                            <page string="Disease/Pest Incidents">
+                                <field name="disease_ids"/>
+                            </page>
+                            <page string="Notes">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_farm_cultivation_kanban" model="ir.ui.view">
+            <field name="name">farm.cultivation.kanban</field>
+            <field name="model">farm.cultivation</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state">
+                    <field name="name"/>
+                    <field name="crop_id"/>
+                    <field name="field_id"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div><strong><field name="name"/></strong></div>
+                                <div><field name="crop_id"/></div>
+                                <div><field name="field_id"/></div>
+                                <div>Planted: <field name="planting_date"/></div>
+                                <div>Area: <field name="planted_area"/> ha</div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_farm_cultivation_search" model="ir.ui.view">
+            <field name="name">farm.cultivation.search</field>
+            <field name="model">farm.cultivation</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="crop_id"/>
+                    <field name="field_id"/>
+                    <filter name="active_cultivations" string="Active" domain="[('state', 'in', ['planted','germination','growing','flowering','maturity'])]"/>
+                    <filter name="harvested" string="Harvested" domain="[('state', '=', 'harvested')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_crop" string="Crop" context="{'group_by': 'crop_id'}"/>
+                        <filter name="group_field" string="Field" context="{'group_by': 'field_id'}"/>
+                        <filter name="group_state" string="Stage" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_farm_cultivation" model="ir.actions.act_window">
+            <field name="name">Cultivations</field>
+            <field name="res_model">farm.cultivation</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_farm_cultivation_search"/>
+        </record>
+    </data>
+</odoo>

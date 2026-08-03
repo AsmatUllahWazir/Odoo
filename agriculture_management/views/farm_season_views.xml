@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_farm_season_tree" model="ir.ui.view">
+            <field name="name">farm.season.tree</field>
+            <field name="model">farm.season</field>
+            <field name="arch" type="xml">
+                <tree string="Seasons" decoration-muted="state=='cancelled'" decoration-success="state=='closed'">
+                    <field name="code"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="field_id"/>
+                    <field name="crop_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="state" widget="badge" decoration-info="state=='active'" decoration-warning="state=='harvesting'"/>
+                    <field name="budget_total" optional="show"/>
+                    <field name="actual_cost_total" optional="show"/>
+                    <field name="profit_loss" optional="show"/>
+                    <field name="profit_loss_percent" widget="percentage" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_farm_season_form" model="ir.ui.view">
+            <field name="name">farm.season.form</field>
+            <field name="model">farm.season</field>
+            <field name="arch" type="xml">
+                <form string="Season">
+                    <header>
+                        <button name="action_active" string="Start Season" type="object" class="oe_highlight" invisible="state not in ['planning']"/>
+                        <button name="action_harvesting" string="Start Harvesting" type="object" class="oe_highlight" invisible="state not in ['active']"/>
+                        <button name="action_close" string="Close Season" type="object" class="oe_highlight" invisible="state not in ['harvesting']"/>
+                        <button name="action_cancel" string="Cancel" type="object" invisible="state not in ['planning', 'active', 'harvesting']"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                            <h2 class="oe_inline"><field name="code" readonly="1"/></h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="field_id"/>
+                                <field name="crop_id"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                            </group>
+                            <group>
+                                <field name="budget_total" widget="monetary"/>
+                                <field name="actual_cost_total" widget="monetary"/>
+                                <field name="revenue_total" widget="monetary"/>
+                                <field name="profit_loss" widget="monetary" decoration-success="profit_loss &gt; 0" decoration-danger="profit_loss &lt; 0"/>
+                                <field name="profit_loss_percent" widget="percentage" decoration-success="profit_loss_percent &gt; 0" decoration-danger="profit_loss_percent &lt; 0"/>
+                            </group>
+                        </group>
+                        <group string="Performance">
+                            <group>
+                                <field name="total_planted_area"/>
+                                <field name="total_harvest_qty"/>
+                                <field name="avg_yield_per_ha"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Cultivations">
+                                <field name="cultivation_ids"/>
+                            </page>
+                            <page string="Input Applications">
+                                <field name="input_ids"/>
+                            </page>
+                            <page string="Harvests">
+                                <field name="harvest_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_farm_season_search" model="ir.ui.view">
+            <field name="name">farm.season.search</field>
+            <field name="model">farm.season</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="field_id"/>
+                    <field name="crop_id"/>
+                    <filter name="active_seasons" string="Active" domain="[('state', 'in', ['active', 'harvesting'])]"/>
+                    <filter name="closed_seasons" string="Closed" domain="[('state', '=', 'closed')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_field" string="Field" context="{'group_by': 'field_id'}"/>
+                        <filter name="group_crop" string="Crop" context="{'group_by': 'crop_id'}"/>
+                        <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_farm_season" model="ir.actions.act_window">
+            <field name="name">Seasons</field>
+            <field name="res_model">farm.season</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_farm_season_search"/>
+        </record>
+    </data>
+</odoo>

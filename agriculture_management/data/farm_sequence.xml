@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_farm_field" model="ir.sequence">
+            <field name="name">Farm Field</field>
+            <field name="code">farm.field</field>
+            <field name="prefix">FLD-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_farm_season" model="ir.sequence">
+            <field name="name">Farm Season</field>
+            <field name="code">farm.season</field>
+            <field name="prefix">SEA-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_farm_cultivation" model="ir.sequence">
+            <field name="name">Farm Cultivation</field>
+            <field name="code">farm.cultivation</field>
+            <field name="prefix">CUL-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_farm_input" model="ir.sequence">
+            <field name="name">Farm Input</field>
+            <field name="code">farm.input</field>
+            <field name="prefix">INP-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_farm_harvest" model="ir.sequence">
+            <field name="name">Farm Harvest</field>
+            <field name="code">farm.harvest</field>
+            <field name="prefix">HAR-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_farm_disease" model="ir.sequence">
+            <field name="name">Farm Disease/Pest</field>
+            <field name="code">farm.disease</field>
+            <field name="prefix">DIS-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_farm_equipment" model="ir.sequence">
+            <field name="name">Farm Equipment</field>
+            <field name="code">farm.equipment</field>
+            <field name="prefix">EQP-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

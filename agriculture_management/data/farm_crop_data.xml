@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="crop_wheat" model="farm.crop">
+            <field name="name">Wheat</field>
+            <field name="scientific_name">Triticum aestivum</field>
+            <field name="category">cereal</field>
+            <field name="typical_yield_per_ha">3500</field>
+            <field name="growing_period_days">120</field>
+            <field name="planting_season">autumn</field>
+            <field name="water_requirement_mm">450</field>
+            <field name="fertilizer_requirement_kg_ha">120</field>
+        </record>
+        <record id="crop_corn" model="farm.crop">
+            <field name="name">Corn (Maize)</field>
+            <field name="scientific_name">Zea mays</field>
+            <field name="category">cereal</field>
+            <field name="typical_yield_per_ha">10000</field>
+            <field name="growing_period_days">150</field>
+            <field name="planting_season">spring</field>
+            <field name="water_requirement_mm">500</field>
+            <field name="fertilizer_requirement_kg_ha">150</field>
+        </record>
+        <record id="crop_soybean" model="farm.crop">
+            <field name="name">Soybean</field>
+            <field name="scientific_name">Glycine max</field>
+            <field name="category">legume</field>
+            <field name="typical_yield_per_ha">2800</field>
+            <field name="growing_period_days">100</field>
+            <field name="planting_season">spring</field>
+            <field name="water_requirement_mm">450</field>
+            <field name="fertilizer_requirement_kg_ha">40</field>
+        </record>
+        <record id="crop_tomato" model="farm.crop">
+            <field name="name">Tomato</field>
+            <field name="scientific_name">Solanum lycopersicum</field>
+            <field name="category">vegetable</field>
+            <field name="typical_yield_per_ha">40000</field>
+            <field name="growing_period_days">90</field>
+            <field name="planting_season">spring</field>
+            <field name="water_requirement_mm">600</field>
+            <field name="fertilizer_requirement_kg_ha">100</field>
+        </record>
+        <record id="crop_cotton" model="farm.crop">
+            <field name="name">Cotton</field>
+            <field name="scientific_name">Gossypium hirsutum</field>
+            <field name="category">fiber</field>
+            <field name="typical_yield_per_ha">2000</field>
+            <field name="growing_period_days">160</field>
+            <field name="planting_season">spring</field>
+            <field name="water_requirement_mm">700</field>
+            <field name="fertilizer_requirement_kg_ha">100</field>
+        </record>
+    </data>
+</odoo>

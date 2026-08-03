@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture & Farm Management Suite</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: #f5f7fa; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(135deg, #2e7d32 0%, #4CAF50 50%, #8BC34A 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3em; margin-bottom: 15px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .hero .tagline { font-size: 1.4em; opacity: 0.95; margin-bottom: 30px; }
+        .hero .badges { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        .badge { background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 25px; font-size: 0.9em; backdrop-filter: blur(10px); }
+
+        /* Sections */
+        .section { padding: 60px 0; }
+        .section-alt { background: white; }
+        .section h2 { font-size: 2.2em; color: #2e7d32; margin-bottom: 20px; text-align: center; }
+        .section .subtitle { text-align: center; color: #666; font-size: 1.1em; margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        /* Feature Cards */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; }
+        .feature-card { background: white; border-radius: 16px; padding: 35px 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: transform 0.3s, box-shadow 0.3s; border: 1px solid #e8f5e9; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+        .feature-icon { font-size: 3em; margin-bottom: 15px; }
+        .feature-card h3 { color: #2e7d32; font-size: 1.3em; margin-bottom: 12px; }
+        .feature-card p { color: #555; font-size: 0.95em; line-height: 1.7; }
+        .feature-card ul { margin-top: 12px; padding-left: 20px; color: #555; }
+        .feature-card li { margin-bottom: 6px; font-size: 0.9em; }
+
+        /* Workflow */
+        .workflow { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
+        .workflow-step { flex: 1; min-width: 200px; text-align: center; position: relative; }
+        .workflow-step::after { content: "→"; position: absolute; right: -15px; top: 25px; font-size: 2em; color: #4CAF50; font-weight: bold; }
+        .workflow-step:last-child::after { display: none; }
+        .step-number { width: 60px; height: 60px; background: linear-gradient(135deg, #4CAF50, #2e7d32); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; font-weight: bold; margin: 0 auto 15px; }
+        .workflow-step h4 { color: #2e7d32; margin-bottom: 8px; }
+        .workflow-step p { font-size: 0.9em; color: #666; }
+
+        /* Screenshots */
+        .screenshots { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px; margin-top: 40px; }
+        .screenshot { background: #f0f0f0; border-radius: 12px; overflow: hidden; border: 2px solid #e0e0e0; }
+        .screenshot-placeholder { height: 250px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); display: flex; align-items: center; justify-content: center; color: #2e7d32; font-size: 1.2em; font-weight: 600; }
+        .screenshot-caption { padding: 15px; background: white; font-size: 0.9em; color: #555; text-align: center; }
+
+        /* Integration */
+        .integration-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
+        .integration-item { background: #f8f9fa; border-radius: 12px; padding: 25px; text-align: center; border-left: 4px solid #4CAF50; }
+        .integration-item h4 { color: #2e7d32; margin-bottom: 8px; }
+        .integration-item p { font-size: 0.9em; color: #666; }
+
+        /* Stats */
+        .stats { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; margin: 40px 0; }
+        .stat { text-align: center; }
+        .stat-number { font-size: 3em; font-weight: 700; color: #4CAF50; }
+        .stat-label { color: #666; font-size: 0.95em; margin-top: 5px; }
+
+        /* CTA */
+        .cta { background: linear-gradient(135deg, #2e7d32, #4CAF50); color: white; padding: 60px 0; text-align: center; }
+        .cta h2 { color: white !important; }
+        .cta-btn { display: inline-block; background: white; color: #2e7d32; padding: 15px 40px; border-radius: 30px; font-size: 1.1em; font-weight: 600; text-decoration: none; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s; }
+        .cta-btn:hover { transform: scale(1.05); }
+
+        /* Footer */
+        .footer { background: #1b5e20; color: white; padding: 40px 0; text-align: center; }
+        .footer p { opacity: 0.8; font-size: 0.9em; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .workflow-step::after { display: none; }
+            .stats { gap: 30px; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <h1>🌾 Agriculture & Farm Management Suite</h1>
+        <p class="tagline">Complete farm operations management — from field to market, all inside Odoo.</p>
+        <div class="badges">
+            <span class="badge">✅ Odoo 17 & 18 Compatible</span>
+            <span class="badge">🏢 Community + Enterprise</span>
+            <span class="badge">🌍 Multi-Company Ready</span>
+            <span class="badge">📊 Real-Time P&L Tracking</span>
+        </div>
+    </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section section-alt">
+    <div class="container">
+        <h2>Why This Module?</h2>
+        <p class="subtitle">
+            Agriculture is a $9.8 trillion global industry, yet most farm management tools are standalone, expensive, and disconnected from your ERP.
+            This module brings your entire farm operation into Odoo — integrating fields, crops, inputs, harvests, equipment, and financials in one unified platform.
+        </p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Core Models</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Odoo Integrations</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Traceability Chain</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="section">
+    <div class="container">
+        <h2>Farm Workflow</h2>
+        <p class="subtitle">A complete crop cycle managed from planning to profit analysis.</p>
+        <div class="workflow">
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <h4>Plan Season</h4>
+                <p>Define crop, field, budget, and expected yield for the season.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <h4>Plant & Track</h4>
+                <p>Record planting details, seed lots, and growth stage transitions.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <h4>Apply Inputs</h4>
+                <p>Log fertilizer, pesticide, irrigation with lot traceability and PHI compliance.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <h4>Monitor & Protect</h4>
+                <p>Track weather, diseases, pests, and treatment effectiveness.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">5</div>
+                <h4>Harvest & Sell</h4>
+                <p>Record harvests with quality grades, auto-create stock moves, and generate revenue.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">6</div>
+                <h4>Analyze P&L</h4>
+                <p>Automatic profit/loss per season, field, and crop with PDF reports.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section section-alt">
+    <div class="container">
+        <h2>Core Features</h2>
+        <p class="subtitle">Everything you need to run a modern, data-driven farm.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>Field & Parcel Management</h3>
+                <p>Map your farm with GIS coordinates, soil type, pH levels, irrigation systems, and elevation data. Track usable vs total area for precise planning.</p>
+                <ul>
+                    <li>GeoJSON polygon support for boundary mapping</li>
+                    <li>Soil classification (clay, sandy, loamy, etc.)</li>
+                    <li>Irrigation type & availability tracking</li>
+                    <li>Real-time field status (Fallow, Active, Harvested)</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌱</div>
+                <h3>Crop & Season Planning</h3>
+                <p>Plan every growing season with budget targets, expected yields, and automatic harvest date calculations based on crop growing periods.</p>
+                <ul>
+                    <li>Season lifecycle: Planning → Active → Harvesting → Closed</li>
+                    <li>Budget vs Actual cost tracking</li>
+                    <li>Auto-calculated expected harvest dates</li>
+                    <li>Yield variance analysis (% above/below target)</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧪</div>
+                <h3>Input Applications</h3>
+                <p>Log every input application with full traceability — fertilizer, pesticide, fungicide, irrigation, and soil amendments linked to stock lots.</p>
+                <ul>
+                    <li>Pre-Harvest Interval (PHI) tracking for compliance</li>
+                    <li>Re-entry interval & safety equipment logging</li>
+                    <li>Weather conditions at time of application</li>
+                    <li>Auto-create stock consumption moves</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚜</div>
+                <h3>Harvest Management</h3>
+                <p>Record harvests with quality grading, moisture content, and automatic inventory reception. Generate unique traceability codes for every batch.</p>
+                <ul>
+                    <li>Quality grades: Premium, Standard, Economy, Rejected</li>
+                    <li>Moisture content & drying date tracking</li>
+                    <li>Auto-link to stock lots and warehouse locations</li>
+                    <li>Harvest wizard for streamlined data entry</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌦️</div>
+                <h3>Weather Integration</h3>
+                <p>Log daily weather data manually or fetch from external APIs. Correlate weather patterns with crop performance and disease outbreaks.</p>
+                <ul>
+                    <li>Support for OpenWeatherMap & WeatherAPI</li>
+                    <li>Temperature, humidity, precipitation, wind, UV tracking</li>
+                    <li>Crop impact assessment (Positive/Neutral/Negative/Severe)</li>
+                    <li>Historical weather analysis per field</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🐛</div>
+                <h3>Disease & Pest Tracking</h3>
+                <p>Detect, treat, and analyze crop health incidents. Track treatment effectiveness and estimate financial impact of outbreaks.</p>
+                <ul>
+                    <li>Incident types: Disease, Pest, Weed, Weather, Nutrient</li>
+                    <li>Severity levels with visual alerts</li>
+                    <li>Photo & document attachments per incident</li>
+                    <li>Estimated yield loss & financial impact</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>Equipment Management</h3>
+                <p>Track all farm machinery with operating hours, depreciation, fuel usage, and maintenance schedules linked to Odoo Maintenance module.</p>
+                <ul>
+                    <li>Auto-calculated book value & depreciation</li>
+                    <li>One-click maintenance request creation</li>
+                    <li>Current location tracking per field</li>
+                    <li>Fuel type & capacity management</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Seasonal P&L & Reporting</h3>
+                <p>Automatic profit/loss calculation per season, field, and crop. Generate professional PDF reports for stakeholders and compliance.</p>
+                <ul>
+                    <li>Real-time revenue, cost, and margin tracking</li>
+                    <li>Graph & Pivot views for trend analysis</li>
+                    <li>QWeb PDF Season Report</li>
+                    <li>Multi-currency support</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Full Traceability</h3>
+                <p>Trace any harvest back through every input application, cultivation record, and field condition. Perfect for organic certification and export compliance.</p>
+                <ul>
+                    <li>Unique traceability codes per harvest</li>
+                    <li>Public portal for customer queries</li>
+                    <li>Complete chain: Input → Cultivation → Harvest → Sale</li>
+                    <li>Lot-level tracking for recalls</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INTEGRATIONS -->
+<section class="section">
+    <div class="container">
+        <h2>Native Odoo Integrations</h2>
+        <p class="subtitle">No silos. Your farm data flows seamlessly across Odoo.</p>
+        <div class="integration-grid">
+            <div class="integration-item">
+                <h4>📦 Inventory</h4>
+                <p>Auto-create stock moves for inputs consumed and harvests received. Full lot/serial traceability.</p>
+            </div>
+            <div class="integration-item">
+                <h4>🛒 Purchase</h4>
+                <p>Link input applications to purchase orders and vendor invoices for accurate cost attribution.</p>
+            </div>
+            <div class="integration-item">
+                <h4>💰 Accounting</h4>
+                <p>Season-linked invoices and bills. Automatic P&L per crop with depreciation on equipment.</p>
+            </div>
+            <div class="integration-item">
+                <h4>🔧 Maintenance</h4>
+                <p>Farm equipment linked to Odoo Maintenance requests. Schedule service based on operating hours.</p>
+            </div>
+            <div class="integration-item">
+                <h4>🌐 Portal</h4>
+                <p>Public traceability page — customers scan a code to see the full journey of their product.</p>
+            </div>
+            <div class="integration-item">
+                <h4>💬 Discuss</h4>
+                <p>Chatter on every record. Collaborate with agronomists, field managers, and accountants.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="section section-alt">
+    <div class="container">
+        <h2>Module Screenshots</h2>
+        <p class="subtitle">Clean, intuitive interfaces designed for field and office use.</p>
+        <div class="screenshots">
+            <div class="screenshot">
+                <div class="screenshot-placeholder">📍 Field Management Form</div>
+                <div class="screenshot-caption">Field details with GIS coordinates, soil data, irrigation info, and cultivation history.</div>
+            </div>
+            <div class="screenshot">
+                <div class="screenshot-placeholder">📊 Season Dashboard</div>
+                <div class="screenshot-caption">Season overview with budget, actual costs, revenue, and real-time profit/loss.</div>
+            </div>
+            <div class="screenshot">
+                <div class="screenshot-placeholder">🌱 Cultivation Kanban</div>
+                <div class="screenshot-caption">Visual pipeline of all cultivations from planting through harvest.</div>
+            </div>
+            <div class="screenshot">
+                <div class="screenshot-placeholder">🧪 Input Application Log</div>
+                <div class="screenshot-caption">Detailed input records with PHI tracking, weather conditions, and stock lot links.</div>
+            </div>
+            <div class="screenshot">
+                <div class="screenshot-placeholder">🚜 Harvest Recording</div>
+                <div class="screenshot-caption">Harvest wizard with quality grading, moisture content, and auto stock reception.</div>
+            </div>
+            <div class="screenshot">
+                <div class="screenshot-placeholder">📄 Season PDF Report</div>
+                <div class="screenshot-caption">Professional printable report with financials, inputs, and harvest summaries.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHO IS IT FOR -->
+<section class="section">
+    <div class="container">
+        <h2>Who Is This For?</h2>
+        <p class="subtitle">Built for any organization that grows, processes, or trades agricultural products.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏡</div>
+                <h3>Commercial Crop Farms</h3>
+                <p>Manage hundreds of hectares across multiple fields. Track every input, every harvest, and every dollar with field-level precision.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Agricultural Cooperatives</h3>
+                <p>Multi-company support lets cooperatives manage member farms as separate entities while aggregating data for collective analysis.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌴</div>
+                <h3>Plantation Managers</h3>
+                <p>Long-cycle crops like palm oil, rubber, or coffee? Track multi-year production cycles with equipment depreciation and seasonal labor costs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌾</div>
+                <h3>Seed Production Companies</h3>
+                <p>Lot traceability from parent seed to packaged product. Full chain of custody for certification and quality assurance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>Agri-Trading & Export Firms</h3>
+                <p>Source traceability for buyers. Generate compliance reports for organic, Fair Trade, or GAP certification audits.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>Research & Education</h3>
+                <p>Academic institutions and agricultural extension services can use the module for experimental plot management and data collection.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONFIG -->
+<section class="section section-alt">
+    <div class="container">
+        <h2>Configuration & Setup</h2>
+        <p class="subtitle">Get started in minutes, not days.</p>
+        <div class="workflow">
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <h4>Install Module</h4>
+                <p>One-click install from Odoo Apps. No external dependencies.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <h4>Assign Groups</h4>
+                <p>Add users to "Farm User" or "Farm Manager" groups.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <h4>Configure Settings</h4>
+                <p>Set weather API, traceability, PHI tracking, and auto stock moves.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <h4>Add Master Data</h4>
+                <p>Create fields, crops, and equipment. 5 demo crops included.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">5</div>
+                <h4>Start Your Season</h4>
+                <p>Create a season, add cultivations, and begin tracking.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="container">
+        <h2>Ready to Modernize Your Farm?</h2>
+        <p style="font-size: 1.2em; opacity: 0.95; margin-top: 10px;">
+            Join thousands of farms using Odoo to manage their operations. <br>
+            One platform. One database. Complete visibility from seed to sale.
+        </p>
+        <a href="#" class="cta-btn">Get Agriculture Suite Now</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <p><strong>Agriculture & Farm Management Suite</strong> for Odoo 17 & 18</p>
+        <p style="margin-top: 10px;">Compatible with Community & Enterprise Editions | Multi-Company | Multi-Currency | Full Traceability</p>
+        <p style="margin-top: 15px; font-size: 0.85em;">© 2026 Your Company. All rights reserved. Licensed under OPL-1.</p>
+    </div>
+</footer>
+
+</body>
+</html>

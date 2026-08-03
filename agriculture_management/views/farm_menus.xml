@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_farm_root" name="Agriculture" sequence="40" web_icon="agriculture_management,static/description/icon.png"/>
+        <menuitem id="menu_farm_dashboard" name="Dashboard" parent="menu_farm_root" sequence="10" action="action_farm_dashboard"/>
+        <menuitem id="menu_farm_operations" name="Operations" parent="menu_farm_root" sequence="20"/>
+        <menuitem id="menu_farm_seasons" name="Seasons" parent="menu_farm_operations" action="action_farm_season" sequence="10"/>
+        <menuitem id="menu_farm_cultivations" name="Cultivations" parent="menu_farm_operations" action="action_farm_cultivation" sequence="20"/>
+        <menuitem id="menu_farm_inputs" name="Input Applications" parent="menu_farm_operations" action="action_farm_input" sequence="30"/>
+        <menuitem id="menu_farm_harvests" name="Harvests" parent="menu_farm_operations" action="action_farm_harvest" sequence="40"/>
+        <menuitem id="menu_farm_master" name="Master Data" parent="menu_farm_root" sequence="30"/>
+        <menuitem id="menu_farm_fields" name="Fields" parent="menu_farm_master" action="action_farm_field" sequence="10"/>
+        <menuitem id="menu_farm_crops" name="Crops" parent="menu_farm_master" action="action_farm_crop" sequence="20"/>
+        <menuitem id="menu_farm_equipment" name="Equipment" parent="menu_farm_master" action="action_farm_equipment" sequence="30"/>
+        <menuitem id="menu_farm_monitoring" name="Monitoring" parent="menu_farm_root" sequence="40"/>
+        <menuitem id="menu_farm_weather" name="Weather Logs" parent="menu_farm_monitoring" action="action_farm_weather" sequence="10"/>
+        <menuitem id="menu_farm_disease" name="Disease &amp; Pest" parent="menu_farm_monitoring" action="action_farm_disease" sequence="20"/>
+        <menuitem id="menu_farm_config" name="Configuration" parent="menu_farm_root" sequence="100" groups="agriculture_management.group_farm_manager"/>
+<!--        <menuitem id="menu_farm_settings" name="Settings" parent="menu_farm_config" action="base.action_res_config" sequence="10"/>-->
+    </data>
+</odoo>

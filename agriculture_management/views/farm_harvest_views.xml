@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_farm_harvest_tree" model="ir.ui.view">
+            <field name="name">farm.harvest.tree</field>
+            <field name="model">farm.harvest</field>
+            <field name="arch" type="xml">
+                <tree string="Harvests">
+                    <field name="name"/>
+                    <field name="harvest_date"/>
+                    <field name="field_id"/>
+                    <field name="crop_id"/>
+                    <field name="quantity"/>
+                    <field name="uom_id"/>
+                    <field name="quality_grade"/>
+                    <field name="unit_price" optional="show"/>
+                    <field name="total_value" optional="show"/>
+                    <field name="traceability_code" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_farm_harvest_form" model="ir.ui.view">
+            <field name="name">farm.harvest.form</field>
+            <field name="model">farm.harvest</field>
+            <field name="arch" type="xml">
+                <form string="Harvest">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="season_id"/>
+                                <field name="cultivation_id"/>
+                                <field name="field_id" readonly="1"/>
+                                <field name="crop_id" readonly="1"/>
+                                <field name="harvest_date"/>
+                                <field name="harvest_method"/>
+                            </group>
+                            <group>
+                                <field name="quantity"/>
+                                <field name="uom_id"/>
+                                <field name="quality_grade"/>
+                                <field name="moisture_percent"/>
+                                <field name="unit_price"/>
+                                <field name="total_value" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Storage &amp; Inventory">
+                            <group>
+                                <field name="product_id"/>
+                                <field name="lot_id"/>
+                                <field name="location_id"/>
+                            </group>
+                            <group>
+                                <field name="drying_date"/>
+                                <field name="storage_date"/>
+                                <field name="storage_condition"/>
+                            </group>
+                        </group>
+                        <group string="Traceability">
+                            <field name="traceability_code"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_farm_harvest_search" model="ir.ui.view">
+            <field name="name">farm.harvest.search</field>
+            <field name="model">farm.harvest</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="crop_id"/>
+                    <field name="field_id"/>
+                    <filter name="premium" string="Premium Grade" domain="[('quality_grade', '=', 'premium')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_crop" string="Crop" context="{'group_by': 'crop_id'}"/>
+                        <filter name="group_field" string="Field" context="{'group_by': 'field_id'}"/>
+                        <filter name="group_grade" string="Quality Grade" context="{'group_by': 'quality_grade'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_farm_harvest" model="ir.actions.act_window">
+            <field name="name">Harvests</field>
+            <field name="res_model">farm.harvest</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_farm_harvest_search"/>
+        </record>
+    </data>
+</odoo>

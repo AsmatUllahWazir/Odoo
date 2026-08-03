@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_farm_dashboard" model="ir.actions.act_window">
+            <field name="name">Farm Dashboard</field>
+            <field name="res_model">farm.season</field>
+            <field name="view_mode">kanban,graph,pivot</field>
+            <field name="domain">[('state', 'in', ['active', 'harvesting'])]</field>
+            <field name="context">{'group_by': ['field_id']}</field>
+        </record>
+
+        <record id="view_farm_season_graph" model="ir.ui.view">
+            <field name="name">farm.season.graph</field>
+            <field name="model">farm.season</field>
+            <field name="arch" type="xml">
+                <graph string="Season Performance" type="bar">
+                    <field name="name"/>
+                    <field name="profit_loss" type="measure"/>
+                    <field name="actual_cost_total" type="measure"/>
+                    <field name="revenue_total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="view_farm_season_pivot" model="ir.ui.view">
+            <field name="name">farm.season.pivot</field>
+            <field name="model">farm.season</field>
+            <field name="arch" type="xml">
+                <pivot string="Season Analysis">
+                    <field name="crop_id" type="row"/>
+                    <field name="field_id" type="col"/>
+                    <field name="profit_loss" type="measure"/>
+                    <field name="avg_yield_per_ha" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+    </data>
+</odoo>

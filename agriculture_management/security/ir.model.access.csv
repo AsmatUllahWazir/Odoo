@@ -1,0 +1,20 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_farm_field_user,Farm Field User,model_farm_field,base.group_user,1,0,0,0
+access_farm_field_manager,Farm Field Manager,model_farm_field,group_farm_manager,1,1,1,1
+access_farm_crop_user,Farm Crop User,model_farm_crop,base.group_user,1,0,0,0
+access_farm_crop_manager,Farm Crop Manager,model_farm_crop,group_farm_manager,1,1,1,1
+access_farm_season_user,Farm Season User,model_farm_season,base.group_user,1,0,0,0
+access_farm_season_manager,Farm Season Manager,model_farm_season,group_farm_manager,1,1,1,1
+access_farm_cultivation_user,Farm Cultivation User,model_farm_cultivation,base.group_user,1,0,0,0
+access_farm_cultivation_manager,Farm Cultivation Manager,model_farm_cultivation,group_farm_manager,1,1,1,1
+access_farm_input_user,Farm Input User,model_farm_input_application,base.group_user,1,0,0,0
+access_farm_input_manager,Farm Input Manager,model_farm_input_application,group_farm_manager,1,1,1,1
+access_farm_harvest_user,Farm Harvest User,model_farm_harvest,base.group_user,1,0,0,0
+access_farm_harvest_manager,Farm Harvest Manager,model_farm_harvest,group_farm_manager,1,1,1,1
+access_farm_weather_user,Farm Weather User,model_farm_weather_log,base.group_user,1,0,0,0
+access_farm_weather_manager,Farm Weather Manager,model_farm_weather_log,group_farm_manager,1,1,1,1
+access_farm_disease_user,Farm Disease User,model_farm_disease_pest,base.group_user,1,0,0,0
+access_farm_disease_manager,Farm Disease Manager,model_farm_disease_pest,group_farm_manager,1,1,1,1
+access_farm_equipment_user,Farm Equipment User,model_farm_equipment,base.group_user,1,0,0,0
+access_farm_equipment_manager,Farm Equipment Manager,model_farm_equipment,group_farm_manager,1,1,1,1
+access_farm_harvest_wizard,Farm Harvest Wizard,model_farm_harvest_wizard,base.group_user,1,1,1,0

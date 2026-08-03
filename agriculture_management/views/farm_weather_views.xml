@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_farm_weather_tree" model="ir.ui.view">
+            <field name="name">farm.weather.log.tree</field>
+            <field name="model">farm.weather.log</field>
+            <field name="arch" type="xml">
+                <tree string="Weather Logs">
+                    <field name="date"/>
+                    <field name="field_id"/>
+                    <field name="temperature_max"/>
+                    <field name="temperature_min"/>
+                    <field name="precipitation_mm"/>
+                    <field name="humidity_percent"/>
+                    <field name="wind_speed"/>
+                    <field name="crop_impact"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_farm_weather_form" model="ir.ui.view">
+            <field name="name">farm.weather.log.form</field>
+            <field name="model">farm.weather.log</field>
+            <field name="arch" type="xml">
+                <form string="Weather Log">
+                    <header>
+                        <button name="action_fetch_weather_api" string="Fetch from API" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="field_id"/>
+                                <field name="season_id"/>
+                                <field name="source"/>
+                            </group>
+                            <group>
+                                <field name="temperature_max"/>
+                                <field name="temperature_min"/>
+                                <field name="temperature_avg" readonly="1"/>
+                                <field name="humidity_percent"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="precipitation_mm"/>
+                                <field name="wind_speed"/>
+                                <field name="wind_direction"/>
+                            </group>
+                            <group>
+                                <field name="sunshine_hours"/>
+                                <field name="uv_index"/>
+                                <field name="pressure_hpa"/>
+                            </group>
+                        </group>
+                        <group string="Impact">
+                            <field name="crop_impact"/>
+                            <field name="impact_notes"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_farm_weather" model="ir.actions.act_window">
+            <field name="name">Weather Logs</field>
+            <field name="res_model">farm.weather.log</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_users_form_smart_print" model="ir.ui.view">
+        <field name="name">res.users.form.smart.print</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='preferences']" position="inside">
+                <group string="Printing Preferences" name="smart_print_preferences">
+                    <group>
+                        <field name="default_printer_id"
+                               options="{'no_create': True}"
+                               help="Default printer for direct printing"/>
+                        <field name="print_preference"
+                               help="Preferred printing method"/>
+                        <field name="workstation_name"
+                               help="Workstation for printer routing"/>
+                    </group>
+                    <group>
+                        <field name="auto_print_enabled"
+                               help="Enable automatic printing"/>
+                        <field name="show_print_notifications"
+                               help="Show notifications for print jobs"/>
+                        <field name="printer_rule_ids" widget="many2many_tags"
+                               help="Additional printer rules for this user"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_users_preferences_form_smart_print" model="ir.ui.view">
+        <field name="name">res.users.preferences.form.smart.print</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='preferences']" position="inside">
+                <div class="mt-4">
+                    <strong>Printing Preferences</strong>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-6">
+                            <field name="default_printer_id"
+                                   options="{'no_create': True}"/>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <field name="print_preference"/>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <field name="workstation_name"/>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <field name="auto_print_enabled"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

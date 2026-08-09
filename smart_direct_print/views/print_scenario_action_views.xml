@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Print Operations Wizard -->
+    <record id="view_smart_print_operations_form" model="ir.ui.view">
+        <field name="name">smart.print.operations.form</field>
+        <field name="model">smart.print.operations</field>
+        <field name="arch" type="xml">
+            <form string="Print Operations">
+                <header>
+                    <button name="action_print" string="Print" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_retry_failed" string="Retry Failed" type="object" class="btn-secondary" invisible="state != 'done'"/>
+                    <button name="action_view_jobs" string="View Jobs" type="object" class="btn-secondary" invisible="state != 'done'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-secondary" invisible="state != 'draft'"/>
+                    <field name="state" invisible="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Document Selection">
+                            <field name="model_id" required="1"/>
+                            <field name="record_ids" required="1"
+                                   placeholder="e.g., 1,2,3"
+                                   help="Comma-separated record IDs to print"/>
+                            <field name="report_id" required="1"/>
+                        </group>
+                        <group string="Print Options">
+                            <field name="printer_id" required="1"/>
+                            <field name="number_of_copies"/>
+                            <field name="output_format"/>
+                            <field name="print_immediately"/>
+                            <field name="show_preview"/>
+                        </group>
+                    </group>
+                    <group string="Error" groups="base.group_system" invisible="not error_message">
+                        <field name="error_message" nolabel="1"/>
+                    </group>
+                    <group string="Created Jobs" invisible="not job_ids">
+                        <field name="job_ids" nolabel="1"
+                               context="{'form_view_ref': 'smart_direct_print.view_smart_print_job_form'}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Simple Print Wizard -->
+    <record id="view_smart_print_wizard_form" model="ir.ui.view">
+        <field name="name">smart.print.wizard.form</field>
+        <field name="model">smart.print.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Quick Print">
+                <header>
+                    <button name="action_print" string="Print" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_view_job" string="View Job" type="object" class="btn-secondary" invisible="state != 'printed'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-secondary"/>
+                    <field name="state" invisible="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Document">
+                            <field name="model" invisible="1"/>
+                            <field name="res_id" invisible="1"/>
+                            <field name="report_id" required="1"/>
+                        </group>
+                        <group string="Print Settings">
+                            <field name="printer_id" required="1"/>
+                            <field name="copies"/>
+                            <field name="format"/>
+                        </group>
+                    </group>
+                    <group string="Error" groups="base.group_system" invisible="not error_message">
+                        <field name="error_message" nolabel="1"/>
+                    </group>
+                    <group string="Print Job" invisible="not job_id">
+                        <field name="job_id" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_smart_print_wizard" model="ir.actions.act_window">
+        <field name="name">Quick Print</field>
+        <field name="res_model">smart.print.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{
+            'default_model': active_model,
+            'default_res_id': active_id,
+        }</field>
+    </record>
+
+    <!-- Batch Print Wizard -->
+    <record id="view_smart_print_batch_wizard_form" model="ir.ui.view">
+        <field name="name">smart.print.batch.wizard.form</field>
+        <field name="model">smart.print.batch.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Batch Print">
+                <header>
+                    <button name="action_add_lines" string="Add Lines" type="object" class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_print_batch" string="Print Batch" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_view_jobs" string="View Jobs" type="object" class="btn-secondary" invisible="state != 'done'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-secondary"/>
+                    <field name="state" invisible="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="default_printer_id"/>
+                            <field name="default_copies"/>
+                            <field name="default_format"/>
+                        </group>
+                    </group>
+                    <group string="Statistics" invisible="not total_jobs">
+                        <group>
+                            <field name="total_jobs" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="successful_jobs" readonly="1"/>
+                            <field name="failed_jobs" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Print Lines">
+                        <field name="job_line_ids" nolabel="1">
+                            <list>
+                                <field name="sequence" widget="handle"/>
+                                <field name="record_name"/>
+                                <field name="report_id"/>
+                                <field name="printer_id"/>
+                                <field name="copies"/>
+                                <field name="format"/>
+                                <field name="state" widget="badge" colors="{
+                                    'draft':'secondary',
+                                    'processing':'warning',
+                                    'done':'success',
+                                    'error':'danger'
+                                }"/>
+                                <field name="error_message"/>
+                            </list>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="model" invisible="1"/>
+                                        <field name="res_id" invisible="1"/>
+                                        <field name="record_name" readonly="1"/>
+                                        <field name="report_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="printer_id"/>
+                                        <field name="copies"/>
+                                        <field name="format"/>
+                                    </group>
+                                </group>
+                                <group string="Error" invisible="not error_message">
+                                    <field name="error_message" nolabel="1"/>
+                                </group>
+                                <group string="Print Job" invisible="not job_id">
+                                    <field name="job_id" nolabel="1"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_smart_print_batch_wizard" model="ir.actions.act_window">
+        <field name="name">Batch Print</field>
+        <field name="res_model">smart.print.batch.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_smart_print_operations" model="ir.actions.act_window">
+        <field name="name">Manual Print</field>
+        <field name="res_model">smart.print.operations</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manually print documents
+            </p>
+            <p>
+                Select the model, record IDs, and report to print.
+                Choose a printer and number of copies.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+<!--    <menuitem id="menu_smart_print_operations" name="Manual Print" parent="menu_smart_print_operations" action="action_smart_print_operations" sequence="5"/>-->
+<!--    <menuitem id="menu_smart_quick_print" name="Quick Print" parent="menu_smart_print_operations" action="action_smart_print_wizard" sequence="6"/>-->
+<!--    <menuitem id="menu_smart_batch_print" name="Batch Print" parent="menu_smart_print_operations" action="action_smart_print_batch_wizard" sequence="7"/>-->
+</odoo>

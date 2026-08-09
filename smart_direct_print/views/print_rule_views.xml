@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_smart_print_rule_tree" model="ir.ui.view">
+        <field name="name">smart.print.rule.tree</field>
+        <field name="model">smart.print.rule</field>
+        <field name="arch" type="xml">
+            <list string="Print Rules" default_order="priority desc, name">
+                <field name="name"/>
+                <field name="priority"/>
+                <field name="printer_id"/>
+                <field name="user_id"/>
+                <field name="model"/>
+                <field name="report_id"/>
+                <field name="active" widget="boolean"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_smart_print_rule_form" model="ir.ui.view">
+        <field name="name">smart.print.rule.form</field>
+        <field name="model">smart.print.rule</field>
+        <field name="arch" type="xml">
+            <form string="Print Rule">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Rule Name..."/>
+                        </h1>
+                        <field name="active" invisible="1"/>
+                    </div>
+                    <group>
+                        <group string="Conditions">
+                            <field name="priority"/>
+                            <field name="user_id" help="Apply this rule only for this user"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="workstation_name" help="Apply this rule only for this workstation"/>
+                            <field name="model" help="Apply this rule only for this model"/>
+                            <field name="report_id" help="Apply this rule only for this report"/>
+                            <field name="carrier_id" help="Apply this rule only for this carrier"/>
+                            <field name="document_type" help="Apply this rule only for this document type"/>
+                            <field name="domain_filter" placeholder="[('state','=','confirmed')]"
+                                   help="Additional domain filter for document records"/>
+                        </group>
+                        <group string="Action">
+                            <field name="printer_id" required="1"/>
+                            <field name="copies"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_smart_print_rule_search" model="ir.ui.view">
+        <field name="name">smart.print.rule.search</field>
+        <field name="model">smart.print.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="model"/>
+                <field name="user_id"/>
+                <field name="printer_id"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <filter name="with_user" string="With User" domain="[('user_id','!=',False)]"/>
+                <filter name="with_model" string="With Model" domain="[('model','!=',False)]"/>
+                <group>
+                    <filter name="group_by_printer" string="Printer" context="{'group_by':'printer_id'}"/>
+                    <filter name="group_by_user" string="User" context="{'group_by':'user_id'}"/>
+                    <filter name="group_by_model" string="Model" context="{'group_by':'model'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_smart_print_rule" model="ir.actions.act_window">
+        <field name="name">Print Rules</field>
+        <field name="res_model">smart.print.rule</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define printer selection rules
+            </p>
+            <p>
+                Rules are evaluated in priority order to determine which printer
+                to use for each print job.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_smart_print_rule" name="Print Rules" parent="menu_smart_print_config" action="action_smart_print_rule" sequence="30"/>
+</odoo>

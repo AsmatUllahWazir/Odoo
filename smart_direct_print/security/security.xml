@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Print Server Rules -->
+        <record id="smart_print_server_comp_rule" model="ir.rule">
+            <field name="name">Print Server: Multi-Company</field>
+            <field name="model_id" ref="model_smart_print_server"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Printer Rules -->
+        <record id="smart_printer_comp_rule" model="ir.rule">
+            <field name="name">Printer: Multi-Company</field>
+            <field name="model_id" ref="model_smart_printer"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="smart_printer_user_rule" model="ir.rule">
+            <field name="name">Printer: User Access</field>
+            <field name="model_id" ref="model_smart_printer"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('user_ids', '=', False), ('user_ids', 'in', [user.id])]</field>
+        </record>
+
+        <!-- Print Job Rules -->
+        <record id="smart_print_job_user_rule" model="ir.rule">
+            <field name="name">Print Job: User</field>
+            <field name="model_id" ref="model_smart_print_job"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        </record>
+
+        <record id="smart_print_job_comp_rule" model="ir.rule">
+            <field name="name">Print Job: Multi-Company</field>
+            <field name="model_id" ref="model_smart_print_job"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Print Rule Rules -->
+        <record id="smart_print_rule_comp_rule" model="ir.rule">
+            <field name="name">Print Rule: Multi-Company</field>
+            <field name="model_id" ref="model_smart_print_rule"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Print Scenario Rules -->
+        <record id="smart_print_scenario_comp_rule" model="ir.rule">
+            <field name="name">Print Scenario: Multi-Company</field>
+            <field name="model_id" ref="model_smart_print_scenario"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Print Report Config Rules -->
+        <record id="smart_print_report_comp_rule" model="ir.rule">
+            <field name="name">Print Report Config: Multi-Company</field>
+            <field name="model_id" ref="model_smart_print_report"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Print Attachment Config Rules -->
+        <record id="smart_print_attachment_comp_rule" model="ir.rule">
+            <field name="name">Print Attachment Config: Multi-Company</field>
+            <field name="model_id" ref="model_smart_print_attachment"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+    </data>
+</odoo>

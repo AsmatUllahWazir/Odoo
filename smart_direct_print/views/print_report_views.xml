@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_smart_print_report_tree" model="ir.ui.view">
+        <field name="name">smart.print.report.tree</field>
+        <field name="model">smart.print.report</field>
+        <field name="arch" type="xml">
+            <list string="Report Configurations">
+                <field name="name"/>
+                <field name="report_id"/>
+                <field name="direct_print_enabled" widget="boolean"/>
+                <field name="default_printer_id"/>
+                <field name="number_of_copies"/>
+                <field name="auto_print_enabled" widget="boolean"/>
+                <field name="active" widget="boolean"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_smart_print_report_form" model="ir.ui.view">
+        <field name="name">smart.print.report.form</field>
+        <field name="model">smart.print.report</field>
+        <field name="arch" type="xml">
+            <form string="Report Configuration">
+                <header>
+                    <button name="enable_direct_print" string="Enable Direct Print" type="object" class="btn-primary" invisible="direct_print_enabled"/>
+                    <button name="disable_direct_print" string="Disable Direct Print" type="object" class="btn-secondary" invisible="not direct_print_enabled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Configuration Name..."/>
+                        </h1>
+                        <field name="active" invisible="1"/>
+                    </div>
+                    <group>
+                        <group string="Report">
+                            <field name="report_id" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Status">
+                            <field name="direct_print_enabled" readonly="1"/>
+                            <field name="auto_print_enabled"/>
+                        </group>
+                    </group>
+                    <group string="Direct Print Settings">
+                        <group>
+                            <field name="default_printer_id"
+                                   help="Default printer for direct printing"/>
+                            <field name="default_rule_id"
+                                   help="Default rule for printer selection"/>
+                        </group>
+                        <group>
+                            <field name="number_of_copies"/>
+                            <field name="supported_format"/>
+                        </group>
+                    </group>
+                    <group string="Automatic Printing">
+                        <field name="auto_print_scenario_id"
+                               help="Scenario to use for automatic printing"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_smart_print_report_search" model="ir.ui.view">
+        <field name="name">smart.print.report.search</field>
+        <field name="model">smart.print.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="report_id"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <filter name="direct_print" string="Direct Print Enabled" domain="[('direct_print_enabled','=',True)]"/>
+                <filter name="auto_print" string="Auto Print Enabled" domain="[('auto_print_enabled','=',True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_smart_print_report" model="ir.actions.act_window">
+        <field name="name">Report Configurations</field>
+        <field name="res_model">smart.print.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure direct printing for reports
+            </p>
+            <p>
+                Each report can be configured with a default printer,
+                number of copies, and automatic printing behavior.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_smart_print_report" name="Report Configurations" parent="menu_smart_print_config" action="action_smart_print_report" sequence="50"/>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sale Order Actions -->
+        <record id="smart_scenario_action_sale_confirm" model="smart.print.scenario.action">
+            <field name="name">Sale Order Confirmation</field>
+            <field name="code">sale_order_confirmed</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="active">True</field>
+            <field name="description">Triggered when a sale order is confirmed</field>
+        </record>
+
+        <!-- Purchase Order Actions -->
+        <record id="smart_scenario_action_purchase_confirm" model="smart.print.scenario.action">
+            <field name="name">Purchase Order Confirmation</field>
+            <field name="code">purchase_order_confirmed</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="active">True</field>
+            <field name="description">Triggered when a purchase order is confirmed</field>
+        </record>
+
+        <!-- Invoice Actions -->
+        <record id="smart_scenario_action_invoice_post" model="smart.print.scenario.action">
+            <field name="name">Invoice Posted</field>
+            <field name="code">account_invoice_posted</field>
+            <field name="model_id" ref="model_account_move"/>
+            <field name="active">True</field>
+            <field name="description">Triggered when an invoice is posted</field>
+        </record>
+
+        <!-- Stock Picking Actions -->
+        <record id="smart_scenario_action_picking_validate" model="smart.print.scenario.action">
+            <field name="name">Picking Validated</field>
+            <field name="code">stock_picking_validated</field>
+            <field name="model_id" ref="model_stock_picking"/>
+            <field name="active">True</field>
+            <field name="description">Triggered when a stock picking is validated</field>
+        </record>
+
+    </data>
+</odoo>

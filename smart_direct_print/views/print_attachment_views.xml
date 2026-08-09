@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_smart_print_attachment_tree" model="ir.ui.view">
+        <field name="name">smart.print.attachment.tree</field>
+        <field name="model">smart.print.attachment</field>
+        <field name="arch" type="xml">
+            <list string="Print Attachments">
+                <field name="name"/>
+                <field name="attachment_id"/>
+                <field name="printer_id"/>
+                <field name="format"/>
+                <field name="copies"/>
+                <field name="state" widget="badge"/>
+                <field name="create_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_smart_print_attachment_form" model="ir.ui.view">
+        <field name="name">smart.print.attachment.form</field>
+        <field name="model">smart.print.attachment</field>
+        <field name="arch" type="xml">
+            <form string="Print Attachment">
+                <header>
+                    <button name="action_print" string="Print" type="object" class="btn-primary" invisible="state not in ['draft']"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-danger" invisible="state not in ['draft', 'printing']"/>
+                    <button name="action_view_job" string="View Job" type="object" class="btn-secondary" invisible="state not in ['error', 'printed', ]"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,printing,printed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="attachment_id" required="1"/>
+                            <field name="model"/>
+                            <field name="res_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="printer_id" required="1"/>
+                            <field name="copies"/>
+                            <field name="format" required="1"/>
+                            <field name="state" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Print Job" invisible="not print_job_id">
+                        <field name="print_job_id"/>
+                    </group>
+                    <group string="Error Information" groups="base.group_system">
+                        <field name="error_message" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_smart_print_attachment_search" model="ir.ui.view">
+        <field name="name">smart.print.attachment.search</field>
+        <field name="model">smart.print.attachment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="attachment_id"/>
+                <field name="printer_id"/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="printed" string="Printed" domain="[('state','=','printed')]"/>
+                <filter name="error" string="Error" domain="[('state','=','error')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_smart_print_attachment" model="ir.actions.act_window">
+        <field name="name">Print Attachments</field>
+        <field name="res_model">smart.print.attachment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure and print attachments
+            </p>
+            <p>
+                Attachments can be printed directly to configured printers
+                without downloading them first.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_smart_print_attachment" name="Print Attachments" parent="menu_smart_print_operations" action="action_smart_print_attachment" sequence="20"/>
+</odoo>

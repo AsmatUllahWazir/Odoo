@@ -1,0 +1,335 @@
+/* Smart Direct Print Styles - Complete */
+
+/* ===== Print Buttons ===== */
+.smart-print-button {
+    margin: 2px 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.smart-print-button .fa {
+    font-size: 14px;
+}
+
+.smart-print-button .fa-spinner {
+    animation: smart-print-spin 1s linear infinite;
+}
+
+@keyframes smart-print-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ===== Status Badges ===== */
+.smart-print-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+}
+
+.smart-print-status-draft {
+    background-color: #e8e8e8;
+    color: #555;
+}
+
+.smart-print-status-queued {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.smart-print-status-processing {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.smart-print-status-sent {
+    background-color: #b8d4e3;
+    color: #1e5f7a;
+}
+
+.smart-print-status-done {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.smart-print-status-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.smart-print-status-cancelled {
+    background-color: #e2e3e5;
+    color: #6c757d;
+}
+
+/* ===== Notifications ===== */
+.smart-print-notification {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    z-index: 9999;
+    padding: 15px 20px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    animation: smart-print-slide-in 0.4s ease-out;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.smart-print-notification-success {
+    background-color: #28a745;
+}
+
+.smart-print-notification-error {
+    background-color: #dc3545;
+}
+
+.smart-print-notification-info {
+    background-color: #17a2b8;
+}
+
+.smart-print-notification-warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+@keyframes smart-print-slide-in {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes smart-print-slide-out {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+.smart-print-notification-close {
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 0 4px;
+    font-size: 18px;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.smart-print-notification-close:hover {
+    opacity: 1;
+}
+
+/* ===== Dialog ===== */
+.smart-print-dialog .modal-body {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.smart-print-dialog .form-group {
+    margin-bottom: 16px;
+}
+
+.smart-print-dialog .form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.smart-print-dialog .form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: border-color 0.15s;
+}
+
+.smart-print-dialog .form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.smart-print-dialog .modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* ===== Printer Selector ===== */
+.smart-print-printer-selector {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.smart-print-printer-selector:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.smart-print-printer-option {
+    padding: 4px 8px;
+}
+
+/* ===== Progress ===== */
+.smart-print-progress {
+    margin: 12px 0;
+}
+
+.smart-print-progress-bar {
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.smart-print-progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+.smart-print-progress-label {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #333;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+/* ===== Error List ===== */
+.smart-print-error-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+}
+
+.smart-print-error-list li {
+    padding: 6px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #dc3545;
+    font-size: 14px;
+}
+
+.smart-print-error-list li:last-child {
+    border-bottom: none;
+}
+
+.smart-print-error-list li::before {
+    content: "⚠ ";
+}
+
+/* ===== Job Status in List ===== */
+.smart-print-job-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ===== Print Preview ===== */
+.smart-print-preview {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 12px;
+    background: #f8f9fa;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.smart-print-preview-iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .smart-print-notification {
+        top: 60px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .smart-print-dialog .modal-body {
+        padding: 12px;
+    }
+}
+
+/* ===== Loading Spinner ===== */
+.smart-print-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #6c757d;
+}
+
+.smart-print-loading .fa-spinner {
+    animation: smart-print-spin 0.8s linear infinite;
+}
+
+/* ===== Quick Actions ===== */
+.smart-print-quick-actions {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.smart-print-quick-actions .btn {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* ===== Settings Panel ===== */
+.smart-print-settings-panel {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+}
+
+.smart-print-settings-panel .row {
+    margin-bottom: 8px;
+}
+
+/* ===== Tooltip Help ===== */
+.smart-print-help-tip {
+    cursor: help;
+    color: #6c757d;
+    font-size: 14px;
+    margin-left: 4px;
+}
+
+.smart-print-help-tip:hover {
+    color: #007bff;
+}

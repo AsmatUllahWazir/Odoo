@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sample Sale Order Scenario -->
+        <record id="smart_scenario_sale_order_print" model="smart.print.scenario">
+            <field name="name">Print Sale Order on Confirmation</field>
+            <field name="action_id" ref="smart_scenario_action_sale_confirm"/>
+            <field name="report_id" ref="sale.action_report_saleorder"/>
+            <field name="number_of_copies">1</field>
+            <field name="document_format">pdf</field>
+            <field name="priority">10</field>
+            <field name="active">True</field>
+            <field name="description">Automatically print the sale order when it is confirmed</field>
+        </record>
+
+        <!-- Sample Invoice Scenario -->
+        <record id="smart_scenario_invoice_print" model="smart.print.scenario">
+            <field name="name">Print Invoice on Posting</field>
+            <field name="action_id" ref="smart_scenario_action_invoice_post"/>
+            <field name="report_id" ref="account.account_invoices"/>
+            <field name="number_of_copies">1</field>
+            <field name="document_format">pdf</field>
+            <field name="priority">10</field>
+            <field name="active">True</field>
+            <field name="condition_filter">[('move_type','=','out_invoice')]</field>
+            <field name="description">Automatically print customer invoices when they are posted</field>
+        </record>
+
+        <!-- Sample Delivery Slip Scenario -->
+        <record id="smart_scenario_delivery_print" model="smart.print.scenario">
+            <field name="name">Print Delivery Slip on Validation</field>
+            <field name="action_id" ref="smart_scenario_action_picking_validate"/>
+            <field name="report_id" ref="stock.action_report_delivery"/>
+            <field name="number_of_copies">1</field>
+            <field name="document_format">pdf</field>
+            <field name="priority">10</field>
+            <field name="active">True</field>
+            <field name="description">Automatically print the delivery slip when a picking is validated</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_smart_printer_tree" model="ir.ui.view">
+        <field name="name">smart.printer.tree</field>
+        <field name="model">smart.printer</field>
+        <field name="arch" type="xml">
+            <list string="Printers">
+                <field name="name"/>
+                <field name="printer_type"/>
+                <field name="supported_formats"/>
+                <field name="server_id"/>
+                <field name="status" widget="badge"/>
+                <field name="active" widget="boolean"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_smart_printer_form" model="ir.ui.view">
+        <field name="name">smart.printer.form</field>
+        <field name="model">smart.printer</field>
+        <field name="arch" type="xml">
+            <form string="Printer">
+                <header>
+                    <button name="test_print" string="Test Print" type="object" class="btn-primary"/>
+                    <button name="action_view_jobs" string="View Jobs" type="object" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Printer Name..."/>
+                        </h1>
+                        <div>
+                            <field name="active" invisible="1"/>
+                            <field name="status" widget="badge" colors="{'online':'success','offline':'danger','unknown':'secondary'}"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group string="Printer Details">
+                            <field name="external_printer_id"/>
+                            <field name="server_id" required="1"/>
+                            <field name="printer_type"/>
+                            <field name="supported_formats"/>
+                            <field name="paper_size"/>
+                            <field name="default_copies"/>
+                        </group>
+                        <group string="Location &amp; Access">
+                            <field name="workstation_name"/>
+                            <field name="default_bin"/>
+                            <field name="user_ids" widget="many2many_tags"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="last_sync"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_smart_printer_search" model="ir.ui.view">
+        <field name="name">smart.printer.search</field>
+        <field name="model">smart.printer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="printer_type"/>
+                <field name="server_id"/>
+                <field name="workstation_name"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <filter name="online" string="Online" domain="[('status','=','online')]"/>
+                <filter name="offline" string="Offline" domain="[('status','=','offline')]"/>
+                <group>
+                    <filter name="group_by_type" string="Type" context="{'group_by':'printer_type'}"/>
+                    <filter name="group_by_server" string="Server" context="{'group_by':'server_id'}"/>
+                    <filter name="group_by_status" string="Status" context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_smart_printer" model="ir.actions.act_window">
+        <field name="name">Printers</field>
+        <field name="res_model">smart.printer</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure printers for direct printing
+            </p>
+            <p>
+                Printers are synchronized from print servers and can be assigned
+                to specific users or workstations.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_smart_printer" name="Printers" parent="menu_smart_print_config" action="action_smart_printer" sequence="20"/>
+</odoo>

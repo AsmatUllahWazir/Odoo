@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="mail_template_delivery_status" model="mail.template">
+        <field name="name">Delivery Status Update</field>
+        <field name="model_id" ref="model_delivery_route_line"/>
+        <field name="subject">Delivery update for ${object.partner_id.name}</field>
+        <field name="email_from">${(user.email_formatted or '')|safe}</field>
+        <field name="email_to">${object.partner_id.email or ''}</field>
+        <field name="body_html" type="html">
+            <div style="font-family:Arial,sans-serif;max-width:650px;margin:auto;padding:24px;background:#f4f7fb;">
+                <div style="background:#17324d;color:#fff;padding:24px;border-radius:14px;">
+                    <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;opacity:.8;">Delivery Fleet Pro</div>
+                    <h2 style="margin:8px 0;">Delivery status update</h2>
+                    <p style="margin:0;">Hello ${object.partner_id.name}, your delivery is currently <strong>${object.status}</strong>.</p>
+                </div>
+                <div style="background:#fff;padding:22px;margin-top:14px;border-radius:14px;">
+                    <p><strong>Route:</strong> ${object.route_id.name}</p>
+                    <p><strong>Address:</strong> ${object.address}</p>
+                    <p style="color:#6c7a89;font-size:12px;">You can use the tracking link provided by the delivery team for live status updates.</p>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>

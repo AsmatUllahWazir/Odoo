@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_delivery_a4" model="report.paperformat">
+        <field name="name">Delivery A4</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">18</field>
+        <field name="margin_bottom">18</field>
+        <field name="margin_left">14</field>
+        <field name="margin_right">14</field>
+        <field name="header_line">False</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <template id="delivery_pod_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div style="border-bottom:3px solid #1f5f8b;padding-bottom:10px;margin-bottom:18px;">
+                            <h2 style="margin:0;color:#17324d;">PROOF OF DELIVERY</h2>
+                            <div style="font-size:11px;color:#6c7a89;">Delivery Fleet Pro</div>
+                        </div>
+                        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+                            <tr><td style="padding:6px;background:#f4f7fb;"><strong>POD</strong></td><td style="padding:6px;"><span t-field="doc.name"/></td><td style="padding:6px;background:#f4f7fb;"><strong>Date</strong></td><td style="padding:6px;"><span t-field="doc.signed_at"/></td></tr>
+                            <tr><td style="padding:6px;background:#f4f7fb;"><strong>Customer</strong></td><td style="padding:6px;"><span t-field="doc.partner_id.name"/></td><td style="padding:6px;background:#f4f7fb;"><strong>Route</strong></td><td style="padding:6px;"><span t-field="doc.route_id.name"/></td></tr>
+                            <tr><td style="padding:6px;background:#f4f7fb;"><strong>Recipient</strong></td><td style="padding:6px;"><span t-field="doc.recipient_name"/></td><td style="padding:6px;background:#f4f7fb;"><strong>Phone</strong></td><td style="padding:6px;"><span t-field="doc.recipient_phone"/></td></tr>
+                        </table>
+                        <h3 style="color:#17324d;margin-top:22px;">Delivery Confirmation</h3>
+                        <p style="font-size:11px;">The recipient confirms receipt of the delivery associated with this proof of delivery.</p>
+                        <table style="width:100%;font-size:11px;border-collapse:collapse;">
+                            <tr><td style="padding:7px;border-bottom:1px solid #ddd;"><strong>Latitude</strong></td><td style="padding:7px;border-bottom:1px solid #ddd;"><span t-field="doc.latitude"/></td><td style="padding:7px;border-bottom:1px solid #ddd;"><strong>Longitude</strong></td><td style="padding:7px;border-bottom:1px solid #ddd;"><span t-field="doc.longitude"/></td></tr>
+                            <tr><td style="padding:7px;border-bottom:1px solid #ddd;"><strong>OTP Verified</strong></td><td style="padding:7px;border-bottom:1px solid #ddd;"><span t-esc="'Yes' if doc.otp_verified else 'No'"/></td><td style="padding:7px;border-bottom:1px solid #ddd;"><strong>Captured</strong></td><td style="padding:7px;border-bottom:1px solid #ddd;"><span t-field="doc.captured_at"/></td></tr>
+                        </table>
+                        <div style="margin-top:24px;">
+                            <div style="font-size:11px;font-weight:bold;margin-bottom:7px;">Recipient Signature</div>
+                            <div style="height:170px;border:1px solid #dfe5eb;border-radius:6px;padding:8px;text-align:center;">
+                                <img t-if="doc.signature" t-att-src="image_data_uri(doc.signature)" style="max-height:150px;max-width:90%;"/>
+                                <span t-if="not doc.signature" style="color:#999;line-height:150px;">No signature captured</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;" t-if="doc.photo">
+                            <div style="font-size:11px;font-weight:bold;margin-bottom:7px;">Delivery Photo</div>
+                            <img t-att-src="image_data_uri(doc.photo)" style="max-width:100%;max-height:320px;"/>
+                        </div>
+                        <div style="margin-top:20px;" t-if="doc.notes">
+                            <div style="font-size:11px;font-weight:bold;">Notes</div>
+                            <div style="font-size:11px;white-space:pre-wrap;"><span t-esc="doc.notes"/></div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_delivery_pod" model="ir.actions.report">
+        <field name="name">Proof of Delivery</field>
+        <field name="model">delivery.proof</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_pod_document</field>
+        <field name="report_file">delivery_fleet_pro.delivery_pod_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/>
+        <field name="binding_model_id" ref="model_delivery_proof"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_route_manifest_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="route">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="color:#17324d;">ROUTE MANIFEST</h2>
+                        <table style="width:100%;font-size:11px;margin-bottom:15px;">
+                            <tr><td><strong>Route:</strong> <span t-field="route.name"/></td><td><strong>Date:</strong> <span t-field="route.date"/></td></tr>
+                            <tr><td><strong>Driver:</strong> <span t-field="route.driver_id.name"/></td><td><strong>Vehicle:</strong> <span t-field="route.vehicle_id.name"/></td></tr>
+                            <tr><td><strong>Warehouse:</strong> <span t-field="route.warehouse_id.name"/></td><td><strong>Stops:</strong> <span t-field="route.stop_count"/></td></tr>
+                        </table>
+                        <table style="width:100%;border-collapse:collapse;font-size:9px;">
+                            <thead><tr style="background:#17324d;color:#fff;"><th style="padding:6px;text-align:left;">#</th><th style="padding:6px;text-align:left;">Customer</th><th style="padding:6px;text-align:left;">Address</th><th style="padding:6px;text-align:left;">Window</th><th style="padding:6px;text-align:left;">Status</th><th style="padding:6px;text-align:right;">Weight</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="route.line_ids.sorted('sequence')" t-as="line" style="border-bottom:1px solid #ddd;">
+                                    <td style="padding:6px;"><span t-field="line.sequence"/></td>
+                                    <td style="padding:6px;"><span t-field="line.partner_id.name"/></td>
+                                    <td style="padding:6px;"><span t-field="line.address"/></td>
+                                    <td style="padding:6px;"><span t-field="line.date_from"/> - <span t-field="line.date_to"/></td>
+                                    <td style="padding:6px;"><span t-esc="dict(line._fields['status'].selection).get(line.status, line.status)"/></td>
+                                    <td style="padding:6px;text-align:right;"><span t-field="line.weight"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:20px;font-size:10px;">
+                            <strong>Totals:</strong> Weight <span t-field="route.total_weight"/> | Volume <span t-field="route.total_volume"/> | Distance <span t-field="route.estimated_distance"/> km | Duration <span t-field="route.estimated_duration"/> h
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_delivery_route_manifest" model="ir.actions.report">
+        <field name="name">Route Manifest</field>
+        <field name="model">delivery.route</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_route_manifest_document</field>
+        <field name="report_file">delivery_fleet_pro.delivery_route_manifest_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/>
+        <field name="binding_model_id" ref="model_delivery_route"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_pod_summary_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="route">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="color:#17324d;">DELIVERY PERFORMANCE SUMMARY</h2>
+                        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+                            <tr><td style="padding:8px;background:#f4f7fb;"><strong>Route</strong></td><td style="padding:8px;"><span t-field="route.name"/></td><td style="padding:8px;background:#f4f7fb;"><strong>State</strong></td><td style="padding:8px;"><span t-field="route.state"/></td></tr>
+                            <tr><td style="padding:8px;background:#f4f7fb;"><strong>Stops</strong></td><td style="padding:8px;"><span t-field="route.stop_count"/></td><td style="padding:8px;background:#f4f7fb;"><strong>Delivered</strong></td><td style="padding:8px;"><span t-field="route.delivered_count"/></td></tr>
+                            <tr><td style="padding:8px;background:#f4f7fb;"><strong>Failed</strong></td><td style="padding:8px;"><span t-field="route.failed_count"/></td><td style="padding:8px;background:#f4f7fb;"><strong>Profit</strong></td><td style="padding:8px;"><span t-field="route.profitability"/></td></tr>
+                        </table>
+                        <h3 style="margin-top:24px;color:#17324d;">Proofs of Delivery</h3>
+                        <table style="width:100%;border-collapse:collapse;font-size:9px;">
+                            <thead><tr style="background:#1f5f8b;color:#fff;"><th style="padding:6px;text-align:left;">Customer</th><th style="padding:6px;text-align:left;">Recipient</th><th style="padding:6px;text-align:left;">Status</th><th style="padding:6px;text-align:left;">Signed At</th><th style="padding:6px;text-align:left;">OTP</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="route.line_ids.filtered(lambda l: l.proof_id)" t-as="line" style="border-bottom:1px solid #ddd;">
+                                    <td style="padding:6px;"><span t-field="line.partner_id.name"/></td>
+                                    <td style="padding:6px;"><span t-field="line.proof_id.recipient_name"/></td>
+                                    <td style="padding:6px;"><span t-field="line.proof_id.status"/></td>
+                                    <td style="padding:6px;"><span t-field="line.proof_id.signed_at"/></td>
+                                    <td style="padding:6px;"><span t-esc="'Verified' if line.proof_id.otp_verified else 'Not verified'"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_delivery_pod_summary" model="ir.actions.report">
+        <field name="name">POD Summary</field>
+        <field name="model">delivery.route</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_pod_summary_document</field>
+        <field name="report_file">delivery_fleet_pro.delivery_pod_summary_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/>
+        <field name="binding_model_id" ref="model_delivery_route"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_failed_stops_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="route">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="color:#17324d;">FAILED DELIVERY REPORT</h2>
+                        <p style="font-size:10px;color:#6c7a89;">Route <span t-field="route.name"/> — <span t-field="route.date"/></p>
+                        <table style="width:100%;border-collapse:collapse;font-size:9px;">
+                            <thead><tr style="background:#c0392b;color:#fff;"><th style="padding:7px;text-align:left;">Customer</th><th style="padding:7px;text-align:left;">Address</th><th style="padding:7px;text-align:left;">Reason</th><th style="padding:7px;text-align:left;">Retry</th><th style="padding:7px;text-align:left;">Notes</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="route.line_ids.filtered(lambda l: l.status == 'failed')" t-as="line" style="border-bottom:1px solid #ddd;">
+                                    <td style="padding:7px;"><span t-field="line.partner_id.name"/></td>
+                                    <td style="padding:7px;"><span t-field="line.address"/></td>
+                                    <td style="padding:7px;"><span t-field="line.failure_id.name"/></td>
+                                    <td style="padding:7px;"><span t-field="line.retry_date"/></td>
+                                    <td style="padding:7px;"><span t-field="line.notes"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:18px;padding:12px;background:#fff0ef;border:1px solid #f5d7d4;font-size:10px;">Follow up failed stops according to the configured retry policy and customer communication workflow.</div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_delivery_failed_stops" model="ir.actions.report">
+        <field name="name">Failed Stops</field><field name="model">delivery.route</field><field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_failed_stops_document</field><field name="report_file">delivery_fleet_pro.delivery_failed_stops_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_delivery_route"/><field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_route_cost_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="route">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="color:#17324d;">ROUTE COST SHEET</h2>
+                        <table style="width:100%;font-size:10px;margin-bottom:16px;"><tr><td><strong>Route</strong> <span t-field="route.name"/></td><td><strong>Driver</strong> <span t-field="route.driver_id.name"/></td><td><strong>Vehicle</strong> <span t-field="route.vehicle_id.name"/></td></tr></table>
+                        <table style="width:100%;border-collapse:collapse;font-size:9px;">
+                            <thead><tr style="background:#17324d;color:#fff;"><th style="padding:7px;text-align:left;">Cost</th><th style="padding:7px;text-align:left;">Type</th><th style="padding:7px;text-align:right;">Qty</th><th style="padding:7px;text-align:right;">Unit</th><th style="padding:7px;text-align:right;">Amount</th></tr></thead>
+                            <tbody><tr t-foreach="route.cost_line_ids" t-as="cost" style="border-bottom:1px solid #ddd;"><td style="padding:7px;"><span t-field="cost.name"/></td><td style="padding:7px;"><span t-field="cost.cost_type"/></td><td style="padding:7px;text-align:right;"><span t-field="cost.quantity"/></td><td style="padding:7px;text-align:right;"><span t-field="cost.unit_cost"/></td><td style="padding:7px;text-align:right;"><span t-field="cost.amount"/></td></tr></tbody>
+                        </table>
+                        <div style="margin-top:16px;text-align:right;font-size:11px;"><strong>Total Cost:</strong> <span t-field="route.total_cost"/></div>
+                        <div style="margin-top:6px;text-align:right;font-size:11px;"><strong>Revenue:</strong> <span t-field="route.total_revenue"/></div>
+                        <div style="margin-top:6px;text-align:right;font-size:12px;color:#1e8449;"><strong>Profit:</strong> <span t-field="route.profitability"/></div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_delivery_route_cost" model="ir.actions.report">
+        <field name="name">Route Cost Sheet</field><field name="model">delivery.route</field><field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_route_cost_document</field><field name="report_file">delivery_fleet_pro.delivery_route_cost_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_delivery_route"/><field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_driver_manifest_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="route">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><h2 style="margin:0;color:#17324d;">DRIVER RUN SHEET</h2><div style="font-size:10px;color:#6c7a89;">Delivery Fleet Pro</div></div><div style="font-size:10px;text-align:right;"><strong><span t-field="route.name"/></strong><br/><span t-field="route.date"/></div></div>
+                        <div style="margin-top:18px;padding:12px;background:#f4f7fb;border-radius:5px;font-size:10px;"><strong>Driver:</strong> <span t-field="route.driver_id.name"/>   <strong>Vehicle:</strong> <span t-field="route.vehicle_id.name"/>   <strong>Stops:</strong> <span t-field="route.stop_count"/></div>
+                        <div t-foreach="route.line_ids.sorted('sequence')" t-as="line" style="margin-top:12px;border:1px solid #e5eaf0;border-radius:6px;padding:11px;page-break-inside:avoid;">
+                            <div style="font-size:11px;font-weight:bold;color:#17324d;"><span t-field="line.sequence"/>. <span t-field="line.partner_id.name"/></div>
+                            <div style="font-size:9px;color:#6c7a89;margin-top:4px;"><span t-field="line.address"/></div>
+                            <div style="font-size:9px;margin-top:6px;"><strong>Window:</strong> <span t-field="line.date_from"/> — <span t-field="line.date_to"/>   <strong>Weight:</strong> <span t-field="line.weight"/>   <strong>Packages:</strong> <span t-field="line.package_count"/></div>
+                            <div style="font-size:9px;margin-top:7px;border-top:1px dashed #ddd;padding-top:7px;"><strong>Driver notes:</strong> <span t-field="line.notes"/></div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_delivery_driver_manifest" model="ir.actions.report">
+        <field name="name">Driver Run Sheet</field><field name="model">delivery.route</field><field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_driver_manifest_document</field><field name="report_file">delivery_fleet_pro.delivery_driver_manifest_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_delivery_route"/><field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_kpi_report_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="snapshot">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div style="border-bottom:3px solid #1f5f8b;padding-bottom:12px;">
+                            <h2 style="margin:0;color:#17324d;">DELIVERY KPI REPORT</h2>
+                            <div style="font-size:10px;color:#6c7a89;">Daily operational snapshot</div>
+                        </div>
+                        <div style="margin-top:18px;padding:14px;background:#f4f7fb;border-radius:7px;font-size:10px;">
+                            <strong>Date:</strong> <span t-field="snapshot.snapshot_date"/>   <strong>Company:</strong> <span t-field="snapshot.company_id.name"/>   <strong>Warehouse:</strong> <span t-field="snapshot.warehouse_id.name"/>
+                        </div>
+                        <table style="width:100%;border-collapse:separate;border-spacing:8px;margin-top:14px;font-size:10px;">
+                            <tr>
+                                <td style="background:#fff;border:1px solid #e5eaf0;padding:14px;border-radius:7px;"><div style="color:#6c7a89;">Routes</div><div style="font-size:20px;font-weight:bold;color:#17324d;"><span t-field="snapshot.route_count"/></div></td>
+                                <td style="background:#fff;border:1px solid #e5eaf0;padding:14px;border-radius:7px;"><div style="color:#6c7a89;">Stops</div><div style="font-size:20px;font-weight:bold;color:#17324d;"><span t-field="snapshot.stop_count"/></div></td>
+                                <td style="background:#fff;border:1px solid #e5eaf0;padding:14px;border-radius:7px;"><div style="color:#6c7a89;">Delivered</div><div style="font-size:20px;font-weight:bold;color:#1e8449;"><span t-field="snapshot.delivered_count"/></div></td>
+                                <td style="background:#fff;border:1px solid #e5eaf0;padding:14px;border-radius:7px;"><div style="color:#6c7a89;">Failed</div><div style="font-size:20px;font-weight:bold;color:#c0392b;"><span t-field="snapshot.failed_count"/></div></td>
+                            </tr>
+                        </table>
+                        <h3 style="color:#17324d;margin-top:22px;">Service Quality</h3>
+                        <table style="width:100%;border-collapse:collapse;font-size:10px;">
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">On-time delivery</td><td style="padding:8px;text-align:right;"><span t-field="snapshot.on_time_percent"/>%</td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Failed delivery rate</td><td style="padding:8px;text-align:right;"><span t-field="snapshot.failed_percent"/>%</td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Fleet utilization</td><td style="padding:8px;text-align:right;"><span t-field="snapshot.utilization_percent"/>%</td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Distance</td><td style="padding:8px;text-align:right;"><span t-field="snapshot.total_distance"/> km</td></tr>
+                            <tr><td style="padding:8px;">Weight carried</td><td style="padding:8px;text-align:right;"><span t-field="snapshot.total_weight"/> kg</td></tr>
+                        </table>
+                        <h3 style="color:#17324d;margin-top:22px;">Financial Performance</h3>
+                        <table style="width:100%;border-collapse:collapse;font-size:10px;">
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Revenue</td><td style="padding:8px;text-align:right;"><span t-field="snapshot.revenue"/></td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Cost</td><td style="padding:8px;text-align:right;"><span t-field="snapshot.cost"/></td></tr>
+                            <tr><td style="padding:8px;font-weight:bold;">Profit</td><td style="padding:8px;text-align:right;font-weight:bold;color:#1e8449;"><span t-field="snapshot.profit"/></td></tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_delivery_kpi" model="ir.actions.report">
+        <field name="name">Delivery KPI Report</field><field name="model">delivery.kpi.snapshot</field><field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_kpi_report_document</field><field name="report_file">delivery_fleet_pro.delivery_kpi_report_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_delivery_kpi_snapshot"/><field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_driver_performance_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="driver">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="color:#17324d;">DRIVER PERFORMANCE REPORT</h2>
+                        <div style="padding:14px;background:#f4f7fb;border-radius:7px;font-size:10px;"><strong>Driver:</strong> <span t-field="driver.driver_id.name"/>   <strong>Company:</strong> <span t-field="driver.company_id.name"/></div>
+                        <table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:10px;">
+                            <tr style="background:#17324d;color:#fff;"><th style="padding:8px;text-align:left;">Metric</th><th style="padding:8px;text-align:right;">Value</th></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Routes</td><td style="padding:8px;text-align:right;"><span t-field="driver.route_count"/></td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Stops</td><td style="padding:8px;text-align:right;"><span t-field="driver.stop_count"/></td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Delivered</td><td style="padding:8px;text-align:right;"><span t-field="driver.delivered_count"/></td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Failed</td><td style="padding:8px;text-align:right;"><span t-field="driver.failed_count"/></td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">On-time rate</td><td style="padding:8px;text-align:right;"><span t-field="driver.on_time_percent"/>%</td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Failed rate</td><td style="padding:8px;text-align:right;"><span t-field="driver.failed_percent"/>%</td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Distance</td><td style="padding:8px;text-align:right;"><span t-field="driver.distance_km"/> km</td></tr>
+                            <tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">Delivery hours</td><td style="padding:8px;text-align:right;"><span t-field="driver.delivery_hours"/></td></tr>
+                            <tr><td style="padding:8px;font-weight:bold;">Profit</td><td style="padding:8px;text-align:right;font-weight:bold;color:#1e8449;"><span t-field="driver.profit"/></td></tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_delivery_driver_performance" model="ir.actions.report">
+        <field name="name">Driver Performance Report</field><field name="model">delivery.driver.performance</field><field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_fleet_pro.delivery_driver_performance_document</field><field name="report_file">delivery_fleet_pro.delivery_driver_performance_document</field>
+        <field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_delivery_driver_performance"/><field name="binding_type">report</field>
+    </record>
+
+<!-- Advanced management reports: route profitability, dispatch control, exceptions and vehicle utilization. -->
+    <template id="delivery_route_performance_document">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="route"><t t-call="web.external_layout"><div class="page" style="font-size:10px;color:#344054;">
+            <div style="display:flex;justify-content:space-between;border-bottom:3px solid #315f89;padding-bottom:12px;margin-bottom:16px;"><div><div style="font-size:9px;letter-spacing:1px;color:#667085;font-weight:bold;">DELIVERY FLEET PRO · MANAGEMENT</div><h2 style="margin:4px 0;color:#172b4d;">ROUTE PERFORMANCE REVIEW</h2></div><div style="text-align:right;"><strong t-field="route.name"/><br/><span t-field="route.date"/></div></div>
+            <table style="width:100%;border-collapse:separate;border-spacing:6px;margin-bottom:15px;"><tr>
+                <td style="padding:12px;background:#f7f9fb;border:1px solid #e6eaf0;"><div style="color:#667085;">Stops</div><strong style="font-size:19px;color:#172b4d;" t-field="route.stop_count"/></td>
+                <td style="padding:12px;background:#f7f9fb;border:1px solid #e6eaf0;"><div style="color:#667085;">Delivered</div><strong style="font-size:19px;color:#1b7f4d;" t-field="route.delivered_count"/></td>
+                <td style="padding:12px;background:#f7f9fb;border:1px solid #e6eaf0;"><div style="color:#667085;">Failed</div><strong style="font-size:19px;color:#b42318;" t-field="route.failed_count"/></td>
+                <td style="padding:12px;background:#f7f9fb;border:1px solid #e6eaf0;"><div style="color:#667085;">Margin</div><strong style="font-size:19px;color:#172b4d;"><span t-field="route.margin_percent"/>%</strong></td>
+            </tr></table>
+            <h3 style="color:#172b4d;border-bottom:1px solid #e6eaf0;padding-bottom:6px;">Operational profile</h3>
+            <table style="width:100%;border-collapse:collapse;"><tr><td style="padding:7px;border-bottom:1px solid #edf0f4;"><strong>Warehouse</strong></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><span t-field="route.warehouse_id.name"/></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><strong>Zone</strong></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><span t-field="route.zone_id.name"/></td></tr><tr><td style="padding:7px;border-bottom:1px solid #edf0f4;"><strong>Driver</strong></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><span t-field="route.driver_id.name"/></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><strong>Vehicle</strong></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><span t-field="route.vehicle_id.name"/></td></tr><tr><td style="padding:7px;border-bottom:1px solid #edf0f4;"><strong>Estimated distance</strong></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><span t-field="route.estimated_distance"/> km</td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><strong>Actual distance</strong></td><td style="padding:7px;border-bottom:1px solid #edf0f4;"><span t-field="route.actual_distance"/> km</td></tr><tr><td style="padding:7px;"><strong>Weight utilization</strong></td><td style="padding:7px;"><span t-field="route.capacity_weight_utilization"/>%</td><td style="padding:7px;"><strong>Volume utilization</strong></td><td style="padding:7px;"><span t-field="route.capacity_volume_utilization"/>%</td></tr></table>
+            <h3 style="color:#172b4d;margin-top:20px;border-bottom:1px solid #e6eaf0;padding-bottom:6px;">Financial performance</h3>
+            <table style="width:100%;border-collapse:collapse;"><tr><td style="padding:8px;border-bottom:1px solid #edf0f4;">Delivery revenue</td><td style="padding:8px;text-align:right;" t-field="route.total_revenue"/></tr><tr><td style="padding:8px;border-bottom:1px solid #edf0f4;">Fleet delivery cost</td><td style="padding:8px;text-align:right;" t-field="route.total_cost"/></tr><tr><td style="padding:9px;font-weight:bold;background:#f7f9fb;">Route contribution</td><td style="padding:9px;text-align:right;font-weight:bold;background:#f7f9fb;" t-field="route.profitability"/></tr></table>
+            <h3 style="color:#172b4d;margin-top:20px;">Stop-level exceptions</h3><table style="width:100%;border-collapse:collapse;font-size:9px;"><thead><tr style="background:#172b4d;color:#fff;"><th style="padding:6px;text-align:left;">#</th><th style="padding:6px;text-align:left;">Customer</th><th style="padding:6px;text-align:left;">Status</th><th style="padding:6px;text-align:left;">On Time</th><th style="padding:6px;text-align:right;">Late (min)</th></tr></thead><tbody><t t-foreach="route.line_ids.sorted('sequence')" t-as="line"><t t-if="line.status in ('failed','partial','retry') or line.late_minutes &gt; 0"><tr><td style="padding:6px;border-bottom:1px solid #edf0f4;"><span t-field="line.sequence"/></td><td style="padding:6px;border-bottom:1px solid #edf0f4;"><span t-field="line.partner_id.name"/></td><td style="padding:6px;border-bottom:1px solid #edf0f4;"><span t-esc="dict(line._fields['status'].selection).get(line.status,line.status)"/></td><td style="padding:6px;border-bottom:1px solid #edf0f4;"><span t-esc="'Yes' if line.on_time else 'No'"/></td><td style="padding:6px;text-align:right;border-bottom:1px solid #edf0f4;"><span t-field="line.late_minutes"/></td></tr></t></t></tbody></table>
+        </div></t></t></t>
+    </template>
+    <record id="action_report_delivery_route_performance" model="ir.actions.report"><field name="name">Route Performance Review</field><field name="model">delivery.route</field><field name="report_type">qweb-pdf</field><field name="report_name">delivery_fleet_pro.delivery_route_performance_document</field><field name="report_file">delivery_fleet_pro.delivery_route_performance_document</field><field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_delivery_route"/><field name="binding_type">report</field></record>
+
+    <template id="delivery_dispatch_control_document">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="route"><t t-call="web.external_layout"><div class="page" style="font-size:10px;color:#344054;"><h2 style="color:#172b4d;margin-bottom:4px;">DISPATCH CONTROL SHEET</h2><div style="color:#667085;margin-bottom:16px;">Operational handover document for driver and dispatch.</div><table style="width:100%;border-collapse:collapse;"><tr><td style="padding:7px;background:#f7f9fb;"><strong>Route</strong></td><td style="padding:7px;"><span t-field="route.name"/></td><td style="padding:7px;background:#f7f9fb;"><strong>Date</strong></td><td style="padding:7px;"><span t-field="route.date"/></td></tr><tr><td style="padding:7px;background:#f7f9fb;"><strong>Driver</strong></td><td style="padding:7px;"><span t-field="route.driver_id.name"/></td><td style="padding:7px;background:#f7f9fb;"><strong>Vehicle</strong></td><td style="padding:7px;"><span t-field="route.vehicle_id.name"/></td></tr><tr><td style="padding:7px;background:#f7f9fb;"><strong>Start</strong></td><td style="padding:7px;"><span t-field="route.planned_start"/></td><td style="padding:7px;background:#f7f9fb;"><strong>End</strong></td><td style="padding:7px;"><span t-field="route.planned_end"/></td></tr></table><h3 style="margin-top:18px;color:#172b4d;">Stop sequence</h3><table style="width:100%;border-collapse:collapse;font-size:8.5px;"><thead><tr style="background:#172b4d;color:#fff;"><th style="padding:5px;">#</th><th style="padding:5px;text-align:left;">Customer</th><th style="padding:5px;text-align:left;">Address</th><th style="padding:5px;">Window</th><th style="padding:5px;">Packages</th><th style="padding:5px;">Weight</th><th style="padding:5px;text-align:left;">Instructions</th></tr></thead><tbody><tr t-foreach="route.line_ids.sorted('sequence')" t-as="line"><td style="padding:5px;border-bottom:1px solid #edf0f4;text-align:center;"><span t-field="line.sequence"/></td><td style="padding:5px;border-bottom:1px solid #edf0f4;"><span t-field="line.partner_id.name"/></td><td style="padding:5px;border-bottom:1px solid #edf0f4;"><span t-field="line.address"/></td><td style="padding:5px;border-bottom:1px solid #edf0f4;"><span t-field="line.date_from"/><br/><span t-field="line.date_to"/></td><td style="padding:5px;border-bottom:1px solid #edf0f4;text-align:center;"><span t-field="line.package_count"/></td><td style="padding:5px;border-bottom:1px solid #edf0f4;text-align:right;"><span t-field="line.weight"/></td><td style="padding:5px;border-bottom:1px solid #edf0f4;"><span t-field="line.notes"/></td></tr></tbody></table><div style="margin-top:18px;padding:12px;background:#f7f9fb;border:1px solid #e6eaf0;"><strong>Driver handover:</strong> Verify vehicle condition, package count, route sequence, customer instructions and proof-of-delivery requirements before departure.</div></div></t></t></t>
+    </template>
+    <record id="action_report_delivery_dispatch_control" model="ir.actions.report"><field name="name">Dispatch Control Sheet</field><field name="model">delivery.route</field><field name="report_type">qweb-pdf</field><field name="report_name">delivery_fleet_pro.delivery_dispatch_control_document</field><field name="report_file">delivery_fleet_pro.delivery_dispatch_control_document</field><field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_delivery_route"/><field name="binding_type">report</field></record>
+
+    <template id="delivery_vehicle_utilization_document">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="vehicle"><t t-call="web.external_layout"><div class="page" style="font-size:10px;color:#344054;"><h2 style="color:#172b4d;">VEHICLE UTILIZATION REPORT</h2><div style="padding:12px;background:#f7f9fb;margin:12px 0;"><strong>Vehicle:</strong> <span t-field="vehicle.name"/> · <strong>Status:</strong> <span t-field="vehicle.delivery_status"/></div><table style="width:100%;border-collapse:collapse;"><tr><td style="padding:8px;border-bottom:1px solid #edf0f4;">Capacity (kg)</td><td style="padding:8px;text-align:right;" t-field="vehicle.delivery_capacity_weight"/></tr><tr><td style="padding:8px;border-bottom:1px solid #edf0f4;">Capacity (m³)</td><td style="padding:8px;text-align:right;" t-field="vehicle.delivery_capacity_volume"/></tr><tr><td style="padding:8px;border-bottom:1px solid #edf0f4;">Package capacity</td><td style="padding:8px;text-align:right;" t-field="vehicle.delivery_capacity_packages"/></tr><tr><td style="padding:8px;border-bottom:1px solid #edf0f4;">Cost / km</td><td style="padding:8px;text-align:right;" t-field="vehicle.delivery_cost_per_km"/></tr><tr><td style="padding:8px;">Cost / hour</td><td style="padding:8px;text-align:right;" t-field="vehicle.delivery_cost_per_hour"/></tr></table><h3 style="color:#172b4d;margin-top:18px;">Assigned route history</h3><table style="width:100%;border-collapse:collapse;font-size:9px;"><thead><tr style="background:#172b4d;color:#fff;"><th style="padding:6px;text-align:left;">Route</th><th style="padding:6px;">Date</th><th style="padding:6px;">State</th><th style="padding:6px;">Stops</th><th style="padding:6px;">Distance</th><th style="padding:6px;">Revenue</th><th style="padding:6px;">Cost</th><th style="padding:6px;">Profit</th></tr></thead><tbody><tr t-foreach="vehicle.delivery_route_ids.sorted('date', reverse=True)" t-as="route"><td style="padding:6px;border-bottom:1px solid #edf0f4;"><span t-field="route.name"/></td><td style="padding:6px;border-bottom:1px solid #edf0f4;"><span t-field="route.date"/></td><td style="padding:6px;border-bottom:1px solid #edf0f4;"><span t-field="route.state"/></td><td style="padding:6px;text-align:center;border-bottom:1px solid #edf0f4;"><span t-field="route.stop_count"/></td><td style="padding:6px;text-align:right;border-bottom:1px solid #edf0f4;"><span t-field="route.actual_distance"/></td><td style="padding:6px;text-align:right;border-bottom:1px solid #edf0f4;"><span t-field="route.total_revenue"/></td><td style="padding:6px;text-align:right;border-bottom:1px solid #edf0f4;"><span t-field="route.total_cost"/></td><td style="padding:6px;text-align:right;border-bottom:1px solid #edf0f4;"><span t-field="route.profitability"/></td></tr></tbody></table></div></t></t></t>
+    </template>
+    <record id="action_report_delivery_vehicle_utilization" model="ir.actions.report"><field name="name">Vehicle Utilization</field><field name="model">fleet.vehicle</field><field name="report_type">qweb-pdf</field><field name="report_name">delivery_fleet_pro.delivery_vehicle_utilization_document</field><field name="report_file">delivery_fleet_pro.delivery_vehicle_utilization_document</field><field name="paperformat_id" ref="paperformat_delivery_a4"/><field name="binding_model_id" ref="model_fleet_vehicle"/><field name="binding_type">report</field></record>
+</odoo>

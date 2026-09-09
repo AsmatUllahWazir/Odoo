@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Delivery Fleet Pro · Odoo 17</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: #f4f7fb;
+            color: #253246;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.65
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: auto;
+            padding: 30px 18px 70px
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0e2138, #214f74 58%, #2c7b79);
+            color: #fff;
+            border-radius: 26px;
+            padding: 48px 45px;
+            box-shadow: 0 25px 60px rgba(18, 49, 73, .18)
+        }
+
+        .eyebrow {
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: 900;
+            opacity: .68
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            line-height: 1.12;
+            margin: 9px 0 15px
+        }
+
+        .hero p {
+            max-width: 900px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, .78);
+            margin: 0
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 22px
+        }
+
+        .badge {
+            padding: 7px 10px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .15);
+            font-size: 9px
+        }
+
+        .section {
+            background: #fff;
+            border: 1px solid #e3e8ef;
+            border-radius: 20px;
+            padding: 28px;
+            margin-top: 16px;
+            box-shadow: 0 7px 25px rgba(22, 36, 55, .04)
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #183550;
+            margin: 0 0 7px
+        }
+
+        h3 {
+            font-size: 14px;
+            color: #254a68;
+            margin: 0 0 7px
+        }
+
+        .lead {
+            color: #778396;
+            font-size: 11px;
+            margin-top: 0
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 18px
+        }
+
+        .card {
+            padding: 17px;
+            background: #f8fafc;
+            border: 1px solid #e7ebf0;
+            border-radius: 14px
+        }
+
+        .card strong, .card span {
+            display: block
+        }
+
+        .card strong {
+            font-size: 12px;
+            color: #25384c
+        }
+
+        .card span {
+            font-size: 10px;
+            color: #778496;
+            margin-top: 4px
+        }
+
+        .workflow {
+            display: grid;
+            grid-template-columns:repeat(6, 1fr);
+            gap: 8px;
+            margin-top: 18px
+        }
+
+        .step {
+            padding: 13px 9px;
+            background: #f7f9fb;
+            border: 1px solid #e5eaf0;
+            border-radius: 12px;
+            text-align: center
+        }
+
+        .step b {
+            width: 28px;
+            height: 28px;
+            margin: auto;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #214f74;
+            color: #fff;
+            font-size: 11px
+        }
+
+        .step strong, .step span {
+            display: block
+        }
+
+        .step strong {
+            font-size: 10px;
+            margin-top: 7px
+        }
+
+        .step span {
+            font-size: 8px;
+            color: #8a95a4;
+            margin-top: 3px
+        }
+
+        .two {
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            gap: 28px
+        }
+
+        .checklist {
+            margin: 8px 0 0;
+            padding-left: 18px
+        }
+
+        .checklist li {
+            font-size: 10px;
+            color: #6e7b8d;
+            margin: 5px 0
+        }
+
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9px;
+            margin-top: 12px
+        }
+
+        .feature-table th {
+            text-align: left;
+            background: #183550;
+            color: #fff;
+            padding: 9px
+        }
+
+        .feature-table td {
+            padding: 9px;
+            border-bottom: 1px solid #e9edf2;
+            vertical-align: top
+        }
+
+        .feature-table tr:nth-child(even) {
+            background: #fafbfd
+        }
+
+        .callout {
+            padding: 16px;
+            background: #edf6fa;
+            border-left: 4px solid #3c7ca4;
+            border-radius: 10px;
+            font-size: 10px;
+            color: #526478;
+            margin-top: 15px
+        }
+
+        .footer {
+            text-align: center;
+            color: #99a3b0;
+            font-size: 9px;
+            padding-top: 25px
+        }
+
+        .mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns:1fr 1fr
+            }
+
+            .workflow {
+                grid-template-columns:repeat(3, 1fr)
+            }
+
+            .two {
+                grid-template-columns:1fr
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 30px 24px
+            }
+
+            .hero h1 {
+                font-size: 28px
+            }
+
+            .grid, .workflow {
+                grid-template-columns:1fr
+            }
+
+            .section {
+                padding: 20px
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <header class="hero">
+        <div class="eyebrow">ODOO 17 · INVENTORY / SUPPLY CHAIN · OWN-FLEET LAST MILE</div>
+        <h1>Advanced Last-Mile &amp; Own-Fleet Delivery Manager Pro</h1>
+        <p>Delivery Fleet Pro adds a complete delivery execution layer to Odoo: demand preparation, route planning,
+            capacity control, driver and vehicle dispatch, field execution, proof of delivery, customer visibility,
+            exception recovery, service-level measurement and route profitability.</p>
+        <div class="badges"><span class="badge">Command Center</span><span class="badge">Route Planning</span><span
+                class="badge">Dispatch Board</span><span class="badge">Fleet Capacity</span><span class="badge">Driver Workflows</span><span
+                class="badge">GPS / Geofence</span><span class="badge">POD / OTP</span><span class="badge">Customer Portal</span><span
+                class="badge">Exception Desk</span><span class="badge">KPI Analytics</span><span class="badge">Professional PDFs</span>
+        </div>
+    </header>
+    <section class="section"><h2>Product positioning</h2>
+        <p class="lead">Designed as an operational control system, not a collection of simple delivery screens.</p>
+        <div class="grid">
+            <div class="card"><strong>Control tower</strong><span>A scrollable, decision-oriented dashboard combines service health, route pipeline, fleet readiness, exceptions, drivers and financial performance.</span>
+            </div>
+            <div class="card"><strong>Execution discipline</strong><span>Status transitions, readiness scoring, capacity validation, handover acknowledgement, GPS check-in and POD controls create a traceable delivery lifecycle.</span>
+            </div>
+            <div class="card"><strong>Exception recovery</strong><span>Operational exceptions have owners, priorities, lifecycle states, aging, resolution notes and customer visibility controls.</span>
+            </div>
+            <div class="card"><strong>Commercial intelligence</strong><span>Measure revenue, operating cost, contribution, margin, revenue per km, cost per km and contribution per stop.</span>
+            </div>
+            <div class="card"><strong>Customer confidence</strong><span>Responsive public tracking and authenticated portal experiences present customer-safe status, milestones, packages and delivery context.</span>
+            </div>
+            <div class="card"><strong>Management evidence</strong><span>Long-form PDF dossiers turn delivery records into useful operational, financial and service-level documents.</span>
+            </div>
+        </div>
+    </section>
+    <section class="section"><h2>End-to-end operating workflow</h2>
+        <p class="lead">The module supports a controlled flow from warehouse shipment to final customer
+            confirmation.</p>
+        <div class="workflow">
+            <div class="step"><b>1</b><strong>Demand</strong><span>Odoo pickings and customer data</span></div>
+            <div class="step"><b>2</b><strong>Prepare</strong><span>Service, SLA, zone and capacity rules</span></div>
+            <div class="step"><b>3</b><strong>Plan</strong><span>Create routes and sequence stops</span></div>
+            <div class="step"><b>4</b><strong>Validate</strong><span>Readiness, driver, vehicle, GPS</span></div>
+            <div class="step"><b>5</b><strong>Dispatch</strong><span>Handover and customer visibility</span></div>
+            <div class="step"><b>6</b><strong>Execute</strong><span>Arrive, deliver, fail, retry, POD</span></div>
+        </div>
+        <div class="workflow">
+            <div class="step"><b>7</b><strong>Monitor</strong><span>Events, exceptions and SLA</span></div>
+            <div class="step"><b>8</b><strong>Recover</strong><span>Retry and reschedule</span></div>
+            <div class="step"><b>9</b><strong>Reconcile</strong><span>COD, costs and charges</span></div>
+            <div class="step"><b>10</b><strong>Measure</strong><span>KPI and performance</span></div>
+            <div class="step"><b>11</b><strong>Report</strong><span>Operational PDFs</span></div>
+            <div class="step"><b>12</b><strong>Improve</strong><span>Management decisions</span></div>
+        </div>
+    </section>
+    <section class="section"><h2>Functional coverage</h2>
+        <table class="feature-table">
+            <thead>
+            <tr>
+                <th>Area</th>
+                <th>Capabilities</th>
+                <th>Operational value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>Route management</b></td>
+                <td>Route templates, zones, service types, SLAs, route states, sequencing, segments, distance/duration
+                    and operational timestamps.
+                </td>
+                <td>Standardizes dispatch planning and makes route execution measurable.</td>
+            </tr>
+            <tr>
+                <td><b>Resource management</b></td>
+                <td>Driver availability, schedules, license checks, vehicle readiness, weight/volume/package capacity
+                    and automatic resource assignment.
+                </td>
+                <td>Prevents dispatching routes to unsuitable resources.</td>
+            </tr>
+            <tr>
+                <td><b>Field execution</b></td>
+                <td>Arrive, deliver, partial delivery, failure, retry, GPS check-in/out, waiting time, service duration
+                    and driver notes.
+                </td>
+                <td>Captures what actually happened at the stop.</td>
+            </tr>
+            <tr>
+                <td><b>Proof of delivery</b></td>
+                <td>Recipient, signature, photos, OTP generation/verification, GPS, capture time and verification
+                    state.
+                </td>
+                <td>Creates defensible delivery evidence.</td>
+            </tr>
+            <tr>
+                <td><b>Customer experience</b></td>
+                <td>Expiring secure tracking links, public tracking, authenticated portal, progress, timeline, package
+                    context and map links.
+                </td>
+                <td>Reduces customer uncertainty and support workload.</td>
+            </tr>
+            <tr>
+                <td><b>Exception management</b></td>
+                <td>Priority, type, owner, aging, acknowledgement, work-in-progress, resolution, cancellation and
+                    customer visibility.
+                </td>
+                <td>Turns delivery problems into manageable work queues.</td>
+            </tr>
+            <tr>
+                <td><b>Commercial control</b></td>
+                <td>Pricing rules, route charges, route costs, fuel/driver/vehicle costs, profitability and contribution
+                    metrics.
+                </td>
+                <td>Shows whether delivery operations are economically sustainable.</td>
+            </tr>
+            <tr>
+                <td><b>Analytics</b></td>
+                <td>Command Center, KPI engine, trend analysis, driver performance, vehicle utilization, SQL analytical
+                    views and snapshots.
+                </td>
+                <td>Provides operational and management decision support.</td>
+            </tr>
+            <tr>
+                <td><b>Reporting</b></td>
+                <td>POD, manifest, performance, cost, driver, exception, vehicle and executive route dossier PDFs.</td>
+                <td>Creates field, audit, customer and management documentation.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <section class="section">
+        <div class="two">
+            <div><h2>Command Center</h2>
+                <p class="lead">The dashboard is designed for long operational sessions and large datasets.</p>
+                <ul class="checklist">
+                    <li>Scrollable full-height dashboard workspace.</li>
+                    <li>Eight primary KPI cards plus operational scorecards.</li>
+                    <li>30-day delivery pulse with delivered and failed volume.</li>
+                    <li>Fleet readiness and vehicle status.</li>
+                    <li>Open exception queue with priority and age.</li>
+                    <li>Route state mix and readiness.</li>
+                    <li>Prioritized route dispatch table.</li>
+                    <li>Driver leaderboard.</li>
+                    <li>Quick operational actions for planning, optimization, POD, recovery and capacity.</li>
+                    <li>Date presets for 7, 30 and 90 days.</li>
+                    <li>Previous-period comparison signals.</li>
+                </ul>
+            </div>
+            <div><h2>Field and dispatch safeguards</h2>
+                <p class="lead">Business rules are deliberately stronger than simple CRUD behavior.</p>
+                <ul class="checklist">
+                    <li>Company consistency checks across warehouse, driver, vehicle, zone and picking.</li>
+                    <li>Route stop limits from company configuration.</li>
+                    <li>Capacity validation before execution.</li>
+                    <li>Driver availability, license and schedule validation.</li>
+                    <li>Vehicle maintenance protection.</li>
+                    <li>Required POD controls by service type.</li>
+                    <li>Secure tracking token lifecycle.</li>
+                    <li>Automatic exception creation for key operational risks.</li>
+                    <li>Audit records for state changes.</li>
+                    <li>COD collection capture and event logging.</li>
+                    <li>Rescheduling and retry history.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="section"><h2>Portal experience</h2>
+        <div class="grid">
+            <div class="card"><strong>Public tracking</strong><span>Mobile-first status page with live milestones, route context, delivery window, packages, destination and POD confirmation.</span>
+            </div>
+            <div class="card"><strong>Authenticated customer portal</strong><span>My Deliveries provides delivery cards, progress, status, address, package count and live tracking access.</span>
+            </div>
+            <div class="card"><strong>Responsive visual hierarchy</strong><span>Clean cards, timelines, status badges, map panels and mobile breakpoints keep the experience usable on phones and desktops.</span>
+            </div>
+        </div>
+    </section>
+    <section class="section"><h2>Professional report suite</h2>
+        <div class="two">
+            <div>
+                <ul class="checklist">
+                    <li><b>Proof of Delivery</b> — recipient, OTP, GPS, signature, photo and notes.</li>
+                    <li><b>Route Manifest</b> — sequence, customer, windows, package and weight information.</li>
+                    <li><b>Delivery Performance Summary</b> — route execution and financial snapshot.</li>
+                    <li><b>Failed Stops</b> — exception-focused recovery list.</li>
+                    <li><b>Route Cost Sheet</b> — operating cost structure.</li>
+                    <li><b>Driver Run Sheet</b> — field execution document.</li>
+                </ul>
+            </div>
+            <div>
+                <ul class="checklist">
+                    <li><b>Delivery KPI Report</b> — operational performance.</li>
+                    <li><b>Driver Performance Report</b> — productivity and service quality.</li>
+                    <li><b>Executive Route Dossier</b> — multi-section operational and financial review.</li>
+                    <li><b>Dispatch Control Sheet</b> — driver handover and stop instructions.</li>
+                    <li><b>Exception Report</b> — issue lifecycle and resolution.</li>
+                    <li><b>Driver Scorecard</b> — coaching and performance review.</li>
+                    <li><b>Vehicle Utilization</b> — capacity, costs and route history.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="section"><h2>Configuration and extensibility</h2>
+        <p class="lead">The module extends standard Odoo responsibilities instead of replacing them.</p>
+        <div class="two">
+            <div><h3>Core integrations</h3>
+                <p style="font-size:10px;color:#748194">Standard Odoo <span class="mono">stock.picking</span>, <span
+                        class="mono">sale.order</span>, <span class="mono">fleet.vehicle</span>, <span class="mono">hr.employee</span>,
+                    <span class="mono">res.partner</span>, <span class="mono">mail</span> and <span
+                            class="mono">account</span> records remain the source systems for their respective domains.
+                </p></div>
+            <div><h3>Routing providers</h3>
+                <p style="font-size:10px;color:#748194">The routing service provides a heuristic engine plus integration
+                    hooks for OpenRouteService and Google-style routing responses. Provider-specific credentials and
+                    policy can be configured without changing the operational data model.</p></div>
+        </div>
+        <div class="callout"><b>Production note:</b> Before marketplace publication, run the module against the exact
+            target Odoo 17 build and PostgreSQL environment, install it on a clean database, upgrade it on a database
+            containing existing delivery data, and execute the included test suite. Static validation is valuable but
+            cannot replace a live Odoo registry/database test.
+        </div>
+    </section>
+    <section class="section"><h2>Recommended deployment model</h2>
+        <ol class="checklist">
+            <li>Install and configure company-level delivery defaults.</li>
+            <li>Define delivery services, SLAs, zones, failure reasons and pricing rules.</li>
+            <li>Complete driver schedules, licenses and fleet capacity information.</li>
+            <li>Connect warehouse pickings to delivery routes through the planning workflow.</li>
+            <li>Use the Command Center as the dispatch team's daily cockpit.</li>
+            <li>Require POD controls according to commercial/service policy.</li>
+            <li>Review exception aging daily and route profitability weekly.</li>
+            <li>Use driver scorecards and vehicle utilization reports for continuous improvement.</li>
+        </ol>
+    </section>
+    <div class="footer">Advanced Last-Mile &amp; Own-Fleet Delivery Manager Pro · Version 17.0.1.0.0 · LGPL-3</div>
+</div>
+</body>
+</html>

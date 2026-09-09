@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_delivery_fleet_root" name="Delivery Fleet" sequence="50" groups="delivery_fleet_pro.group_delivery_fleet_user"/>
+    <menuitem id="menu_delivery_dashboard" name="Command Center" parent="menu_delivery_fleet_root" action="action_delivery_dashboard" sequence="1"/>
+    <menuitem id="menu_delivery_operations" name="Operations" parent="menu_delivery_fleet_root" sequence="10"/>
+    <menuitem id="menu_delivery_routes" name="Routes" parent="menu_delivery_operations" action="action_delivery_route" sequence="10"/>
+    <menuitem id="menu_delivery_routes_today" name="Today's Routes" parent="menu_delivery_operations" action="action_delivery_route_today" sequence="20"/>
+    <menuitem id="menu_delivery_pods" name="Proofs of Delivery" parent="menu_delivery_operations" action="action_delivery_proof" sequence="30"/>
+    <menuitem id="menu_delivery_retries" name="Retry Schedule" parent="menu_delivery_operations" action="action_delivery_retry" sequence="40"/>
+    <menuitem id="menu_delivery_setup" name="Master Data" parent="menu_delivery_fleet_root" sequence="30"/>
+    <menuitem id="menu_delivery_service_types" name="Service Types" parent="menu_delivery_setup" action="action_delivery_service_type" sequence="10"/>
+    <menuitem id="menu_delivery_zones" name="Delivery Zones" parent="menu_delivery_setup" action="action_delivery_zone" sequence="20"/>
+    <menuitem id="menu_delivery_failures" name="Failure Reasons" parent="menu_delivery_setup" action="action_delivery_failure" sequence="30"/>
+    <menuitem id="menu_delivery_sla" name="SLAs" parent="menu_delivery_setup" action="action_delivery_sla" sequence="40"/>
+    <menuitem id="menu_delivery_templates" name="Route Templates" parent="menu_delivery_setup" action="action_delivery_template" sequence="50"/>
+    <menuitem id="menu_delivery_reporting" name="Reporting" parent="menu_delivery_fleet_root" sequence="40"/>
+    <menuitem id="menu_delivery_analytics" name="Delivery Analytics" parent="menu_delivery_reporting" action="action_delivery_metric" sequence="10"/>
+    <menuitem id="menu_delivery_configuration" name="Configuration" parent="menu_delivery_fleet_root" action="action_delivery_config" sequence="90" groups="delivery_fleet_pro.group_delivery_fleet_manager"/>
+</odoo>

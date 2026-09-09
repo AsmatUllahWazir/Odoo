@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_delivery_exceptions" name="Exception Control Desk" parent="menu_delivery_operations" action="action_delivery_exception" sequence="8" groups="delivery_fleet_pro.group_delivery_fleet_dispatcher"/>
+    <menuitem id="menu_delivery_tracking" name="Tracking" parent="menu_delivery_operations" sequence="50"/>
+    <menuitem id="menu_delivery_events" name="Tracking Events" parent="menu_delivery_tracking" action="action_delivery_event" sequence="10"/>
+    <menuitem id="menu_delivery_tracking_links" name="Customer Tracking Links" parent="menu_delivery_tracking" action="action_delivery_tracking" sequence="20"/>
+    <menuitem id="menu_delivery_notifications" name="Notification Log" parent="menu_delivery_tracking" action="action_delivery_notification" sequence="30"/>
+    <menuitem id="menu_delivery_route_lines_advanced" name="Delivery Stops" parent="menu_delivery_operations" action="action_delivery_route_line_advanced" sequence="55"/>
+    <menuitem id="menu_delivery_attempts" name="Delivery Attempts" parent="menu_delivery_operations" action="action_delivery_attempt" sequence="60"/>
+    <menuitem id="menu_delivery_packages" name="Packages" parent="menu_delivery_operations" action="action_delivery_package" sequence="70"/>
+    <menuitem id="menu_delivery_route_segments" name="Route Segments" parent="menu_delivery_operations" action="action_delivery_segment" sequence="80"/>
+    <menuitem id="menu_delivery_charges" name="Route Charges" parent="menu_delivery_reporting" action="action_delivery_charge" sequence="20"/>
+    <menuitem id="menu_delivery_driver_performance" name="Driver Performance" parent="menu_delivery_reporting" action="action_delivery_driver_performance" sequence="30"/>
+    <menuitem id="menu_delivery_vehicle_logs" name="Vehicle Logs" parent="menu_delivery_reporting" action="action_delivery_vehicle_log" sequence="40"/>
+    <menuitem id="menu_delivery_driver_schedule" name="Driver Schedules" parent="menu_delivery_setup" action="action_delivery_driver_schedule" sequence="60"/>
+    <menuitem id="menu_delivery_batch_planning" name="Batch Route Planning" parent="menu_delivery_operations" action="action_batch_route_wizard" sequence="5" groups="delivery_fleet_pro.group_delivery_fleet_dispatcher"/>
+    <menuitem id="menu_delivery_bulk_status" name="Bulk Status Update" parent="menu_delivery_operations" action="action_bulk_status_wizard" sequence="65" groups="delivery_fleet_pro.group_delivery_fleet_dispatcher"/>
+    <menuitem id="menu_delivery_geocode" name="Geocode Addresses" parent="menu_delivery_setup" action="action_geocode_wizard" sequence="70" groups="delivery_fleet_pro.group_delivery_fleet_manager"/>
+    <menuitem id="menu_delivery_geocode_cache" name="Geocode Cache" parent="menu_delivery_setup" action="action_delivery_geocode" sequence="80" groups="delivery_fleet_pro.group_delivery_fleet_manager"/>
+    <menuitem id="menu_delivery_audit" name="Audit Log" parent="menu_delivery_reporting" action="action_delivery_audit" sequence="50" groups="delivery_fleet_pro.group_delivery_fleet_manager"/>
+    <menuitem id="menu_delivery_capacity" name="Capacity Checks" parent="menu_delivery_reporting" action="action_delivery_capacity" sequence="60"/>
+    <menuitem id="menu_delivery_pricing" name="Pricing Rules" parent="menu_delivery_setup" action="action_delivery_pricing" sequence="90"/>
+    <menuitem id="menu_delivery_kpi_snapshots" name="KPI Snapshots" parent="menu_delivery_reporting" action="action_delivery_kpi_snapshot" sequence="70"/>
+</odoo>
+

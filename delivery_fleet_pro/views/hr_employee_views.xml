@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_employee_form_delivery" model="ir.ui.view">
+        <field name="name">hr.employee.form.delivery.fleet.pro</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Delivery Driver">
+                    <group string="Availability">
+                        <field name="delivery_available"/>
+                        <field name="delivery_max_hours"/>
+                        <field name="delivery_home_depot_id"/>
+                        <field name="delivery_current_route_id" readonly="1"/>
+                        <field name="delivery_route_count" readonly="1"/>
+                    </group>
+                    <group string="License">
+                        <field name="delivery_license_number"/>
+                        <field name="delivery_license_class"/>
+                        <field name="delivery_license_expiry"/>
+                    </group>
+                    <group string="Skills">
+                        <field name="delivery_can_handle_cash"/>
+                        <field name="delivery_can_handle_fragile"/>
+                        <field name="delivery_can_handle_temperature"/>
+                        <field name="delivery_skills"/>
+                    </group>
+                    <group><field name="delivery_hourly_cost"/><field name="delivery_notes"/></group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

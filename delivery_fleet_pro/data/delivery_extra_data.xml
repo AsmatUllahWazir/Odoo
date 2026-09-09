@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_delivery_attempt" model="ir.sequence"><field name="name">Delivery Attempt</field><field name="code">delivery.attempt</field><field name="prefix">ATT/%(year)s/</field><field name="padding">6</field></record>
+</odoo>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_route_tree" model="ir.ui.view">
+        <field name="name">delivery.route.tree</field>
+        <field name="model">delivery.route</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'done'" decoration-warning="state == 'partial'" decoration-danger="state == 'failed'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="warehouse_id"/>
+                <field name="zone_id"/>
+                <field name="driver_id"/>
+                <field name="vehicle_id"/>
+                <field name="stop_count"/>
+                <field name="delivered_count"/>
+                <field name="failed_count"/>
+                <field name="total_weight"/>
+                <field name="estimated_distance"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_route_form" model="ir.ui.view">
+        <field name="name">delivery.route.form</field>
+        <field name="model">delivery.route</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Route">
+                <header>
+                    <button name="action_plan" type="object" string="Plan" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_open_optimize_wizard" type="object" string="Optimize" invisible="state not in ['draft', 'planned']"/>
+                    <button name="action_open_dispatch_wizard" type="object" string="Dispatch" class="btn-primary" invisible="state != 'planned'"/>
+                    <button name="action_start" type="object" string="Start Transit" class="btn-primary" invisible="state != 'dispatched'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-success" invisible="state not in ['dispatched', 'in_transit']"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ['done', 'partial', 'cancelled']"/>
+                    <button name="action_print_route_manifest" type="object" string="Manifest" invisible="not id"/>
+                    <button name="action_print_pod_summary" type="object" string="POD Summary" invisible="not id"/>
+                    <button name="action_print_failed_stops" type="object" string="Failed Stops" invisible="failed_count == 0"/>
+                    <button name="action_print_cost_sheet" type="object" string="Cost Sheet" invisible="not id"/>
+                    <button name="action_print_driver_manifest" type="object" string="Driver Sheet" invisible="not id"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,planned,dispatched,in_transit,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_plan_wizard" type="object" class="oe_stat_button" icon="fa-plus-circle">
+                            <div class="o_stat_info"><span class="o_stat_text">Add Stops</span></div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Planning">
+                            <field name="date" readonly="state not in ['draft']"/>
+                            <field name="company_id" readonly="state not in ['draft']"/>
+                            <field name="warehouse_id" readonly="state not in ['draft']"/>
+                            <field name="zone_id" readonly="state not in ['draft']"/>
+                            <field name="template_id" readonly="state not in ['draft']"/>
+                            <field name="service_type_id" readonly="state not in ['draft']"/>
+                            <field name="sla_id" readonly="state not in ['draft']"/>
+                        </group>
+                        <group string="Assignment">
+                            <field name="driver_id" readonly="state not in ['draft', 'planned']"/>
+                            <field name="vehicle_id" readonly="state not in ['draft', 'planned']"/>
+                            <field name="planned_start" readonly="state not in ['draft', 'planned']"/>
+                            <field name="planned_end" readonly="state not in ['draft', 'planned']"/>
+                        </group>
+                    </group>
+                    <group string="Capacity &amp; Performance">
+                        <group>
+                            <field name="stop_count" readonly="1"/>
+                            <field name="delivered_count" readonly="1"/>
+                            <field name="failed_count" readonly="1"/>
+                            <field name="partial_count" readonly="1"/>
+                            <field name="pending_count" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="total_weight" readonly="1"/>
+                            <field name="total_volume" readonly="1"/>
+                            <field name="capacity_weight_utilization" readonly="1"/>
+                            <field name="capacity_volume_utilization" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="estimated_distance" readonly="state not in ['draft', 'planned']"/>
+                            <field name="estimated_duration" readonly="state not in ['draft', 'planned']"/>
+                            <field name="actual_distance" readonly="state in ['done', 'partial', 'failed', 'cancelled']"/>
+                            <field name="actual_duration" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Stops" name="stops">
+                            <field name="line_ids" readonly="state in ['done', 'partial', 'failed', 'cancelled']">
+                                <tree editable="bottom" decoration-success="status == 'delivered'" decoration-danger="status == 'failed'" decoration-warning="status == 'partial'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="picking_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="address"/>
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="weight"/>
+                                    <field name="volume"/>
+                                    <field name="distance_from_previous"/>
+                                    <field name="on_time"/>
+                                    <field name="status"/>
+                                    <button name="action_open_pod_wizard" type="object" icon="fa-pencil-square-o" title="Proof of Delivery" invisible="status not in ['arrived', 'in_transit']"/>
+                                    <button name="action_open_failure_wizard" type="object" icon="fa-times-circle" title="Record Failure" invisible="status in ['delivered', 'failed', 'cancelled']"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <group><field name="sequence"/><field name="picking_id"/><field name="partner_id"/><field name="status"/></group>
+                                            <group><field name="date_from"/><field name="date_to"/><field name="weight"/><field name="volume"/></group>
+                                        </group>
+                                        <notebook>
+                                            <page string="Address"><field name="address"/><field name="phone"/><field name="mobile"/><field name="email"/></page>
+                                            <page string="GPS"><field name="latitude"/><field name="longitude"/><field name="distance_from_previous"/><field name="duration_from_previous"/></page>
+                                            <page string="Packages"><field name="package_ids"><tree editable="bottom"><field name="name"/><field name="package_type"/><field name="quantity"/><field name="weight"/><field name="volume"/><field name="barcode"/><field name="delivered"/></tree></field></page>
+                                            <page string="Notes"><field name="notes"/></page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Costs">
+                            <field name="cost_line_ids" readonly="state in ['done', 'partial', 'failed', 'cancelled']">
+                                <tree editable="bottom"><field name="sequence"/><field name="name"/><field name="cost_type"/><field name="quantity"/><field name="unit_cost"/><field name="amount"/><field name="vendor_id"/></tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_revenue"/>
+                                <field name="total_cost"/>
+                                <field name="profitability"/>
+                                <field name="margin_percent"/>
+                            </group>
+                        </page>
+                        <page string="Events"><field name="event_ids" readonly="1"><tree><field name="event_datetime"/><field name="event_type"/><field name="name"/><field name="source"/><field name="description"/></tree></field></page>
+                        <page string="Tracking"><field name="tracking_link_ids" readonly="1"><tree><field name="name"/><field name="partner_id"/><field name="token"/><field name="expires_at"/><field name="access_count"/></tree></field><field name="public_url" readonly="1"/></page>
+                        <page string="Notes"><field name="notes"/></page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_route_search" model="ir.ui.view">
+        <field name="name">delivery.route.search</field>
+        <field name="model">delivery.route</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="date"/><field name="warehouse_id"/><field name="zone_id"/><field name="driver_id"/><field name="vehicle_id"/><field name="state"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="planned" string="Planned" domain="[('state', '=', 'planned')]"/>
+                <filter name="active_routes" string="Active" domain="[('state', 'in', ['dispatched', 'in_transit'])]"/>
+                <filter name="completed" string="Completed" domain="[('state', 'in', ['done', 'partial', 'failed'])]"/>
+                <group expand="0" string="Group By"><filter name="group_date" string="Date" context="{'group_by': 'date'}"/><filter name="group_driver" string="Driver" context="{'group_by': 'driver_id'}"/><filter name="group_vehicle" string="Vehicle" context="{'group_by': 'vehicle_id'}"/><filter name="group_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/><filter name="group_state" string="State" context="{'group_by': 'state'}"/></group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_route" model="ir.actions.act_window">
+        <field name="name">Delivery Routes</field>
+        <field name="res_model">delivery.route</field>
+<!--        <field name="view_mode">kanban,tree,calendar,form</field>-->
+        <field name="view_mode">tree,calendar,form</field>
+        <field name="search_view_id" ref="view_delivery_route_search"/>
+        <field name="context">{'search_default_planned': 0}</field>
+    </record>
+
+    <record id="action_delivery_route_today" model="ir.actions.act_window">
+        <field name="name">Today's Routes</field>
+        <field name="res_model">delivery.route</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('date', '=', context_today())]</field>
+    </record>
+</odoo>

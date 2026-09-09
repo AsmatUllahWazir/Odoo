@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="delivery_tracking_header_card" name="Delivery Tracking Header Card">
+        <div class="dfp-card dfp-fade-in">
+            <div class="dfp-card-header">
+                <div>
+                    <div class="dfp-label">Current delivery</div>
+                    <div class="dfp-value-sm"><t t-esc="line.picking_id.name"/></div>
+                </div>
+                <span class="dfp-badge dfp-badge-info" data-delivery-status="1"><t t-esc="dict(line._fields['status'].selection).get(line.status, line.status)"/></span>
+            </div>
+            <div class="dfp-card-body">
+                <div class="dfp-row">
+                    <div class="dfp-col"><div class="dfp-label">Customer</div><div class="dfp-value-sm"><t t-esc="line.partner_id.name"/></div></div>
+                    <div class="dfp-col"><div class="dfp-label">Route</div><div class="dfp-value-sm"><t t-esc="line.route_id.name"/></div></div>
+                    <div class="dfp-col"><div class="dfp-label">Stop</div><div class="dfp-value-sm"><t t-esc="line.sequence"/></div></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="delivery_tracking_stop_card" name="Delivery Tracking Stop Card">
+        <div class="dfp-card dfp-section">
+            <div class="dfp-card-header"><h3 class="dfp-section-title" style="margin:0;">Delivery details</h3><span class="dfp-live">Live status</span></div>
+            <div class="dfp-card-body">
+                <div class="dfp-row">
+                    <div class="dfp-col"><div class="dfp-label">Address</div><div class="dfp-value-sm"><t t-esc="line.address or 'Address unavailable'"/></div></div>
+                    <div class="dfp-col"><div class="dfp-label">Contact</div><div class="dfp-value-sm"><t t-esc="line.phone or line.mobile or 'Contact through customer service'"/></div></div>
+                </div>
+                <div class="dfp-divider"></div>
+                <div class="dfp-row">
+                    <div class="dfp-col"><div class="dfp-label">Delivery window</div><div class="dfp-value-sm"><t t-esc="line.date_from or 'Flexible'"/> — <t t-esc="line.date_to or ''"/></div></div>
+                    <div class="dfp-col"><div class="dfp-label">Packages</div><div class="dfp-value-sm"><t t-esc="line.package_count"/></div></div>
+                    <div class="dfp-col"><div class="dfp-label">Weight</div><div class="dfp-value-sm"><t t-esc="line.weight"/> kg</div></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="delivery_tracking_timeline_card" name="Delivery Timeline Card">
+        <div class="dfp-card dfp-section">
+            <div class="dfp-card-header"><h3 class="dfp-section-title" style="margin:0;">Timeline</h3><span class="dfp-muted"><span data-delivery-updated="1"/></span></div>
+            <div class="dfp-card-body">
+                <t t-if="events">
+                    <t t-foreach="events" t-as="event">
+                        <div class="dfp-stop-card" t-att-class="'dfp-stop-card is-complete' if event.event_type in ['delivered', 'pod'] else 'dfp-stop-card is-failed' if event.event_type == 'failed' else 'dfp-stop-card'">
+                            <span class="dfp-stop-marker"></span>
+                            <div class="dfp-value-sm"><t t-esc="event.name"/></div>
+                            <div class="dfp-label"><t t-esc="event.event_datetime"/></div>
+                            <div class="dfp-muted" t-if="event.description"><t t-esc="event.description"/></div>
+                        </div>
+                    </t>
+                </t>
+                <div class="dfp-alert dfp-alert-info" t-if="not events">The delivery timeline will appear here as milestones are recorded.</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="delivery_tracking_pod_card" name="POD Summary Card">
+        <div class="dfp-card dfp-section" t-if="line.proof_id">
+            <div class="dfp-card-header"><h3 class="dfp-section-title" style="margin:0;">Proof of delivery</h3><span class="dfp-badge dfp-badge-success"><t t-esc="line.proof_id.status"/></span></div>
+            <div class="dfp-card-body">
+                <div class="dfp-row">
+                    <div class="dfp-col"><div class="dfp-label">Recipient</div><div class="dfp-value-sm"><t t-esc="line.proof_id.recipient_name"/></div></div>
+                    <div class="dfp-col"><div class="dfp-label">Signed</div><div class="dfp-value-sm"><t t-esc="line.proof_id.signed_at"/></div></div>
+                    <div class="dfp-col"><div class="dfp-label">OTP</div><div class="dfp-value-sm"><t t-esc="'Verified' if line.proof_id.otp_verified else 'Not verified'"/></div></div>
+                </div>
+                <div class="dfp-divider"></div>
+                <div class="dfp-signature-box" t-if="line.proof_id.signature"><img t-att-src="image_data_uri(line.proof_id.signature)" alt="Recipient signature"/></div>
+                <div class="dfp-photo-grid" t-if="line.proof_id.photo">
+                    <img class="dfp-photo" t-att-src="image_data_uri(line.proof_id.photo)" alt="Delivery photo"/>
+                    <img class="dfp-photo" t-if="line.proof_id.photo_2" t-att-src="image_data_uri(line.proof_id.photo_2)" alt="Delivery photo 2"/>
+                    <img class="dfp-photo" t-if="line.proof_id.photo_3" t-att-src="image_data_uri(line.proof_id.photo_3)" alt="Delivery photo 3"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

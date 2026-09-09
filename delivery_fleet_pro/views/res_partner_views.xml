@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_delivery" model="ir.ui.view">
+        <field name="name">res.partner.form.delivery.fleet.pro</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Delivery Preferences">
+                    <group string="Preferred Window">
+                        <field name="delivery_preferred_from" widget="float_time"/>
+                        <field name="delivery_preferred_to" widget="float_time"/>
+                    </group>
+                    <group string="Location">
+                        <field name="delivery_latitude"/>
+                        <field name="delivery_longitude"/>
+                        <field name="delivery_geocoded"/>
+                        <field name="delivery_geocode_accuracy"/>
+                    </group>
+                    <group string="Service">
+                        <field name="delivery_service_type_id"/>
+                        <field name="delivery_sla_id"/>
+                        <field name="delivery_zone_id"/>
+                        <field name="delivery_tracking_opt_out"/>
+                    </group>
+                    <field name="delivery_instructions"/>
+                    <field name="delivery_access_notes"/>
+                    <field name="delivery_door_code" groups="delivery_fleet_pro.group_delivery_fleet_manager"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

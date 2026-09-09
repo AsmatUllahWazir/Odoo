@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_delivery" model="ir.ui.view">
+        <field name="name">res.config.settings.delivery.fleet.pro</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Delivery Fleet" name="delivery_fleet_pro" groups="delivery_fleet_pro.group_delivery_fleet_manager">
+                    <block title="Delivery Operations" name="delivery_operations_settings">
+                        <setting string="Customer Tracking" help="Enable customer-facing delivery tracking links."><field name="delivery_tracking_enabled"/><field name="delivery_public_tracking_enabled"/></setting>
+                        <setting string="Customer Notifications" help="Send status notifications when route milestones change."><field name="delivery_customer_notifications"/></setting>
+                        <setting string="Routing Provider" help="Select the provider used by route optimization."><field name="delivery_optimization_provider"/><field name="delivery_routing_base_url" invisible="delivery_optimization_provider == 'heuristic'"/><field name="delivery_routing_api_key" password="True" invisible="delivery_optimization_provider == 'heuristic'"/></setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

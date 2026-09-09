@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_delivery_fleet" model="ir.module.category">
+        <field name="name">Delivery Fleet</field>
+        <field name="description">Own-fleet last-mile delivery management.</field>
+        <field name="sequence">35</field>
+    </record>
+    <record id="group_delivery_fleet_user" model="res.groups">
+        <field name="name">Delivery Fleet User</field>
+        <field name="category_id" ref="delivery_fleet_pro.module_category_delivery_fleet"/>
+    </record>
+    <record id="group_delivery_fleet_dispatcher" model="res.groups">
+        <field name="name">Delivery Dispatcher</field>
+        <field name="category_id" ref="delivery_fleet_pro.module_category_delivery_fleet"/>
+        <field name="implied_ids" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+    <record id="group_delivery_fleet_manager" model="res.groups">
+        <field name="name">Delivery Fleet Manager</field>
+        <field name="category_id" ref="delivery_fleet_pro.module_category_delivery_fleet"/>
+        <field name="implied_ids" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_dispatcher'))]"/>
+    </record>
+
+    <record id="rule_delivery_route_company" model="ir.rule">
+        <field name="name">Delivery routes by company</field>
+        <field name="model_id" ref="model_delivery_route"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+    <record id="rule_delivery_config_company" model="ir.rule">
+        <field name="name">Delivery configuration by company</field>
+        <field name="model_id" ref="model_delivery_config"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_manager'))]"/>
+    </record>
+    <record id="rule_delivery_failure_company" model="ir.rule">
+        <field name="name">Failure reasons by company</field>
+        <field name="model_id" ref="model_delivery_failure"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+    <record id="rule_delivery_zone_company" model="ir.rule">
+        <field name="name">Delivery zones by company</field>
+        <field name="model_id" ref="model_delivery_zone"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+    <record id="rule_delivery_route_line_company" model="ir.rule">
+        <field name="name">Delivery route stops by company</field>
+        <field name="model_id" ref="model_delivery_route_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+    <record id="rule_delivery_proof_company" model="ir.rule">
+        <field name="name">Proofs by company</field>
+        <field name="model_id" ref="model_delivery_proof"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+    <record id="rule_delivery_retry_company" model="ir.rule">
+        <field name="name">Retries by company</field>
+        <field name="model_id" ref="model_delivery_retry"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+    <record id="rule_delivery_exception_company" model="ir.rule">
+        <field name="name">Delivery exceptions by company</field>
+        <field name="model_id" ref="model_delivery_exception"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('delivery_fleet_pro.group_delivery_fleet_user'))]"/>
+    </record>
+</odoo>

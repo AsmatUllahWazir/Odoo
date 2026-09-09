@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_fleet_vehicle_form_delivery" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.delivery.fleet.pro</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Delivery Fleet">
+                    <group string="Capacity">
+                        <field name="delivery_capacity_weight"/>
+                        <field name="delivery_capacity_volume"/>
+                        <field name="delivery_capacity_packages"/>
+                    </group>
+                    <group string="Operations">
+                        <field name="delivery_status"/>
+                        <field name="delivery_home_depot_id"/>
+                        <field name="delivery_driver_license_required"/>
+                        <field name="delivery_refrigerated"/>
+                        <field name="delivery_hazardous_allowed"/>
+                    </group>
+                    <group string="Dimensions &amp; Costs">
+                        <field name="delivery_length_m"/>
+                        <field name="delivery_width_m"/>
+                        <field name="delivery_height_m"/>
+                        <field name="delivery_fuel_type"/>
+                        <field name="delivery_fuel_consumption"/>
+                        <field name="delivery_cost_per_hour"/>
+                        <field name="delivery_cost_per_km"/>
+                    </group>
+                    <group><field name="delivery_current_route_id" readonly="1"/><field name="delivery_route_count" readonly="1"/></group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

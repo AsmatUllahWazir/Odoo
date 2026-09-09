@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_delivery_fleet" model="ir.ui.view">
+        <field name="name">stock.picking.form.delivery.fleet.pro</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Delivery Fleet">
+                    <group>
+                        <group><field name="delivery_status"/><field name="delivery_route_id"/><field name="delivery_route_count"/></group>
+                        <group><field name="delivery_latitude"/><field name="delivery_longitude"/></group>
+                    </group>
+                    <field name="delivery_instructions"/>
+                    <field name="delivery_route_line_ids">
+                        <tree><field name="route_id"/><field name="sequence"/><field name="partner_id"/><field name="status"/><field name="proof_id"/><field name="failure_id"/><field name="on_time"/></tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

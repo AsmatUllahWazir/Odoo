@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <record id="view_delivery_route_kanban" model="ir.ui.view">-->
+<!--        <field name="name">delivery.route.kanban</field>-->
+<!--        <field name="model">delivery.route</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <kanban default_group_by="state" class="o_kanban_small_column">-->
+<!--                <field name="name"/><field name="date"/><field name="driver_id"/><field name="vehicle_id"/><field name="stop_count"/><field name="delivered_count"/><field name="failed_count"/><field name="total_weight"/><field name="estimated_distance"/><field name="state"/>-->
+<!--                <templates><t t-name="card"><div class="oe_kanban_global_click o_kanban_record"><div class="o_kanban_record_top"><div class="o_kanban_record_headings"><strong class="o_kanban_record_title"><field name="name"/></strong><div class="text-muted"><field name="date"/></div></div><field name="state" widget="label_selection"/></div><div class="mt8"><strong><field name="driver_id"/></strong><span class="float-end"><field name="vehicle_id"/></span></div><div class="mt8"><div class="progress" style="height:8px;"><div class="progress-bar" role="progressbar" t-att-style="'width:' + ((record.delivered_count.raw_value / record.stop_count.raw_value * 100) if record.stop_count.raw_value else 0) + '%'"/></div></div><div class="mt8 text-muted"><span><field name="delivered_count"/> delivered</span><span class="float-end"><field name="failed_count"/> failed</span></div></div></t></templates>-->
+<!--            </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_delivery_route_calendar" model="ir.ui.view">
+        <field name="name">delivery.route.calendar</field>
+        <field name="model">delivery.route</field>
+        <field name="arch" type="xml">
+            <calendar string="Delivery Routes" date_start="planned_start" date_stop="planned_end" color="driver_id" mode="day" quick_create="0"><field name="name"/><field name="driver_id"/><field name="vehicle_id"/><field name="state"/></calendar>
+        </field>
+    </record>
+
+    <record id="view_delivery_retry_calendar" model="ir.ui.view">
+        <field name="name">delivery.retry.calendar</field>
+        <field name="model">delivery.retry</field>
+        <field name="arch" type="xml">
+            <calendar string="Retry Schedule" date_start="scheduled_date" color="state"><field name="name"/><field name="customer_id"/><field name="reason_id"/><field name="state"/></calendar>
+        </field>
+    </record>
+
+    <record id="view_driver_schedule_calendar" model="ir.ui.view">
+        <field name="name">delivery.driver.schedule.calendar</field>
+        <field name="model">delivery.driver.schedule</field>
+        <field name="arch" type="xml">
+            <calendar string="Driver Availability" date_start="date" color="employee_id"><field name="employee_id"/><field name="available"/><field name="start_hour"/><field name="end_hour"/></calendar>
+        </field>
+    </record>
+</odoo>

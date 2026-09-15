@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_audit_tree" model="ir.ui.view">
+    <field name="name">saudi.compliance.audit.tree</field>
+    <field name="model">saudi.compliance.audit</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="event_date"/>
+        <field name="user_id"/>
+        <field name="employee_id"/>
+        <field name="event_type"/>
+        <field name="reference"/>
+        <field name="success"/>
+      </tree>
+    </field>
+  </record>
+  <record id="action_compliance_audit" model="ir.actions.act_window">
+    <field name="name">Audit Log</field>
+    <field name="res_model">saudi.compliance.audit</field>
+    <field name="view_mode">tree</field>
+  </record>
+</odoo>

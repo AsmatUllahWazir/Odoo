@@ -1,0 +1,6 @@
+<odoo noupdate="1">
+  <record id="seq_muqeem_service" model="ir.sequence"><field name="name">Muqeem Service Request</field><field name="code">muqeem.service.request</field><field name="prefix">MQ-SR-</field><field name="padding">6</field></record>
+  <record id="seq_muqeem_tx" model="ir.sequence"><field name="name">Muqeem Operation Transaction</field><field name="code">muqeem.operation.transaction</field><field name="prefix">MQ-TX-</field><field name="padding">7</field></record>
+  <record id="seq_muqeem_transfer" model="ir.sequence"><field name="name">Muqeem Sponsor Transfer</field><field name="code">muqeem.sponsor.transfer</field><field name="prefix">MQ-ST-</field><field name="padding">6</field></record>
+  <record id="seq_muqeem_occupation" model="ir.sequence"><field name="name">Muqeem Occupation Change</field><field name="code">muqeem.occupation.change</field><field name="prefix">MQ-OC-</field><field name="padding">6</field></record>
+</odoo>

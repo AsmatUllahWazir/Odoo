@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_compliance_action_tree" model="ir.ui.view">
+    <field name="name">saudi.compliance.action.tree</field>
+    <field name="model">saudi.compliance.action</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="employee_id"/>
+        <field name="action_type"/>
+        <field name="assigned_to"/>
+        <field name="deadline"/>
+        <field name="state" widget="badge"/>
+      </tree>
+    </field>
+  </record>
+  <record id="view_compliance_action_form" model="ir.ui.view">
+    <field name="name">saudi.compliance.action.form</field>
+    <field name="model">saudi.compliance.action</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_start" type="object" string="Start" class="btn-primary" invisible="state != 'todo'"/>
+          <button name="action_done" type="object" string="Done" class="btn-success" invisible="state != 'in_progress'"/>
+          <button name="action_cancel" type="object" string="Cancel" invisible="state in ('done','cancelled')"/>
+          <field name="state" widget="statusbar" statusbar_visible="todo,in_progress,done"/>
+        </header>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="employee_id"/>
+            <field name="case_id"/>
+            <field name="action_type"/>
+            <field name="assigned_to"/>
+            <field name="deadline"/>
+            <field name="sequence"/>
+          </group>
+          <field name="notes"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_compliance_action" model="ir.actions.act_window">
+    <field name="name">Compliance Action Plans</field>
+    <field name="res_model">saudi.compliance.action</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+</odoo>

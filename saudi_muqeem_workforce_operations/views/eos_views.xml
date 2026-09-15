@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_eos_tree" model="ir.ui.view">
+    <field name="name">saudi.eos.request.tree</field>
+    <field name="model">saudi.eos.request</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="employee_id"/>
+        <field name="request_date"/>
+        <field name="last_working_day"/>
+        <field name="reason"/>
+        <field name="service_years"/>
+        <field name="gross_eos"/>
+        <field name="net_settlement"/>
+        <field name="state" widget="badge"/>
+      </tree>
+    </field>
+  </record>
+  <record id="view_eos_form" model="ir.ui.view">
+    <field name="name">saudi.eos.request.form</field>
+    <field name="model">saudi.eos.request</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_submit" type="object" string="Submit" class="btn-primary" invisible="state != 'draft'"/>
+          <button name="action_hr_approve" type="object" string="HR Approve" invisible="state != 'submitted'"/>
+          <button name="action_finance_approve" type="object" string="Finance Approve" invisible="state != 'hr_approved'"/>
+          <button name="action_mark_paid" type="object" string="Mark Paid" class="btn-success" invisible="state != 'finance_approved'"/>
+          <button name="action_reject" type="object" string="Reject" invisible="state in ('paid','rejected','cancelled')"/>
+          <button name="action_cancel" type="object" string="Cancel" invisible="state in ('paid','rejected','cancelled')"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,submitted,hr_approved,finance_approved,paid"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1>
+              <field name="name"/>
+            </h1>
+          </div>
+          <group>
+            <group>
+              <field name="employee_id"/>
+              <field name="request_date"/>
+              <field name="start_date"/>
+              <field name="last_working_day"/>
+              <field name="reason"/>
+            </group>
+            <group>
+              <field name="service_years"/>
+              <field name="service_months"/>
+              <field name="monthly_basic"/>
+              <field name="monthly_housing"/>
+              <field name="monthly_allowances"/>
+            </group>
+          </group>
+          <separator string="Settlement Calculation"/>
+          <group>
+            <group>
+              <field name="eos_base_salary"/>
+              <field name="gross_eos"/>
+              <field name="leave_encashment"/>
+            </group>
+            <group>
+              <field name="unpaid_deductions"/>
+              <field name="advances_deduction"/>
+              <field name="other_deductions"/>
+              <field name="net_settlement" class="oe_subtotal_footer_separator"/>
+            </group>
+          </group>
+          <field name="calculation_notes"/>
+          <field name="rejection_reason"/>
+          <div class="oe_chatter">
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+          </div>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_saudi_eos_request" model="ir.actions.act_window">
+    <field name="name">End of Service Requests</field>
+    <field name="res_model">saudi.eos.request</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+</odoo>

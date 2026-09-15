@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_muqeem_command_center" model="ir.ui.view">
+    <field name="name">muqeem.command.center.form</field>
+    <field name="model">muqeem.command.center</field>
+    <field name="arch" type="xml">
+      <form create="false" edit="false" string="Muqeem Command Center">
+        <sheet class="muqeem_command_sheet">
+          <div class="muqeem_command_hero">
+            <div>
+              <span>SAUDI WORKFORCE OPERATIONS</span>
+              <h1>Muqeem Command Center</h1>
+              <p>Residency • Travel • Sponsorship • Government Transactions</p>
+            </div>
+            <div class="muqeem_live_chip">LIVE OPERATIONAL VIEW</div>
+          </div>
+          <div class="muqeem_kpi_grid">
+            <div class="kpi">
+              <span>Residents</span>
+              <b>
+                <field name="residents"/>
+              </b>
+              <small>Active <field name="active"/></small>
+            </div>
+            <div class="kpi danger">
+              <span>Critical</span>
+              <b>
+                <field name="critical"/>
+              </b>
+              <small>High <field name="high"/></small>
+            </div>
+            <div class="kpi warning">
+              <span>Iqama ≤30d</span>
+              <b>
+                <field name="iqama_30"/>
+              </b>
+              <small>Expired <field name="iqama_expired"/></small>
+            </div>
+            <div class="kpi">
+              <span>Avg Readiness</span>
+              <b><field name="average_risk"/>%</b>
+              <small>Travel <field name="average_travel_readiness"/>%</small>
+            </div>
+            <div class="kpi">
+              <span>Open Services</span>
+              <b>
+                <field name="open_requests"/>
+              </b>
+              <small>Overdue <field name="overdue_requests"/></small>
+            </div>
+            <div class="kpi">
+              <span>Gov Queue</span>
+              <b>
+                <field name="queued_transactions"/>
+              </b>
+              <small>Failed <field name="failed_transactions"/></small>
+            </div>
+            <div class="kpi">
+              <span>Unpaid Charges</span>
+              <b>
+                <field name="unpaid_charges"/>
+              </b>
+              <small>Financial exposure</small>
+            </div>
+            <div class="kpi danger">
+              <span>Passport / Visa</span>
+              <b><field name="passport_expired"/> / <field name="visa_expired"/></b>
+              <small>Expired</small>
+            </div>
+          </div>
+          <div class="muqeem_two_panels">
+            <div class="panel">
+              <h3>Iqama Expiry Radar</h3>
+              <div class="radar">
+                <span>0–30 days</span>
+                <b>
+                  <field name="iqama_30"/>
+                </b>
+              </div>
+              <div class="radar">
+                <span>31–60 days</span>
+                <b>
+                  <field name="iqama_60"/>
+                </b>
+              </div>
+              <div class="radar">
+                <span>61–90 days</span>
+                <b>
+                  <field name="iqama_90"/>
+                </b>
+              </div>
+              <div class="radar critical">
+                <span>Expired</span>
+                <b>
+                  <field name="iqama_expired"/>
+                </b>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Operational Control Tower</h3>
+              <div class="tower">
+                <div>
+                  <span>Service pipeline</span>
+                  <b>
+                    <field name="open_requests"/>
+                  </b>
+                </div>
+                <div>
+                  <span>SLA breaches</span>
+                  <b>
+                    <field name="overdue_requests"/>
+                  </b>
+                </div>
+                <div>
+                  <span>Queued government ops</span>
+                  <b>
+                    <field name="queued_transactions"/>
+                  </b>
+                </div>
+                <div>
+                  <span>Failed operations</span>
+                  <b>
+                    <field name="failed_transactions"/>
+                  </b>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="muqeem_command_footer">Odoo 17 • Muqeem Workforce Operations • Provider adapter boundary preserved</div>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_muqeem_command_center" model="ir.actions.act_window">
+    <field name="name">Muqeem Command Center</field>
+    <field name="res_model">muqeem.command.center</field>
+    <field name="view_mode">form</field>
+    <field name="target">main</field>
+  </record>
+</odoo>

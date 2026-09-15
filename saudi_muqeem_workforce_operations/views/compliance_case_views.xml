@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_case_tree" model="ir.ui.view">
+    <field name="name">saudi.compliance.case.tree</field>
+    <field name="model">saudi.compliance.case</field>
+    <field name="arch" type="xml">
+      <tree decoration-danger="priority == '3'" decoration-warning="priority == '2'" decoration-muted="state == 'closed'">
+        <field name="name"/>
+        <field name="employee_id"/>
+        <field name="case_type"/>
+        <field name="priority" widget="priority"/>
+        <field name="assigned_to"/>
+        <field name="deadline"/>
+        <field name="days_overdue"/>
+        <field name="state" widget="badge"/>
+      </tree>
+    </field>
+  </record>
+  <record id="view_case_form" model="ir.ui.view">
+    <field name="name">saudi.compliance.case.form</field>
+    <field name="model">saudi.compliance.case</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_start" type="object" string="Start" class="btn-primary" invisible="state != 'draft'"/>
+          <button name="action_wait" type="object" string="Waiting" invisible="state not in ('in_progress','draft')"/>
+          <button name="action_resolve" type="object" string="Resolve" class="btn-success" invisible="state not in ('in_progress','waiting')"/>
+          <button name="action_close" type="object" string="Close" invisible="state != 'resolved'"/>
+          <button name="action_cancel" type="object" string="Cancel" invisible="state in ('closed','cancelled')"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,waiting,resolved,closed"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1>
+              <field name="name"/>
+            </h1>
+          </div>
+          <group>
+            <group>
+              <field name="employee_id"/>
+              <field name="case_type"/>
+              <field name="priority" widget="priority"/>
+              <field name="assigned_to"/>
+            </group>
+            <group>
+              <field name="deadline"/>
+              <field name="days_overdue"/>
+              <field name="government_transaction_id"/>
+              <field name="document_id"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Case">
+              <field name="description"/>
+              <field name="root_cause"/>
+              <field name="resolution"/>
+            </page>
+          </notebook>
+          <div class="oe_chatter">
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+          </div>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_saudi_compliance_case" model="ir.actions.act_window">
+    <field name="name">Compliance Cases</field>
+    <field name="res_model">saudi.compliance.case</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+</odoo>

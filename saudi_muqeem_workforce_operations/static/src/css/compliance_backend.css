@@ -1,0 +1,13 @@
+.o_saudi_dashboard_kanban .o_kanban_record { background: linear-gradient(135deg,#0f172a,#172554); color:#fff; border-radius:18px; border:0; overflow:hidden; }
+.o_saudi_dashboard_card { padding:24px; min-height:280px; }
+.o_saudi_dashboard_title { font-size:20px; letter-spacing:.2px; }
+.o_saudi_kpi { background:rgba(255,255,255,.08); border-radius:14px; padding:15px; min-height:72px; }
+.o_saudi_kpi span,.o_saudi_kpi strong { display:block; }
+.o_saudi_kpi span { opacity:.7; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+.o_saudi_kpi strong { font-size:25px; margin-top:6px; }
+.o_saudi_kpi.success { border-left:4px solid #34d399; }
+.o_saudi_kpi.warning { border-left:4px solid #fbbf24; }
+.o_saudi_kpi.danger { border-left:4px solid #fb7185; }
+.o_saudi_employee_header { background:linear-gradient(135deg,#ecfeff,#eff6ff); border-radius:16px; padding:16px; margin-bottom:20px; }
+.o_saudi_metric { padding:10px; }
+.o_saudi_metric > span { display:block; color:#64748b; text-transform:uppercase; font-size:11px; letter-spacing:.08em; }

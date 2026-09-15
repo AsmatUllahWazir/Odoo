@@ -1,0 +1,5 @@
+<odoo>
+  <record id="group_saudi_compliance_user" model="res.groups"><field name="name">Saudi Compliance User</field><field name="category_id" ref="base.module_category_human_resources"/></record>
+  <record id="group_saudi_compliance_manager" model="res.groups"><field name="name">Saudi Compliance Manager</field><field name="category_id" ref="base.module_category_human_resources"/><field name="implied_ids" eval="[(4, ref('saudi_muqeem_workforce_operations.group_saudi_compliance_user'))]"/></record>
+  <record id="group_saudi_compliance_admin" model="res.groups"><field name="name">Saudi Compliance Administrator</field><field name="category_id" ref="base.module_category_human_resources"/><field name="implied_ids" eval="[(4, ref('saudi_muqeem_workforce_operations.group_saudi_compliance_manager'))]"/></record>
+</odoo>

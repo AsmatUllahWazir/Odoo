@@ -1,0 +1,3 @@
+<odoo>
+  <record id="mail_template_compliance_alert" model="mail.template"><field name="name">Saudi Compliance Expiry Alert</field><field name="model_id" ref="model_saudi_compliance_document"/><field name="subject">Compliance document requires attention: {{ object.name }}</field><field name="body_html" type="html"><div><p>Dear HR team,</p><p>The document <strong>{{ object.name }}</strong> for <strong>{{ object.employee_id.name }}</strong> is <strong>{{ object.state }}</strong>.</p><p>Expiry: {{ object.expiry_date }}</p></div></field></record>
+</odoo>

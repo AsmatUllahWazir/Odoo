@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="res_config_settings_view_form_saudi_compliance" model="ir.ui.view">
+    <field name="name">res.config.settings.view.form.saudi.compliance</field>
+    <field name="model">res.config.settings</field>
+    <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//form" position="inside">
+        <app string="Saudi HR Compliance" name="saudi_muqeem_workforce_operations" data-string="Saudi HR Compliance">
+          <block title="Compliance Automation">
+            <setting string="Default Reminder Days">
+              <field name="compliance_reminder_days"/>
+            </setting>
+            <setting string="Expiry Activities">
+              <field name="create_activities"/>
+            </setting>
+            <setting string="Automatic Cases">
+              <field name="auto_create_cases"/>
+            </setting>
+            <setting string="Default Compliance Owner">
+              <field name="default_document_owner_id"/>
+            </setting>
+          </block>
+        </app>
+      </xpath>
+    </field>
+  </record>
+</odoo>

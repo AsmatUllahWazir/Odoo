@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saudi HR Government Compliance Hub | Odoo 17</title>
+<meta name="description" content="Saudi HR Government Compliance Hub for Odoo 17: Muqeem-oriented workforce operations, Iqama expiry, travel readiness, government service workflows, GOSI, WPS/Mudad, EOS, clearance, audit and portal access.">
+<style>
+:root{--p:#0f766e;--pd:#115e59;--pl:#ccfbf1;--ink:#0f172a;--muted:#475569;--bg:#f8fafc;--line:#e2e8f0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Arial,sans-serif}
+.container{width:min(1300px,calc(100% - 32px));margin:auto}.hero{padding:70px 0;background:linear-gradient(135deg,#ecfeff,#f8fafc,#f0fdfa);border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:1.3fr .7fr;gap:35px;align-items:center}.badge{display:inline-block;padding:6px 12px;margin:4px;border-radius:99px;background:white;border:1px solid var(--line);font-size:13px;font-weight:bold}
+h1{font-size:clamp(36px,6vw,66px);line-height:1.1;letter-spacing:-1px;margin:20px 0}h1 span{color:var(--p)}h2{font-size:clamp(28px,4vw,43px);line-height:1.2;margin:0 0 12px}h3{line-height:1.3}p{color:var(--muted)}.lead{font-size:19px}
+.panel,.card,.workflow{background:white;border:1px solid var(--line);border-radius:14px;padding:25px;box-shadow:0 5px 18px #0f172a0b}
+.section{padding:60px 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.icon{color:var(--p);font-size:26px;font-weight:bold}.cards h3{margin:8px 0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}.btn{padding:11px 17px;border-radius:8px;border:1px solid var(--p);font-weight:bold;text-decoration:none}.primary{background:var(--p);color:white}.secondary{color:var(--p);background:white}
+.steps{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0}.step{background:var(--pl);border:1px solid #99f6e4;border-radius:8px;padding:9px 12px;color:var(--pd);font-weight:bold}.arrow{color:#64748b;font-weight:bold}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}.checklist{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check{background:white;border:1px solid var(--line);border-radius:8px;padding:10px}.check:before{content:"✓";color:#15803d;font-weight:bold;margin-right:8px}
+.notice{background:#f0fdfa;border:1px solid #99f6e4;border-left:5px solid var(--p);padding:18px;border-radius:8px;color:#134e4a}
+table{width:100%;border-collapse:collapse;background:white;border:1px solid var(--line)}th,td{text-align:left;padding:14px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f1f5f9}td{color:var(--muted)}
+footer{background:#0f172a;color:#cbd5e1;padding:40px 0}footer p{color:#cbd5e1}
+@media(max-width:950px){.grid,.two{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cards,.checklist{grid-template-columns:1fr}.section{padding:40px 0}.hero{padding:45px 0}}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="container grid">
+<div>
+<div><span class="badge">Odoo 17 Ready</span><span class="badge">Saudi HR</span><span class="badge">Muqeem Operations</span><span class="badge">Compliance</span><span class="badge">Portal</span></div>
+<h1>Saudi HR Government <span>Compliance Hub</span></h1>
+<p class="lead">A structured Saudi workforce compliance and Muqeem-oriented operations layer for Odoo 17. Connect employee identity, Iqama and document expiry, government service requests, travel readiness, approvals, payments, transactions, charges, audit and reporting.</p>
+<div class="actions"><a class="btn primary" href="#features">Functionalities</a><a class="btn secondary" href="#workflows">Workflows</a><a class="btn secondary" href="#integration">Integration Boundary</a></div>
+</div>
+<div class="panel"><h3>What the module organizes</h3><ul><li>Saudi employee government identity and residency information.</li><li>Iqama, passport, visa, work permit and insurance expiry.</li><li>Controlled government service requests.</li><li>Travel permits and readiness.</li><li>Sponsor transfers and occupation changes.</li><li>GOSI, WPS/Mudad, EOS, clearance and audit.</li><li>Portal access, reminders and reports.</li></ul></div>
+</div>
+</header>
+
+<section class="section" id="features"><div class="container">
+<h2>Core functionalities</h2><p>The module is designed as an operational control center, not merely an employee form. Each area has its own record, workflow and responsibility.</p>
+<div class="cards">
+<div class="card"><div class="icon">01</div><h3>Workforce Profiles</h3><p>Employee-linked profiles containing Iqama, passport, visa, work permit, insurance, sponsor, profession, Muqeem status, travel status and synchronization state.</p></div>
+<div class="card"><div class="icon">02</div><h3>Government Service Requests</h3><p>Requests for Iqama renewal/replacement, exit-reentry, final exit, cancellation, reports, sponsorship transfer and occupation change.</p></div>
+<div class="card"><div class="icon">03</div><h3>Service Checks</h3><p>Identity, residency, passport, document, fee and approval checks before a request can proceed.</p></div>
+<div class="card"><div class="icon">04</div><h3>Government Transactions</h3><p>Queued, submitted, processing, successful, failed and cancelled transactions with payloads, references, attempts, duration and retry history.</p></div>
+<div class="card"><div class="icon">05</div><h3>Travel Readiness</h3><p>Single/multiple exit-reentry and final exit records, return deadlines, destination, passport validity, Iqama validity and travel risk.</p></div>
+<div class="card"><div class="icon">06</div><h3>Sponsorship Transfer</h3><p>Eligibility, blockers, approval, payment, submission, new sponsor acceptance, processing and completion.</p></div>
+<div class="card"><div class="icon">07</div><h3>Occupation Change</h3><p>Eligibility scoring, blockers, approval, government processing and completion updates.</p></div>
+<div class="card"><div class="icon">08</div><h3>Government Charges</h3><p>Government, service, insurance and administrative fees with VAT, totals, due dates and payment states.</p></div>
+<div class="card"><div class="icon">09</div><h3>Workforce Documents</h3><p>Iqama, passport, visa, work permit, insurance, contract and other documents with expiry and verification.</p></div>
+</div></div></section>
+
+<section class="section" id="workflows"><div class="container">
+<h2>Detailed workflows</h2>
+<div class="workflow"><h3>1. Workforce profile lifecycle</h3><p>HR links an employee, captures government data, evaluates risk, refreshes calculated indicators, queues required operations and monitors open requests.</p><div class="steps"><span class="step">Link employee</span><span class="arrow">→</span><span class="step">Capture data</span><span class="arrow">→</span><span class="step">Evaluate risk</span><span class="arrow">→</span><span class="step">Refresh state</span><span class="arrow">→</span><span class="step">Queue operation</span><span class="arrow">→</span><span class="step">Monitor</span></div><p>Calculated indicators include days to expiry, weighted risk score, risk level, operational state, travel readiness, open requests, failed transactions and outstanding charges.</p></div>
+<div class="workflow"><h3>2. Government service request lifecycle</h3><p>A request moves through controlled business gates:</p><div class="steps"><span class="step">Draft</span><span class="arrow">→</span><span class="step">Pre-check</span><span class="arrow">→</span><span class="step">Documents</span><span class="arrow">→</span><span class="step">Approval</span><span class="arrow">→</span><span class="step">Payment</span><span class="arrow">→</span><span class="step">Ready</span><span class="arrow">→</span><span class="step">Submitted</span><span class="arrow">→</span><span class="step">Government</span><span class="arrow">→</span><span class="step">Approved</span><span class="arrow">→</span><span class="step">Done</span></div><p>The request contains service type, employee, company, eligibility score, blockers, checklist, documents, charges, approvals, SLA information and linked transactions.</p><div class="notice">Exception states: query, rejected and cancelled. These preserve interruption reasons and prevent incomplete work from appearing as completed.</div></div>
+<div class="workflow"><h3>3. Transaction lifecycle</h3><div class="steps"><span class="step">Queued</span><span class="arrow">→</span><span class="step">Submitted</span><span class="arrow">→</span><span class="step">Processing</span><span class="arrow">→</span><span class="step">Success</span></div><p>Failed and cancelled are also supported. Each transaction records provider mode, request/response payloads, external reference, attempts, duration and retry information.</p></div>
+<div class="workflow"><h3>4. Travel readiness lifecycle</h3><div class="steps"><span class="step">Plan travel</span><span class="arrow">→</span><span class="step">Validate documents</span><span class="arrow">→</span><span class="step">Score readiness</span><span class="arrow">→</span><span class="step">Monitor return</span></div><p>Readiness is classified as green, amber or red according to permit dates, return deadline, passport validity, Iqama validity and current travel status.</p></div>
+<div class="workflow"><h3>5. Sponsorship transfer</h3><div class="steps"><span class="step">Draft</span><span class="arrow">→</span><span class="step">Eligibility</span><span class="arrow">→</span><span class="step">Approval</span><span class="arrow">→</span><span class="step">Payment</span><span class="arrow">→</span><span class="step">Submitted</span><span class="arrow">→</span><span class="step">New sponsor acceptance</span><span class="arrow">→</span><span class="step">Processing</span><span class="arrow">→</span><span class="step">Done</span></div></div>
+<div class="workflow"><h3>6. Occupation change</h3><div class="steps"><span class="step">Draft</span><span class="arrow">→</span><span class="step">Eligibility</span><span class="arrow">→</span><span class="step">Approval</span><span class="arrow">→</span><span class="step">Government</span><span class="arrow">→</span><span class="step">Done</span></div></div>
+</div></section>
+
+<section class="section"><div class="container">
+<h2>Muqeem Command Center</h2><div class="cards">
+<div class="card"><h3>Workforce overview</h3><p>Resident workforce, active profiles, average risk and average travel readiness.</p></div>
+<div class="card"><h3>Risk overview</h3><p>Critical/high-risk employees and profiles requiring attention.</p></div>
+<div class="card"><h3>Iqama expiry radar</h3><p>Expired, 0–30, 31–60 and 61–90 day expiry buckets.</p></div>
+<div class="card"><h3>Service backlog</h3><p>Open, overdue and SLA-aged service requests.</p></div>
+<div class="card"><h3>Transaction queue</h3><p>Queued, failed and processing transactions.</p></div>
+<div class="card"><h3>Financial exposure</h3><p>Unpaid government charges and outstanding service amounts.</p></div>
+</div></div></section>
+
+<section class="section"><div class="container">
+<h2>Broader Saudi HR compliance</h2><div class="checklist">
+<div class="check">Employee government identity fields</div><div class="check">Compliance documents and types</div><div class="check">Compliance cases and action plans</div><div class="check">GOSI profiles and calculations</div><div class="check">WPS / Mudad batches and validation</div><div class="check">End-of-service workflow and calculation</div><div class="check">Employee clearance</div><div class="check">Employee dependents</div><div class="check">Compliance audit</div><div class="check">Configurable compliance rules</div><div class="check">Bulk reminders</div><div class="check">Expiry monitoring</div>
+</div></div></section>
+
+<section class="section" id="backend"><div class="container">
+<h2>Backend architecture and automation</h2>
+<table><thead><tr><th>Component</th><th>Responsibility</th></tr></thead><tbody>
+<tr><td>Workforce Profile</td><td>Identity, expiry, sponsor, risk, readiness and synchronization.</td></tr>
+<tr><td>Service Request</td><td>Business workflow, eligibility, documents, approval, payment, SLA and completion.</td></tr>
+<tr><td>Service Check</td><td>Validation checklist for identity, residency, documents, fees and approvals.</td></tr>
+<tr><td>Operation Transaction</td><td>Submission attempts, payloads, provider mode, references, retries and responses.</td></tr>
+<tr><td>Travel Permit</td><td>Permit details, return date and travel risk.</td></tr>
+<tr><td>Sponsor Transfer / Occupation Change</td><td>Dedicated controlled workflows for specialized government operations.</td></tr>
+<tr><td>Workforce Document / Government Charge</td><td>Expiry and verification; fee and payment tracking.</td></tr>
+<tr><td>Command Center</td><td>Aggregated risk, expiry, backlog, transaction, charge and readiness indicators.</td></tr>
+</tbody></table>
+<div class="two" style="margin-top:20px"><div class="panel"><h3>Scheduled automation</h3><ul><li>Compliance expiry refresh.</li><li>Muqeem risk engine.</li><li>Recalculation of expiry and readiness indicators.</li><li>Identification of critical and high-risk profiles.</li><li>Reminder and follow-up support.</li></ul></div><div class="panel"><h3>Portal routes</h3><ul><li><code>/my/muqeem</code></li><li><code>/my/muqeem/dashboard</code></li><li><code>/my/muqeem/service/new</code></li><li>View requests, documents and travel permits.</li></ul></div></div>
+</div></section>
+
+<section class="section"><div class="container">
+<h2>Reports</h2><div class="cards">
+<div class="card"><h3>Muqeem Workforce Passport</h3><p>Employee identity, expiry, sponsor, risk and readiness summary.</p></div>
+<div class="card"><h3>Government Service Dossier</h3><p>Request, checklist, approvals, payment, transactions, charges and attachments.</p></div>
+<div class="card"><h3>Travel Readiness Brief</h3><p>Permit, destination, return deadline, document validity and risk reason.</p></div>
+<div class="card"><h3>Compliance Reports</h3><p>Documents, cases, action plans, audits and employee compliance.</p></div>
+<div class="card"><h3>EOS Reports</h3><p>End-of-service workflow and settlement outputs.</p></div>
+<div class="card"><h3>Management Dashboard</h3><p>Executive visibility into risk, exposure and pending work.</p></div>
+</div></div></section>
+
+<section class="section" id="security"><div class="container">
+<h2>Security and integration boundary</h2><div class="two">
+<div class="panel"><h3>Access levels</h3><ul><li>User: assigned operational records and follow-up.</li><li>Manager: broader workforce, approval, risk and charge visibility.</li><li>Administrator: configuration, transactions, rules and audit.</li><li>Company-level record protection and role-based access.</li></ul></div>
+<div class="panel" id="integration"><h3>Integration requirements</h3><p>The module is provider-neutral. A live Muqeem connection requires an approved provider/API arrangement, credentials, exact endpoints, payload specifications, authentication/signing, encryption, idempotency, rate limits, response mapping, error handling and production security review.</p></div>
+</div></div></section>
+
+<section class="section"><div class="container"><div class="notice"><strong>Summary:</strong> The module connects employee government identity with expiry risk, service requests, validation gates, approvals, payments, transactions, travel readiness, charges, portal access, audit and reporting. It is intended to make Saudi HR government operations measurable, traceable and controlled.</div></div></section>
+
+<footer><div class="container"><h2>Saudi HR Government Compliance Hub</h2><p>Odoo 17 documentation page. This page intentionally contains no screenshots, fake reviews, fake pricing or unsupported claims of live government API connectivity.</p></div></footer>
+</body>
+</html>

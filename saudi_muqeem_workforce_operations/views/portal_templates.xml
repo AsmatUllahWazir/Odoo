@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <template id="portal_compliance_dashboard" name="Saudi Compliance Portal Dashboard">
+    <t t-call="portal.portal_layout">
+      <div class="container py-5 o_saudi_portal">
+        <div class="o_saudi_hero">
+          <div>
+            <span class="o_saudi_kicker">SAUDI HR COMPLIANCE</span>
+            <h1>Government Compliance Hub</h1>
+            <p>One place for your residency, employment documents, government transactions and HR requests.</p>
+          </div>
+          <div class="o_saudi_score">
+            <span>Compliance score</span>
+            <strong><t t-esc="employee.compliance_score"/>%</strong>
+          </div>
+        </div>
+        <div class="row g-4 mt-4">
+          <div class="col-md-3">
+            <div class="o_saudi_portal_card">
+              <small>Status</small>
+              <h3>
+                <t t-esc="dict(employee._fields['compliance_status'].selection).get(employee.compliance_status)"/>
+              </h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="o_saudi_portal_card">
+              <small>Documents</small>
+              <h3>
+                <t t-esc="len(documents)"/>
+              </h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="o_saudi_portal_card">
+              <small>Open cases</small>
+              <h3>
+                <t t-esc="len(cases)"/>
+              </h3>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="o_saudi_portal_card">
+              <small>Transactions</small>
+              <h3>
+                <t t-esc="len(transactions)"/>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="row g-4 mt-2">
+          <div class="col-lg-7">
+            <div class="o_saudi_portal_panel">
+              <h3>Compliance documents</h3>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Document</th>
+                      <th>Number</th>
+                      <th>Expiry</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <t t-foreach="documents[:10]" t-as="doc">
+                      <tr>
+                        <td>
+                          <t t-esc="doc.name"/>
+                        </td>
+                        <td>
+                          <t t-esc="doc.document_number or '-'"/>
+                        </td>
+                        <td>
+                          <t t-esc="doc.expiry_date or '-'"/>
+                        </td>
+                        <td>
+                          <span class="badge">
+                            <t t-esc="doc.state"/>
+                          </span>
+                        </td>
+                      </tr>
+                    </t>
+                  </tbody>
+                </table>
+              </div>
+              <a href="/my/saudi-compliance/documents" class="btn btn-outline-primary">View all documents</a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="o_saudi_portal_panel">
+              <h3>Recent government activity</h3>
+              <t t-foreach="transactions[:8]" t-as="tx">
+                <div class="o_saudi_timeline">
+                  <strong>
+                    <t t-esc="tx.service_type"/>
+                  </strong>
+                  <span>
+                    <t t-esc="tx.request_date"/>
+                  </span>
+                  <small>
+                    <t t-esc="tx.state"/>
+                  </small>
+                </div>
+              </t>
+            </div>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+  <template id="portal_compliance_documents" name="Saudi Compliance Documents">
+    <t t-call="portal.portal_layout">
+      <div class="container py-5 o_saudi_portal">
+        <div class="o_saudi_hero">
+          <div>
+            <span class="o_saudi_kicker">MY DOCUMENTS</span>
+            <h1>Compliance documents</h1>
+            <p>Review your current government and employment documents.</p>
+          </div>
+        </div>
+        <div class="o_saudi_portal_panel mt-4">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr>
+                  <th>Document</th>
+                  <th>Number</th>
+                  <th>Issue date</th>
+                  <th>Expiry date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="documents" t-as="doc">
+                  <tr>
+                    <td>
+                      <strong>
+                        <t t-esc="doc.name"/>
+                      </strong>
+                    </td>
+                    <td>
+                      <t t-esc="doc.document_number or '-'"/>
+                    </td>
+                    <td>
+                      <t t-esc="doc.issue_date or '-'"/>
+                    </td>
+                    <td>
+                      <t t-esc="doc.expiry_date or '-'"/>
+                    </td>
+                    <td>
+                      <span class="badge">
+                        <t t-esc="doc.state"/>
+                      </span>
+                    </td>
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+          </div>
+          <t t-call="portal.portal_pager"/>
+        </div>
+      </div>
+    </t>
+  </template>
+</odoo>

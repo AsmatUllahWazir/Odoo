@@ -1,0 +1,821 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="view_muqeem_profile_kanban" model="ir.ui.view">
+        <field name="name">muqeem.workforce.profile.kanban</field>
+        <field name="model">muqeem.workforce.profile</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="risk_level" class="o_muqeem_profiles">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="risk_level"/>
+                <field name="risk_score"/>
+                <field name="travel_readiness"/>
+                <field name="iqama_days"/>
+                <field name="visa_days"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card muqeem_profile_card">
+                            <div class="muqeem_profile_top">
+                                <div>
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                    <small>
+                                        <field name="employee_id"/>
+                                    </small>
+                                </div>
+                                <span class="muqeem_risk">
+                                    <field name="risk_level"/>
+                                </span>
+                            </div>
+                            <div class="muqeem_score_row">
+                                <span>Compliance readiness</span>
+                                <b><field name="risk_score"/>%
+                                </b>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" t-att-style="'width:%s%%' % record.risk_score.raw_value"/>
+                            </div>
+                            <div class="muqeem_mini_grid">
+                                <div>
+                                    <small>Iqama</small>
+                                    <b><field name="iqama_days"/>d
+                                    </b>
+                                </div>
+                                <div>
+                                    <small>Visa</small>
+                                    <b><field name="visa_days"/>d
+                                    </b>
+                                </div>
+                                <div>
+                                    <small>Travel</small>
+                                    <b><field name="travel_readiness"/>%
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_muqeem_profile_tree" model="ir.ui.view">
+        <field name="name">muqeem.workforce.profile.tree</field>
+        <field name="model">muqeem.workforce.profile</field>
+        <field name="arch" type="xml">
+            <!--      <tree decoration-danger="risk_level == 'critical'" decoration-warning="risk_level == 'high'">-->
+            <tree>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="iqama_number"/>
+                <field name="muqeem_status"/>
+                <field name="travel_status"/>
+                <field name="risk_level"/>
+                <field name="risk_score"/>
+                <field name="travel_readiness"/>
+                <field name="iqama_days"/>
+                <field name="passport_days"/>
+                <field name="visa_days"/>
+                <field name="sync_state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_profile_form" model="ir.ui.view">
+        <field name="name">muqeem.workforce.profile.form</field>
+        <field name="model">muqeem.workforce.profile</field>
+        <field name="arch" type="xml">
+            <form string="Muqeem Workforce Profile">
+                <header>
+                    <button name="action_refresh_operational_state" type="object" string="Recalculate Risk"
+                            class="btn-primary"/>
+                    <button name="action_sync_prepare" type="object" string="Queue Government Sync"/>
+                    <button name="action_open_services" type="object" string="Service Operations"
+                            class="btn-secondary"/>
+                    <field name="muqeem_status" widget="statusbar"
+                           statusbar_visible="active,suspended,final_exit,transferred"/>
+                </header>
+                <sheet>
+                    <!--          <widget name="web_ribbon" text="CRITICAL" bg_color="bg-danger" invisible="risk_level != 'critical'"/>-->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="employee_id"/>
+                        </h1>
+                        <div>
+                            <field name="name" class="text-muted"/>
+                        </div>
+                    </div>
+                    <div class="muqeem_identity_strip">
+                        <div>
+                            <span>RISK SCORE</span>
+                            <strong><field name="risk_score"/>%
+                            </strong>
+                        </div>
+                        <div>
+                            <span>TRAVEL READINESS</span>
+                            <strong><field name="travel_readiness"/>%
+                            </strong>
+                        </div>
+                        <div>
+                            <span>SYNC</span>
+                            <strong>
+                                <field name="sync_state"/>
+                            </strong>
+                        </div>
+                        <div>
+                            <span>OPERATION</span>
+                            <strong>
+                                <field name="operational_state"/>
+                            </strong>
+                        </div>
+                    </div>
+                    <group>
+                        <group string="Residency">
+                            <field name="iqama_number"/>
+                            <field name="iqama_issue_date"/>
+                            <field name="iqama_expiry"/>
+                            <field name="iqama_days"/>
+                            <field name="border_number"/>
+                        </group>
+                        <group string="Identity">
+                            <field name="nationality_id"/>
+                            <field name="passport_number"/>
+                            <field name="passport_expiry"/>
+                            <field name="passport_days"/>
+                            <field name="travel_status"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Government Identity">
+                            <field name="sponsor_id"/>
+                            <field name="sponsor_name"/>
+                            <field name="establishment_id"/>
+                            <field name="labor_office_id"/>
+                        </group>
+                        <group string="Employment Government Data">
+                            <field name="profession"/>
+                            <field name="profession_code"/>
+                            <field name="qiwa_contract_ref"/>
+                            <field name="qiwa_contract_state"/>
+                            <field name="work_permit_expiry"/>
+                            <field name="insurance_expiry"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Visa &amp; Travel">
+                            <field name="visa_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="permit_type"/>
+                                    <field name="permit_number"/>
+                                    <field name="travel_date"/>
+                                    <field name="return_before"/>
+                                    <field name="days_to_return"/>
+                                    <field name="travel_risk"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Service Operations">
+                            <field name="service_request_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="service_code"/>
+                                    <field name="state"/>
+                                    <field name="eligibility_score"/>
+                                    <field name="document_gate"/>
+                                    <field name="payment_gate"/>
+                                    <field name="sla_state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Documents">
+                            <field name="document_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="document_type"/>
+                                    <field name="number"/>
+                                    <field name="expiry_date"/>
+                                    <field name="days_remaining"/>
+                                    <field name="verification"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Sponsor Transfers">
+                            <field name="sponsor_transfer_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="new_sponsor_id"/>
+                                    <field name="eligibility_score"/>
+                                    <field name="state"/>
+                                    <field name="government_reference"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Occupation Changes">
+                            <field name="occupation_change_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="current_occupation"/>
+                                    <field name="new_occupation"/>
+                                    <field name="eligibility_score"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Charges">
+                            <field name="fee_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="fee_type"/>
+                                    <field name="amount"/>
+                                    <field name="vat"/>
+                                    <field name="amount_total"/>
+                                    <field name="state"/>
+                                    <field name="due_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Audit">
+                            <field name="transaction_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="operation"/>
+                                    <field name="state"/>
+                                    <field name="external_reference"/>
+                                    <field name="attempt"/>
+                                    <field name="duration_seconds"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                            <field name="sync_message"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_muqeem_service_kanban" model="ir.ui.view">
+        <field name="name">muqeem.service.request.kanban</field>
+        <field name="model">muqeem.service.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="name"/>
+                <field name="profile_id"/>
+                <field name="service_code"/>
+                <field name="priority"/>
+                <field name="eligibility_score"/>
+                <field name="sla_state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card muqeem_service_card">
+                            <div class="d-flex justify-content-between">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <field name="priority" widget="priority"/>
+                            </div>
+                            <h4>
+                                <field name="service_code"/>
+                            </h4>
+                            <div>
+                                <field name="profile_id"/>
+                            </div>
+                            <div class="service_score">
+                                <span>Eligibility</span>
+                                <b><field name="eligibility_score"/>%
+                                </b>
+                            </div>
+                            <div class="service_gates">
+                                <span>
+                                    <field name="document_gate"/>
+                                </span>
+                                <span>
+                                    <field name="payment_gate"/>
+                                </span>
+                                <span>
+                                    <field name="sla_state"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_muqeem_service_tree" model="ir.ui.view">
+        <field name="name">muqeem.service.request.tree</field>
+        <field name="model">muqeem.service.request</field>
+        <field name="arch" type="xml">
+            <!--      <tree decoration-danger="sla_state == 'breached' or eligibility_state == 'fail'" decoration-warning="sla_state == 'warning'">-->
+            <tree>
+                <field name="name"/>
+                <field name="profile_id"/>
+                <field name="service_code"/>
+                <field name="state"/>
+                <field name="eligibility_score"/>
+                <field name="document_gate"/>
+                <field name="payment_gate"/>
+                <field name="sla_state"/>
+                <field name="deadline"/>
+                <field name="government_reference"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_service_form" model="ir.ui.view">
+        <field name="name">muqeem.service.request.form</field>
+        <field name="model">muqeem.service.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" type="object" string="Start Pre-check" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_precheck" type="object" string="Run Eligibility" class="btn-primary"
+                            invisible="state != 'precheck'"/>
+                    <button name="action_validate_documents" type="object" string="Pass Document Gate"
+                            class="btn-primary" invisible="state != 'documents'"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"
+                            invisible="state != 'approval'"/>
+                    <button name="action_register_payment" type="object" string="Confirm Government Payment"
+                            invisible="state != 'payment'"/>
+                    <button name="action_submit" type="object" string="Submit to Muqeem" class="btn-primary"
+                            invisible="state != 'ready'"/>
+                    <button name="action_process" type="object" string="Process Government Result" class="btn-primary"
+                            invisible="state not in ('submitted','government')"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="state in ('done','cancelled','rejected')"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('done','cancelled')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,precheck,documents,approval,payment,ready,submitted,government,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <h2>
+                            <field name="service_code"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="profile_id"/>
+                            <field name="employee_id"/>
+                            <field name="responsible_id"/>
+                            <field name="approver_id"/>
+                            <field name="priority"/>
+                        </group>
+                        <group>
+                            <field name="request_date"/>
+                            <field name="deadline"/>
+                            <field name="sla_state"/>
+                            <field name="eligibility_score" widget="progressbar"/>
+                            <field name="eligibility_state"/>
+                        </group>
+                    </group>
+                    <div class="muqeem_gate_grid">
+                        <div>
+                            <span>DOCUMENT GATE</span>
+                            <strong>
+                                <field name="document_gate"/>
+                            </strong>
+                        </div>
+                        <div>
+                            <span>PAYMENT GATE</span>
+                            <strong>
+                                <field name="payment_gate"/>
+                            </strong>
+                        </div>
+                        <div>
+                            <span>SUBMISSION</span>
+                            <strong>
+                                <field name="can_submit"/>
+                            </strong>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Checklist">
+                            <field name="checklist_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="required"/>
+                                    <field name="completed"/>
+                                    <field name="completed_by"/>
+                                    <field name="completed_at"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Government Transactions">
+                            <field name="transaction_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="operation"/>
+                                    <field name="state"/>
+                                    <field name="provider_mode"/>
+                                    <field name="external_reference"/>
+                                    <field name="attempt"/>
+                                    <field name="duration_seconds"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Charges">
+                            <field name="charge_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="fee_type"/>
+                                    <field name="amount"/>
+                                    <field name="vat"/>
+                                    <field name="amount_total"/>
+                                    <field name="state"/>
+                                    <field name="due_date"/>
+                                    <field name="payment_reference"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                            <field name="external_message"/>
+                            <field name="rejection_reason"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_muqeem_travel_tree" model="ir.ui.view">
+        <field name="name">muqeem.travel.permit.tree</field>
+        <field name="model">muqeem.travel.permit</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="travel_risk == 'red'" decoration-warning="travel_risk == 'amber'">
+                <field name="name"/>
+                <field name="permit_type"/>
+                <field name="permit_number"/>
+                <field name="travel_date"/>
+                <field name="expected_return"/>
+                <field name="return_before"/>
+                <field name="days_to_return"/>
+                <field name="travel_risk"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_travel_form" model="ir.ui.view">
+        <field name="name">muqeem.travel.permit.form</field>
+        <field name="model">muqeem.travel.permit</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="profile_id"/>
+                        </h1>
+                        <h2>
+                            <field name="permit_type"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="permit_number"/>
+                            <field name="issue_date"/>
+                            <field name="expiry_date"/>
+                            <field name="return_before"/>
+                            <field name="days_to_return"/>
+                        </group>
+                        <group>
+                            <field name="travel_date"/>
+                            <field name="expected_return"/>
+                            <field name="actual_return"/>
+                            <field name="destination_id"/>
+                            <field name="travel_risk"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-danger" invisible="travel_risk != 'red'">
+                        <field name="travel_risk_reason"/>
+                    </div>
+                    <field name="notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_muqeem_tx_tree" model="ir.ui.view">
+        <field name="name">muqeem.operation.transaction.tree</field>
+        <field name="model">muqeem.operation.transaction</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state == 'failed'" decoration-success="state == 'success'">
+                <field name="name"/>
+                <field name="profile_id"/>
+                <field name="operation"/>
+                <field name="provider_mode"/>
+                <field name="state"/>
+                <field name="external_reference"/>
+                <field name="attempt"/>
+                <field name="duration_seconds"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_tx_form" model="ir.ui.view">
+        <field name="name">muqeem.operation.transaction.form</field>
+        <field name="model">muqeem.operation.transaction</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_process" type="object" string="Process" class="btn-primary"
+                            invisible="state in ('success','cancelled')"/>
+                    <button name="action_retry" type="object" string="Retry" invisible="state != 'failed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="profile_id"/>
+                        <field name="request_id"/>
+                        <field name="operation"/>
+                        <field name="provider_mode"/>
+                        <field name="external_reference"/>
+                        <field name="attempt"/>
+                        <field name="started_at"/>
+                        <field name="completed_at"/>
+                        <field name="duration_seconds"/>
+                    </group>
+                    <notebook>
+                        <page string="Request Payload">
+                            <field name="request_payload"/>
+                        </page>
+                        <page string="Response Payload">
+                            <field name="response_payload"/>
+                        </page>
+                        <page string="Errors">
+                            <field name="error_code"/>
+                            <field name="error_message"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_muqeem_transfer_tree" model="ir.ui.view">
+        <field name="name">muqeem.sponsor.transfer.tree</field>
+        <field name="model">muqeem.sponsor.transfer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="profile_id"/>
+                <field name="current_sponsor_id"/>
+                <field name="new_sponsor_id"/>
+                <field name="eligibility_score"/>
+                <field name="fee"/>
+                <field name="fee_paid"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_transfer_form" model="ir.ui.view">
+        <field name="name">muqeem.sponsor.transfer.form</field>
+        <field name="model">muqeem.sponsor.transfer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_check" type="object" string="Run Eligibility" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"
+                            invisible="state != 'approval'"/>
+                    <button name="action_pay" type="object" string="Confirm Fee" invisible="state != 'payment'"/>
+                    <button name="action_submit" type="object" string="Submit" invisible="state != 'submitted'"/>
+                    <button name="action_accept" type="object" string="Sponsor Accepted"
+                            invisible="state != 'acceptance'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-primary"
+                            invisible="state != 'processing'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="profile_id"/>
+                            <field name="current_sponsor_id"/>
+                            <field name="current_sponsor_name"/>
+                        </group>
+                        <group>
+                            <field name="new_sponsor_id"/>
+                            <field name="new_sponsor_name"/>
+                            <field name="fee"/>
+                            <field name="fee_paid"/>
+                        </group>
+                    </group>
+                    <div class="muqeem_gate_grid">
+                        <div>
+                            <span>ELIGIBILITY</span>
+                            <strong><field name="eligibility_score"/>%
+                            </strong>
+                        </div>
+                        <div>
+                            <span>BLOCKERS</span>
+                            <strong>
+                                <field name="blockers"/>
+                            </strong>
+                        </div>
+                    </div>
+                    <field name="reason"/>
+                    <field name="government_reference"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_muqeem_occupation_tree" model="ir.ui.view">
+        <field name="name">muqeem.occupation.change.tree</field>
+        <field name="model">muqeem.occupation.change</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="profile_id"/>
+                <field name="current_occupation"/>
+                <field name="new_occupation"/>
+                <field name="eligibility_score"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_occupation_form" model="ir.ui.view">
+        <field name="name">muqeem.occupation.change.form</field>
+        <field name="model">muqeem.occupation.change</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_check" type="object" string="Run Eligibility" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'approval'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-primary"
+                            invisible="state != 'government'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="profile_id"/>
+                        <field name="current_occupation"/>
+                        <field name="new_occupation"/>
+                        <field name="current_code"/>
+                        <field name="new_code"/>
+                        <field name="eligibility_score" widget="progressbar"/>
+                    </group>
+                    <field name="reason"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_muqeem_document_tree" model="ir.ui.view">
+        <field name="name">muqeem.workforce.document.tree</field>
+        <field name="model">muqeem.workforce.document</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state == 'expired'" decoration-warning="state == 'expiring'">
+                <field name="name"/>
+                <field name="profile_id"/>
+                <field name="document_type"/>
+                <field name="number"/>
+                <field name="expiry_date"/>
+                <field name="days_remaining"/>
+                <field name="state"/>
+                <field name="verification"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_document_form" model="ir.ui.view">
+        <field name="name">muqeem.workforce.document.form</field>
+        <field name="model">muqeem.workforce.document</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_verify" type="object" string="Verify" class="btn-primary"/>
+                    <field name="verification" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="profile_id"/>
+                        <field name="document_type"/>
+                        <field name="number"/>
+                        <field name="issue_date"/>
+                        <field name="expiry_date"/>
+                        <field name="days_remaining"/>
+                        <field name="state"/>
+                        <field name="attachment_id"/>
+                    </group>
+                    <field name="notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_muqeem_charge_tree" model="ir.ui.view">
+        <field name="name">muqeem.government.charge.tree</field>
+        <field name="model">muqeem.government.charge</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="profile_id"/>
+                <field name="fee_type"/>
+                <field name="amount"/>
+                <field name="vat"/>
+                <field name="amount_total"/>
+                <field name="state"/>
+                <field name="due_date"/>
+                <field name="payment_reference"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_muqeem_charge_form" model="ir.ui.view">
+        <field name="name">muqeem.government.charge.form</field>
+        <field name="model">muqeem.government.charge</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_paid" type="object" string="Mark Paid" class="btn-primary"
+                            invisible="state != 'unpaid'"/>
+                    <button name="action_waive" type="object" string="Waive" invisible="state != 'unpaid'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="profile_id"/>
+                        <field name="request_id"/>
+                        <field name="fee_type"/>
+                        <field name="amount"/>
+                        <field name="vat"/>
+                        <field name="amount_total"/>
+                        <field name="due_date"/>
+                        <field name="paid_date"/>
+                        <field name="payment_reference"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_muqeem_profile" model="ir.actions.act_window">
+        <field name="name">Workforce Profiles</field>
+        <field name="res_model">muqeem.workforce.profile</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    <record id="action_muqeem_services" model="ir.actions.act_window">
+        <field name="name">Government Service Requests</field>
+        <field name="res_model">muqeem.service.request</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    <record id="action_muqeem_travel" model="ir.actions.act_window">
+        <field name="name">Travel Permits</field>
+        <field name="res_model">muqeem.travel.permit</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    <record id="action_muqeem_tx" model="ir.actions.act_window">
+        <field name="name">Government Transactions</field>
+        <field name="res_model">muqeem.operation.transaction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_muqeem_transfer" model="ir.actions.act_window">
+        <field name="name">Sponsorship Transfers</field>
+        <field name="res_model">muqeem.sponsor.transfer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_muqeem_occupation" model="ir.actions.act_window">
+        <field name="name">Occupation Changes</field>
+        <field name="res_model">muqeem.occupation.change</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_muqeem_document" model="ir.actions.act_window">
+        <field name="name">Workforce Documents</field>
+        <field name="res_model">muqeem.workforce.document</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_muqeem_charge" model="ir.actions.act_window">
+        <field name="name">Government Charges</field>
+        <field name="res_model">muqeem.government.charge</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

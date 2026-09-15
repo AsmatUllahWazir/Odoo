@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_wps_tree" model="ir.ui.view">
+    <field name="name">saudi.wps.batch.tree</field>
+    <field name="model">saudi.wps.batch</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="period_start"/>
+        <field name="period_end"/>
+        <field name="bank_name"/>
+        <field name="employee_count"/>
+        <field name="total_amount"/>
+        <field name="invalid_count"/>
+        <field name="state" widget="badge"/>
+      </tree>
+    </field>
+  </record>
+  <record id="view_wps_form" model="ir.ui.view">
+    <field name="name">saudi.wps.batch.form</field>
+    <field name="model">saudi.wps.batch</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_validate" type="object" string="Validate" class="btn-primary" invisible="state != 'draft'"/>
+          <button name="action_generate" type="object" string="Generate File" class="btn-success" invisible="state != 'validated'"/>
+          <button name="action_submit" type="object" string="Submit" invisible="state != 'generated'"/>
+          <button name="action_accept" type="object" string="Accept" invisible="state != 'submitted'"/>
+          <button name="action_reject" type="object" string="Reject" invisible="state != 'submitted'"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,validated,generated,submitted,accepted"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1>
+              <field name="name"/>
+            </h1>
+          </div>
+          <group>
+            <field name="company_id"/>
+            <field name="period_start"/>
+            <field name="period_end"/>
+            <field name="bank_name"/>
+          </group>
+          <group>
+            <field name="employee_count"/>
+            <field name="total_amount"/>
+            <field name="invalid_count"/>
+          </group>
+          <field name="validation_message"/>
+          <field name="line_ids">
+            <tree editable="bottom" decoration-danger="validation_state == 'invalid'">
+              <field name="employee_id"/>
+              <field name="employee_identifier"/>
+              <field name="bank_name"/>
+              <field name="iban"/>
+              <field name="basic_salary"/>
+              <field name="housing"/>
+              <field name="deductions"/>
+              <field name="amount"/>
+              <field name="validation_state"/>
+              <field name="validation_message"/>
+            </tree>
+          </field>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_saudi_wps_batch" model="ir.actions.act_window">
+    <field name="name">WPS / Mudad Batches</field>
+    <field name="res_model">saudi.wps.batch</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+</odoo>

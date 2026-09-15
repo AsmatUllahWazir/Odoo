@@ -1,0 +1,4 @@
+<odoo>
+  <record id="action_report_employee_compliance" model="ir.actions.report"><field name="name">Employee Compliance Report</field><field name="model">hr.employee</field><field name="report_type">qweb-pdf</field><field name="report_name">saudi_muqeem_workforce_operations.report_employee_compliance</field><field name="report_file">saudi_muqeem_workforce_operations.report_employee_compliance</field><field name="binding_model_id" ref="hr.model_hr_employee"/><field name="binding_type">report</field></record>
+  <record id="action_report_eos" model="ir.actions.report"><field name="name">EOS Settlement</field><field name="model">saudi.eos.request</field><field name="report_type">qweb-pdf</field><field name="report_name">saudi_muqeem_workforce_operations.report_eos</field><field name="report_file">saudi_muqeem_workforce_operations.report_eos</field><field name="binding_model_id" ref="model_saudi_eos_request"/><field name="binding_type">report</field></record>
+</odoo>

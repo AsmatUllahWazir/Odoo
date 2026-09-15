@@ -1,0 +1,4 @@
+<odoo>
+<record id="rule_muqeem_profile_company" model="ir.rule"><field name="name">Muqeem Profile Company</field><field name="model_id" ref="model_muqeem_workforce_profile"/><field name="domain_force">[('company_id','in',company_ids)]</field><field name="groups" eval="[(4,ref('saudi_muqeem_workforce_operations.group_saudi_compliance_user'))]"/></record>
+<record id="rule_muqeem_service_company" model="ir.rule"><field name="name">Muqeem Service Company</field><field name="model_id" ref="model_muqeem_service_request"/><field name="domain_force">[('company_id','in',company_ids)]</field><field name="groups" eval="[(4,ref('saudi_muqeem_workforce_operations.group_saudi_compliance_user'))]"/></record>
+</odoo>

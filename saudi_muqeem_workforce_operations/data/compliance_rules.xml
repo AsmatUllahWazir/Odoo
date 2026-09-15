@@ -1,0 +1,2602 @@
+<odoo>
+  <record id="rule_ksa_001" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 001</field>
+    <field name="code">KSA-001</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">1</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 001 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_002" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 002</field>
+    <field name="code">KSA-002</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">2</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 002 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_003" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 003</field>
+    <field name="code">KSA-003</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">3</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 003 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_004" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 004</field>
+    <field name="code">KSA-004</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">4</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 004 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_005" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 005</field>
+    <field name="code">KSA-005</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">5</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 005 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_006" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 006</field>
+    <field name="code">KSA-006</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">6</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 006 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_007" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 007</field>
+    <field name="code">KSA-007</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">7</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 007 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_008" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 008</field>
+    <field name="code">KSA-008</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">8</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 008 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_009" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 009</field>
+    <field name="code">KSA-009</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">9</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 009 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_010" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 010</field>
+    <field name="code">KSA-010</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">10</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 010 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_011" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 011</field>
+    <field name="code">KSA-011</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">11</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 011 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_012" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 012</field>
+    <field name="code">KSA-012</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">12</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 012 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_013" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 013</field>
+    <field name="code">KSA-013</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">13</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 013 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_014" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 014</field>
+    <field name="code">KSA-014</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">14</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 014 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_015" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 015</field>
+    <field name="code">KSA-015</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">15</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 015 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_016" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 016</field>
+    <field name="code">KSA-016</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">16</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 016 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_017" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 017</field>
+    <field name="code">KSA-017</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">17</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 017 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_018" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 018</field>
+    <field name="code">KSA-018</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">18</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 018 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_019" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 019</field>
+    <field name="code">KSA-019</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">19</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 019 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_020" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 020</field>
+    <field name="code">KSA-020</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">20</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 020 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_021" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 021</field>
+    <field name="code">KSA-021</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">21</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 021 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_022" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 022</field>
+    <field name="code">KSA-022</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">22</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 022 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_023" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 023</field>
+    <field name="code">KSA-023</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">23</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 023 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_024" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 024</field>
+    <field name="code">KSA-024</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">24</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 024 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_025" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 025</field>
+    <field name="code">KSA-025</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">25</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 025 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_026" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 026</field>
+    <field name="code">KSA-026</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">26</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 026 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_027" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 027</field>
+    <field name="code">KSA-027</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">27</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 027 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_028" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 028</field>
+    <field name="code">KSA-028</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">28</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 028 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_029" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 029</field>
+    <field name="code">KSA-029</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">29</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 029 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_030" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 030</field>
+    <field name="code">KSA-030</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">30</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 030 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_031" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 031</field>
+    <field name="code">KSA-031</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">31</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 031 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_032" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 032</field>
+    <field name="code">KSA-032</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">32</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 032 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_033" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 033</field>
+    <field name="code">KSA-033</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">33</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 033 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_034" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 034</field>
+    <field name="code">KSA-034</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">34</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 034 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_035" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 035</field>
+    <field name="code">KSA-035</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">35</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 035 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_036" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 036</field>
+    <field name="code">KSA-036</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">36</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 036 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_037" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 037</field>
+    <field name="code">KSA-037</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">37</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 037 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_038" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 038</field>
+    <field name="code">KSA-038</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">38</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 038 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_039" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 039</field>
+    <field name="code">KSA-039</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">39</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 039 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_040" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 040</field>
+    <field name="code">KSA-040</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">40</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 040 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_041" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 041</field>
+    <field name="code">KSA-041</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">41</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 041 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_042" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 042</field>
+    <field name="code">KSA-042</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">42</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 042 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_043" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 043</field>
+    <field name="code">KSA-043</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">43</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 043 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_044" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 044</field>
+    <field name="code">KSA-044</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">44</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 044 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_045" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 045</field>
+    <field name="code">KSA-045</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">45</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 045 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_046" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 046</field>
+    <field name="code">KSA-046</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">46</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 046 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_047" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 047</field>
+    <field name="code">KSA-047</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">47</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 047 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_048" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 048</field>
+    <field name="code">KSA-048</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">48</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 048 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_049" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 049</field>
+    <field name="code">KSA-049</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">49</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 049 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_050" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 050</field>
+    <field name="code">KSA-050</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">50</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 050 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_051" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 051</field>
+    <field name="code">KSA-051</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">51</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 051 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_052" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 052</field>
+    <field name="code">KSA-052</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">52</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 052 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_053" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 053</field>
+    <field name="code">KSA-053</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">53</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 053 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_054" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 054</field>
+    <field name="code">KSA-054</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">54</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 054 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_055" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 055</field>
+    <field name="code">KSA-055</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">55</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 055 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_056" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 056</field>
+    <field name="code">KSA-056</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">56</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 056 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_057" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 057</field>
+    <field name="code">KSA-057</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">57</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 057 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_058" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 058</field>
+    <field name="code">KSA-058</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">58</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 058 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_059" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 059</field>
+    <field name="code">KSA-059</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">59</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 059 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_060" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 060</field>
+    <field name="code">KSA-060</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">60</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 060 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_061" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 061</field>
+    <field name="code">KSA-061</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">61</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 061 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_062" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 062</field>
+    <field name="code">KSA-062</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">62</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 062 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_063" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 063</field>
+    <field name="code">KSA-063</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">63</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 063 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_064" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 064</field>
+    <field name="code">KSA-064</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">64</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 064 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_065" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 065</field>
+    <field name="code">KSA-065</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">65</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 065 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_066" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 066</field>
+    <field name="code">KSA-066</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">66</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 066 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_067" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 067</field>
+    <field name="code">KSA-067</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">67</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 067 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_068" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 068</field>
+    <field name="code">KSA-068</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">68</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 068 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_069" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 069</field>
+    <field name="code">KSA-069</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">69</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 069 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_070" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 070</field>
+    <field name="code">KSA-070</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">70</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 070 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_071" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 071</field>
+    <field name="code">KSA-071</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">71</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 071 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_072" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 072</field>
+    <field name="code">KSA-072</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">72</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 072 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_073" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 073</field>
+    <field name="code">KSA-073</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">73</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 073 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_074" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 074</field>
+    <field name="code">KSA-074</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">74</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 074 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_075" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 075</field>
+    <field name="code">KSA-075</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">75</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 075 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_076" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 076</field>
+    <field name="code">KSA-076</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">76</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 076 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_077" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 077</field>
+    <field name="code">KSA-077</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">77</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 077 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_078" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 078</field>
+    <field name="code">KSA-078</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">78</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 078 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_079" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 079</field>
+    <field name="code">KSA-079</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">79</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 079 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_080" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 080</field>
+    <field name="code">KSA-080</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">80</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 080 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_081" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 081</field>
+    <field name="code">KSA-081</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">81</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 081 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_082" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 082</field>
+    <field name="code">KSA-082</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">82</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 082 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_083" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 083</field>
+    <field name="code">KSA-083</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">83</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 083 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_084" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 084</field>
+    <field name="code">KSA-084</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">84</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 084 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_085" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 085</field>
+    <field name="code">KSA-085</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">85</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 085 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_086" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 086</field>
+    <field name="code">KSA-086</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">86</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 086 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_087" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 087</field>
+    <field name="code">KSA-087</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">87</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 087 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_088" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 088</field>
+    <field name="code">KSA-088</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">88</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 088 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_089" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 089</field>
+    <field name="code">KSA-089</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">89</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 089 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_090" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 090</field>
+    <field name="code">KSA-090</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">90</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 090 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_091" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 091</field>
+    <field name="code">KSA-091</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">91</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 091 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_092" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 092</field>
+    <field name="code">KSA-092</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">92</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 092 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_093" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 093</field>
+    <field name="code">KSA-093</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">93</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 093 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_094" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 094</field>
+    <field name="code">KSA-094</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">94</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 094 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_095" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 095</field>
+    <field name="code">KSA-095</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">95</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 095 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_096" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 096</field>
+    <field name="code">KSA-096</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">96</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 096 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_097" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 097</field>
+    <field name="code">KSA-097</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">97</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 097 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_098" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 098</field>
+    <field name="code">KSA-098</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">98</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 098 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_099" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 099</field>
+    <field name="code">KSA-099</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">99</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 099 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_100" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 100</field>
+    <field name="code">KSA-100</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">100</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 100 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_101" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 101</field>
+    <field name="code">KSA-101</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">101</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 101 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_102" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 102</field>
+    <field name="code">KSA-102</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">102</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 102 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_103" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 103</field>
+    <field name="code">KSA-103</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">103</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 103 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_104" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 104</field>
+    <field name="code">KSA-104</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">104</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 104 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_105" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 105</field>
+    <field name="code">KSA-105</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">105</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 105 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_106" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 106</field>
+    <field name="code">KSA-106</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">106</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 106 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_107" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 107</field>
+    <field name="code">KSA-107</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">107</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 107 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_108" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 108</field>
+    <field name="code">KSA-108</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">108</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 108 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_109" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 109</field>
+    <field name="code">KSA-109</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">109</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 109 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_110" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 110</field>
+    <field name="code">KSA-110</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">110</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 110 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_111" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 111</field>
+    <field name="code">KSA-111</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">111</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 111 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_112" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 112</field>
+    <field name="code">KSA-112</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">112</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 112 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_113" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 113</field>
+    <field name="code">KSA-113</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">113</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 113 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_114" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 114</field>
+    <field name="code">KSA-114</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">114</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 114 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_115" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 115</field>
+    <field name="code">KSA-115</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">115</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 115 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_116" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 116</field>
+    <field name="code">KSA-116</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">116</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 116 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_117" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 117</field>
+    <field name="code">KSA-117</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">117</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 117 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_118" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 118</field>
+    <field name="code">KSA-118</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">118</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 118 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_119" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 119</field>
+    <field name="code">KSA-119</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">119</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 119 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_120" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 120</field>
+    <field name="code">KSA-120</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">120</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 120 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_121" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 121</field>
+    <field name="code">KSA-121</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">121</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 121 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_122" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 122</field>
+    <field name="code">KSA-122</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">122</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 122 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_123" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 123</field>
+    <field name="code">KSA-123</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">123</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 123 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_124" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 124</field>
+    <field name="code">KSA-124</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">124</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 124 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_125" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 125</field>
+    <field name="code">KSA-125</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">125</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 125 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_126" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 126</field>
+    <field name="code">KSA-126</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">126</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 126 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_127" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 127</field>
+    <field name="code">KSA-127</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">127</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 127 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_128" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 128</field>
+    <field name="code">KSA-128</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">128</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 128 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_129" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 129</field>
+    <field name="code">KSA-129</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">129</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 129 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_130" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 130</field>
+    <field name="code">KSA-130</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">130</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 130 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_131" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 131</field>
+    <field name="code">KSA-131</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">131</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 131 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_132" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 132</field>
+    <field name="code">KSA-132</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">132</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 132 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_133" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 133</field>
+    <field name="code">KSA-133</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">133</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 133 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_134" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 134</field>
+    <field name="code">KSA-134</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">134</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 134 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_135" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 135</field>
+    <field name="code">KSA-135</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">135</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 135 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_136" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 136</field>
+    <field name="code">KSA-136</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">136</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 136 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_137" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 137</field>
+    <field name="code">KSA-137</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">137</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 137 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_138" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 138</field>
+    <field name="code">KSA-138</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">138</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 138 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_139" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 139</field>
+    <field name="code">KSA-139</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">139</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 139 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_140" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 140</field>
+    <field name="code">KSA-140</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">140</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 140 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_141" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 141</field>
+    <field name="code">KSA-141</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">141</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 141 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_142" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 142</field>
+    <field name="code">KSA-142</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">142</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 142 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_143" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 143</field>
+    <field name="code">KSA-143</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">143</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 143 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_144" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 144</field>
+    <field name="code">KSA-144</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">144</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 144 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_145" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 145</field>
+    <field name="code">KSA-145</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">145</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 145 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_146" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 146</field>
+    <field name="code">KSA-146</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">146</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 146 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_147" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 147</field>
+    <field name="code">KSA-147</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">147</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 147 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_148" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 148</field>
+    <field name="code">KSA-148</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">148</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 148 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_149" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 149</field>
+    <field name="code">KSA-149</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">149</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 149 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_150" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 150</field>
+    <field name="code">KSA-150</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">150</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 150 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_151" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 151</field>
+    <field name="code">KSA-151</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">151</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 151 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_152" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 152</field>
+    <field name="code">KSA-152</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">152</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 152 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_153" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 153</field>
+    <field name="code">KSA-153</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">153</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 153 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_154" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 154</field>
+    <field name="code">KSA-154</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">154</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 154 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_155" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 155</field>
+    <field name="code">KSA-155</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">155</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 155 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_156" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 156</field>
+    <field name="code">KSA-156</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">156</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 156 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_157" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 157</field>
+    <field name="code">KSA-157</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">157</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 157 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_158" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 158</field>
+    <field name="code">KSA-158</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">158</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 158 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_159" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 159</field>
+    <field name="code">KSA-159</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">159</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 159 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_160" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 160</field>
+    <field name="code">KSA-160</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">160</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 160 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_161" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 161</field>
+    <field name="code">KSA-161</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">161</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 161 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_162" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 162</field>
+    <field name="code">KSA-162</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">162</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 162 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_163" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 163</field>
+    <field name="code">KSA-163</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">163</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 163 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_164" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 164</field>
+    <field name="code">KSA-164</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">164</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 164 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_165" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 165</field>
+    <field name="code">KSA-165</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">165</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 165 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_166" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 166</field>
+    <field name="code">KSA-166</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">166</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 166 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_167" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 167</field>
+    <field name="code">KSA-167</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">167</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 167 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_168" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 168</field>
+    <field name="code">KSA-168</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">168</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 168 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_169" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 169</field>
+    <field name="code">KSA-169</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">169</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 169 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_170" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 170</field>
+    <field name="code">KSA-170</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">170</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 170 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_171" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 171</field>
+    <field name="code">KSA-171</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">171</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 171 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_172" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 172</field>
+    <field name="code">KSA-172</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">172</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 172 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_173" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 173</field>
+    <field name="code">KSA-173</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">173</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 173 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_174" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 174</field>
+    <field name="code">KSA-174</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">174</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 174 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_175" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 175</field>
+    <field name="code">KSA-175</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">175</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 175 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_176" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 176</field>
+    <field name="code">KSA-176</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">176</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 176 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_177" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 177</field>
+    <field name="code">KSA-177</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">177</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 177 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_178" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 178</field>
+    <field name="code">KSA-178</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">178</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 178 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_179" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 179</field>
+    <field name="code">KSA-179</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">179</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 179 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_180" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 180</field>
+    <field name="code">KSA-180</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">180</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 180 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_181" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 181</field>
+    <field name="code">KSA-181</field>
+    <field name="category">identity</field>
+    <field name="severity">low</field>
+    <field name="sequence">181</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 181 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_182" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 182</field>
+    <field name="code">KSA-182</field>
+    <field name="category">residency</field>
+    <field name="severity">medium</field>
+    <field name="sequence">182</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 182 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_183" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 183</field>
+    <field name="code">KSA-183</field>
+    <field name="category">employment</field>
+    <field name="severity">high</field>
+    <field name="sequence">183</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 183 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_184" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 184</field>
+    <field name="code">KSA-184</field>
+    <field name="category">insurance</field>
+    <field name="severity">critical</field>
+    <field name="sequence">184</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 184 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_185" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 185</field>
+    <field name="code">KSA-185</field>
+    <field name="category">gosi</field>
+    <field name="severity">low</field>
+    <field name="sequence">185</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 185 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_186" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 186</field>
+    <field name="code">KSA-186</field>
+    <field name="category">qiwa</field>
+    <field name="severity">medium</field>
+    <field name="sequence">186</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 186 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_187" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 187</field>
+    <field name="code">KSA-187</field>
+    <field name="category">wps</field>
+    <field name="severity">high</field>
+    <field name="sequence">187</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 187 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_188" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 188</field>
+    <field name="code">KSA-188</field>
+    <field name="category">offboarding</field>
+    <field name="severity">critical</field>
+    <field name="sequence">188</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 188 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_189" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 189</field>
+    <field name="code">KSA-189</field>
+    <field name="category">document</field>
+    <field name="severity">low</field>
+    <field name="sequence">189</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 189 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_190" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 190</field>
+    <field name="code">KSA-190</field>
+    <field name="category">process</field>
+    <field name="severity">medium</field>
+    <field name="sequence">190</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 190 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_191" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 191</field>
+    <field name="code">KSA-191</field>
+    <field name="category">identity</field>
+    <field name="severity">high</field>
+    <field name="sequence">191</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_present</field>
+    <field name="description">Operational control 191 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_192" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 192</field>
+    <field name="code">KSA-192</field>
+    <field name="category">residency</field>
+    <field name="severity">critical</field>
+    <field name="sequence">192</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">iqama_valid</field>
+    <field name="description">Operational control 192 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_193" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 193</field>
+    <field name="code">KSA-193</field>
+    <field name="category">employment</field>
+    <field name="severity">low</field>
+    <field name="sequence">193</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">1</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_present</field>
+    <field name="description">Operational control 193 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_194" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 194</field>
+    <field name="code">KSA-194</field>
+    <field name="category">insurance</field>
+    <field name="severity">medium</field>
+    <field name="sequence">194</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">passport_valid</field>
+    <field name="description">Operational control 194 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_195" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 195</field>
+    <field name="code">KSA-195</field>
+    <field name="category">gosi</field>
+    <field name="severity">high</field>
+    <field name="sequence">195</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_present</field>
+    <field name="description">Operational control 195 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_196" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 196</field>
+    <field name="code">KSA-196</field>
+    <field name="category">qiwa</field>
+    <field name="severity">critical</field>
+    <field name="sequence">196</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">work_permit_valid</field>
+    <field name="description">Operational control 196 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_197" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 197</field>
+    <field name="code">KSA-197</field>
+    <field name="category">wps</field>
+    <field name="severity">low</field>
+    <field name="sequence">197</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_present</field>
+    <field name="description">Operational control 197 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_198" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 198</field>
+    <field name="code">KSA-198</field>
+    <field name="category">offboarding</field>
+    <field name="severity">medium</field>
+    <field name="sequence">198</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">30</field>
+    <field name="check_key">insurance_valid</field>
+    <field name="description">Operational control 198 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_199" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 199</field>
+    <field name="code">KSA-199</field>
+    <field name="category">document</field>
+    <field name="severity">high</field>
+    <field name="sequence">199</field>
+    <field name="required_for_non_saudi">1</field>
+    <field name="required_for_saudi">1</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">gosi_active</field>
+    <field name="description">Operational control 199 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+  <record id="rule_ksa_200" model="saudi.compliance.rule">
+    <field name="name">Saudi compliance control 200</field>
+    <field name="code">KSA-200</field>
+    <field name="category">process</field>
+    <field name="severity">critical</field>
+    <field name="sequence">200</field>
+    <field name="required_for_non_saudi">0</field>
+    <field name="required_for_saudi">0</field>
+    <field name="required_for_gcc">0</field>
+    <field name="reminder_days">15</field>
+    <field name="check_key">qiwa_active</field>
+    <field name="description">Operational control 200 for Saudi HR government compliance. Validate the required record, supporting evidence, owner and remediation timeline.</field>
+  </record>
+</odoo>

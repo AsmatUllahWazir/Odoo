@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_dependent_tree" model="ir.ui.view">
+    <field name="name">saudi.employee.dependent.tree</field>
+    <field name="model">saudi.employee.dependent</field>
+    <field name="arch" type="xml">
+      <tree decoration-danger="state == 'expired'" decoration-warning="state == 'attention'">
+        <field name="employee_id"/>
+        <field name="name"/>
+        <field name="relationship"/>
+        <field name="iqama_number"/>
+        <field name="iqama_expiry_date"/>
+        <field name="passport_expiry_date"/>
+        <field name="insurance_expiry_date"/>
+        <field name="state" widget="badge"/>
+      </tree>
+    </field>
+  </record>
+  <record id="view_dependent_form" model="ir.ui.view">
+    <field name="name">saudi.employee.dependent.form</field>
+    <field name="model">saudi.employee.dependent</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="employee_id"/>
+            <field name="name"/>
+            <field name="relationship"/>
+            <field name="nationality_id"/>
+            <field name="date_of_birth"/>
+          </group>
+          <group>
+            <field name="national_id"/>
+            <field name="iqama_number"/>
+            <field name="iqama_expiry_date"/>
+            <field name="passport_number"/>
+            <field name="passport_expiry_date"/>
+            <field name="insurance_expiry_date"/>
+            <field name="state"/>
+          </group>
+          <field name="notes"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_dependent" model="ir.actions.act_window">
+    <field name="name">Employee Dependents</field>
+    <field name="res_model">saudi.employee.dependent</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+</odoo>

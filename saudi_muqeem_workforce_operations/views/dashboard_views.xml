@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="view_dashboard_kanban" model="ir.ui.view">
+        <field name="name">saudi.compliance.dashboard.kanban</field>
+        <field name="model">saudi.compliance.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban class="o_saudi_dashboard_kanban">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_saudi_dashboard_card">
+                            <div class="o_saudi_dashboard_title">
+                                <strong>
+                                    <field name="company_id"/>
+                                </strong>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-3">
+                                    <div class="o_saudi_kpi">
+                                        <span>Employees</span>
+                                        <strong>
+                                            <field name="employee_count"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="o_saudi_kpi success">
+                                        <span>Compliant</span>
+                                        <strong>
+                                            <field name="compliant_count"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="o_saudi_kpi warning">
+                                        <span>Attention</span>
+                                        <strong>
+                                            <field name="attention_count"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="o_saudi_kpi danger">
+                                        <span>Critical</span>
+                                        <strong>
+                                            <field name="critical_count"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-3">
+                                    <span>Compliance Rate</span>
+                                    <strong><field name="compliance_rate"/>%
+                                    </strong>
+                                </div>
+                                <div class="col-3">
+                                    <span>Expired Docs</span>
+                                    <strong>
+                                        <field name="expired_document_count"/>
+                                    </strong>
+                                </div>
+                                <div class="col-3">
+                                    <span>Expiring Docs</span>
+                                    <strong>
+                                        <field name="expiring_document_count"/>
+                                    </strong>
+                                </div>
+                                <div class="col-3">
+                                    <span>Open Cases</span>
+                                    <strong>
+                                        <field name="open_case_count"/>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-4">
+                                    <span>Gov. Transactions</span>
+                                    <strong>
+                                        <field name="pending_transaction_count"/>
+                                    </strong>
+                                </div>
+                                <div class="col-4">
+                                    <span>EOS Pending</span>
+                                    <strong>
+                                        <field name="pending_eos_count"/>
+                                    </strong>
+                                </div>
+                                <div class="col-4">
+                                    <span>WPS Pending</span>
+                                    <strong>
+                                        <field name="pending_wps_count"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_dashboard_tree" model="ir.ui.view">
+        <field name="name">saudi.compliance.dashboard.tree</field>
+        <field name="model">saudi.compliance.dashboard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id"/>
+                <field name="employee_count"/>
+                <field name="compliant_count"/>
+                <field name="attention_count"/>
+                <field name="critical_count"/>
+                <field name="compliance_rate"/>
+                <field name="expired_document_count"/>
+                <field name="expiring_document_count"/>
+                <field name="open_case_count"/>
+                <field name="pending_transaction_count"/>
+                <field name="pending_eos_count"/>
+                <field name="pending_wps_count"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_saudi_compliance_dashboard" model="ir.actions.act_window">
+        <field name="name">Saudi Compliance Dashboard</field>
+        <field name="res_model">saudi.compliance.dashboard</field>
+        <field name="view_mode">kanban,tree</field>
+    </record>
+</odoo>

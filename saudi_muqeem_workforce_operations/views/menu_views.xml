@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <menuitem id="menu_saudi_compliance_root" name="Saudi HR Government Compliance Hub" sequence="20" groups="saudi_muqeem_workforce_operations.group_saudi_compliance_user"/>
+  <menuitem id="menu_saudi_dashboard" name="Executive Compliance Dashboard" parent="menu_saudi_compliance_root" action="action_saudi_compliance_dashboard" sequence="1"/>
+  <menuitem id="menu_muqeem_operations_root" name="Muqeem Operations" parent="menu_saudi_compliance_root" sequence="10"/>
+  <menuitem id="menu_muqeem_command" name="Command Center" parent="menu_muqeem_operations_root" action="action_muqeem_command_center" sequence="1"/>
+  <menuitem id="menu_muqeem_profiles" name="Workforce Profiles" parent="menu_muqeem_operations_root" action="action_muqeem_profile" sequence="10"/>
+  <menuitem id="menu_muqeem_services" name="Government Service Requests" parent="menu_muqeem_operations_root" action="action_muqeem_services" sequence="20"/>
+  <menuitem id="menu_muqeem_travel" name="Travel Permits" parent="menu_muqeem_operations_root" action="action_muqeem_travel" sequence="30"/>
+  <menuitem id="menu_muqeem_transactions" name="Government Transactions" parent="menu_muqeem_operations_root" action="action_muqeem_tx" sequence="40"/>
+  <menuitem id="menu_muqeem_transfer" name="Sponsorship Transfers" parent="menu_muqeem_operations_root" action="action_muqeem_transfer" sequence="50"/>
+  <menuitem id="menu_muqeem_occupation" name="Occupation Changes" parent="menu_muqeem_operations_root" action="action_muqeem_occupation" sequence="60"/>
+  <menuitem id="menu_muqeem_docs" name="Workforce Documents" parent="menu_muqeem_operations_root" action="action_muqeem_document" sequence="70"/>
+  <menuitem id="menu_muqeem_charges" name="Government Charges" parent="menu_muqeem_operations_root" action="action_muqeem_charge" sequence="80"/>
+  <menuitem id="menu_saudi_compliance_root_operations" name="Compliance Operations" parent="menu_saudi_compliance_root" sequence="20"/>
+  <menuitem id="menu_saudi_employees" name="Employees" parent="menu_saudi_compliance_root_operations" action="hr.open_view_employee_list_my" sequence="5"/>
+  <menuitem id="menu_saudi_documents" name="Compliance Documents" parent="menu_saudi_compliance_root_operations" action="action_saudi_compliance_document" sequence="10"/>
+  <menuitem id="menu_saudi_cases" name="Compliance Cases" parent="menu_saudi_compliance_root_operations" action="action_saudi_compliance_case" sequence="20"/>
+  <menuitem id="menu_compliance_action" name="Action Plans" parent="menu_saudi_compliance_root_operations" action="action_compliance_action" sequence="30"/>
+  <menuitem id="menu_dependents" name="Dependents" parent="menu_saudi_compliance_root_operations" action="action_dependent" sequence="40"/>
+  <menuitem id="menu_saudi_eos" name="End of Service" parent="menu_saudi_compliance_root_operations" action="action_saudi_eos_request" sequence="50"/>
+  <menuitem id="menu_saudi_clearance" name="Employee Clearance" parent="menu_saudi_compliance_root_operations" action="action_saudi_clearance" sequence="60"/>
+  <menuitem id="menu_saudi_gosi" name="GOSI Profiles" parent="menu_saudi_compliance_root_operations" action="action_saudi_gosi_profile" sequence="70"/>
+  <menuitem id="menu_saudi_wps" name="WPS / Mudad" parent="menu_saudi_compliance_root_operations" action="action_saudi_wps_batch" sequence="80"/>
+  <menuitem id="menu_saudi_transactions" name="Compliance Transactions" parent="menu_saudi_compliance_root_operations" action="action_saudi_government_transaction" sequence="90"/>
+  <menuitem id="menu_saudi_audit" name="Audit Log" parent="menu_saudi_compliance_root_operations" action="action_compliance_audit" sequence="100" groups="saudi_muqeem_workforce_operations.group_saudi_compliance_manager"/>
+  <menuitem id="menu_bulk_reminder" name="Send Compliance Reminders" parent="menu_saudi_compliance_root_operations" action="action_bulk_reminder_wizard" sequence="110"/>
+  <menuitem id="menu_saudi_config" name="Configuration" parent="menu_saudi_compliance_root" sequence="100"/>
+  <menuitem id="menu_saudi_document_types" name="Document Types" parent="menu_saudi_config" action="action_saudi_document_type" sequence="10"/>
+  <menuitem id="menu_government_services" name="Government Services" parent="menu_saudi_config" action="action_government_service" sequence="20"/>
+</odoo>

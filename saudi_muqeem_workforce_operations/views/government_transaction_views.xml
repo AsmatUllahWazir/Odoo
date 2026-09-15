@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_transaction_tree" model="ir.ui.view">
+    <field name="name">saudi.government.transaction.tree</field>
+    <field name="model">saudi.government.transaction</field>
+    <field name="arch" type="xml">
+      <tree decoration-danger="state == 'failed'" decoration-success="state == 'done'">
+        <field name="name"/>
+        <field name="employee_id"/>
+        <field name="service_type"/>
+        <field name="provider"/>
+        <field name="request_date"/>
+        <field name="external_reference"/>
+        <field name="state" widget="badge"/>
+      </tree>
+    </field>
+  </record>
+  <record id="view_transaction_form" model="ir.ui.view">
+    <field name="name">saudi.government.transaction.form</field>
+    <field name="model">saudi.government.transaction</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_submit" type="object" string="Submit" class="btn-primary" invisible="state != 'draft'"/>
+          <button name="action_start_processing" type="object" string="Start Processing" invisible="state != 'submitted'"/>
+          <button name="action_complete" type="object" string="Complete" class="btn-success" invisible="state != 'processing'"/>
+          <button name="action_fail" type="object" string="Mark Failed" class="btn-danger" invisible="state != 'processing'"/>
+          <button name="action_retry" type="object" string="Retry" invisible="state != 'failed'"/>
+          <button name="action_cancel" type="object" string="Cancel" invisible="state in ('done','cancelled')"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,submitted,processing,done"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1>
+              <field name="name"/>
+            </h1>
+          </div>
+          <group>
+            <group>
+              <field name="employee_id"/>
+              <field name="service_type"/>
+              <field name="provider"/>
+              <field name="reference"/>
+            </group>
+            <group>
+              <field name="request_date"/>
+              <field name="requested_by"/>
+              <field name="external_reference"/>
+              <field name="result_date"/>
+            </group>
+          </group>
+          <group string="Transaction Data">
+            <field name="old_value"/>
+            <field name="new_value"/>
+            <field name="request_payload"/>
+            <field name="response_payload"/>
+            <field name="error_message"/>
+          </group>
+          <field name="attachment_ids" widget="many2many_binary"/>
+          <field name="notes"/>
+          <div class="oe_chatter">
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+          </div>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="view_transaction_search" model="ir.ui.view">
+    <field name="name">saudi.government.transaction.search</field>
+    <field name="model">saudi.government.transaction</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="employee_id"/>
+        <field name="service_type"/>
+        <field name="provider"/>
+        <field name="state"/>
+        <filter name="pending" string="Pending" domain="[('state','in',('submitted','processing'))]"/>
+        <filter name="failed" string="Failed" domain="[('state','=','failed')]"/>
+      </search>
+    </field>
+  </record>
+  <record id="action_saudi_government_transaction" model="ir.actions.act_window">
+    <field name="name">Government Transactions</field>
+    <field name="res_model">saudi.government.transaction</field>
+    <field name="view_mode">tree,form</field>
+    <field name="search_view_id" ref="view_transaction_search"/>
+  </record>
+</odoo>

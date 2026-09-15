@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+<!--  <template id="muqeem_portal_assets" inherit_id="portal.portal_layout">-->
+<!--    <xpath expr="//head" position="inside">-->
+<!--      <link rel="stylesheet" href="/saudi_muqeem_workforce_operations/static/src/css/muqeem_portal.css"/>-->
+<!--    </xpath>-->
+<!--  </template>-->
+  <template id="muqeem_portal_dashboard" name="My Muqeem Operations">
+    <t t-call="portal.portal_layout">
+      <div class="container py-5 muqeem_portal">
+        <div class="portal_hero">
+          <div>
+            <span>SAUDI WORKFORCE</span>
+            <h1>My Muqeem Operations</h1>
+            <p t-out="profile.name"/>
+          </div>
+          <div class="portal_score">
+            <small>Risk</small>
+            <strong t-out="round(profile.risk_score,0)"/>
+            <span t-out="profile.risk_level"/>
+          </div>
+        </div>
+        <div class="row g-4 mt-2">
+          <div class="col-lg-4">
+            <div class="portal_card">
+              <small>IQAMA</small>
+              <h2 t-out="profile.iqama_number or 'Not registered'"/>
+              <p><b t-out="profile.iqama_days"/> days remaining</p>
+              <div class="portal_bar">
+                <span t-att-style="'width:%s%%' % max(0,min(100,profile.iqama_days/365*100))"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="portal_card">
+              <small>TRAVEL READINESS</small>
+              <h2><t t-out="round(profile.travel_readiness,0)"/>%</h2>
+              <p>Current government/travel readiness score</p>
+              <div class="portal_bar">
+                <span t-att-style="'width:%s%%' % profile.travel_readiness"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="portal_card">
+              <small>MUQEEM STATUS</small>
+              <h2 t-out="profile.muqeem_status"/>
+              <p>Sync: <t t-out="profile.sync_state"/></p>
+            </div>
+          </div>
+        </div>
+        <div class="portal_section">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2>Government Requests</h2>
+            <a class="btn btn-primary" href="/my/muqeem/service/new">Request Service</a>
+          </div>
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Operation</th>
+                <th>Status</th>
+                <th>Eligibility</th>
+                <th>SLA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-foreach="profile.service_request_ids" t-as="r">
+                <tr>
+                  <td t-out="r.name"/>
+                  <td t-out="r.service_code"/>
+                  <td>
+                    <span class="portal_status" t-out="r.state"/>
+                  </td>
+                  <td t-out="round(r.eligibility_score,0)"/>
+                  <td t-out="r.sla_state"/>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+        </div>
+        <div class="portal_section">
+          <h2>Travel Permits</h2>
+          <div class="row g-3">
+            <t t-foreach="profile.visa_ids" t-as="v">
+              <div class="col-md-4">
+                <div class="portal_doc"><b t-out="v.permit_type"/><span t-out="v.permit_number or 'Pending'"/><strong t-out="v.days_to_return"/> days<br/><small t-out="v.travel_risk"/></div>
+              </div>
+            </t>
+          </div>
+        </div>
+        <div class="portal_section">
+          <h2>Documents</h2>
+          <div class="row g-3">
+            <t t-foreach="profile.document_ids" t-as="d">
+              <div class="col-md-4">
+                <div class="portal_doc"><b t-out="d.name"/><span t-out="d.document_type"/><strong t-out="d.days_remaining"/> days remaining</div>
+              </div>
+            </t>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+  <template id="muqeem_portal_empty" name="Muqeem Empty">
+    <t t-call="portal.portal_layout">
+      <div class="container py-5">
+        <div class="portal_section text-center">
+          <h1>Muqeem Workforce Operations</h1>
+          <p>No workforce profile is linked to your employee account.</p>
+        </div>
+      </div>
+    </t>
+  </template>
+  <template id="muqeem_portal_new_service" name="Muqeem New Service">
+    <t t-call="portal.portal_layout">
+      <div class="container py-5 muqeem_portal">
+        <div class="portal_section">
+          <h1>Request a Government Service</h1>
+          <form method="post">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <div class="mb-3">
+              <label class="form-label">Operation</label>
+              <select name="service_code" class="form-select">
+                <option value="iqama_renew">Iqama Renewal</option>
+                <option value="iqama_replace">Iqama Replacement</option>
+                <option value="exit_reentry">Exit/Re-Entry</option>
+                <option value="exit_reentry_extend">Extend Exit/Re-Entry</option>
+                <option value="final_exit">Final Exit</option>
+                <option value="sponsor_transfer">Sponsor Transfer</option>
+                <option value="occupation_change">Occupation Change</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Notes</label>
+              <textarea name="notes" class="form-control" rows="5"/>
+            </div>
+            <button class="btn btn-primary">Submit Request</button>
+          </form>
+        </div>
+      </div>
+    </t>
+  </template>
+</odoo>

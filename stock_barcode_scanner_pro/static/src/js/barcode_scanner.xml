@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="stock_barcode_scanner_pro.Scanner">
+        <div class="o_barcode_scanner_pro">
+            <div class="scanner-header">
+                <h3>Scan: <t t-esc="state.pickingName"/></h3>
+                <p class="text-muted">
+                    <t t-esc="state.partner"/> — <t t-esc="state.origin"/>
+                    <span t-if="state.state" class="badge bg-info ms-2"><t t-esc="state.state"/></span>
+                </p>
+            </div>
+
+            <div t-ref="reader" id="scanner-reader" class="scanner-reader"></div>
+
+            <div class="scanner-controls">
+                <button t-if="!state.scanning" t-on-click="startScanner" class="btn btn-primary btn-lg w-100 mb-2">
+                    Start Camera
+                </button>
+                <button t-if="state.scanning" t-on-click="stopScanner" class="btn btn-secondary btn-lg w-100 mb-2">
+                    Stop Camera
+                </button>
+                <button t-on-click="validatePicking"
+                        class="btn btn-success btn-lg w-100 mb-2"
+                        t-att-disabled="state.state === 'done' or state.state === 'cancel'">
+                    Validate Picking
+                </button>
+            </div>
+
+            <div class="scanner-manual mt-3">
+                <label class="form-label">Manual barcode entry:</label>
+                <div class="input-group">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Type barcode and press Enter"
+                           t-model="state.manualBarcode"
+                           t-on-keydown="(ev) => ev.key === 'Enter' && submitManual()"/>
+                    <button class="btn btn-outline-secondary" t-on-click="submitManual">Add</button>
+                </div>
+            </div>
+
+            <div class="scanner-log mt-3">
+                <t t-foreach="state.log" t-as="entry" t-key="entry.time + entry.message">
+                    <div t-attf-class="alert alert-#{entry.level} py-1 px-2 mb-1">
+                        <small><t t-esc="entry.time"/></small> — <t t-esc="entry.message"/>
+                    </div>
+                </t>
+            </div>
+
+            <div class="scanner-lines mt-4">
+                <h4>Lines</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Demand</th>
+                            <th>Done</th>
+                            <th>UoM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="state.lines" t-as="line" t-key="line.move_id">
+                            <tr>
+                                <td><t t-esc="line.product_name"/></td>
+                                <td><t t-esc="line.demand"/></td>
+                                <td><t t-esc="line.quantity"/></td>
+                                <td><t t-esc="line.uom"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </t>
+</templates>

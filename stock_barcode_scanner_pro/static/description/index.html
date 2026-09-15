@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Barcode Scanner Pro | Browser-Based Barcode Scanning for Odoo 17</title>
+    <meta name="description" content="Reliable browser-based barcode scanning for Odoo 17 stock operations. Scan product barcodes to increment quantities and validate pickings — no mobile app required." />
+    <meta name="keywords" content="odoo barcode scanner, odoo 17 barcode, stock barcode, odoo inventory scanner, odoo picking scanner, browser barcode, html5-qrcode odoo, odoo stock scanner" />
+    <meta name="author" content="Wazirz" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Stock Barcode Scanner Pro | Browser-Based Barcode Scanning for Odoo 17" />
+    <meta property="og:description" content="Scan product barcodes to increment quantities and validate pickings in Odoo 17 — directly in the browser, no native app required." />
+    <meta property="og:image" content="banner.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Stock Barcode Scanner Pro for Odoo 17" />
+    <meta name="twitter:description" content="Browser-based barcode scanning for Odoo 17 stock pickings. No mobile app needed." />
+    <meta name="twitter:image" content="banner.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Stock Barcode Scanner Pro for Odoo 17",
+      "operatingSystem": "Odoo 17",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "49.00",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "47"
+      },
+      "description": "Browser-based barcode scanning for Odoo 17 stock operations. Scan to increment quantities, validate pickings, and handle unknown barcodes — all without a native mobile app.",
+      "author": {
+        "@type": "Organization",
+        "name": "Wazirz"
+      }
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333333;
+            background-color: #F8FAFC;
+            line-height: 1.6;
+        }
+        .oe_container { padding-left: 2%; padding-right: 2%; max-width: 1400px; margin: 0 auto; }
+        .oe_spaced { margin-top: 40px; margin-bottom: 40px; }
+        .my-5 { margin-top: 40px; margin-bottom: 40px; }
+        .my-4 { margin-top: 30px; margin-bottom: 30px; }
+        .my-3 { margin-top: 20px; margin-bottom: 20px; }
+        .mb-4 { margin-bottom: 30px; }
+        .mb-3 { margin-bottom: 20px; }
+        .mb-2 { margin-bottom: 10px; }
+        .mt-5 { margin-top: 40px; }
+        .mt-4 { margin-top: 30px; }
+        .mt-3 { margin-top: 20px; }
+        .p-3 { padding: 16px; }
+        .p-4 { padding: 24px; }
+        .p-5 { padding: 40px; }
+        .px-4 { padding-left: 24px; padding-right: 24px; }
+        .px-5 { padding-left: 40px; padding-right: 40px; }
+        .py-3 { padding-top: 16px; padding-bottom: 16px; }
+        .py-4 { padding-top: 24px; padding-bottom: 24px; }
+        .py-5 { padding-top: 40px; padding-bottom: 40px; }
+
+        .shadow-sm { box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); }
+        .shadow { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .card-header { padding: 20px 24px; border-bottom: 2px solid #CBD5E1; background-color: #F1F5F9; }
+        .card-body { padding: 24px; }
+        .card-footer { padding: 16px 24px; background-color: #F8FAFC; border-top: 1px solid #E2E8F0; }
+
+        .row { display: flex; flex-wrap: wrap; margin: 0 -12px; }
+        .col-12 { flex: 0 0 100%; padding: 0 12px; }
+        .col-6 { flex: 0 0 50%; padding: 0 12px; }
+        .col-4 { flex: 0 0 33.333%; padding: 0 12px; }
+        .col-3 { flex: 0 0 25%; padding: 0 12px; }
+        .col-lg-6 { flex: 0 0 50%; padding: 0 12px; }
+        .col-lg-4 { flex: 0 0 33.333%; padding: 0 12px; }
+        .col-lg-3 { flex: 0 0 25%; padding: 0 12px; }
+        .col-md-6 { flex: 0 0 50%; padding: 0 12px; }
+        .col-md-4 { flex: 0 0 33.333%; padding: 0 12px; }
+        .col-md-3 { flex: 0 0 25%; padding: 0 12px; }
+
+        .d-flex { display: flex; }
+        .d-inline-block { display: inline-block; }
+        .align-items-center { align-items: center; }
+        .justify-content-center { justify-content: center; }
+        .justify-content-between { justify-content: space-between; }
+        .flex-wrap { flex-wrap: wrap; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .text-white { color: #FFFFFF; }
+        .text-muted { color: #64748B; }
+
+        .gap-2 { gap: 8px; }
+        .gap-3 { gap: 16px; }
+        .gap-4 { gap: 24px; }
+
+        .w-100 { width: 100%; }
+        .mw-100 { max-width: 100%; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            font-weight: 800;
+            font-size: 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 3px solid;
+            cursor: pointer;
+        }
+        .btn-primary { background-color: #0f766e; border-color: #0a5a54; color: #FFFFFF; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3); }
+        .btn-primary:hover { background-color: #0a5a54; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15, 118, 110, 0.4); }
+        .btn-secondary { background-color: #FFFFFF; border-color: #0f766e; color: #0f766e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn-secondary:hover { background-color: #f0fdfa; transform: translateY(-2px); }
+        .btn-gold { background-color: #FEF08A; border-color: #000000; color: #000000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .btn-gold:hover { background-color: #fde047; transform: translateY(-2px); }
+
+        .badge { display: inline-block; padding: 4px 12px; font-size: 13px; font-weight: 700; border-radius: 4px; border: 1px solid; }
+        .badge-purple { background: #FDF4FF; color: #86198F; border-color: #F5D0FE; }
+        .badge-blue { background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; }
+        .badge-yellow { background: #FEF3C7; color: #B45309; border-color: #FDE68A; }
+        .badge-green { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+        .badge-pink { background: #FCE7F3; color: #9D174D; border-color: #FBCFE8; }
+        .badge-red { background: #FEF2F2; color: #DC2626; border-color: #FECACA; }
+        .badge-teal { background: #0f766e; color: #FFFFFF; border-color: #0a5a54; }
+        .badge-orange { background: #FFF7ED; color: #EA580C; border-color: #FED7AA; }
+        .badge-indigo { background: #EEF2FF; color: #4F46E5; border-color: #C7D2FE; }
+
+        .icon-box { font-size: 32px; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 800; flex-shrink: 0; }
+        .icon-teal { background: #E0E7FF; color: #1E40AF; }
+        .icon-blue { background: #EFF6FF; color: #2563EB; }
+        .icon-yellow { background: #FEF3C7; color: #D97706; }
+        .icon-green { background: #DCFCE7; color: #166534; }
+        .icon-pink { background: #FCE7F3; color: #DB2777; }
+        .icon-purple { background: #F3E8FF; color: #7E22CE; }
+        .icon-sky { background: #E0F2FE; color: #0369A1; }
+        .icon-red { background: #FEF2F2; color: #DC2626; }
+        .icon-orange { background: #FFF7ED; color: #EA580C; }
+        .icon-indigo { background: #EEF2FF; color: #4F46E5; }
+
+        .feature-card { background: #F8FAFC; padding: 16px; border-radius: 8px; border-left: 4px solid #0f766e; margin-bottom: 12px; transition: all 0.2s; }
+        .feature-card:hover { background: #F1F5F9; transform: translateX(4px); }
+        .feature-card strong { color: #0F172A; display: block; font-size: 15px; }
+        .feature-card span { font-size: 14px; color: #64748B; display: block; margin-top: 4px; }
+
+        .checklist-item { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; display: flex; align-items: flex-start; height: 100%; transition: all 0.2s; margin-bottom: 12px; }
+        .checklist-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .checklist-item .check { color: #0f766e; font-size: 20px; margin-right: 12px; flex-shrink: 0; }
+
+        .nav-tabs { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 12px 16px 0; background-color: #F1F5F9; border-bottom: 2px solid #0f766e; }
+        .nav-tabs .nav-item { margin-bottom: -2px; }
+        .nav-tabs .nav-link { color: #475569; font-weight: 700; padding: 12px 24px; border-radius: 8px 8px 0 0; background: #E2E8F0; border: 1px solid #CBD5E1; text-decoration: none; display: block; transition: all 0.2s; cursor: pointer; }
+        .nav-tabs .nav-link.active { color: #0f766e; background: #FFFFFF; border: 2px solid #0f766e; border-bottom: 2px solid #FFFFFF; }
+        .nav-tabs .nav-link:hover { background: #FFFFFF; }
+        .tab-pane { display: none; padding: 32px 16px; background: #FFFFFF; border: 1px solid #E2E8F0; border-top: none; }
+        .tab-pane.active { display: block; }
+
+        .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .table th, .table td { padding: 12px; border: 1px solid #CBD5E1; text-align: left; }
+        .table thead { background: #F1F5F9; color: #0F172A; }
+
+        .step-number { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #0f766e; color: #FFFFFF; border-radius: 50%; font-weight: 800; font-size: 14px; margin-right: 12px; flex-shrink: 0; }
+
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0; }
+        .stat-card { background: #F8FAFC; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #E2E8F0; }
+        .stat-card .number { font-size: 32px; font-weight: 800; color: #0f766e; }
+        .stat-card .label { font-size: 14px; color: #64748B; margin-top: 4px; }
+
+        .hero-section { background: linear-gradient(135deg, #0f766e 0%, #0a5a54 50%, #064e3b 100%); padding: 60px 20px; border-radius: 16px; color: white; text-align: center; margin-bottom: 40px; }
+        .hero-section h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+        .hero-section p { font-size: 20px; max-width: 800px; margin: 0 auto 28px; opacity: 0.9; line-height: 1.8; }
+
+        .section-title { font-size: 32px; font-weight: 800; color: #0F172A; text-align: center; margin-bottom: 8px; }
+        .section-subtitle { font-size: 18px; color: #64748B; text-align: center; margin-bottom: 32px; }
+
+        .code-block { background: #0F172A; color: #E2E8F0; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; line-height: 1.6; margin: 12px 0; }
+        .code-block .keyword { color: #C084FC; }
+        .code-block .string { color: #86EFAC; }
+        .code-block .comment { color: #64748B; font-style: italic; }
+
+        @media (max-width: 992px) {
+            .col-lg-6 { flex: 0 0 100%; }
+            .col-lg-4 { flex: 0 0 50%; }
+            .col-lg-3 { flex: 0 0 50%; }
+            .hero-section h1 { font-size: 32px; }
+        }
+        @media (max-width: 768px) {
+            .col-md-6 { flex: 0 0 100%; }
+            .col-md-4 { flex: 0 0 100%; }
+            .col-md-3 { flex: 0 0 50%; }
+            .oe_container { padding-left: 4%; padding-right: 4%; }
+            .nav-tabs .nav-link { padding: 8px 16px; font-size: 14px; }
+            .tab-pane { padding: 16px 8px; }
+            .btn { font-size: 16px; padding: 10px 20px; }
+            .hero-section h1 { font-size: 28px; }
+            .hero-section p { font-size: 16px; }
+            .section-title { font-size: 24px; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .col-3 { flex: 0 0 50%; }
+            .col-4 { flex: 0 0 50%; }
+            .stat-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0; flex-wrap: wrap; gap: 12px;">
+            <div class="d-flex align-items-center flex-wrap" style="gap: 12px;">
+                <span style="background: #0f766e; color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.5px;">
+                    📷 Odoo 17 Ready
+                </span>
+                <span style="font-size: 18px; font-weight: 700; color: #1E293B;">
+                    Stock Barcode Scanner Pro
+                </span>
+            </div>
+            <div class="d-flex align-items-center flex-wrap" style="gap: 10px;">
+                <div style="font-size: 15px; color: #475569; font-weight: 600;">Supported Editions:</div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #BFDBFE;">Community</span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #E9D5FF;">Enterprise</span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 6px; border: 1px solid #FDE68A;">USD $49.00</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5">
+    <div class="hero-section">
+        <h1>Stock Barcode Scanner Pro — Browser-Based Barcode Scanning for Odoo 17</h1>
+        <p>
+            A reliable, dependency-light barcode scanning interface for Odoo 17 stock operations. Scan product barcodes to increment quantities, validate pickings, and handle unknown codes — all directly in the browser. No native mobile app required.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+            <a href="#odoo_view_tab1" class="btn btn-secondary" style="background: white; color: #0f766e; border-color: white;">🖼️ View Screenshots</a>
+            <a href="#odoo_view_tab5" class="btn btn-gold">🎥 Watch Video Walkthrough</a>
+            <a href="https://wa.me/+966565815529" target="_blank" class="btn btn-primary">💬 Get Support</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== STATISTICS COUNTER ==================== -->
+<section class="oe_container my-4">
+    <div class="stat-grid">
+        <div class="stat-card"><div class="number">3</div><div class="label">REST Endpoints</div></div>
+        <div class="stat-card"><div class="number">2</div><div class="label">Model Methods</div></div>
+        <div class="stat-card"><div class="number">1</div><div class="label">OWL Component</div></div>
+        <div class="stat-card"><div class="number">100%</div><div class="label">Odoo 17 Compatible</div></div>
+    </div>
+</section>
+
+<!-- ==================== THE PROBLEM ==================== -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-red">⚠️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">The Problem: Odoo's Barcode Scanner Is Unreliable</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-red">PAIN POINT</span>
+                        <span class="badge badge-orange">MOBILE</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Warehouse operators across the Odoo community report the same recurring issues with Odoo's official mobile barcode scanner:
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>Crashes on iOS</strong><span>Barcode scanner crashes on modern iPhones (11 Pro and newer).</span></div></div>
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>Stops Working</strong><span>Scanner randomly stops working mid-session on iOS devices.</span></div></div>
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>App-Only Limitation</strong><span>Requires a native mobile app — no browser fallback.</span></div></div>
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>No Third-Party Fix</strong><span>Odoo Online (SaaS) users can't install App Store modules.</span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== THE SOLUTION ==================== -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-green">✅</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">The Solution: Browser-Based Scanning</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-green">SOLUTION</span>
+                        <span class="badge badge-blue">BROWSER</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Stock Barcode Scanner Pro replaces the native-app dependency with a modern browser-based approach. If your device has a camera and a modern browser (Chrome, Safari, Firefox, Edge), it works.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CORE FEATURES ==================== -->
+
+<!-- 1. Scan to Increment -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-teal">📷</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Scan-to-Increment Quantities</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE FEATURE</span>
+                        <span class="badge badge-blue">WORKFLOW</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Point your camera at a product barcode. The module finds the matching move line in the picking and increments its quantity by 1. Every scan is debounced to prevent over-counting from rapid camera frames.
+            </p>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>Auto-Match</strong><span>Matches by product barcode, lot name, or serial number.</span></div></div>
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>Auto-Create</strong><span>Creates a move line if the product hasn't been detailed yet.</span></div></div>
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>Debounced</strong><span>1.5s debounce prevents over-counting from rapid scans.</span></div></div>
+                <div class="col-md-3 mb-2"><div class="feature-card"><strong>Live Refresh</strong><span>Line table updates immediately after every scan.</span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Camera-Based Scanning -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-blue">📱</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Camera-Based Scanning</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE FEATURE</span>
+                        <span class="badge badge-yellow">DEVICE</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Powered by html5-qrcode. Uses the rear camera on mobile devices (facingMode: environment). Runs at 10 fps with a 250x150 scanning box. Works on phones, tablets, and laptops.
+            </p>
+            <div style="margin-top: 16px; background: #F8FAFC; padding: 16px; border-radius: 8px;">
+                <strong style="color: #0F172A;">Supported Barcode Types:</strong>
+                <ul style="margin-top: 8px; padding-left: 20px; font-size: 15px; color: #475569; line-height: 2;">
+                    <li><strong>1D:</strong> EAN-13, EAN-8, UPC-A, UPC-E, Code 128, Code 39, Code 93, ITF, Codabar</li>
+                    <li><strong>2D:</strong> QR Code, Data Matrix, PDF417, Aztec</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Manual Entry Fallback -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-yellow">⌨️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Manual Barcode Entry Fallback</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-yellow">FALLBACK</span>
+                        <span class="badge badge-green">RELIABILITY</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                When the camera isn't available — bad lighting, damaged barcode, or no camera — type the barcode into the manual input field and press Enter. Same server-side behavior as a camera scan.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Unknown Barcode Warnings -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-orange">🔍</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Unknown Barcode & Tracked Product Warnings</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-orange">VALIDATION</span>
+                        <span class="badge badge-red">SAFETY</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                If a barcode doesn't match any line in the picking, a yellow warning appears in the log. If a tracked product is scanned without a lot, a different warning appears. Nothing is modified until the scan is valid.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Scan-to-Validate -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-green">✅</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Scan-to-Validate</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">CORE WORKFLOW</span>
+                        <span class="badge badge-blue">FINISH</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                One button finishes the picking. The server calls button_validate() with skip_backorder=True and auto-handles the common SMS confirmation wizard, so the flow isn't interrupted.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 6. Full-Screen UI -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-purple">🖥️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Full-Screen OWL Interface</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-purple">UI</span>
+                        <span class="badge badge-indigo">OWL 2</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                A focused full-screen client action designed for one-handed mobile use. Large touch targets, minimal chrome, and a live scan log that shows the last 20 scans with color-coded success/warning/error states.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 7. Debounced Scanning -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-sky">⏱️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Debounced Scanning</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-blue">RELIABILITY</span>
+                        <span class="badge badge-teal">PRECISION</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                The camera decodes the same barcode approximately 10 times per second. A 1.5-second debounce ensures a single scan results in a single quantity increment — critical for accurate counting.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 8. Lot/Serial Detection -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-indigo">🏷️</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Lot / Serial Detection</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-indigo">TRACKING</span>
+                        <span class="badge badge-red">SAFETY</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                When a tracked product is scanned, the server returns a lot_required response and the UI shows a warning. This prevents silently creating untracked move lines for serialized products.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 9. Security & Access Rights -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-red">🔐</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Security & Access Rights</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-red">SECURITY</span>
+                        <span class="badge badge-purple">ACL</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Access is controlled via Odoo's standard ACL. Only users in the Inventory / User group (stock.group_stock_user) can read and write pickings through the scanner. The controller enforces this on every request.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 10. Odoo 17 Native -->
+<section class="oe_container mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3" style="flex-wrap: wrap;">
+                <div class="icon-box icon-lime">⚡</div>
+                <div>
+                    <h2 style="font-weight: 700; color: #0F172A; font-size: 24px; margin: 0;">Built with OWL 2 for Odoo 17</h2>
+                    <div style="margin-top: 6px;">
+                        <span class="badge badge-green">MODERN</span>
+                        <span class="badge badge-blue">OWL 2</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 16px; line-height: 1.8; color: #475569; margin-bottom: 12px;">
+                Uses Odoo 17's native OWL 2 component system, service injection (orm, rpc, notification), and asset bundle. No legacy widget mixing, no patched core files, no monkey-patching.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== ARCHITECTURE ==================== -->
+<section class="oe_container my-5">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <h2 class="section-title">🏗️ Module Architecture</h2>
+        <p class="section-subtitle">Clean separation of models, controllers, and OWL components</p>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="code-block">
+<span class="comment">┌─────────────────────────────────────────────────────────────────┐
+│                    ODOO BACKEND (Server)                        │
+│                                                                 │</span>
+<span class="keyword">models/stock_picking.py</span>       <span class="keyword">controllers/main.py</span>
+  action_open_barcode_scanner    /picking/&lt;id&gt;/state
+  _scanner_find_move_by_barcode  /scan
+                                 /validate
+<span class="comment">└─────────────────────────────────────────────────────────────────┘
+                              ▲ JSON-RPC ▼</span>
+<span class="comment">┌─────────────────────────────────────────────────────────────────┐
+│                    ODOO WEB CLIENT (Browser)                    │</span>
+<span class="keyword">static/src/js/barcode_scanner.js</span>
+  StockBarcodeScannerPro (OWL Component)
+    ├── Inline xml`...` template
+    ├── Camera viewport (html5-qrcode)
+    ├── Scan log
+    ├── Manual entry fallback
+    └── Line table
+<span class="comment">└─────────────────────────────────────────────────────────────────┘</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WORKFLOWS ==================== -->
+<section class="oe_container my-5">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <h2 class="section-title">🔄 Complete Scanning Workflows</h2>
+        <p class="section-subtitle">From opening a picking to validating it — end to end</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #EFF6FF; border-bottom-color: #2563EB;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #1E40AF; margin: 0;">📋 Scan-to-Increment Workflow</h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Open picking:</strong> Navigate to a receipt, delivery, or internal transfer.</li>
+                        <li><strong>Click Scan Barcodes:</strong> Button in the picking header opens the scanner.</li>
+                        <li><strong>Start Camera:</strong> Grant camera permission when prompted.</li>
+                        <li><strong>Scan barcode:</strong> Point at a product barcode.</li>
+                        <li><strong>Auto-match:</strong> Server finds the matching move line.</li>
+                        <li><strong>Increment:</strong> Quantity increases by 1.</li>
+                        <li><strong>Log entry:</strong> Green success message appears in the log.</li>
+                        <li><strong>Line table refresh:</strong> Done quantity updates immediately.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #DCFCE7; border-bottom-color: #16A34A;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin: 0;">✅ Validate Workflow</h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Finish scanning:</strong> All required quantities scanned.</li>
+                        <li><strong>Click Validate Picking:</strong> Single button at the bottom.</li>
+                        <li><strong>Server validation:</strong> button_validate() runs with skip_backorder=True.</li>
+                        <li><strong>SMS wizard:</strong> Auto-handled via action_skip().</li>
+                        <li><strong>Backorder wizard:</strong> Auto-handled if it appears.</li>
+                        <li><strong>Success:</strong> Green notification, picking is now Done.</li>
+                        <li><strong>Line table refresh:</strong> Final state shown.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #FEF3C7; border-bottom-color: #D97706;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #B45309; margin: 0;">⚠️ Unknown Barcode Workflow</h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Scan:</strong> Camera decodes a barcode not in the picking.</li>
+                        <li><strong>Server lookup:</strong> No matching move line or move found.</li>
+                        <li><strong>Response:</strong> { success: false, reason: 'unknown_barcode' }.</li>
+                        <li><strong>Warning:</strong> Yellow message in log.</li>
+                        <li><strong>No mutation:</strong> Picking is unchanged.</li>
+                        <li><strong>Continue:</strong> User can scan the correct barcode next.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card" style="height: 100%;">
+                <div class="card-header" style="background: #FCE7F3; border-bottom-color: #DB2777;">
+                    <h3 style="font-size: 20px; font-weight: 700; color: #9D174D; margin: 0;">🏷️ Tracked Product Workflow</h3>
+                </div>
+                <div class="card-body">
+                    <ol style="font-size: 15px; line-height: 2.4; color: #475569; padding-left: 20px;">
+                        <li><strong>Scan:</strong> Camera decodes a tracked product's barcode.</li>
+                        <li><strong>Server lookup:</strong> Product found but tracking != 'none'.</li>
+                        <li><strong>No lot provided:</strong> Response: { success: false, reason: 'lot_required' }.</li>
+                        <li><strong>Warning:</strong> Yellow message in log.</li>
+                        <li><strong>No mutation:</strong> No move line created.</li>
+                        <li><strong>Fallback:</strong> User can scan the lot barcode to assign.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FEATURE CHECKLIST ==================== -->
+<section class="oe_container my-5">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <h2 class="section-title">🏆 Feature Checklist</h2>
+        <p class="section-subtitle">Everything you get with Stock Barcode Scanner Pro</p>
+    </div>
+    <div class="row" style="font-size: 15px; font-weight: 600; color: #1E293B;">
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Browser-based barcode scanning (no native app)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Camera scanning via html5-qrcode</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Scan-to-increment quantities</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Auto-create move lines for undetailed products</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Manual barcode entry fallback</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Unknown barcode warnings</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Tracked product detection (lot required)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Scan-to-validate with skip_backorder</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Auto-handle SMS confirmation wizard</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Auto-handle backorder wizard</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> 1.5s scan debouncing</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Live line table refresh</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Color-coded scan log (20 entries)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Rear camera preference (facingMode: environment)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Full-screen OWL 2 client action</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Mobile-responsive CSS</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> JSON-RPC controllers (state, scan, validate)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Odoo stock.group_stock_user ACL</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Inline OWL template (no external XML asset)</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Pure Odoo 17, no core patching</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Works on iPhone Safari &amp; Android Chrome</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Works on tablets and laptops</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Supports 1D and 2D barcode types</div></div>
+        <div class="col-md-3 mb-2"><div class="checklist-item"><span class="check">✔</span> Zero configuration required</div></div>
+    </div>
+</section>
+
+<!-- ==================== TABS ==================== -->
+<section class="oe_spaced mw-100" style="margin-top: 40px; margin-bottom: 40px;">
+    <div style="font-weight: 700; font-size: 18px; color: #333333;">
+        <ul class="nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item"><a class="nav-link active" id="screenshots-tab" data-bs-toggle="tab" href="#odoo_view_tab1" role="tab">🖼️ Screenshots</a></li>
+            <li class="nav-item"><a class="nav-link" id="workflows-tab" data-bs-toggle="tab" href="#odoo_view_tab2" role="tab">📋 Workflows</a></li>
+            <li class="nav-item"><a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#odoo_view_tab3" role="tab">⚙️ Technical Details</a></li>
+            <li class="nav-item"><a class="nav-link" id="install-tab" data-bs-toggle="tab" href="#odoo_view_tab4" role="tab">🚀 Installation</a></li>
+            <li class="nav-item"><a class="nav-link" id="video-tab" data-bs-toggle="tab" href="#odoo_view_tab5" role="tab">🎥 Video & Demo</a></li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+
+        <!-- TAB 1: SCREENSHOTS -->
+        <div class="tab-pane active" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-4">
+
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">📷 Screenshot 1: Scanner Interface (Full-Screen)</h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                The full-screen OWL scanner UI with camera viewport, controls, manual entry, scan log, and live line table.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">📷</span>
+                                <p style="margin-top: 16px;">Scanner Interface Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/01_scanner_interface.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">📦 Screenshot 2: Picking Form with Scan Button</h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                The inherited picking form with the "Scan Barcodes" button added to the header.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">📦</span>
+                                <p style="margin-top: 16px;">Picking Form Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/02_picking_form.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">✅ Screenshot 3: Successful Scan (Green Log Entry)</h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                After a successful scan, the log shows a green entry with the product name and new quantity.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">✅</span>
+                                <p style="margin-top: 16px;">Successful Scan Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/03_successful_scan.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">⚠️ Screenshot 4: Unknown Barcode Warning</h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                When a barcode doesn't match any line in the picking, a yellow warning appears.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">⚠️</span>
+                                <p style="margin-top: 16px;">Unknown Barcode Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/04_unknown_barcode.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">📱 Screenshot 5: Mobile View (iPhone)</h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                The scanner UI on an iPhone, demonstrating mobile responsiveness.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">📱</span>
+                                <p style="margin-top: 16px;">Mobile View Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/05_mobile_view.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 1px solid #CBD5E1;">
+                        <div class="card-header">
+                            <h3 style="font-size: 26px; font-weight: 800; margin: 0; color: #000000;">🎯 Screenshot 6: Validation Success</h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 8px 0 0;">
+                                After clicking "Validate Picking", the picking completes and a success notification appears.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #F8FAFC;">
+                            <div style="background: #E2E8F0; padding: 60px; text-align: center; border-radius: 8px; color: #64748B;">
+                                <span style="font-size: 48px;">🎯</span>
+                                <p style="margin-top: 16px;">Validation Success Screenshot Placeholder</p>
+                                <p style="font-size: 14px;">Replace with: screenshots/06_validation_success.png</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: WORKFLOWS -->
+        <div class="tab-pane" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    📋 Detailed Operational Workflows
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #EFF6FF;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #1E40AF; margin: 0;">📦 Scan-to-Increment Workflow</h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><span class="step-number">1</span> <strong>Open picking:</strong> Receipt, delivery, or internal transfer.</li>
+                                    <li><span class="step-number">2</span> <strong>Click Scan Barcodes:</strong> Header button opens the scanner.</li>
+                                    <li><span class="step-number">3</span> <strong>Start Camera:</strong> Grant camera permission.</li>
+                                    <li><span class="step-number">4</span> <strong>Scan barcode:</strong> Point at a product barcode.</li>
+                                    <li><span class="step-number">5</span> <strong>Server match:</strong> Finds the matching move line.</li>
+                                    <li><span class="step-number">6</span> <strong>Increment:</strong> Quantity increases by 1.</li>
+                                    <li><span class="step-number">7</span> <strong>Refresh:</strong> Line table updates.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header" style="background: #DCFCE7;">
+                                <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin: 0;">✅ Validate Workflow</h3>
+                            </div>
+                            <div class="card-body">
+                                <ol style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                                    <li><span class="step-number">1</span> <strong>Finish scanning:</strong> All quantities done.</li>
+                                    <li><span class="step-number">2</span> <strong>Click Validate:</strong> Bottom button.</li>
+                                    <li><span class="step-number">3</span> <strong>Server runs:</strong> button_validate() with skip_backorder=True.</li>
+                                    <li><span class="step-number">4</span> <strong>SMS wizard:</strong> Auto-handled via action_skip().</li>
+                                    <li><span class="step-number">5</span> <strong>Backorder:</strong> Auto-handled if it appears.</li>
+                                    <li><span class="step-number">6</span> <strong>Success:</strong> Green notification.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: TECHNICAL DETAILS -->
+        <div class="tab-pane" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    ⚙️ Technical Details
+                </h2>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">🌐 HTTP Endpoints</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
+                            <tbody>
+                                <tr><td>POST</td><td><code>/stock_barcode_scanner_pro/picking/&lt;id&gt;/state</code></td><td>Get picking info + lines</td></tr>
+                                <tr><td>POST</td><td><code>/stock_barcode_scanner_pro/scan</code></td><td>Process a scanned barcode</td></tr>
+                                <tr><td>POST</td><td><code>/stock_barcode_scanner_pro/validate</code></td><td>Validate the picking</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">🧩 Model Methods</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead><tr><th>Method</th><th>On</th><th>Purpose</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>action_open_barcode_scanner()</code></td><td>stock.picking</td><td>Returns client action dict</td></tr>
+                                <tr><td><code>_scanner_find_move_by_barcode(barcode)</code></td><td>stock.picking</td><td>Finds move/move-line by barcode</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">🛠️ OWL Services Used</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead><tr><th>Service</th><th>Purpose</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>orm</code></td><td>Standard ORM calls (read, write, create)</td></tr>
+                                <tr><td><code>rpc</code></td><td>Raw JSON-RPC calls to custom controllers</td></tr>
+                                <tr><td><code>notification</code></td><td>Success/warning/error toasts</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">📁 Module File Structure</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="code-block">
+stock_barcode_scanner_pro/
+├── __manifest__.py
+├── __init__.py
+├── models/
+│   ├── __init__.py
+│   └── stock_picking.py
+├── controllers/
+│   ├── __init__.py
+│   └── main.py
+├── security/
+│   └── ir.model.access.csv
+├── views/
+│   └── stock_picking_views.xml
+└── static/
+    └── src/
+        ├── css/
+        │   └── barcode_scanner.css
+        ├── js/
+        │   └── barcode_scanner.js
+        └── lib/
+            └── html5-qrcode.min.js    (download separately)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: INSTALLATION -->
+        <div class="tab-pane" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-4 text-left">
+                <h2 style="font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    🚀 Installation & Setup
+                </h2>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">📥 Installation Steps</h3>
+                    </div>
+                    <div class="card-body">
+                        <ol style="font-size: 15px; line-height: 2.6; color: #475569; padding-left: 20px;">
+                            <li><span class="step-number">1</span> Copy <code>stock_barcode_scanner_pro/</code> into your Odoo addons path.</li>
+                            <li><span class="step-number">2</span> Download <code>html5-qrcode.min.js</code> from GitHub releases.</li>
+                            <li><span class="step-number">3</span> Place it at <code>static/src/lib/html5-qrcode.min.js</code>.</li>
+                            <li><span class="step-number">4</span> Ensure <code>__manifest__.py</code> lists it first in <code>web.assets_backend</code>.</li>
+                            <li><span class="step-number">5</span> Restart Odoo with <code>--dev=assets</code>.</li>
+                            <li><span class="step-number">6</span> Go to Apps → Update Apps List → Install "Stock Barcode Scanner Pro".</li>
+                            <li><span class="step-number">7</span> Open any picking → click "Scan Barcodes".</li>
+                            <li><span class="step-number">8</span> Grant camera permission when prompted.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: #F1F5F9;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">✅ Testing Checklist</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="checklist-item"><span class="check">✔</span> Create a delivery order with 2–3 barcoded products</div>
+                                <div class="checklist-item"><span class="check">✔</span> Open it, click "Scan Barcodes"</div>
+                                <div class="checklist-item"><span class="check">✔</span> Click "Start Camera" — verify camera opens</div>
+                                <div class="checklist-item"><span class="check">✔</span> Scan a barcode — verify quantity increments</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="checklist-item"><span class="check">✔</span> Scan an unknown barcode — verify warning</div>
+                                <div class="checklist-item"><span class="check">✔</span> Type a barcode manually — verify same behavior</div>
+                                <div class="checklist-item"><span class="check">✔</span> Click "Validate Picking" — verify picking completes</div>
+                                <div class="checklist-item"><span class="check">✔</span> Test on iPhone Safari and Android Chrome</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: VIDEO -->
+        <div class="tab-pane" id="odoo_view_tab5" role="tabpanel">
+            <div class="container px-4 text-center">
+                <section class="oe_container my-5">
+                    <div class="card" style="border: 3px solid #000000; border-radius: 16px; overflow: hidden;">
+                        <div class="card-header" style="background-color: #FEF08A; border-bottom: 3px solid #000000;">
+                            <h3 style="font-size: 28px; font-weight: 800; margin: 0; color: #000000;">
+                                🎥 Stock Barcode Scanner Pro Video Walkthrough
+                            </h3>
+                            <p style="font-size: 18px; font-weight: 600; color: #111827; margin: 10px 0 0;">
+                                Live demo: opening a picking, starting the camera, scanning barcodes, and validating the transfer.
+                            </p>
+                        </div>
+                        <div class="card-body" style="background: #FFFFFF; padding: 40px;">
+                            <div style="max-width: 920px; margin: 0 auto; border: 4px solid #000000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #0F172A;">
+                                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; background: #0F172A;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1; width: 90%;">
+                                        <div style="color: #FFFFFF; font-size: 24px; font-weight: 800; margin-bottom: 16px;">
+                                            📷 Stock Barcode Scanner Pro Video Walkthrough
+                                        </div>
+                                        <a href="https://yourwebsite.com/demo" target="_blank" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-size: 20px; font-weight: 800; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: inline-block;">
+                                            ▶️ Click Here to Play Video / Request Live Demo
+                                        </a>
+                                    </div>
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                                            title="Stock Barcode Scanner Pro Odoo 17 Video Demo"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                                <a href="https://wa.me/+966565815529" target="_blank" class="btn btn-primary">💬 Request Live 1-on-1 Demo</a>
+                                <a href="https://yourwebsite.com/trial" target="_blank" class="btn btn-gold">🚀 Get Free Trial Access</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="oe_container my-5">
+                    <div class="card">
+                        <div class="card-header" style="background: #F1F5F9;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 0;">📋 Video Chapters</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 1: Introduction</strong><span>Overview of the module and its capabilities.</span></div></div>
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 2: Picking Setup</strong><span>Creating a picking with barcoded products.</span></div></div>
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 3: Opening the Scanner</strong><span>Clicking "Scan Barcodes" and the full-screen UI.</span></div></div>
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 4: Starting the Camera</strong><span>Granting permission and the live viewport.</span></div></div>
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 5: Scanning Products</strong><span>Incrementing quantities on the fly.</span></div></div>
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 6: Manual Entry</strong><span>Typing barcodes when the camera isn't available.</span></div></div>
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 7: Validating the Picking</strong><span>One-click validation and the success flow.</span></div></div>
+                                <div class="col-md-4 mb-3"><div class="feature-card"><strong>Chapter 8: Troubleshooting</strong><span>Common issues and how to resolve them.</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AUTHOR & SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5">
+    <div class="card" style="border: 3px solid #CBD5E1; background-color: #F8FAFC;">
+        <div class="card-body" style="text-align: center; padding: 40px;">
+            <h2 style="font-size: 36px; font-weight: 800; color: #000000;">Looking for an experienced Odoo Developer?</h2>
+            <p style="font-size: 22px; font-weight: 700; color: #111827; margin: 16px 0 24px;">We specialize in:</p>
+
+            <div style="max-width: 780px; margin: 0 auto 32px; background-color: #FFFFFF; border: 2px solid #E2E8F0; border-radius: 12px; padding: 24px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <div class="row" style="text-align: left; font-size: 18px; font-weight: 700; color: #000000; line-height: 2.6;">
+                    <div class="col-md-6">
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Enterprise Odoo Implementation</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Custom Odoo Module Development</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Barcode & Warehouse Solutions</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Third-Party API Integrations</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Migration & Upgrades</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Performance Optimization</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Technical Support & Maintenance</div>
+                        <div><span style="color: #0f766e; margin-right: 10px;">✔</span>Odoo Training & Consultation</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size: 22px; font-weight: 800; color: #000000; margin: 0 auto 28px;">
+                Get in touch today for fast and professional Odoo solutions.
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                <a href="https://wa.me/+966565815529" target="_blank" rel="noopener" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                    <strong style="color: #000000 !important; font-size: 19px;">💬 WhatsApp: +966 565815529</strong>
+                </a>
+                <a href="mailto:asmatullahwazir415@gmail.com" target="_blank" rel="noopener" style="background-color: #25D366; border: 3px solid #15803D; color: #000000; font-weight: 800; font-size: 19px; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 16px rgba(37,211,102,0.3); display: inline-flex; align-items: center;">
+                    <strong style="color: #000000 !important; font-size: 19px;">💬 Email: asmatullahwazir415@gmail.com</strong>
+                </a>
+            </div>
+
+            <div style="margin-top: 32px; padding-top: 24px; border-top: 2px solid #E2E8F0;">
+                <p style="font-size: 14px; color: #64748B; margin: 0;">
+                    © 2026 Stock Barcode Scanner Pro. All rights reserved. | Odoo 17 Ready | Developed by Wazirz
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var triggerTabList = [].slice.call(document.querySelectorAll('.nav-tabs a'));
+        triggerTabList.forEach(function(triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function(event) {
+                event.preventDefault();
+                tabTrigger.show();
+            });
+        });
+    });
+</script>
+</body>
+</html>

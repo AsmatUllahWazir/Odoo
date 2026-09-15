@@ -1,0 +1,49 @@
+.o_barcode_scanner_pro {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 12px;
+    background: #f5f5f5;
+    min-height: 100vh;
+}
+
+.o_barcode_scanner_pro .scanner-header h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.25rem;
+}
+
+.o_barcode_scanner_pro .scanner-reader {
+    width: 100%;
+    max-width: 480px;
+    margin: 12px auto;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 240px;
+}
+
+.o_barcode_scanner_pro .scanner-controls {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.o_barcode_scanner_pro .scanner-manual {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.o_barcode_scanner_pro .scanner-log {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.o_barcode_scanner_pro .scanner-lines {
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+    .o_barcode_scanner_pro .scanner-header h3 {
+        font-size: 1rem;
+    }
+}

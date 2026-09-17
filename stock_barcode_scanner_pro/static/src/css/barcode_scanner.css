@@ -1,49 +1,236 @@
+/* Root wrapper: make it scrollable inside Odoo's action container */
 .o_barcode_scanner_pro {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 12px;
+    position: absolute;
+    inset: 0;
     background: #f5f5f5;
-    min-height: 100vh;
+    overflow: hidden;
 }
 
+.o_barcode_scanner_pro .scanner-scroll {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 16px 40px;
+    box-sizing: border-box;
+}
+
+.o_barcode_scanner_pro .scanner-inner,
+.o_barcode_scanner_pro .scanner-scroll > * {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Header */
+.o_barcode_scanner_pro .scanner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
 .o_barcode_scanner_pro .scanner-header h3 {
     margin: 0 0 4px 0;
     font-size: 1.25rem;
+    font-weight: 700;
+}
+.o_barcode_scanner_pro .scanner-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 999px;
+}
+.o_barcode_scanner_pro .status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.o_barcode_scanner_pro .status-live {
+    background: #16A34A;
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
+    animation: pulse-live 1.6s infinite;
+}
+.o_barcode_scanner_pro .status-off {
+    background: #94A3B8;
+}
+@keyframes pulse-live {
+    0%   { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
 }
 
-.o_barcode_scanner_pro .scanner-reader {
+/* Camera viewport */
+.o_barcode_scanner_pro .scanner-camera-wrap {
+    position: relative;
     width: 100%;
     max-width: 480px;
     margin: 12px auto;
+    aspect-ratio: 1 / 1;
     background: #000;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    min-height: 240px;
+}
+.o_barcode_scanner_pro .scanner-reader {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.o_barcode_scanner_pro .scanner-reader video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block;
+}
+.o_barcode_scanner_pro .scanner-reader canvas {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none;
 }
 
+/* Green scanning box: html5-qrcode draws it as a div overlay with class qrbox-shaded-region */
+.o_barcode_scanner_pro #qr-shaded-region,
+.o_barcode_scanner_pro .qrbox-shaded-region {
+    border: 3px solid #22C55E !important;
+    border-radius: 8px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+}
+
+/* Flash overlay */
+.o_barcode_scanner_pro .scanner-flash {
+    position: absolute;
+    inset: 0;
+    background: rgba(34, 197, 94, 0.35);
+    pointer-events: none;
+    animation: flash-fade 0.6s ease-out forwards;
+}
+@keyframes flash-fade {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+.o_barcode_scanner_pro .scanner-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.o_barcode_scanner_pro .scanner-overlay-text {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    padding: 12px 20px;
+    background: rgba(22, 163, 74, 0.85);
+    border-radius: 12px;
+    animation: pop-in 0.4s ease-out;
+}
+.o_barcode_scanner_pro .scanner-overlay-qty {
+    font-size: 32px;
+    margin-top: 4px;
+}
+@keyframes pop-in {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Controls */
 .o_barcode_scanner_pro .scanner-controls {
     max-width: 480px;
     margin: 0 auto;
 }
 
+/* Manual entry */
 .o_barcode_scanner_pro .scanner-manual {
     max-width: 480px;
     margin: 0 auto;
 }
 
+/* Log */
 .o_barcode_scanner_pro .scanner-log {
-    max-height: 220px;
+    max-width: 480px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    max-height: 240px;
     overflow-y: auto;
 }
+.o_barcode_scanner_pro .scanner-log-title,
+.o_barcode_scanner_pro .scanner-lines-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.o_barcode_scanner_pro .scanner-log-entry {
+    display: flex;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 4px;
+    border-left: 3px solid;
+}
+.o_barcode_scanner_pro .log-success { background: #DCFCE7; border-color: #16A34A; color: #14532D; }
+.o_barcode_scanner_pro .log-warning { background: #FEF3C7; border-color: #D97706; color: #78350F; }
+.o_barcode_scanner_pro .log-danger  { background: #FEF2F2; border-color: #DC2626; color: #7F1D1D; }
+.o_barcode_scanner_pro .log-info    { background: #EFF6FF; border-color: #2563EB; color: #1E3A8A; }
+.o_barcode_scanner_pro .log-time {
+    flex-shrink: 0;
+    font-weight: 600;
+    opacity: 0.75;
+}
 
+/* Lines table */
 .o_barcode_scanner_pro .scanner-lines {
     background: #fff;
     padding: 12px;
     border-radius: 8px;
+    border: 1px solid #E2E8F0;
+}
+.o_barcode_scanner_pro .line-row {
+    transition: background 0.4s ease;
+}
+.o_barcode_scanner_pro .line-complete {
+    background: #F0FDF4;
+}
+.o_barcode_scanner_pro .line-highlight {
+    background: #FEF3C7 !important;
+    animation: row-flash 1.2s ease-out;
+}
+@keyframes row-flash {
+    0%   { background: #FDE047; }
+    100% { background: #FEF3C7; }
+}
+
+/* Footer hint */
+.o_barcode_scanner_pro .scanner-footer-hint {
+    max-width: 480px;
+    margin: 24px auto 0;
+    text-align: center;
+    font-size: 13px;
+    color: #64748B;
 }
 
 @media (max-width: 480px) {
-    .o_barcode_scanner_pro .scanner-header h3 {
-        font-size: 1rem;
-    }
+    .o_barcode_scanner_pro .scanner-header h3 { font-size: 1rem; }
+    .o_barcode_scanner_pro .scanner-camera-wrap { aspect-ratio: 4 / 3; }
 }

@@ -19,7 +19,7 @@ Features:
     'website': '',
     'category': 'Inventory/Inventory',
     'license': 'OPL-1',
-    'price': 49.00,
+    'price': 39.00,
     'currency': 'USD',
     'depends': ['stock', 'web'],
     'data': [

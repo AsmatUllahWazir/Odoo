@@ -35,6 +35,7 @@ Features:
             # 'stock_barcode_scanner_pro/static/src/js/barcode_scanner.xml',
         ],
     },
+    'images': ['static/description/icon.png'],
     'installable': True,
     'application': False,
     'auto_install': False,

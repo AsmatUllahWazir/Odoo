@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_aging_report_wizard_form" model="ir.ui.view">
+        <field name="name">aging.report.wizard.form</field>
+        <field name="model">aging.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Inventory Aging Report">
+                <group>
+                    <group string="Filters">
+                        <field name="date_to"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="aging_bucket"/>
+                        <field name="only_dead_stock"/>
+                        <field name="only_high_priority"/>
+                        <field name="include_zero_qty"/>
+                    </group>
+                    <group string="Optional Product Filter">
+                        <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print_pdf" string="Generate PDF Report" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aging_report_wizard" model="ir.actions.act_window">
+        <field name="name">Aging Report</field>
+        <field name="res_model">aging.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

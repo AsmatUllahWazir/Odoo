@@ -1,0 +1,334 @@
+/* =========================================================
+   Smart Inventory Analytics – Modern Dashboard (scrollable)
+   ========================================================= */
+
+/* Force the action container to allow scrolling */
+.o_action_manager .o_smart_inventory_dashboard,
+.o_content .o_smart_inventory_dashboard,
+.o_action .o_smart_inventory_dashboard {
+    height: 100% !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+.o_smart_inventory_dashboard {
+    display: block;
+    box-sizing: border-box;
+    background: linear-gradient(160deg, #f0f4f8 0%, #e8eef5 45%, #f7f9fc 100%);
+    padding: 28px 32px 60px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100%;
+}
+
+/* ---------- Header ---------- */
+.o_smart_inventory_dashboard .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.o_smart_inventory_dashboard .dashboard-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a2332;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+}
+
+.o_smart_inventory_dashboard .dashboard-header .subtitle {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.o_smart_inventory_dashboard .refresh-hint {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    background: rgba(255,255,255,0.75);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+/* ---------- KPI Cards ---------- */
+.o_smart_inventory_dashboard .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.o_smart_inventory_dashboard .kpi-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.o_smart_inventory_dashboard .kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+}
+
+.o_smart_inventory_dashboard .kpi-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    border-radius: 16px 0 0 16px;
+}
+
+.o_smart_inventory_dashboard .kpi-card.kpi-blue::before   { background: linear-gradient(180deg, #3b82f6, #2563eb); }
+.o_smart_inventory_dashboard .kpi-card.kpi-red::before    { background: linear-gradient(180deg, #ef4444, #dc2626); }
+.o_smart_inventory_dashboard .kpi-card.kpi-green::before  { background: linear-gradient(180deg, #22c55e, #16a34a); }
+.o_smart_inventory_dashboard .kpi-card.kpi-orange::before { background: linear-gradient(180deg, #f97316, #ea580c); }
+.o_smart_inventory_dashboard .kpi-card.kpi-purple::before { background: linear-gradient(180deg, #a855f7, #9333ea); }
+
+.o_smart_inventory_dashboard .kpi-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+}
+
+.o_smart_inventory_dashboard .kpi-blue .kpi-icon   { background: #eff6ff; color: #2563eb; }
+.o_smart_inventory_dashboard .kpi-red .kpi-icon    { background: #fef2f2; color: #dc2626; }
+.o_smart_inventory_dashboard .kpi-green .kpi-icon  { background: #f0fdf4; color: #16a34a; }
+.o_smart_inventory_dashboard .kpi-orange .kpi-icon { background: #fff7ed; color: #ea580c; }
+.o_smart_inventory_dashboard .kpi-purple .kpi-icon { background: #faf5ff; color: #9333ea; }
+
+.o_smart_inventory_dashboard .kpi-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.o_smart_inventory_dashboard .kpi-value {
+    font-size: 1.85rem;
+    font-weight: 750;
+    color: #0f172a;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.o_smart_inventory_dashboard .kpi-card.kpi-red .kpi-value   { color: #dc2626; }
+.o_smart_inventory_dashboard .kpi-card.kpi-orange .kpi-value { color: #c2410c; }
+
+.o_smart_inventory_dashboard .kpi-sub {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 6px;
+}
+
+/* ---------- Section Cards ---------- */
+.o_smart_inventory_dashboard .section-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    padding: 24px 26px;
+    margin-bottom: 24px;
+}
+
+.o_smart_inventory_dashboard .section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.o_smart_inventory_dashboard .section-title i {
+    color: #64748b;
+    font-size: 1rem;
+}
+
+/* ---------- Aging Buckets ---------- */
+.o_smart_inventory_dashboard .bucket-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 900px) {
+    .o_smart_inventory_dashboard .bucket-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .o_smart_inventory_dashboard .bucket-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.o_smart_inventory_dashboard .bucket-item {
+    text-align: center;
+    padding: 18px 12px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.o_smart_inventory_dashboard .bucket-item:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.o_smart_inventory_dashboard .bucket-item.danger {
+    background: linear-gradient(145deg, #fef2f2, #fff1f2);
+    border-color: #fecaca;
+}
+
+.o_smart_inventory_dashboard .bucket-count {
+    font-size: 1.55rem;
+    font-weight: 750;
+    color: #1e293b;
+    line-height: 1.2;
+}
+
+.o_smart_inventory_dashboard .bucket-item.danger .bucket-count {
+    color: #dc2626;
+}
+
+.o_smart_inventory_dashboard .bucket-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ---------- Tables ---------- */
+.o_smart_inventory_dashboard .tables-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 1100px) {
+    .o_smart_inventory_dashboard .tables-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.o_smart_inventory_dashboard .top-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.o_smart_inventory_dashboard .top-list-table thead th {
+    font-weight: 650;
+    color: #64748b;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 10px 10px;
+    border-bottom: 2px solid #e2e8f0;
+    text-align: left;
+}
+
+.o_smart_inventory_dashboard .top-list-table thead th.text-end {
+    text-align: right;
+}
+
+.o_smart_inventory_dashboard .top-list-table tbody td {
+    padding: 11px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.o_smart_inventory_dashboard .top-list-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.o_smart_inventory_dashboard .top-list-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.o_smart_inventory_dashboard .product-name {
+    font-weight: 550;
+    color: #1e293b;
+}
+
+.o_smart_inventory_dashboard .product-code {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    display: block;
+}
+
+.o_smart_inventory_dashboard .badge-prio {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.o_smart_inventory_dashboard .badge-prio.critical {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.o_smart_inventory_dashboard .badge-prio.high {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.o_smart_inventory_dashboard .badge-prio.medium {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.o_smart_inventory_dashboard .empty-row {
+    text-align: center;
+    color: #94a3b8;
+    padding: 28px 10px !important;
+    font-style: italic;
+}
+
+/* ---------- Loading / Error ---------- */
+.o_smart_inventory_dashboard .loading-state,
+.o_smart_inventory_dashboard .error-state {
+    text-align: center;
+    padding: 80px 24px;
+    color: #64748b;
+}
+
+.o_smart_inventory_dashboard .loading-state i {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+    color: #3b82f6;
+}
+
+.o_smart_inventory_dashboard .error-state {
+    background: #fef2f2;
+    border-radius: 12px;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}

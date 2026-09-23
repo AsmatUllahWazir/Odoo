@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product form extension -->
+    <record id="view_product_form_aging" model="ir.ui.view">
+        <field name="name">product.product.form.aging</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='inventory']" position="after">
+                <page string="Aging &amp; Analytics" name="aging_analytics"
+                      groups="smart_inventory_analytics.group_smart_inventory_user">
+                    <group>
+                        <group string="Movement &amp; Aging">
+                            <field name="last_move_date"/>
+                            <field name="days_since_last_move"/>
+                            <field name="aging_bucket" widget="badge"
+                                     decoration-success="aging_bucket == '0_30'"
+                                     decoration-info="aging_bucket == '31_60'"
+                                     decoration-warning="aging_bucket == '61_90'"
+                                     decoration-danger="aging_bucket in ('90_plus', 'no_move')"/>
+                            <field name="is_dead_stock"/>
+                            <field name="dead_stock_score"/>
+                        </group>
+                        <group string="Performance">
+                            <field name="sold_qty_30d"/>
+                            <field name="turnover_rate_30d"/>
+                            <field name="stock_value_aging"/>
+                        </group>
+                    </group>
+                    <group string="Reorder Intelligence">
+                        <group>
+                            <field name="suggested_reorder_qty"/>
+                            <field name="reorder_priority" widget="badge"
+                                     decoration-muted="reorder_priority in ('none', 'low')"
+                                     decoration-info="reorder_priority == 'medium'"
+                                     decoration-warning="reorder_priority == 'high'"
+                                     decoration-danger="reorder_priority == 'critical'"/>
+                            <field name="reorder_reason"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Dedicated Product Aging tree -->
+    <record id="view_product_tree_aging" model="ir.ui.view">
+        <field name="name">product.product.tree.aging</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <tree string="Product Aging" multi_edit="1"
+                  decoration-danger="is_dead_stock"
+                  decoration-warning="reorder_priority in ('high', 'critical')"
+                  default_order="dead_stock_score desc">
+                <field name="default_code" optional="show"/>
+                <field name="name"/>
+                <field name="qty_available" sum="Total Qty"/>
+                <field name="stock_value_aging" sum="Total Value" widget="monetary"/>
+                <field name="days_since_last_move"/>
+                <field name="aging_bucket" widget="badge"
+                          decoration-success="aging_bucket == '0_30'"
+                          decoration-info="aging_bucket == '31_60'"
+                          decoration-warning="aging_bucket == '61_90'"
+                          decoration-danger="aging_bucket in ('90_plus', 'no_move')"/>
+                <field name="is_dead_stock"/>
+                <field name="dead_stock_score"/>
+                <field name="turnover_rate_30d"/>
+                <field name="suggested_reorder_qty"/>
+                <field name="reorder_priority" widget="badge"
+                          decoration-danger="reorder_priority == 'critical'"
+                          decoration-warning="reorder_priority == 'high'"/>
+                <field name="reorder_reason" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_product_search_aging" model="ir.ui.view">
+        <field name="name">product.product.search.aging</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <search string="Product Aging">
+                <field name="name"/>
+                <field name="default_code"/>
+                <filter string="Dead Stock" name="dead_stock" domain="[('is_dead_stock', '=', True)]"/>
+                <filter string="Critical / High Reorder" name="high_reorder"
+                        domain="[('reorder_priority', 'in', ['high', 'critical'])]"/>
+                <separator/>
+                <filter string="0-30 Days" name="bucket_0_30" domain="[('aging_bucket', '=', '0_30')]"/>
+                <filter string="31-60 Days" name="bucket_31_60" domain="[('aging_bucket', '=', '31_60')]"/>
+                <filter string="61-90 Days" name="bucket_61_90" domain="[('aging_bucket', '=', '61_90')]"/>
+                <filter string="90+ Days" name="bucket_90_plus" domain="[('aging_bucket', '=', '90_plus')]"/>
+                <filter string="No Movement" name="bucket_no_move" domain="[('aging_bucket', '=', 'no_move')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Aging Bucket" name="group_bucket" context="{'group_by': 'aging_bucket'}"/>
+                    <filter string="Reorder Priority" name="group_priority" context="{'group_by': 'reorder_priority'}"/>
+                    <filter string="Dead Stock" name="group_dead" context="{'group_by': 'is_dead_stock'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_product_aging" model="ir.actions.act_window">
+        <field name="name">Product Aging Overview</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_product_tree_aging"/>
+        <field name="search_view_id" ref="view_product_search_aging"/>
+        <field name="domain">[('type', 'in', ['product', 'consu'])]</field>
+        <field name="context">{'search_default_dead_stock': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No products with stock found.
+            </p>
+            <p>
+                Products appear here with live aging, dead-stock and reorder intelligence.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_inventory_aging_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Helvetica, Arial, sans-serif; color: #1e293b;">
+
+                        <!-- Title -->
+                        <div style="text-align: center; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 3px solid #2563eb;">
+                            <h1 style="font-size: 22px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">
+                                Inventory Aging &amp; Dead Stock Report
+                            </h1>
+                            <div style="font-size: 11px; color: #64748b;">
+                                Smart Inventory Analytics
+                            </div>
+                        </div>
+
+                        <!-- Meta -->
+                        <div style="margin-bottom: 18px; font-size: 11px;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 50%;">
+                                        <strong style="color: #475569;">Company:</strong>
+                                        <span t-field="doc.company_id.name"/><br/>
+                                        <strong style="color: #475569;">As of:</strong>
+                                        <span t-field="doc.date_to"/>
+                                    </td>
+                                    <td style="width: 50%; text-align: right;">
+                                        <strong style="color: #475569;">Generated:</strong>
+                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Get products from wizard method -->
+                        <t t-set="products" t-value="doc._get_products()"/>
+                        <t t-set="dead_products" t-value="products.filtered('is_dead_stock')"/>
+                        <t t-set="total_value" t-value="sum(products.mapped('stock_value_aging'))"/>
+                        <t t-set="dead_value" t-value="sum(dead_products.mapped('stock_value_aging'))"/>
+
+                        <!-- Summary boxes -->
+                        <table style="width: 100%; margin-bottom: 22px; border-collapse: separate; border-spacing: 8px 0;">
+                            <tr>
+                                <td style="width: 25%; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #3b82f6; font-weight: 600; text-transform: uppercase;">Products</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #1e40af; margin-top: 3px;">
+                                        <t t-esc="len(products)"/>
+                                    </div>
+                                </td>
+                                <td style="width: 25%; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #ef4444; font-weight: 600; text-transform: uppercase;">Dead Stock</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #b91c1c; margin-top: 3px;">
+                                        <t t-esc="len(dead_products)"/>
+                                    </div>
+                                </td>
+                                <td style="width: 25%; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #22c55e; font-weight: 600; text-transform: uppercase;">Total Value</div>
+                                    <div style="font-size: 15px; font-weight: 700; color: #15803d; margin-top: 3px;">
+                                        <t t-esc="'%.2f' % total_value"/>
+                                    </div>
+                                </td>
+                                <td style="width: 25%; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 12px 8px; text-align: center;">
+                                    <div style="font-size: 9px; color: #f97316; font-weight: 600; text-transform: uppercase;">Dead Value</div>
+                                    <div style="font-size: 15px; font-weight: 700; color: #c2410c; margin-top: 3px;">
+                                        <t t-esc="'%.2f' % dead_value"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Filters -->
+                        <div style="font-size: 10px; color: #64748b; margin-bottom: 12px; padding: 7px 10px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+                            <strong>Filters:</strong>
+                            Bucket =
+                            <t t-esc="dict(doc._fields['aging_bucket'].selection).get(doc.aging_bucket, doc.aging_bucket)"/>
+                            <t t-if="doc.only_dead_stock"> · Dead Stock only</t>
+                            <t t-if="doc.only_high_priority"> · High/Critical Reorder only</t>
+                        </div>
+
+                        <!-- Table -->
+                        <table style="width: 100%; border-collapse: collapse; font-size: 9.5px;">
+                            <thead>
+                                <tr style="background: #1e293b; color: #fff;">
+                                    <th style="padding: 8px 6px; text-align: left;">Reference</th>
+                                    <th style="padding: 8px 6px; text-align: left;">Product</th>
+                                    <th style="padding: 8px 6px; text-align: right;">Qty</th>
+                                    <th style="padding: 8px 6px; text-align: right;">Value</th>
+                                    <th style="padding: 8px 6px; text-align: right;">Days</th>
+                                    <th style="padding: 8px 6px; text-align: left;">Bucket</th>
+                                    <th style="padding: 8px 6px; text-align: center;">Dead</th>
+                                    <th style="padding: 8px 6px; text-align: right;">Score</th>
+                                    <th style="padding: 8px 6px; text-align: right;">Reorder</th>
+                                    <th style="padding: 8px 6px; text-align: left;">Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="products" t-as="p">
+                                    <tr t-att-style="'background:#fef2f2;' if p.is_dead_stock else ('background:#fff;' if p_index % 2 == 0 else 'background:#f8fafc;')">
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0;">
+                                            <span t-esc="p.default_code or '—'"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0; font-weight: 500;">
+                                            <span t-field="p.name"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                                            <span t-esc="p.qty_available"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                                            <span t-esc="'%.2f' % p.stock_value_aging"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                                            <span t-esc="p.days_since_last_move"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0;">
+                                            <span t-esc="dict(p._fields['aging_bucket'].selection).get(p.aging_bucket, '')"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0; text-align: center;">
+                                            <span t-if="p.is_dead_stock" style="color:#dc2626; font-weight:700;">Yes</span>
+                                            <span t-else="" style="color:#94a3b8;">—</span>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: 600;">
+                                            <span t-esc="p.dead_stock_score"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                                            <span t-esc="p.suggested_reorder_qty"/>
+                                        </td>
+                                        <td style="padding: 6px; border-bottom: 1px solid #e2e8f0;">
+                                            <span t-esc="dict(p._fields['reorder_priority'].selection).get(p.reorder_priority, '')"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr t-if="not products">
+                                    <td colspan="10" style="padding: 20px; text-align: center; color: #94a3b8; font-style: italic;">
+                                        No products match the selected filters.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="margin-top: 16px; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 9px; color: #94a3b8;">
+                            <strong>Notes:</strong>
+                            Dead stock threshold is set in Inventory → Settings.
+                            Score combines days without movement, quantity and value.
+                            Reorder suggestions are indicative — review before creating POs.
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

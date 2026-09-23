@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_inventory_aging" name="Portal My Home: Inventory Aging"
+              inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-call="portal.portal_docs_entry" t-if="request.env.user.has_group('smart_inventory_analytics.group_smart_inventory_user')">
+                <t t-set="title">Inventory Aging</t>
+                <t t-set="url" t-value="'/my/inventory/aging'"/>
+                <t t-set="text">View dead stock and aging overview</t>
+                <t t-set="placeholder_count" t-value="'aging_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_inventory_aging" name="Portal Inventory Aging">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Inventory Aging</t>
+            </t>
+
+            <div class="container mt-3">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm o_portal_my_doc_table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Product</th>
+                                <th class="text-end">Qty</th>
+                                <th class="text-end">Value</th>
+                                <th class="text-end">Days</th>
+                                <th>Bucket</th>
+                                <th class="text-end">Score</th>
+                                <th>Priority</th>
+                                <th>Dead</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="products" t-as="product">
+                                <tr t-att-class="'table-danger' if product.is_dead_stock else ''">
+                                    <td><span t-esc="product.default_code or '-'"/></td>
+                                    <td><span t-esc="product.name"/></td>
+                                    <td class="text-end"><span t-esc="product.qty_available"/></td>
+                                    <td class="text-end"><span t-esc="'%.2f' % product.stock_value_aging"/></td>
+                                    <td class="text-end"><span t-esc="product.days_since_last_move"/></td>
+                                    <td>
+                                        <span t-esc="dict(product._fields['aging_bucket'].selection).get(product.aging_bucket, '')"/>
+                                    </td>
+                                    <td class="text-end"><span t-esc="product.dead_stock_score"/></td>
+                                    <td>
+                                        <span t-esc="dict(product._fields['reorder_priority'].selection).get(product.reorder_priority, '')"/>
+                                    </td>
+                                    <td>
+                                        <span t-if="product.is_dead_stock" class="badge text-bg-danger">Yes</span>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr t-if="not products">
+                                <td colspan="9" class="text-muted text-center">No products found for the selected filters.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div t-if="pager" class="o_portal_pager text-center">
+                    <t t-call="portal.pager"/>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

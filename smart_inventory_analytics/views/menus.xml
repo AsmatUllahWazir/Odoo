@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_smart_inventory_root"
+              name="Inventory Analytics"
+              parent="stock.menu_stock_root"
+              sequence="45"
+              groups="smart_inventory_analytics.group_smart_inventory_user"/>
+
+    <menuitem id="menu_smart_inventory_dashboard"
+              name="Dashboard"
+              parent="menu_smart_inventory_root"
+              action="action_smart_inventory_dashboard"
+              sequence="1"/>
+
+    <menuitem id="menu_product_aging"
+              name="Product Aging"
+              parent="menu_smart_inventory_root"
+              action="action_product_aging"
+              sequence="10"/>
+
+    <menuitem id="menu_aging_analyses"
+              name="Aging Analyses"
+              parent="menu_smart_inventory_root"
+              action="action_inventory_aging_analysis"
+              sequence="20"/>
+
+    <menuitem id="menu_aging_report"
+              name="Print Aging Report"
+              parent="menu_smart_inventory_root"
+              action="action_aging_report_wizard"
+              sequence="30"
+              groups="smart_inventory_analytics.group_smart_inventory_manager"/>
+</odoo>

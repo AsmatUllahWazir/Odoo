@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_inventory_analytics.Dashboard">
+        <div class="o_smart_inventory_dashboard o_action">
+
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div>
+                    <h2>Inventory Analytics</h2>
+                    <p class="subtitle">Aging · Dead Stock · Reorder Intelligence</p>
+                </div>
+                <div class="refresh-hint">
+                    <i class="fa fa-circle text-success" style="font-size:8px"/> Live data
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <t t-if="state.loading">
+                <div class="loading-state">
+                    <i class="fa fa-spinner fa-spin"/><br/>
+                    Loading inventory analytics…
+                </div>
+            </t>
+
+            <!-- Error -->
+            <t t-elif="state.error">
+                <div class="error-state">
+                    <strong>Unable to load data</strong><br/>
+                    <t t-esc="state.error"/>
+                </div>
+            </t>
+
+            <!-- Content -->
+            <t t-else="">
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card kpi-blue">
+                        <div class="kpi-icon"><i class="fa fa-cubes"/></div>
+                        <div class="kpi-label">Products with Stock</div>
+                        <div class="kpi-value" t-esc="state.totalProducts"/>
+                        <div class="kpi-sub">Active SKUs on hand</div>
+                    </div>
+
+                    <div class="kpi-card kpi-red">
+                        <div class="kpi-icon"><i class="fa fa-exclamation-triangle"/></div>
+                        <div class="kpi-label">Dead Stock Items</div>
+                        <div class="kpi-value" t-esc="state.deadStockCount"/>
+                        <div class="kpi-sub">No movement beyond threshold</div>
+                    </div>
+
+                    <div class="kpi-card kpi-green">
+                        <div class="kpi-icon"><i class="fa fa-money"/></div>
+                        <div class="kpi-label">Total Stock Value</div>
+                        <div class="kpi-value" t-esc="state.totalValue"/>
+                        <div class="kpi-sub">At standard cost</div>
+                    </div>
+
+                    <div class="kpi-card kpi-orange">
+                        <div class="kpi-icon"><i class="fa fa-fire"/></div>
+                        <div class="kpi-label">Dead Stock Value</div>
+                        <div class="kpi-value" t-esc="state.deadStockValue"/>
+                        <div class="kpi-sub">Capital tied up</div>
+                    </div>
+
+                    <div class="kpi-card kpi-purple">
+                        <div class="kpi-icon"><i class="fa fa-shopping-cart"/></div>
+                        <div class="kpi-label">High / Critical Reorders</div>
+                        <div class="kpi-value" t-esc="state.highPriorityCount"/>
+                        <div class="kpi-sub">Need attention</div>
+                    </div>
+                </div>
+
+                <!-- Aging Buckets -->
+                <div class="section-card">
+                    <div class="section-title">
+                        <i class="fa fa-bar-chart"/> Aging Bucket Distribution
+                    </div>
+                    <div class="bucket-grid">
+                        <div class="bucket-item">
+                            <div class="bucket-count" t-esc="state.agingBuckets['0_30'] or 0"/>
+                            <div class="bucket-label">0–30 Days</div>
+                        </div>
+                        <div class="bucket-item">
+                            <div class="bucket-count" t-esc="state.agingBuckets['31_60'] or 0"/>
+                            <div class="bucket-label">31–60 Days</div>
+                        </div>
+                        <div class="bucket-item">
+                            <div class="bucket-count" t-esc="state.agingBuckets['61_90'] or 0"/>
+                            <div class="bucket-label">61–90 Days</div>
+                        </div>
+                        <div class="bucket-item danger">
+                            <div class="bucket-count" t-esc="state.agingBuckets['90_plus'] or 0"/>
+                            <div class="bucket-label">90+ Days</div>
+                        </div>
+                        <div class="bucket-item">
+                            <div class="bucket-count" t-esc="state.agingBuckets['no_move'] or 0"/>
+                            <div class="bucket-label">No Movement</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Lists -->
+                <div class="tables-row">
+                    <!-- Top Dead Stock -->
+                    <div class="section-card">
+                        <div class="section-title">
+                            <i class="fa fa-warning"/> Top Dead Stock
+                        </div>
+                        <table class="top-list-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-end">Qty</th>
+                                    <th class="text-end">Days</th>
+                                    <th class="text-end">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.topDead" t-as="p" t-key="p.id">
+                                    <tr>
+                                        <td>
+                                            <span class="product-name" t-esc="p.name"/>
+                                            <span class="product-code" t-if="p.default_code" t-esc="p.default_code"/>
+                                        </td>
+                                        <td class="text-end" t-esc="p.qty_available"/>
+                                        <td class="text-end" t-esc="p.days_since_last_move"/>
+                                        <td class="text-end fw-bold" t-esc="p.dead_stock_score"/>
+                                    </tr>
+                                </t>
+                                <tr t-if="!state.topDead.length">
+                                    <td colspan="4" class="empty-row">No dead stock detected — great job!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Top Reorders -->
+                    <div class="section-card">
+                        <div class="section-title">
+                            <i class="fa fa-refresh"/> Top Reorder Priorities
+                        </div>
+                        <table class="top-list-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-end">Suggest Qty</th>
+                                    <th>Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.topReorder" t-as="p" t-key="p.id">
+                                    <tr>
+                                        <td>
+                                            <span class="product-name" t-esc="p.name"/>
+                                            <span class="product-code" t-if="p.default_code" t-esc="p.default_code"/>
+                                        </td>
+                                        <td class="text-end" t-esc="p.suggested_reorder_qty"/>
+                                        <td>
+                                            <span t-attf-class="badge-prio {{p.reorder_priority}}"
+                                                  t-esc="p.reorder_priority"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr t-if="!state.topReorder.length">
+                                    <td colspan="3" class="empty-row">No high-priority reorders right now</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </t>
+        </div>
+    </t>
+</templates>

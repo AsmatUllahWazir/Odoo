@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="module_category_smart_inventory" model="ir.module.category">
+            <field name="name">Smart Inventory Analytics</field>
+            <field name="description">Aging, Dead Stock and Reorder Analytics</field>
+            <field name="sequence">25</field>
+        </record>
+
+        <record id="group_smart_inventory_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_category_smart_inventory"/>
+            <field name="implied_ids" eval="[(4, ref('stock.group_stock_user'))]"/>
+            <field name="comment">Can view aging data, dashboards and product aging information</field>
+        </record>
+
+        <record id="group_smart_inventory_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_smart_inventory"/>
+            <field name="implied_ids" eval="[(4, ref('group_smart_inventory_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+            <field name="comment">Full access: run analyses, configure thresholds, print reports</field>
+        </record>
+    </data>
+</odoo>

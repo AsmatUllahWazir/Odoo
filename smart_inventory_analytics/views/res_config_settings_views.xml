@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_smart_inventory" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.smart.inventory</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='stock']" position="inside">
+                <block title="Smart Inventory Analytics" name="smart_inventory_setting">
+                    <setting string="Dead Stock Threshold" help="Products with stock that have not moved for this many days are marked as Dead Stock">
+                        <field name="dead_stock_days"/>
+                    </setting>
+                    <setting string="Daily Automatic Analysis" help="Create a daily aging snapshot automatically (activate the related scheduled action)">
+                        <field name="aging_auto_analysis"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

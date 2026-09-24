@@ -1,448 +1,603 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Smart Inventory Aging, Dead Stock &amp; Reorder Analytics</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --danger: #dc2626;
-            --success: #16a34a;
-            --warning: #ea580c;
-            --purple: #9333ea;
-            --slate-50: #f8fafc;
-            --slate-100: #f1f5f9;
-            --slate-200: #e2e8f0;
-            --slate-500: #64748b;
-            --slate-700: #334155;
-            --slate-900: #0f172a;
-            --radius: 14px;
-            --shadow: 0 4px 24px rgba(15, 23, 42, 0.07);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: var(--slate-900);
-            background: #fff;
-            line-height: 1.6;
-            font-size: 15px;
-        }
-        .wrap {
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 0 20px 48px;
-        }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Inventory Aging, Dead Stock &amp; Reorder Analytics for Odoo 17</title>
+    <meta name="description" content="Smart Inventory Analytics for Odoo 17. Aging buckets, dead stock detection, turnover analysis, reorder intelligence, live dashboard, PDF reports and manager portal." />
+    <meta name="keywords" content="odoo 17 inventory, dead stock, aging analysis, reorder suggestions, inventory dashboard, odoo stock analytics, inventory aging report" />
+    <meta name="author" content="Your Company" />
+    <meta name="robots" content="index, follow" />
 
-        /* Hero */
-        .hero {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 45%, #3b82f6 100%);
-            color: #fff;
-            border-radius: 0 0 24px 24px;
-            padding: 48px 32px 44px;
-            margin: 0 -20px 36px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: -40%;
-            right: -15%;
-            width: 380px;
-            height: 380px;
-            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.18);
-            border: 1px solid rgba(255,255,255,0.25);
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-        .hero h1 {
-            font-size: 1.85rem;
-            font-weight: 750;
-            letter-spacing: -0.4px;
-            margin-bottom: 10px;
-            line-height: 1.25;
-        }
-        .hero p {
-            font-size: 1.05rem;
-            opacity: 0.92;
-            max-width: 560px;
-            margin: 0 auto 22px;
-        }
-        .hero-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-        }
-        .hero-tags span {
-            background: rgba(255,255,255,0.15);
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-        }
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Smart Inventory Aging, Dead Stock &amp; Reorder Analytics for Odoo 17" />
+    <meta property="og:description" content="Aging buckets, dead stock scoring, turnover, smart reorder priorities, live KPI dashboard, professional PDF reports and portal — for Odoo 17." />
+    <meta property="og:image" content="banner.png" />
 
-        /* Section */
-        .section {
-            margin-bottom: 40px;
-        }
-        .section-title {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--slate-900);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-title .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary);
-            flex-shrink: 0;
-        }
-        .section-desc {
-            color: var(--slate-500);
-            margin-bottom: 22px;
-            font-size: 0.95rem;
-        }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Smart Inventory Aging, Dead Stock &amp; Reorder Analytics for Odoo 17" />
+    <meta name="twitter:description" content="Aging, dead stock, reorder intelligence and a beautiful live dashboard for Odoo Inventory." />
+    <meta name="twitter:image" content="banner.png" />
 
-        /* Feature grid */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-        }
-        .feature-card {
-            background: var(--slate-50);
-            border: 1px solid var(--slate-200);
-            border-radius: var(--radius);
-            padding: 22px 20px;
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .feature-card:hover {
-            box-shadow: var(--shadow);
-            transform: translateY(-2px);
-        }
-        .feature-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            margin-bottom: 14px;
-        }
-        .fi-blue   { background: #eff6ff; color: #2563eb; }
-        .fi-red    { background: #fef2f2; color: #dc2626; }
-        .fi-green  { background: #f0fdf4; color: #16a34a; }
-        .fi-orange { background: #fff7ed; color: #ea580c; }
-        .fi-purple { background: #faf5ff; color: #9333ea; }
-        .fi-slate  { background: #f1f5f9; color: #475569; }
-        .feature-card h3 {
-            font-size: 1rem;
-            font-weight: 650;
-            margin-bottom: 6px;
-            color: var(--slate-900);
-        }
-        .feature-card p {
-            font-size: 0.88rem;
-            color: var(--slate-500);
-            line-height: 1.55;
-        }
-
-        /* Highlights bar */
-        .highlights {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 40px;
-        }
-        @media (max-width: 700px) {
-            .highlights { grid-template-columns: repeat(2, 1fr); }
-        }
-        .highlight-box {
-            text-align: center;
-            background: #fff;
-            border: 1px solid var(--slate-200);
-            border-radius: 12px;
-            padding: 18px 12px;
-            box-shadow: 0 2px 8px rgba(15,23,42,0.04);
-        }
-        .highlight-box .num {
-            font-size: 1.5rem;
-            font-weight: 750;
-            color: var(--primary);
-            line-height: 1.2;
-        }
-        .highlight-box .lbl {
-            font-size: 0.75rem;
-            color: var(--slate-500);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-top: 4px;
-        }
-
-        /* Steps */
-        .steps {
-            display: grid;
-            gap: 14px;
-        }
-        .step {
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-            background: var(--slate-50);
-            border-radius: 12px;
-            padding: 16px 18px;
-            border: 1px solid var(--slate-200);
-        }
-        .step-num {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .step h4 {
-            font-size: 0.95rem;
-            font-weight: 650;
-            margin-bottom: 2px;
-        }
-        .step p {
-            font-size: 0.85rem;
-            color: var(--slate-500);
-        }
-
-        /* Tech list */
-        .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .tech-list span {
-            background: var(--slate-100);
-            border: 1px solid var(--slate-200);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: var(--slate-700);
-        }
-
-        /* CTA */
-        .cta {
-            background: linear-gradient(135deg, #1e40af, #2563eb);
-            color: #fff;
-            border-radius: 16px;
-            padding: 28px 32px;
-            text-align: center;
-            margin-top: 12px;
-        }
-        .cta h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .cta p {
-            opacity: 0.9;
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        /* Footer note */
-        .footer-note {
-            text-align: center;
-            margin-top: 32px;
-            font-size: 0.8rem;
-            color: var(--slate-500);
-        }
-        .footer-note strong { color: var(--slate-700); }
-    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Smart Inventory Aging, Dead Stock & Reorder Analytics",
+      "operatingSystem": "Odoo 17",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      },
+      "description": "Inventory aging buckets, dead stock detection, turnover analysis, reorder suggestions, live dashboard, PDF reports and manager portal for Odoo 17.",
+      "author": {
+        "@type": "Organization",
+        "name": "Your Company"
+      }
+    }
+    </script>
 </head>
-<body>
-    <div class="wrap">
+<body style="font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333333; background-color: #F8FAFC; margin: 0; padding: 0;">
 
-        <!-- HERO -->
-        <div class="hero">
-            <div class="hero-badge">Odoo 17 · Inventory Analytics</div>
-            <h1>Smart Inventory Aging,<br/>Dead Stock &amp; Reorder Analytics</h1>
-            <p>
-                Turn static stock into actionable intelligence. Spot dead stock early,
-                track aging buckets, and get smart reorder suggestions — all in one
-                beautiful dashboard.
-            </p>
-            <div class="hero-tags">
-                <span>Aging Buckets</span>
-                <span>Dead Stock Score</span>
-                <span>Reorder Priority</span>
-                <span>Live Dashboard</span>
-                <span>PDF Reports</span>
-                <span>Portal View</span>
+<!-- ==================== TOP HEADER BAR ==================== -->
+<section class="oe_container" style="padding-left: 2%; padding-right: 2%;">
+    <section class="oe_container d-flex justify-content-center">
+        <div class="d-flex shadow-sm align-items-center justify-content-between p-3" style="width: 100%; background-color: #FFFFFF; border-radius: 8px; margin-top: 20px; border: 1px solid #E2E8F0; flex-wrap: wrap; gap: 12px;">
+            <div class="d-flex align-items-center" style="flex-wrap: wrap; gap: 12px;">
+                <span style="background: #1e40af; color: #FFFFFF; font-weight: 800; font-size: 16px; padding: 8px 16px; border-radius: 6px; letter-spacing: 0.4px;">
+                    ⭐ Odoo 17 Ready
+                </span>
+                <span style="font-size: 17px; font-weight: 700; color: #1E293B;">
+                    Smart Inventory Analytics
+                </span>
+            </div>
+            <div class="d-flex align-items-center" style="flex-wrap: wrap; gap: 8px;">
+                <div style="font-size: 14px; color: #475569; font-weight: 600; margin-right: 4px;">
+                    Supported Editions:
+                </div>
+                <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 6px; border: 1px solid #BFDBFE;">
+                    Community
+                </span>
+                <span style="background: #FAF5FF; color: #7E22CE; font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 6px; border: 1px solid #E9D5FF;">
+                    Enterprise
+                </span>
+                <span style="background: #FEF3C7; color: #B45309; font-weight: 800; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid #FDE68A;">
+                    Free
+                </span>
             </div>
         </div>
+    </section>
+</section>
 
-        <!-- KEY NUMBERS -->
-        <div class="highlights">
-            <div class="highlight-box">
-                <div class="num">5</div>
-                <div class="lbl">Aging Buckets</div>
-            </div>
-            <div class="highlight-box">
-                <div class="num">KPI</div>
-                <div class="lbl">Live Dashboard</div>
-            </div>
-            <div class="highlight-box">
-                <div class="num">PDF</div>
-                <div class="lbl">Pro Reports</div>
-            </div>
-            <div class="highlight-box">
-                <div class="num">Portal</div>
-                <div class="lbl">Manager Access</div>
-            </div>
-        </div>
-
-        <!-- FEATURES -->
-        <div class="section">
-            <div class="section-title"><span class="dot"></span> Powerful Features</div>
-            <p class="section-desc">Everything inventory managers need to reduce dead stock and improve turnover.</p>
-
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon fi-blue">📦</div>
-                    <h3>Product Aging Buckets</h3>
-                    <p>Automatic classification: 0–30, 31–60, 61–90, 90+ days, and No Movement. Clear visibility of how long stock has been sitting.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-red">⚠️</div>
-                    <h3>Dead Stock Detection</h3>
-                    <p>Configurable threshold (default 90 days). Composite score based on days, quantity and value so you prioritise the real problems.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-green">🔄</div>
-                    <h3>Turnover &amp; Velocity</h3>
-                    <p>30-day sold quantity and turnover rate per product. See which items move fast and which do not.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-orange">🛒</div>
-                    <h3>Smart Reorder Suggestions</h3>
-                    <p>Suggested quantity, priority (None → Critical) and clear reason — out of stock, below min, high velocity, etc.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-purple">📊</div>
-                    <h3>Modern Live Dashboard</h3>
-                    <p>Beautiful KPI cards, aging distribution, top dead stock and top reorder lists. Scrollable, responsive and eye-catching.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-slate">📄</div>
-                    <h3>Professional PDF Reports</h3>
-                    <p>Filter by bucket, dead stock only, high-priority reorders. Clean summary cards and detailed product table.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-blue">📷</div>
-                    <h3>Aging Analysis Snapshots</h3>
-                    <p>Run on-demand analyses. Store historical snapshots with full lines, totals and bucket distribution.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-green">🌐</div>
-                    <h3>Manager Portal</h3>
-                    <p>Portal page at /my/inventory/aging with filters, sorting and pager for users with access rights.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon fi-orange">⚙️</div>
-                    <h3>Configurable &amp; Scheduled</h3>
-                    <p>Dead stock days in Inventory settings. Optional daily automatic analysis via cron.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- HOW IT WORKS -->
-        <div class="section">
-            <div class="section-title"><span class="dot"></span> How It Works</div>
-            <p class="section-desc">From install to insight in a few minutes.</p>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-num">1</div>
-                    <div>
-                        <h4>Install &amp; Assign Rights</h4>
-                        <p>Install the module and give users the Smart Inventory Analytics User or Manager group.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-num">2</div>
-                    <div>
-                        <h4>Configure Threshold (optional)</h4>
-                        <p>Set dead stock days under Inventory → Configuration → Settings. Default is 90 days.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-num">3</div>
-                    <div>
-                        <h4>Open the Dashboard</h4>
-                        <p>Go to Inventory → Inventory Analytics → Dashboard. See KPIs, aging buckets and top lists instantly.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-num">4</div>
-                    <div>
-                        <h4>Run Analyses &amp; Reports</h4>
-                        <p>Create Aging Analyses for snapshots. Use Print Aging Report for professional PDFs with filters.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TECHNICAL -->
-        <div class="section">
-            <div class="section-title"><span class="dot"></span> Technical Details</div>
-            <p class="section-desc">Built cleanly on top of core Odoo Inventory.</p>
-            <div class="tech-list">
-                <span>Odoo 17</span>
-                <span>Community &amp; Enterprise</span>
-                <span>Extends product.product</span>
-                <span>OWL Dashboard</span>
-                <span>QWeb PDF</span>
-                <span>Portal</span>
-                <span>Multi-company</span>
-                <span>Security Groups</span>
-                <span>Cron Ready</span>
-                <span>LGPL-3</span>
-            </div>
-        </div>
-
-        <!-- CTA -->
-        <div class="cta">
-            <h3>Reduce dead stock. Improve turnover.</h3>
-            <p>Install Smart Inventory Analytics and give your warehouse team the visibility they deserve.</p>
-        </div>
-
-        <div class="footer-note">
-            <strong>Smart Inventory Aging, Dead Stock &amp; Reorder Analytics</strong><br/>
-            Compatible with Odoo 17 · Inventory module required
-        </div>
-
+<!-- ==================== HERO SECTION ==================== -->
+<section class="oe_container my-5" style="text-align: center; padding-left: 2%; padding-right: 2%;">
+    <h1 style="font-size: 34px; color: #0F172A; font-weight: 800; margin-bottom: 16px; line-height: 1.25;">
+        Smart Inventory Aging, Dead Stock &amp; Reorder Analytics for Odoo 17
+    </h1>
+    <p style="font-weight: 500; font-size: 18px; color: #475569; max-width: 860px; margin: 0 auto 28px; line-height: 1.65;">
+        Turn static stock into actionable intelligence. Detect dead stock early, track aging buckets,
+        measure turnover, get smart reorder priorities — and manage it all from a beautiful live dashboard,
+        professional PDF reports and a manager portal.
+    </p>
+    <div style="margin-top: 20px;">
+        <a href="#odoo_view_tab1" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FFFFFF; border: 3px solid #1e40af; color: #1e40af; font-weight: 800; font-size: 16px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.12); margin-right: 10px;">
+            <strong style="color: #1e40af !important;">🖼️ View Screenshots</strong>
+        </a>
+        <a href="#odoo_view_tab2" class="d-inline-block px-4 py-3 mb-2" style="background-color: #FEF08A; border: 3px solid #000000; color: #000000; font-weight: 800; font-size: 16px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.12); margin-right: 10px;">
+            <strong style="color: #000000 !important;">⚙️ How It Works</strong>
+        </a>
+        <a href="#support" class="d-inline-block px-4 py-3 mb-2" style="background-color: #1e40af; border: 3px solid #1e3a8a; color: #FFFFFF; font-weight: 800; font-size: 16px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);">
+            <strong style="color: #FFFFFF !important;">💬 Get Support</strong>
+        </a>
     </div>
+</section>
+
+<!-- ==================== HIGHLIGHT STATS ==================== -->
+<section class="oe_container mb-5" style="padding-left: 2%; padding-right: 2%;">
+    <div class="row text-center" style="max-width: 960px; margin: 0 auto;">
+        <div class="col-6 col-md-3 mb-3">
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px 12px; box-shadow: 0 2px 8px rgba(15,23,42,0.05);">
+                <div style="font-size: 28px; font-weight: 800; color: #1e40af;">5</div>
+                <div style="font-size: 13px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.3px;">Aging Buckets</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 mb-3">
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px 12px; box-shadow: 0 2px 8px rgba(15,23,42,0.05);">
+                <div style="font-size: 28px; font-weight: 800; color: #dc2626;">Dead</div>
+                <div style="font-size: 13px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.3px;">Stock Scoring</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 mb-3">
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px 12px; box-shadow: 0 2px 8px rgba(15,23,42,0.05);">
+                <div style="font-size: 28px; font-weight: 800; color: #16a34a;">KPI</div>
+                <div style="font-size: 13px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.3px;">Live Dashboard</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 mb-3">
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px 12px; box-shadow: 0 2px 8px rgba(15,23,42,0.05);">
+                <div style="font-size: 28px; font-weight: 800; color: #ea580c;">PDF</div>
+                <div style="font-size: 13px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.3px;">Pro Reports</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CORE FEATURE CARDS ==================== -->
+
+<!-- 1. Aging -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin: 0 2% 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 28px; background: #EFF6FF; color: #1E40AF; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; font-weight: 800;">📦</span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 22px; margin: 0;">Product Aging Buckets</h2>
+                <span style="background: #EFF6FF; color: #1E40AF; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid #BFDBFE;">CORE ANALYTICS</span>
+            </div>
+        </div>
+        <p style="font-size: 15px; line-height: 1.75; color: #475569; margin-bottom: 14px;">
+            Every product with stock is classified by days since last movement. Instant visibility into how long inventory has been sitting.
+        </p>
+        <div class="row">
+            <div class="col-md-4 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #1e40af;">
+                    <strong style="color: #0F172A; display: block;">0–30 / 31–60 / 61–90</strong>
+                    <span style="font-size: 13px; color: #64748B;">Healthy and watch zones</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #dc2626;">
+                    <strong style="color: #0F172A; display: block;">90+ Days &amp; No Movement</strong>
+                    <span style="font-size: 13px; color: #64748B;">High-risk aging zones</span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-2">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 8px; border-left: 4px solid #16a34a;">
+                    <strong style="color: #0F172A; display: block;">Last Move Date</strong>
+                    <span style="font-size: 13px; color: #64748B;">Stored &amp; searchable on products</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Dead Stock -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin: 0 2% 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 28px; background: #FEF2F2; color: #DC2626; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; font-weight: 800;">⚠️</span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 22px; margin: 0;">Dead Stock Detection &amp; Scoring</h2>
+                <span style="background: #FEF2F2; color: #B91C1C; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid #FECACA;">RISK ENGINE</span>
+            </div>
+        </div>
+        <p style="font-size: 15px; line-height: 1.75; color: #475569; margin-bottom: 12px;">
+            Products with quantity on hand that have not moved beyond a configurable threshold are flagged as dead stock. A composite score prioritises the worst offenders by days, quantity and value.
+        </p>
+        <ul style="font-size: 15px; line-height: 1.9; color: #333; margin-left: 18px;">
+            <li><strong>Configurable threshold</strong> — default 90 days (Inventory → Settings)</li>
+            <li><strong>Dead stock score</strong> — days × quantity factor × value factor</li>
+            <li><strong>List &amp; form views</strong> — badges, filters and group-by on products</li>
+            <li><strong>Capital visibility</strong> — total and dead stock value on dashboard and reports</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 3. Turnover & Reorder -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin: 0 2% 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 28px; background: #FFF7ED; color: #EA580C; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; font-weight: 800;">🛒</span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 22px; margin: 0;">Turnover &amp; Smart Reorder Intelligence</h2>
+                <span style="background: #FFF7ED; color: #C2410C; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid #FED7AA;">PROCUREMENT</span>
+            </div>
+        </div>
+        <p style="font-size: 15px; line-height: 1.75; color: #475569; margin-bottom: 12px;">
+            30-day sold quantity and turnover rate per product. Suggested reorder qty, priority (None → Critical) and a clear reason — so planners know what to act on first.
+        </p>
+        <ul style="font-size: 15px; line-height: 1.9; color: #333; margin-left: 18px;">
+            <li><strong>Priorities:</strong> None, Low, Medium, High, Critical</li>
+            <li><strong>Reasons:</strong> Out of stock, below minimum, high velocity, dead stock review, etc.</li>
+            <li><strong>Uses reordering min/max</strong> when configured on the product</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 4. Dashboard -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin: 0 2% 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 28px; background: #F0FDF4; color: #16A34A; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; font-weight: 800;">📊</span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 22px; margin: 0;">Modern Live Dashboard</h2>
+                <span style="background: #F0FDF4; color: #15803D; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid #BBF7D0;">OWL UI</span>
+            </div>
+        </div>
+        <p style="font-size: 15px; line-height: 1.75; color: #475569; margin-bottom: 12px;">
+            Scrollable, responsive dashboard with KPI cards, aging bucket distribution, top dead stock and top reorder priority lists — designed for daily use by inventory managers.
+        </p>
+        <ul style="font-size: 15px; line-height: 1.9; color: #333; margin-left: 18px;">
+            <li>Products with stock, dead stock count &amp; value, total value, high/critical reorders</li>
+            <li>Aging distribution: 0–30 through No Movement</li>
+            <li>Top dead stock by score · Top reorder priorities</li>
+        </ul>
+    </div>
+</section>
+
+<!-- 5. Analysis Snapshots -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin: 0 2% 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 28px; background: #FAF5FF; color: #9333EA; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; font-weight: 800;">📷</span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 22px; margin: 0;">Aging Analysis Snapshots</h2>
+                <span style="background: #FAF5FF; color: #7E22CE; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid #E9D5FF;">HISTORY</span>
+            </div>
+        </div>
+        <p style="font-size: 15px; line-height: 1.75; color: #475569; margin-bottom: 12px;">
+            Run on-demand analyses to freeze the current aging state. Store lines, totals, bucket distribution and high-priority reorder counts. Optional daily cron for automatic snapshots.
+        </p>
+    </div>
+</section>
+
+<!-- 6. PDF + Portal -->
+<section class="oe_container mb-4 mw-100 card shadow-sm" style="background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin: 0 2% 24px;">
+    <div class="p-4">
+        <div class="d-sm-flex align-items-center mb-3">
+            <span style="font-size: 28px; background: #F1F5F9; color: #475569; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; font-weight: 800;">📄</span>
+            <div>
+                <h2 style="font-weight: 700; color: #0F172A; font-size: 22px; margin: 0;">PDF Reports &amp; Manager Portal</h2>
+                <span style="background: #F1F5F9; color: #334155; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid #E2E8F0;">OUTPUT</span>
+            </div>
+        </div>
+        <p style="font-size: 15px; line-height: 1.75; color: #475569; margin-bottom: 12px;">
+            Professional PDF with summary KPIs and detailed product table. Filter by aging bucket, dead stock only, high/critical reorder. Portal page at <code>/my/inventory/aging</code> with sort, filter and pager for authorised users.
+        </p>
+    </div>
+</section>
+
+<!-- ==================== TABS ==================== -->
+<section class="oe_container my-5" style="padding-left: 2%; padding-right: 2%;">
+    <ul class="nav nav-tabs justify-content-center mb-4" role="tablist" style="border-bottom: 2px solid #E2E8F0; flex-wrap: wrap;">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab1-btn" data-bs-toggle="tab" data-bs-target="#odoo_view_tab1" type="button" role="tab"
+                    style="font-weight: 700; color: #1e40af; border: none; border-bottom: 3px solid #1e40af; background: transparent; padding: 12px 18px; cursor: pointer;">
+                🖼️ Screenshots
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab2-btn" data-bs-toggle="tab" data-bs-target="#odoo_view_tab2" type="button" role="tab"
+                    style="font-weight: 700; color: #64748B; border: none; background: transparent; padding: 12px 18px; cursor: pointer;">
+                ⚙️ Workflows
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab3-btn" data-bs-toggle="tab" data-bs-target="#odoo_view_tab3" type="button" role="tab"
+                    style="font-weight: 700; color: #64748B; border: none; background: transparent; padding: 12px 18px; cursor: pointer;">
+                🔐 Backend &amp; Rights
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab4-btn" data-bs-toggle="tab" data-bs-target="#odoo_view_tab4" type="button" role="tab"
+                    style="font-weight: 700; color: #64748B; border: none; background: transparent; padding: 12px 18px; cursor: pointer;">
+                🌐 Portal
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- TAB 1: SCREENSHOTS -->
+        <div class="tab-pane fade show active" id="odoo_view_tab1" role="tabpanel">
+            <div class="container px-2 text-left">
+                <h2 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Module Screenshots
+                </h2>
+
+                <!-- Screenshot 1 -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-lg-7 mb-3">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s1_dashboard.png" alt="Inventory Analytics Dashboard" />
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">Live Analytics Dashboard</h3>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.7;">
+                                KPI cards for products with stock, dead stock items &amp; value, total stock value and high/critical reorders.
+                                Aging bucket distribution and top lists for dead stock and reorder priorities.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshot 2 -->
+                <div class="row align-items-center mb-5 flex-row-reverse">
+                    <div class="col-lg-7 mb-3">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s2_product_aging.png" alt="Product Aging Overview" />
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">Product Aging Overview</h3>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.7;">
+                                Dedicated product list with aging bucket badges, dead stock flag, score, turnover, suggested reorder qty and priority.
+                                Filters and group-by for fast analysis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshot 3 -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-lg-7 mb-3">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s3_product_form.png" alt="Product Form Aging Tab" />
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">Product Form – Aging &amp; Analytics</h3>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.7;">
+                                New tab on the product form: last move date, days since move, aging bucket, dead stock, score,
+                                turnover, suggested reorder and reason.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshot 4 -->
+                <div class="row align-items-center mb-5 flex-row-reverse">
+                    <div class="col-lg-7 mb-3">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s4_analysis.png" alt="Aging Analysis Form" />
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">Aging Analysis Snapshot</h3>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.7;">
+                                Run analysis to capture full lines, totals, bucket distribution and high-priority reorder count.
+                                Chatter and status workflow included.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshot 5 -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-lg-7 mb-3">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s5_report_wizard.png" alt="Aging Report Wizard" />
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">PDF Report Wizard</h3>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.7;">
+                                Filter by date, company, aging bucket, dead stock only, high/critical reorder and optional product set.
+                                One click to generate a professional PDF.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshot 6 -->
+                <div class="row align-items-center mb-5 flex-row-reverse">
+                    <div class="col-lg-7 mb-3">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s6_pdf_report.png" alt="PDF Aging Report" />
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">Professional PDF Report</h3>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.7;">
+                                Summary KPI boxes, applied filters, and a detailed product table with qty, value, days, bucket,
+                                dead flag, score, reorder qty and priority.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshot 7 -->
+                <div class="row align-items-center mb-4">
+                    <div class="col-lg-7 mb-3">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s7_portal.png" alt="Manager Portal Aging" />
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 20px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">Manager Portal</h3>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.7;">
+                                Portal entry and <code>/my/inventory/aging</code> with filters (all / dead / high reorder),
+                                sorting and pagination for users with access.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: WORKFLOWS -->
+        <div class="tab-pane fade" id="odoo_view_tab2" role="tabpanel">
+            <div class="container px-2 text-left">
+                <h2 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    How the Module Works
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 18px; font-weight: 700; color: #1e40af; margin-bottom: 14px;">📦 Aging &amp; Dead Stock Flow</h3>
+                            <ul style="font-size: 14px; line-height: 1.95; color: #475569; padding-left: 18px;">
+                                <li>Stock moves update product last move date.</li>
+                                <li>Days since last move and aging bucket are computed and stored.</li>
+                                <li>If qty &gt; 0 and days ≥ threshold → marked as dead stock.</li>
+                                <li>Score combines days, quantity and cost for prioritisation.</li>
+                                <li>Lists, dashboard and reports surface the worst items first.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 18px; font-weight: 700; color: #ea580c; margin-bottom: 14px;">🛒 Reorder Intelligence Flow</h3>
+                            <ul style="font-size: 14px; line-height: 1.95; color: #475569; padding-left: 18px;">
+                                <li>30-day customer deliveries drive sold qty and turnover.</li>
+                                <li>Compared to reordering min/max when set on the product.</li>
+                                <li>Suggested qty and priority (critical → none) are computed.</li>
+                                <li>Reason text explains why (out of stock, below min, velocity…).</li>
+                                <li>High/critical items appear on dashboard and in PDF filters.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 18px; font-weight: 700; color: #16a34a; margin-bottom: 14px;">📷 Analysis Snapshot Flow</h3>
+                            <ul style="font-size: 14px; line-height: 1.95; color: #475569; padding-left: 18px;">
+                                <li>Create an Aging Analysis in draft.</li>
+                                <li>Click <strong>Run Analysis</strong> to load all products with stock.</li>
+                                <li>Lines store bucket, dead flag, score, turnover, reorder data.</li>
+                                <li>Totals and bucket distribution are stored on the analysis.</li>
+                                <li>Optional daily cron can create analyses automatically.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px; height: 100%;">
+                            <h3 style="font-size: 18px; font-weight: 700; color: #7e22ce; margin-bottom: 14px;">📄 Report &amp; Portal Flow</h3>
+                            <ul style="font-size: 14px; line-height: 1.95; color: #475569; padding-left: 18px;">
+                                <li>Open Print Aging Report wizard and set filters.</li>
+                                <li>Generate PDF with summary KPIs and full product table.</li>
+                                <li>Portal users open /my/inventory/aging from My Account.</li>
+                                <li>Filter by dead stock or high reorder; sort by score, days, value.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BACKEND -->
+        <div class="tab-pane fade" id="odoo_view_tab3" role="tabpanel">
+            <div class="container px-2 text-left">
+                <h2 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Security Groups &amp; Configuration
+                </h2>
+                <div class="p-4 shadow-sm border mb-4" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 18px; font-weight: 700; color: #0F172A; margin-bottom: 14px;">Access Groups</h3>
+                    <table class="table border" style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #F1F5F9; color: #0F172A;">
+                                <th style="padding: 10px; border: 1px solid #CBD5E1;">Group</th>
+                                <th style="padding: 10px; border: 1px solid #CBD5E1;">Intended Role</th>
+                                <th style="padding: 10px; border: 1px solid #CBD5E1;">Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #CBD5E1; font-weight: 700; color: #1e40af;">Smart Inventory / User</td>
+                                <td style="padding: 10px; border: 1px solid #CBD5E1;">Warehouse / Planners</td>
+                                <td style="padding: 10px; border: 1px solid #CBD5E1;">View dashboard, product aging, analyses, portal</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #CBD5E1; font-weight: 700; color: #7e22ce;">Smart Inventory / Manager</td>
+                                <td style="padding: 10px; border: 1px solid #CBD5E1;">Inventory Managers</td>
+                                <td style="padding: 10px; border: 1px solid #CBD5E1;">Run analyses, print reports, full configuration</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                    <h3 style="font-size: 18px; font-weight: 700; color: #0F172A; margin-bottom: 12px;">Settings &amp; Automation</h3>
+                    <ul style="font-size: 14px; line-height: 1.95; color: #333; padding-left: 18px;">
+                        <li><strong>Dead stock threshold (days)</strong> — Inventory → Configuration → Settings</li>
+                        <li><strong>Daily automatic analysis</strong> — optional; activate the related scheduled action</li>
+                        <li><strong>Multi-company</strong> — analyses and reports respect company</li>
+                        <li><strong>Extends</strong> product.product, stock.quant — no parallel product master</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: PORTAL -->
+        <div class="tab-pane fade" id="odoo_view_tab4" role="tabpanel">
+            <div class="container px-2 text-left">
+                <h2 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 24px; text-align: center;">
+                    Manager Portal Experience
+                </h2>
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4">
+                        <img class="img-responsive border shadow-sm" style="width: 100%; border-radius: 12px; border: 1px solid #E2E8F0;"
+                             src="s7_portal.png" alt="Portal Inventory Aging" />
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="p-4 shadow-sm border" style="background: #FFFFFF; border-radius: 12px;">
+                            <h3 style="font-size: 18px; font-weight: 700; color: #1e40af; margin-bottom: 12px;">What managers can do on the portal</h3>
+                            <ul style="font-size: 14px; line-height: 1.95; color: #333; padding-left: 18px;">
+                                <li>Open <strong>Inventory Aging</strong> from My Account</li>
+                                <li>Filter: All · Dead Stock · High Priority Reorder</li>
+                                <li>Sort by score, days since move, stock value or name</li>
+                                <li>Paginated list of products with qty, value, bucket, score, priority</li>
+                                <li>Only users in Smart Inventory groups see the entry</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SUPPORT FOOTER ==================== -->
+<section class="oe_container my-5" id="support" style="padding-left: 2%; padding-right: 2%;">
+    <div class="p-5 shadow-sm text-center" style="background-color: #F8FAFC; color: #000000; border-radius: 16px; border: 2px solid #CBD5E1;">
+        <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 12px; color: #0F172A;">
+            Need help with Odoo Inventory Analytics?
+        </h2>
+        <p style="font-size: 16px; font-weight: 600; color: #475569; margin: 0 auto 20px; max-width: 640px;">
+            Installation support, custom extensions (Excel export, multi-warehouse rules, auto PO suggestions) and training available on request.
+        </p>
+        <div class="d-flex justify-content-center flex-wrap" style="gap: 14px;">
+            <a href="mailto:your-email@example.com" class="px-4 py-3" style="background-color: #1e40af; border: 2px solid #1e3a8a; color: #FFFFFF; font-weight: 800; font-size: 15px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center;">
+                <strong style="color: #FFFFFF !important;">✉️ Contact Support</strong>
+            </a>
+        </div>
+        <p style="font-size: 13px; color: #94A3B8; margin-top: 24px;">
+            <strong style="color: #64748B;">Smart Inventory Aging, Dead Stock &amp; Reorder Analytics</strong><br/>
+            Odoo 17 · Community &amp; Enterprise · LGPL-3
+        </p>
+    </div>
+</section>
+
+<script>
+/* Simple tab switching without requiring Bootstrap JS if not loaded */
+(function () {
+    var buttons = document.querySelectorAll('[data-bs-toggle="tab"]');
+    if (!buttons.length) return;
+    buttons.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var target = document.querySelector(btn.getAttribute('data-bs-target'));
+            if (!target) return;
+            document.querySelectorAll('.tab-pane').forEach(function (p) {
+                p.classList.remove('show', 'active');
+                p.style.display = 'none';
+            });
+            document.querySelectorAll('[data-bs-toggle="tab"]').forEach(function (b) {
+                b.classList.remove('active');
+                b.style.color = '#64748B';
+                b.style.borderBottom = 'none';
+            });
+            target.classList.add('show', 'active');
+            target.style.display = 'block';
+            btn.classList.add('active');
+            btn.style.color = '#1e40af';
+            btn.style.borderBottom = '3px solid #1e40af';
+        });
+    });
+    // show first tab
+    var first = document.querySelector('#odoo_view_tab1');
+    if (first) first.style.display = 'block';
+    document.querySelectorAll('.tab-pane:not(.show)').forEach(function (p) { p.style.display = 'none'; });
+})();
+</script>
 </body>
 </html>

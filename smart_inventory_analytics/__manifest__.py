@@ -22,8 +22,8 @@ A comprehensive analytics layer on top of Odoo Inventory:
 
 Designed for real inventory managers who need visibility beyond standard stock reports.
     """,
-    'author': 'Your Company',
-    'website': 'https://www.example.com',
+    'author': 'Wazirz',
+    'website': '',
     'license': 'LGPL-3',
     'depends': [
         'stock',
@@ -55,7 +55,11 @@ Designed for real inventory managers who need visibility beyond standard stock r
             'smart_inventory_analytics/static/src/xml/dashboard.xml',
         ],
     },
+    'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,
     'auto_install': False,
+    'license': 'LGPL-3',
+    'price': 15.00,
+    'currency': 'USD',
 }

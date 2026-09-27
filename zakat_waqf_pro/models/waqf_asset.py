@@ -6,7 +6,7 @@ from datetime import date
 
 class WaqfAsset(models.Model):
     _name = 'waqf.asset'
-    _description = 'Waqf Endowment Asset'
+    _description = 'Waqf Endowments Asset'
     _rec_name = 'name'
     _order = 'acquisition_date desc, name'
     _inherit = ['mail.thread', 'mail.activity.mixin']
